@@ -1,0 +1,4 @@
+https://github.com/mamday/globes/blob/master/data/SuperBeam/NOvA/XCC.dat
+http://www.icrr.u-tokyo.ac.jp/~mhonda/ (2.6)
+
+IC86 files from https://icecube.wisc.edu/science/data/PS-3years
