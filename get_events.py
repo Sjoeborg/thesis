@@ -11,6 +11,9 @@ parser.add_argument('-dmN', default=5, type=int)
 parser.add_argument('-sFrom', default=0.01, type=float)
 parser.add_argument('-sTo', default=1, type=float)
 parser.add_argument('-sN', default=5, type=int)
+parser.add_argument('-s34From', default=0.01, type=float)
+parser.add_argument('-s34To', default=1, type=float)
+parser.add_argument('-s34N', default=5, type=int)
 parser.add_argument('-N', default = 9, type=int)
 parser.add_argument('-s', default = 0, type=int)
 parser.add_argument('-sT', default = 1, type=int)
@@ -59,9 +62,9 @@ if __name__ == '__main__':
     #test
     dm41_range = np.logspace(np.log10(args.dmFrom),np.log10(args.dmTo),args.dmN)
     s24_range = np.logspace(np.log10(args.sFrom),np.log10(args.sTo),args.sN)
-    param_list = list_of_params(ic_params,dm41_range, s24_range, s24_eq_s34=args.s34, short=True)
-    
-    print(f'Precomputing probabilities for dm_41({args.dmFrom},{args.dmTo},{args.dmN}), s24({args.sFrom},{args.sTo},{args.sN}), -s34={args.s34}, for N = {args.N}. s={args.s+1}/{args.sT}')
+    s34_range = np.logspace(np.log10(args.s34From),np.log10(args.s34To),args.s34N)
+    param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_eq_s34=args.s34, short=False)
+    print(f'Precomputing probabilities for dm_41({args.dmFrom},{args.dmTo},{args.dmN}), s24({args.sFrom},{args.sTo},{args.sN}), s24({args.s34From},{args.s34To},{args.s34N}), for N = {args.N}. s={args.s+1}/{args.sT}')
     split_array=  np.array_split(param_list,args.sT)[args.s]
     
     start = time.time()
