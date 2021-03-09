@@ -210,6 +210,57 @@ def theta(first, second, A = 0, params=param_dict):
     else:
         return th
 
+def R23_3(theta):
+  return np.array([[ 1,             0,             0],
+                   [ 0, np.cos(theta),  np.sin(theta)],
+                   [ 0, -np.sin(theta), np.cos(theta)]])
+def R13_3(theta):
+  return np.array([[ np.cos(theta), 0, np.sin(theta)],
+                   [ 0,             1,             0],
+                   [-np.sin(theta), 0, np.cos(theta)]])
+def R12_3(theta):
+  return np.array([[ np.cos(theta),  np.sin(theta), 0],
+                   [ -np.sin(theta), np.cos(theta), 0],
+                   [ 0             , 0            , 1 ]])
+
+
+def R23_4(theta):
+  return np.array([[ 1,             0,             0, 0],
+                   [ 0, np.cos(theta),  np.sin(theta),0],
+                   [ 0, -np.sin(theta), np.cos(theta),0],
+                   [ 0,             0,             0, 1]])
+def R13_4(theta):
+  return np.array([[ np.cos(theta),  0,np.sin(theta), 0 ],
+                   [ 0             , 1            , 0, 0],
+                   [ -np.sin(theta), 0,np.cos(theta), 0],
+                   [ 0             , 0            , 0, 1]])
+def R12_4(theta):
+  return np.array([[ np.cos(theta),  np.sin(theta), 0, 0],
+                   [ -np.sin(theta), np.cos(theta), 0, 0],
+                   [ 0             , 0            , 1, 0],
+                   [ 0             , 0            , 0, 1]])
+def R34_4(theta):
+  return np.array([[ 1,             0,             0, 0],
+                   [ 0,             1,             0, 0],
+                   [ 0,             0,np.cos(theta),  np.sin(theta)],
+                   [ 0,             0,-np.sin(theta), np.cos(theta)]])
+def R24_4(theta):
+  return np.array([[ 1,0             ,             0, 0],
+                   [ 0, np.cos(theta),0,  np.sin(theta)],
+                   [ 0,0             ,1            , 0],
+                   [ 0, -np.sin(theta), 0,np.cos(theta)]])
+def R14_4(theta):
+  return np.array([[ np.cos(theta),  0,0,  np.sin(theta)],
+                   [ 0             , 1            , 0, 0],
+                   [ 0             , 0            , 1, 0],
+                   [ -np.sin(theta), 0,0,  np.cos(theta)]])
+
+def U_4(params=param_dict):
+    '''
+    Returns the 4x4 mixing matrix as defined by Eq 1 in the 2020 IC companion paper, with the 3x3 mixing matrix defined in PDG.
+    '''
+    return R34_4(params['theta_34'])@ R24_4(params['theta_24'])@R14_4(params['theta_14']) @ R23_4(params['theta_23']) @ R13_4(params['theta_13']) @ R12_4(params['theta_12'])
+
 
 def U_nu(flavor_from=None, flavor_to=None, A = 0, ndim=3, params=param_dict):
     if ndim == 3:
@@ -348,26 +399,47 @@ def get_electron_density(r):
     else:
         raise ValueError(f'{r} not numerical')
 
+def chisq_S(params,events, data,sigma_a, sigma_b, sigma_g, sigma_syst):
+    if len(params) == 3:
+        a,b, g = params
+        S_th = events * (1 + a*sigma_a + b*sigma_b + g*sigma_g)
+        penalty = a**2 + b**2 + g**2
+    elif len(params) == 2:
+        a,b = params
+        S_th = events * (1 + a*sigma_a + b*sigma_b)
+        penalty = a**2 + b**2
+    elif len(params) == 1:
+        a = params
+        S_th = events * (1 + a*sigma_a)
+        penalty = a**2 
+    chi2= np.sum((S_th - data)**2/(data + sigma_syst**2))+ penalty
+    return chi2
+
+
 def chisq(params,events, data,z,sigma_a, sigma_b, sigma_g, sigma_syst):
     z_0 = -np.median(z)
     if len(params) == 3:
         a,b, g = params
-        S_th = events * (1 + a*sigma_a + b*sigma_b + g*sigma_g) #a*(1+b*(z+z_0))*events
-        penalty = a**2 + b**2 + g**2 #(1-a)**2/sigma_a**2 + b**2 / sigma_b**2 + gamma**2 /sigma_gamma**2
+        S_th = a*(1+b*(z+z_0)+g)*events 
+        penalty = (1-a)**2/sigma_a**2 + b**2 / sigma_b**2 + g**2 /sigma_g**2
     elif len(params) == 2:
         a,b = params
-        S_th = events * (1 + a*sigma_a + b*sigma_b) #a*(1+b*(z+z_0))*events
-        penalty = a**2 + b**2 # (1-a)**2/sigma_a**2 + b**2 / sigma_b**2
+        S_th = a*(1+b*(z+z_0))*events
+        penalty = (1-a)**2/sigma_a**2 + b**2 / sigma_b**2 
     elif len(params) == 1:
         a = params
-        S_th = events * (1 + a*sigma_a)#a*events
-        penalty = a**2 #(1-a)**2/sigma_a**2
-    chi2= np.sum((S_th - data)**2/(data + sigma_syst**2))# + penalty
+        S_th = a*events
+        penalty = a**2 
+    chi2= np.sum((S_th - data)**2/(data + sigma_syst**2))+ penalty
     return chi2
-
 
 def perform_chisq(events, data,sigma_syst, z = np.linspace(-1,0,21), sigma_a=0.25, sigma_b=None, sigma_g =None, x0=[1]):
     res = minimize(fun=chisq, x0=x0, args=(events,data,z,sigma_a, sigma_b, sigma_g, sigma_syst), method='Nelder-Mead',options={'maxiter': 1e5, 'maxfev':1e5})
+    assert res.success, res
+    return res.fun, res.x
+
+def perform_chisq_S(events, data,sigma_syst, z = np.linspace(-1,0,21), sigma_a=0.25, sigma_b=None, sigma_g =None, x0=[1]):
+    res = minimize(fun=chisq_S, x0=x0, args=(events,data,sigma_a, sigma_b, sigma_g, sigma_syst), method='Nelder-Mead',options={'maxiter': 1e5, 'maxfev':1e5})
     assert res.success, res
     return res.fun, res.x
 
@@ -391,4 +463,10 @@ def integrate(array,method='simps',*args):
     elif np.ndim(array) == 4:
         return simps(simps(simps(simps(array,args[0]),args[1]),args[2]),args[3])
 if __name__ == '__main__':
-    print(baseline(-1))
+    events = np.array([[3,4],[5,1]])
+    events_gamma = np.array([[4,6],[6,2]])
+    sigma_g = (np.sum(events)- np.sum(events_gamma))/np.sum(events)
+    data = np.array([[4,8],[4,1]])
+    #print(chisq(params=np.array([1,0,0]),events=events, data=data,z = np.array([-0.5,-0.6]),sigma_a=0.25, sigma_b=0.15, sigma_g=sigma_g, sigma_syst=0))
+    print(perform_chisq(x0=np.array([1,0,0]),events=events, data=data,z = np.array([-0.5,-0.6]),sigma_a=0.25, sigma_b=0.15, sigma_g=sigma_g, sigma_syst=0))
+    print(perform_chisq_S(x0=np.array([1,0,0]),events=events, data=data,z = np.array([-0.5,-0.6]),sigma_a=0.25, sigma_b=0.15, sigma_g=sigma_g, sigma_syst=0))

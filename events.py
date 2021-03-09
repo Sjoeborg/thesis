@@ -35,8 +35,8 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
         E_pivot = spectral_shift_parameters[1]
         delta_gamma = spectral_shift_parameters[2]
         factor = spectral_shift_factor(E = Et_mesh, E_pivot = E_pivot, delta_gamma=delta_gamma)   
-        flux_m = get_flux('m',Et_mesh*factor,zr_mesh,interp_flux)
-        flux_mbar = get_flux('mbar',Et_mesh*factor,zr_mesh,interp_flux)
+        flux_m = factor*get_flux('m',Et_mesh,zr_mesh,interp_flux)
+        flux_mbar = factor*get_flux('mbar',Et_mesh,zr_mesh,interp_flux)
     else:
         flux_m = get_flux('m',Et_mesh,zr_mesh,interp_flux)
         flux_mbar = get_flux('mbar',Et_mesh,zr_mesh,interp_flux)

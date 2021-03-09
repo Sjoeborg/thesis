@@ -1,7 +1,7 @@
 from scipy.integrate import solve_ivp
 import numpy as np
 from multiprocessing import Pool
-from functions import dm,theta,V_matrix, V, mass_dict,r_earth, U_nu, param_dict,GeV2tokm1,get_radial_distance, baseline,ic_params
+from functions import dm,theta,V_matrix, V, mass_dict,r_earth, U_nu, param_dict,GeV2tokm1,get_radial_distance, baseline,ic_params, U_4
 
 def H_2(flavor_from, flavor_to, A=0, params=param_dict): # giunti 9.73
     i = mass_dict[flavor_from]
@@ -27,18 +27,11 @@ def H_3(A_cc, params=param_dict):
     H = U @ M @ U_conj.T + A 
     return H
 
-def H_4(A_cc,A_nc, params=param_dict):
-    M  = np.array([[0, 0, 0, 0],
-                   [0, dm(2,1, params=params), 0, 0],
-                   [0, 0, dm(3,1, params=params), 0],
-                   [0, 0, 0, dm(4,1, params=params)]])
-
+def H_4(A_cc,A_nc,U, M, params=param_dict):
     A = 1e18*np.array([[A_cc, 0, 0, 0], #1702.05160 eq 8
                         [0, 0, 0, 0],
                         [0, 0, 0, 0],
                         [0, 0, 0, A_nc]])
-    
-    U = U_nu(ndim=4, params=params)
     U_conj = np.conj(U)
     H = U @ M @ U_conj.T + A 
     return H
@@ -64,7 +57,7 @@ def H_5(A_cc,A_nc, params=param_dict):#0709.1937 eq 5
 
 
 
-def evolve(t, state, flavor_from, flavor_to,E, ndim, theta_i, material='vac',anti=False,params=param_dict):
+def evolve(t, state, flavor_from, flavor_to,E, U,M,ndim, theta_i, material='vac',anti=False,params=param_dict):
     if anti:
         sign = -1
     else:
@@ -74,16 +67,16 @@ def evolve(t, state, flavor_from, flavor_to,E, ndim, theta_i, material='vac',ant
     A_cc = sign * 2 * E * V_cc #giunti 332.
     A_nc = -sign * 2 * E * V_nc #sandhya convention
     if ndim == 3:
-        H = H_3(A_cc,params)
+        H = H_3(A_cc,U=U, M=M, params=params)
         RHS = -1j/(2*E) * H
     elif ndim == 4:
-        H = H_4(A_cc,A_nc,params)
+        H = H_4(A_cc,A_nc, U=U, M=M, params=params)
         RHS = -1j/(2*E) * H
     elif ndim == 2: #giunti 9.59
-        H = H_2(flavor_from, flavor_to,A_cc,params)
+        H = H_2(flavor_from, flavor_to,A_cc, params=params)
         RHS = -1j/(4*E) * H 
     elif ndim == 5: #0709.1937
-        H = H_5(A_cc,A_nc,params)
+        H = H_5(A_cc,A_nc,U=U, M=M, params=params)
         RHS = -1j/(2*E) * H
 
     return RHS.dot(state)
@@ -106,6 +99,11 @@ def P_num(flavor_from, flavor_to=None,L=None,  param_min=0, param_max=2*r_earth,
     earth_end = earth_start + 2*r_earth
     x_list = np.array([])
     P_list = [[]]*ndim
+    M = np.array([[0, 0, 0, 0],
+                  [0, dm(2,1, params=params), 0, 0],
+                  [0, 0, dm(3,1, params=params), 0],
+                  [0, 0, 0, dm(4,1, params=params)]])
+    U = U_4(params=params)
     if eval_at is not None: #Fix unit
         eval_at=[eval_at*GeV2tokm1]
     if L is None:
@@ -123,10 +121,10 @@ def P_num(flavor_from, flavor_to=None,L=None,  param_min=0, param_max=2*r_earth,
     if param_min != earth_start or vacuum is True:
         if vacuum is True:
             #print(f'Solving for {np.round(E,1)} GeV in vacuum between {np.round(param_min,1)} and {np.round(param_max,1)}')
-            vac_solver = solve_ivp(fun = evolve, t_span = [GeV2tokm1*param_min, GeV2tokm1*param_max], method=solver, y0 = state, args=(flavor_from,flavor_to, E, ndim, theta_i,'vac',anti,params))
+            vac_solver = solve_ivp(fun = evolve, t_span = [GeV2tokm1*param_min, GeV2tokm1*param_max], method=solver, y0 = state, args=(flavor_from,flavor_to, E,U,M, ndim, theta_i,'vac',anti,params))
         else:
             #print(f'Solving for {np.round(E,1)} GeV in vacuum between {np.round(param_min,1)} and {np.round(earth_start,1)}')
-            vac_solver = solve_ivp(fun = evolve, t_span = [GeV2tokm1*param_min, GeV2tokm1*earth_start], method=solver, y0 = state, args=(flavor_from,flavor_to, E, ndim, theta_i,'vac',anti,params))
+            vac_solver = solve_ivp(fun = evolve, t_span = [GeV2tokm1*param_min, GeV2tokm1*earth_start], method=solver, y0 = state, args=(flavor_from,flavor_to, E,U,M, ndim, theta_i,'vac',anti,params))
 
         x_list = np.concatenate((x_list,vac_solver.t/GeV2tokm1))
         for n in range(ndim):
@@ -136,10 +134,10 @@ def P_num(flavor_from, flavor_to=None,L=None,  param_min=0, param_max=2*r_earth,
     if vacuum is False:
         if param_max < earth_end:
             #print(f'Solving for {np.round(E,1)} GeV between Earth start at {np.round(earth_start,1)} to {np.round(param_max,1)}')
-            earth_solver = solve_ivp(fun = evolve, t_span = [0, GeV2tokm1*param_max], method=solver, y0 = state, args=(flavor_from,flavor_to, E, ndim, theta_i,material,anti,params))
+            earth_solver = solve_ivp(fun = evolve, t_span = [0, GeV2tokm1*param_max], method=solver, y0 = state, args=(flavor_from,flavor_to, E, U,M,ndim, theta_i,material,anti,params))
         else:
             #print(f'Solving for {np.round(E,1)} GeV between Earth start at {np.round(earth_start,1)} to {np.round(earth_end,1)}')
-            earth_solver = solve_ivp(fun = evolve, t_span = [0, GeV2tokm1*earth_end], method=solver, y0 = state, t_eval=eval_at,rtol=rtol,atol=atol, args=(flavor_from,flavor_to, E, ndim, theta_i,material,anti,params))
+            earth_solver = solve_ivp(fun = evolve, t_span = [0, GeV2tokm1*earth_end], method=solver, y0 = state, t_eval=eval_at,rtol=rtol,atol=atol, args=(flavor_from,flavor_to, E,U,M, ndim, theta_i,material,anti,params))
 
         x_list = np.concatenate((x_list,earth_solver.t/GeV2tokm1))
         for n in range(ndim):
@@ -148,7 +146,7 @@ def P_num(flavor_from, flavor_to=None,L=None,  param_min=0, param_max=2*r_earth,
 
     if param_max > earth_end and vacuum is False:
         #print(f'Solving for {np.round(E,1)} GeV in vacuum between {np.round(earth_end,1)} and {np.round(param_max,1)}')
-        final_solver = solve_ivp(fun = evolve, t_span = [GeV2tokm1*earth_end, GeV2tokm1*param_max], method=solver, y0 = state, args=(flavor_from,flavor_to, E, ndim, theta_i,'vac',anti,params))
+        final_solver = solve_ivp(fun = evolve, t_span = [GeV2tokm1*earth_end, GeV2tokm1*param_max], method=solver, y0 = state, args=(flavor_from,flavor_to, E,U,M, ndim, theta_i,'vac',anti,params))
 
         x_list = np.concatenate((x_list,final_solver.t/GeV2tokm1))
         for n in range(ndim):
@@ -176,5 +174,4 @@ def wrapper(p):
     return P
 
 if __name__== '__main__':
-    import cProfile
-    cProfile.run('P_num_over_E_single("m", [1e1,1e2,1e3])')
+    print(P_num('m', flavor_to='m',ndim = 4, E=1e3))
