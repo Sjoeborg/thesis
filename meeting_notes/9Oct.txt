@@ -1,0 +1,3 @@
+final goal: use icecube data to see if they have any sterile signal. IC colab has a paper on this (3+1). this should be my reference papaer.
+ What bound on sterile neutrnos do i get? 
+ NExt stage: combine probabilities with cross-sections and fluxes to get events. Only then we can compare with IC using "test statistic". (chi2)

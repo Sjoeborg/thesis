@@ -1,0 +1,39 @@
+Q: When diagonalizing the hamiltonian , are we assuming unitarity? Doesss non-unitarity of U break this?
+
+Thought on fig6:
+in Pms (s_34): doubling s_24 halves P_ms (from black to green). Switching on s_34 strongly supressses P_ms (black to red), and doubling this almost removes P (red to blue). ONLY TRUE AT RESOANCE. Away from resonance, we get the "intuitive" behaviour with double angle -> double P. Moreover, away from resonance we see the s_34 effect almost completely disappearing (no difference between blue,green and red,black).
+
+in P_mt(c_34): Independent on s_24 (no difference between black and green), but is depending non-linearily (cf P_ms) on s_34. This is not only true for the resonance peak, but for the whole graph (cf Pms).
+
+The resonance energy needs to match with the energy at which the mixing angle peaks.
+
+About eigenvalues/dm_M:
+https://inspirehep.net/files/98d1e405b0105fe9374ffdeb9aa3f80d
+In 3 gen case, they show a merging point at 5 GeV, where we might have some interesting effects in that area? but our resonance is at 2 TeV.
+---------------------------------------------------------------
+
+dm_41 IC sensetive
+people ignore th_34 
+do series expansions to get dm_41?
+Plot analytic result (from diagonalizing) with numerical ones
+
+sum P = 1 => resonance in mt and ms gives pmm = 0.
+
+
+set th_14 = 0. only interested in dm_41, th_24, t_34. use mathematica to give results on only these parameters (set others to zero one at a time). Compare this with the full setup. Do this numerically as well. Might help mathematica to set some terms to 0.
+expand in t_24,t_34 and write down expressions in these.
+read about series expansion of parameter that resonates.
+
+
+check eigenvals are in correct order!
+plot H_M eigenval and th_M as func of energy. th_M should be maximal (45 deg) for some E_res
+Check mathilde references. She studied matter effects + neutrino absorption for IC.
+Read through Smirnov completely
+Parametrization is the meaning we give to the mxiing angles. Diff param => diff theta
+
+Can i give a nice form of the 4x4 u matrix by setting some params ==0?
+
+Study two cases in mathematica:
+    Case1: theta_34=0, theta_24!=0
+    case2:theta_24=theta_34
+Cross check with numerical, espacially around resonance (disregard wiggles).

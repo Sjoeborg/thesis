@@ -1,0 +1,15 @@
+We want one trajectory for a given zenith angle.
+IC data are binned in zenith angles.
+The average density can be calculated as either
+*rho_avg = \int rho dx / \intdx
+*rho_avg = 1/N * \sum_i^N rho_i where N is the number of slabs penetrated by the given trajectory.
+
+Make the replacement 1/m_n -> N_A to fix the matter potential.
+
+If I can make an IC code, we can write a paper. No paper has been written on disproving 3+2 from IC data, since this scenario is ruled out by cosmology:
+*sum of neutrino masses \approx 0
+*# of dof \approx 3.
+
+Next week: Read 0709.1937 on 4 gen (ignore 5 gen for now). Understand how the NC term works and why its negative. Understand how it's subtracted from the A matrix to yield eq 5.
+Study eq 12. In this paper theta_i = 0
+

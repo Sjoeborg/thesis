@@ -1,0 +1,14 @@
+---Feedback---
+Plot eigenvalues in TeV and for antineutrinos (dm41 =1 and V positive)
+Plot all s^2 in the same plot.
+
+At the 3 TeV resonance for s24 and s34, study the analytic formula. Set all parameters except dm41, th24, and th34 to numerical. Does dm41 play a role here? If not, set it to numerical too. Ask the same question with active parameters. Try to set active parameters to zero.
+
+Um1 falls at 100 GeV which looks a bit early. Why? Check the analytical formula.
+Ut4 is 0 for s34=0 and a lot different for s34!=0. Why? Check analytical formula of Ut4?
+
+--Tasks---
+Send copy of results obtained when setting M4 = diag(0,0,0,dm41).
+Read the IC paper from 2020  and use their binning (below fig2). 
+Understand resolution function. Is more or less a sigma of a Gaussian? Inputs are E and theta_i (which are to be binned.)
+Implement the Honda flux and average sol_min and sol_max

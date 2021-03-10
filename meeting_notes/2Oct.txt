@@ -1,0 +1,16 @@
+Convert all units to eV. This is the 1.27 factor in the sine term. For numerical L -> L/1.27 or L*1.27
+Figure out what L/E gives pi/2 for a given dm? Maximal oscillation
+
+Understand the probabilities. Change L to meaningful value (earth diameter)
+Icecube has 100 GeV-TeV
+To check 3 neutrino matter oscillation. Use constant matter density to diagonalize the Hamiltonian for 2d. dm_31 only relevant. Set other dm_12 to 0, and theta_12 to 0 in 3d case to turn it into 2d.
+
+which dm corresponds to which baseline? Figure out connection between dm's and the baseline/energy
+12: solar sector
+31: connection between solar and atm
+32: atm sector 
+Upgrade to 4 generations
+
+5 GeV Energy for earth gives resonance in earth. Look into this. 
+Read sandhyas paper on atm neutrinos in earth (dm_12=0): 0509197
+Read review on sterile neutrinos: 1906.01739

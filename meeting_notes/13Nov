@@ -1,0 +1,24 @@
+U_e1, U_e, U_e3 wrong in graph. UM matrix has the correct entrie, but the graph is wrong. 
+abs(Um3)^ is wrong, (should be close to 0.5).
+Plot Uei, Uti for loewr energies too. 
+
+theta_34 i wierd, is there a relationhip beteen then theta4 = 0.5 and theta34=dicontinuity?
+
+where is theta12? Is something with the 3 eigenvalue wrong?
+
+Plot the eigenvalue on log-log ccale (y-sclae log).
+Plot with both case (theta34 = 0 and theta34=theta4).
+
+IC on Tueday?
+Read info on how IC collect event on IC ebite. Understand showers and track.
+
+Track = mu
+shower = e, t, NC
+
+NC:
+nu + nucleon = nu+nucleon goes to hadronic shower.
+
+Check pDG on how muons lose energy in matter (cherenkov radiation)
+electron lose energy by bremsstrahlung (photon)
+
+we will check previous papers and lok at references to see here people have gotten theis cross section and fluxes.

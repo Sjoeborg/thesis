@@ -1,0 +1,40 @@
+---My Answers to questions S asked 17Nov----
+Q: Um1 falls at 100 GeV which looks a bit early. Why? Check the analytical formula.
+A: As of commit 6842ea7, Um1 falls sligthy earlier, reaching zero before 10^12 eV. By looking at the analytical formula, it is dependant on c12,
+and s12 falls from 1 at 10^11 eV, passing 0.5 at 3.7 TeV. It is wierd that the active angle is maximal here...
+
+Q: Ut4 is 0 for s34=0 and a lot different for s34!=0. Why? Check analytical formula of Ut4?
+A: Ut4 = c14c24s34, so when s34 = 0, Ut4 =0. When s34 != 0, Ut4 is free to take any value !=0
+
+Q: At the 3 TeV resonance for s24 and s34, study the analytic formula. Set all parameters except dm41, th24, and th34 to numerical. Does dm41 play a role here? If not, set it to numerical too. Ask the same question with active parameters. Try to set active parameters to zero.
+A: s24 = Um4/(1-Ue4), s34 = Um4/(1 - Ue4 - Um4). 
+Denton formula gives s24 as Pi_k^3  (lambda4 - etam_k) / ( (lambda4 - lambda_k) - (lambda4 - etae_k))
+s34 as Pi_k^3  (lambda4 - etam_k) / ( (lambda4 - lambda_k) - (lambda4 - etae_k) - (lambda4 - etam_k))
+Nya plotten visar dock inte någon s34-resonans i TeV-området. Plotta för högre energier för att se när detta inträffar? Plot till S visar fel s34 som är nollskild när theta34=0.
+
+
+---Questions for S----
+Reading 2020 IC paper. 
+They include an oscillogram with neutrino absorption at high energies. How high are these energies, i.e. can I ignore this?
+Binning is in 20 bins between -1 to 0. I have fluxes in 20 bins between -1 and 1.
+
+
+
+--Notes---
+---Single41 approx---
+For te plot generatedby single_41 and emailed to S:
+Correct the plot. Um seems swapped with Us.
+
+Diagonalize the symbolic single_41 H to get the symbolic U4M elements. Then get Us in matter. Check that the first eigenvector is (1,0,0,0).
+Check that Um4/Um2=t24.
+
+Look at th_24 and th_34 as a function of th CC and NC potentials. Does th34 get maximal (pi/4)?
+Setting th_34 decouples the e-t channel. 
+Try to diagonalize the block matrix Us = (1 0
+                                          0 U_3). 
+
+--IC---
+Divide flux by two to get 20 bins. 
+Multiplöy flux with X (and P if we have oscillations). This should be dimensionless. Check units!! If binned data, unit is E^-1
+Read about A_eff for the 86-string config. (Related to number of targets).
+Multiply by 2pi to get with of azimuthal angle (related to steradian unit).

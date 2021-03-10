@@ -1,0 +1,32 @@
+Ideer:
+1.Ta fram en symbolisk approximerad H_M och jmf med numerisk H_M
+2. Extension av 1: Ta fram approximerad symbolisk P och jmf med numerisk. Verkar vara detta S menade då hon pratade om att jag ska ignorera wiggles (som bara finns i P).
+-------------------
+Slutsatser:
+1. Aktiva dmM verkar resonera störst vid GeV.
+För case 1(th14=th34 = 0): 
+    1. dmM41=-1 fram till 0.1 TeV då den stiger till -0.2 efter 2-3 TeV.
+    2. Väldigt liten skillnad mellan th24=0 och th24 = pi/4, blir något större efter att kurvan planar ut efter 3 TeV. Verkar vara precis samma beteende i case 2. Kolla närmare på dessa skillander?
+För case 2 (th14=0, th24=th34):
+    1. Se punkt 2 i case 1. 
+
+
+
+-----------
+Saker att göra
+1. Plotta case 1 och 2 i samma graf.
+2. Ta fram thM
+3. Jobba med taylor
+4. Jämföra allt (taylor+symboliskt) med numerisk (exakt och th14=0)
+5. mirnov äger att parametric resonance äger rum då theta_i=0. Varför?
+------------
+Lösa tankar
+Large mass splittings make plots of all dm_M look constant => look at the dm_M individually
+
+
+Below only applies for dmM41. in the TeV range, dmM21,dmM31 are linear in E.
+Case 2: (4gen_eigenvals _ 0_x _samex)
+Changing E in a dm_M vs theta24 plot only seems to change the amplitude of the dmM oscillations. theta24 changes the frequency. Can see this from the form dm_M \sims E^x*sin(theta24).
+
+Case 1: (4gen_eigenvals _ 0_x _0)
+Changing E in a dm_M vs theta24 plot does not show the "only amplitude" behaviour. We have shifting and sometimes completely different behaviour (asymmetric peaks). This only seems to be the case for GeV energies. For TeV, everything flattens out after 3 TeV and is only weakly depending on theta24.

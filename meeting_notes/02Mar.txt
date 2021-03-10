@@ -1,0 +1,9 @@
+Extend the gaussian chi2 to include zenith tilt. No need for a poissoinan chi2 as we have large number of events
+Start with an unrestricted beta, if it matches IC contour, just leave it at that. We can put the sigma_b to 5 or 10%, but can play around with those values. zenith pivot is 0.5, but can also be changed.
+Maybe try with different sigma_a too. 30%?
+After that, send S the new contour.
+
+If we are to include the spectral shift (delta gamma), generate new flux files according to the normalization (E/E_pivot)^-delta gamma where E_pivot is takes as 2TeV, but can be freely chosen.
+Get the new numberof events for the new shifted flux and use the relative difference in H0 as sigma_gamma. Assume that this sigma_gamma is the same for all H1.
+
+For the diagonalization, try leaving E, th24,th34 as symbolic, and just run it for a long time. Meanwhile, see if th24,th34 symbolic can be simplified. If so, we can see how the formulas change as we change the values of E and dm. 

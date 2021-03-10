@@ -30,19 +30,19 @@ def probs(E_index, z_index, alpha, npoints, params=ic_params):
     Et, _, _ = get_Etrue(E_index=E_index,npoints=npoints, model=models, left_alpha=alpha, right_alpha=alpha) 
 
     try:
-        get_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
+        get_probabilities('m','m',E_index, z_index, params,False,npoints,ndim=4)
     except:
         generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
     try:
-        get_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
+        get_probabilities('m','m',E_index, z_index, params,True,npoints,ndim=4)
     except:
         generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
     try:
-        get_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
+        get_probabilities('e','m',E_index, z_index, params,False,npoints,ndim=4)
     except:
         generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
     try:
-        get_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
+        get_probabilities('e','m',E_index, z_index, params,True,npoints,ndim=4)
     except:
         generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
 
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     s24_range = np.logspace(np.log10(args.sFrom),np.log10(args.sTo),args.sN)
     s34_range = np.logspace(np.log10(args.s34From),np.log10(args.s34To),args.s34N)
     param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_eq_s34=args.s34, short=False)
-    print(f'Precomputing probabilities for dm_41({args.dmFrom},{args.dmTo},{args.dmN}), s24({args.sFrom},{args.sTo},{args.sN}), s24({args.s34From},{args.s34To},{args.s34N}), for N = {args.N}. s={args.s+1}/{args.sT}')
+    print(f'Precomputing probabilities for dm_41({args.dmFrom},{args.dmTo},{args.dmN}), s24({args.sFrom},{args.sTo},{args.sN}), s34({args.s34From},{args.s34To},{args.s34N}), for N = {args.N}. s={args.s+1}/{args.sT}')
     split_array=  np.array_split(param_list,args.sT)[args.s]
     
     start = time.time()

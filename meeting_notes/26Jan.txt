@@ -1,0 +1,7 @@
+Look up "one mass scale dominance"
+
+We can drop the lowest E bins, they are irrelevant for our resonance analysis, and only slow down simulations.
+My honda fluxes only include the "conventional fluxes". There are two additional parts: astrophysical and prompt. IC2020 gives the simulates event rates broken down per fluxn type. I can use this to extract a constant per bin to include the contributions from these as well.
+Theta34 is the least ´constrained parameter because it mediates tau and sterile, and we are primarily loooking at the mu flux by studying tracks. Why are IC not analyzing showers? Look this up!
+
+Showers are due to the Z-boson, which doesn't interact with the sterile neutrino. We might be abe to exploit this and study how shower data shows info about sterile. 

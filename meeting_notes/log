@@ -1,0 +1,292 @@
+22 November
+Läser https://arxiv.org/pdf/2011.03545.pdf på jakt efter en resolution function. 
+    Hittar någon slags efficiency-parameter eta_DOM. Kan denna användas?
+    Fig B.1 visar right ascencion distribution med error bars. 
+
+I https://arxiv.org/pdf/2005.02395.pdf Står det 
+    "Due to their topology, track events have a better angular resolution of ∼ 0.5
+◦   at the highest energies"
+    Dom citerar https://icecube.wisc.edu/science/data/PS-3years som en källa till angular resolution. Datafilen ger mig ett angular error per event.
+
+I https://hepconf.physics.ucla.edu/pacific11/talks/chirkin.pdf 
+    står det på s.23 att cascades har en energyresolution på 10% på log_10(E)
+    s.30: Resolution in log10(E):
+            • muons: ~0.25
+            • cascades: ~0.1-0.2 
+    Resolution in log10(E):better with spline-fitted parametrization of ice
+
+https://arxiv.org/pdf/1612.05093.pdf är en beskrivning av IC. Läs! s 15,16
+
+https://arxiv.org/pdf/1311.4767.pdf
+    s.7:  Charge resolution obtained by this
+    method, which is dominated by the width of the charge response of the Hamamatsu R7081 photomultiplier [14, 21],
+    is typically around 30% at the single photon level
+
+    s.12: The deposited energy resolution for contained νe events
+    is dominated by statistical fluctuations in the collected
+    charge at low energies, improving from 30% at 100 GeV
+    to 8% at 100 TeV, at which point the extension of the
+    shower begins to distort the reconstruction (see Fig. 13).
+    This high-energy limit on resolution is similar to uncertainties in the modeling of scattering and absorption in the ice
+    sheet [17, 18], which contribute a 10% systematic uncertainty to the energy.
+
+    Fig13,14,21 verkar visa det vi vill ha?
+
+    s. 19:  IceCube achieves
+    average deposited energy resolution in all channels of ∼
+    15% (depending on the event selection used in individual
+    analyses, better resolutions are possible). This is limited
+    primarily by systematic uncertainties above a few TeV
+
+https://indico.cern.ch/event/221841/contributions/1525814/attachments/362223/504242/Kopper_-_TeVPA_HESE_technical.pdf
+    muon track: <1 deg angular resolution, factor of 2 energy resolution
+    nc/e cascade: 10 deg angular, 15% energy
+    angular resolution depends on the ice model
+
+24 November
+single_41 och att diagonalisera 3x3-blocket verkar vara ekvivalenta. Börjar lämna dentonoch kör på egenvektorer istället. 
+är s34 != 0 får vi problem, eftersom Um1 = s34²/(t24²+s34²) och Ut1 = t24²/(t24²+s34²). Dessa är alltså helt oberoende av både energi och är då konstanta.
+När s4 =0.04 blir dessa konstant 0.48 resp 0.51 istället för 0 resp 0 som förutsägs av Us. Mycket märkligt. Betyder detta att single_41 inte fungerar? 
+I Us så beror dessa element på s14. Enda möjligheten just nu är då att thetaM14 blir !=0, trots att theta14=0...
+
+25 November
+10.1016/j.astropartphys.2012.01.004 har grafer på A_eff vs E
+
+10.1103/PhysRevLett.117.071801
+    "The muon zenith angle
+    can be reconstructed geometrically with a resolution of
+    σ cos(θz ) varying between 0.005 and 0.015 depending on
+    the angle."
+
+    "Muon energy is reconstructed based on the
+    stochastic light emission profile along the track [16, 34]
+    with a resolution of σ log 10 (E μ /GeV ) ∼ 0.5."
+
+Laddar ner lite IC data-filer och kollar igenom
+I en C-fil läser vi
+    //To compute the expected number of observed events we need to:
+	//1a. Multiply each effective area by the average flux in each bin
+	//1b. Multiply by the phase space in each bin (true energy and solid angle)
+	//1c. Multiply by the livetime for which the effective area is relevant
+	//2. Sum over the effective areas for all particle types and detector configurations
+	//3. Sum over dimensions not of interest (true neutrino energy, possibly zenith angle)
+	//In this case we will compute the expectation as a function of the energy
+	//proxy only, so we will project out both true energy and zenith angle.
+
+    //the product of the average flux in the bin and the
+	//phase space in the bin is simply the integral of the
+	//flux over the bin
+Finns en jupyter notebook med intressanta kommentarer, bland annat ett fint oscillogram jag kan använda till uppsatsen. Datat är dock simulerat och inte användbart.
+Labels skrivs som plt.xlabel(r"$L_{\text{eff}}$ (erg yr${}^{-1}$)")
+För att få modifierad baseline för nedgående flux:
+    # Get baseline [km] (propagation distance) from zenith angle
+    # Unit is km
+    true_coszen = np.cos(true_zenith)
+    earth_radius = 6371.
+    production_height = 15. # Assuming neutrino produced 15 km above surface
+    detector_depth = 1. # Assuming detector depth of 1 km
+    baseline = -earth_radius*true_coszen +  np.sqrt( (earth_radius*true_coszen)**2 - earth_radius**2 + (earth_radius+production_height+detector_depth)**2 )
+Finns också som eq 11.49 i giunti
+Jag har:
+    -Tabulated total effective areas as a function of neutrino energy and declination for the 2012-2015 years.
+    -Measurements of the median angular resolution for simulated through-going muon neutrinos and antineutrinos events as a function of neutrino energy. For 2012-2015
+    -Aeff från IC86 2012 som funktion av energi och zenith
+    -Events från IC86 2012 med individuella angular errors
+    -Cfil med en readme som pratar om effective areas och använder dessa.
+
+Borde fundera på hur binning görs. Ifall båda sidor är inklusive får jag ju dubletter. Finns litteratur på detta?
+
+27 November
+Info om X för TeV finns här https://www.nature.com/articles/nature24459
+
+30 November
+Finns jättenice mathematica+python kod i IC86SterileDataRelease för både plottar och metodik
+Vill jag använda en z-oberoende angErr från 2015 eller en z-beroende angErr från 2012?
+
+
+1 December
+Använder z-beroende data från 2012 för angErr. CT interpolation fungerar bra för 2d interpolation. 
+Just nu beräknar jag en interpolator för z_min och en för z_max. Tar sedan medelvärdet av det interpolerade värderna som resultat. Kolla detta med S.
+Jag börjar kolla på Gaussian smearing och om man kan integrera någon Gaussian.
+IC2014 har en graf på deposited energy vs reconstructed energy. Där kan jag få sigma_E som funktion av E^r. Dock frpn 2014.
+IC2016 ger sigma_z mellan 0.005 och 0.015. Samma artikel ger sigma_logE som 0.5
+IC2017 (10.1103/PhysRevD.95.112002) ger "median energy resolution" vid 8 GeV som 30%, och 20% vid 20 GeV. Datafilen (som ligger på mitt skrivbord) Ger Aeff för olika flavors och CC/NC. Den är dock binnad i både E och z.
+Ska kolla IC2020 och deras companion paper också. Samt läsa S artikel som tog med sånt här ganksa detaljerat.
+
+2 December
+Supplementary IC2020 (https://link.aps.org/doi/10.1103/PhysRevD.102.052009):
+    "The observed zenith
+    angle can be taken as the true zenith angle, θ_reco =  θ_z , for
+    practical purposes, since within our angular bins the
+    difference in zenith angle between the reconstructed muon
+    track and the MC truth is negligible"
+Innehåller dock inget mer jag akn använda just nu.
+https://docushare.icecube.wisc.edu/dsweb/Get/Document-73829/weaver_thesis_2015.pdf (som refereras av IC2020) innehåller en graf över Aeff och z.
+Den visar att Aeff i princip är ganska oberoende av z mellan 1e2 och 1e4 GeV! Speciellt kring 2 TeV verkar z-beroendet vara mycket litet.
+Denna thesis verkar ganska bra, metodisk. Jag kanske borde kolla på med phd theses för en mer low-level genomgång.
+
+interpolera med bisplrep?
+If i use other interpolators,i might get a better integration
+https://stackoverflow.com/questions/44811581/scipy-how-to-integrate-a-linearly-interpolated-function
+
+4 December
+Borde göra 4 interpolatorer för Aeff istället för två. Finns ingen anledning att tro att vi har en "max" med Emax och zmax och en "min".
+AngErr ger vad som ser ut som en ganska rät linje. Förbättra denna lite längre fram.
+
+8 December
+Implementerat symbolisk diagonalisering i en notebook. Min single approx verkar ge precis samma beteende för TeVoch uppåt. Vi kan alltså
+dela in beteendet av U i två delar: en aktiv del för energier upp till 100 GeV, och en steril del för energier över 100 GeV. Min approximation
+ger konstanta matriselement i den aktiva delen, men nästan exakt med den fulla Hamiltonianen överensstämmande element i den sterila delen.
+Sympy verkar trögt med att symboliskt diagonalisera H, men får ha tålamod. Ska dubbelkolla hur formen av mitt U ser ut och jämföra detta med den symobliska.
+Ska be S om hjälp angående resolution function som inte blir helt rätt. Något med en lognormal fördelning som jag inte riktigt förtår.
+
+9 December
+S verkade inte orolig över problemet med Gaussianen, jag kör på en vanlig normalfördelning så länge Jag har extraherat sigmorna från IC2014 och interpolerat dessa.
+Plottar jag en konturplot så ser det lite konstigt ut, jag förväntar mig att det ska reproducera Fig 13a: ett linjärt samband mellan Etrue och Ereco, men en liten gaussiansk spridning.
+Nu verkar det bara gälla vid låga energier, men dom vanliga 2d-plottarna ser bra ut, så det är säkert bara något som min gauss() inte förstår med np.meshgrid. Detta problem borde inte 
+vara relavant för själva integrationen, så jag hoppar nog det tills vidare.
+
+12 Jan 
+Läser hela IC2020 companion paper. Behöver implementera starthöjd i numeriska P-koden. Pappret säger att fluxet startar vid en höjd på 20 km.
+
+13 Jan
+Jag kan reproducera oscillogrammen för anum disapperance i IC2020. En skillnad är ju att min kod inte har implementerad neutrino absorption, vilket ger en alldeles för låg disappearance probability för höga (1e5 GeV) energier med låg (-1) zenith.
+För att kontrollera multiplicering och integrering av meshgrids: sätt alla arrays till OLIKA dimensioner. Har fixat detta för 3d, ska nog göra för 2d också
+
+14 Jan
+Använder romb instäälet för simps, och tagit bort onödigt funktioner. Fixat interpoleringen så alla z-värden verkar fungera bra.
+Med rombs blir eventsen ganska bra! Verkar dock behöva integrera över ganska långa (40-50 steg) vektorer för att få konvergerade svar...
+
+15 Jan
+S säger att jag ska normera varje bin för nullhypotesen så jag får samma event per bin som null, och sen se hur 3+1 blir efter denna normering. Ett krav är dock att normeringen blir någorlunda konstant, vilket den inte blir nu. Detta betyder att det fortfarande finns jobb kvar att göra i event-koden. För null är ju denna oberoende av P-koden. jag ser att normeringskonstanterna för höga z är 1e2, medan den är ental för lägre. Detta kan betyda att jag behöver undersöka min interpolering för höga z. Behöverockså fixa extrapolering för flux, så jag kan låta Etrue något högre. Behöver även studera gaussianen lite mer för att se hur lång Etrue behöver vara.
+
+18 Jan
+Har kollat på gaussianen för första E-binnen mellan 500 och 630. Den behöver bara ha Etrue mellan 300 till 900. Kanske kan göra detta för alla E-bins och bygga en speficik Etrue-range för varje bin? Isåfall slipper jag ju integrera ut till 1e4 för låga energier.
+Med denna metod får jag just nu första E_bin, förstaz-bin (dvs 500<E<630, -1<z<-0.95) till ca 5500, och första E_bin, sista z_bin (dvs 500<E<630, -0.05<z<0) till 13000. Jämför detta med korrekt 2336,2021. Vi har alltså en faktor 2 och 6 off. Denna faktor är z-beroende. Inget fel i gaussian eller Aeff pga inget z-beroende. Dock är flux_m ca 0.4 för z=-1 och 1 för z=0. Denna måste vara boven. Hur kan IC ha 13% färre events för höga z när flux ökar med upp till 150%? Jag har jämfört H0 med events, men skillnaden borde inte vara så stor. Denna höga ökning ser vi dock i energier kring 1e3, när events går från 911 till 4.2k
+    1. Fundera på variabelsubst. z -> cos theta
+    2. Leta efter artiklar där man gjort detta. Vet att S visade något någonggång som jag borde sparat.l
+    2. Kontrollera flux data.
+    3. Kanske ska testa med z-beroende Aeff? Har ju Aeff(decl)...
+
+Jag har bara sigma_E för num mellan 1e4 och 1e7. Detta borde inte påverka problemet ovan, men kan förklara att mina events inte är lika utsmetade. Använder jag sigma_E = 0.5 i log-space så får jag en väldigt stor utsmetning (måste ha Et mellan 10 och 1e4 för första E_bin). Detta medför dock att jag behöver extrapolera flux till 1e5. Jag får även en konstig normering. Dock är kvoten mellan första zenith bin och sista ca 0.5, och den var 0.43 innan. Ingen direkt skillnad... Borde inte en sigma = 0.5 i logspace vara likvärdigt med linjär sigma =0.1? Får dock helt annan gaussian. När jag använder konstant sigma=0.4/0.5 och använder log_E i gaussianen får jag ganska rimliga events. 
+
+När jag plottar en imshow av flux ser jag rätt form, med maximum i låga E och höga z. Denna peak spetas ut av både Aeff (som ökar för högre energier) och gaussianen. Detta känns bra. Jag förstår dock inte första raden i ICs events. Baserat på flux borde den inte vara så låg...
+
+19 Jan
+Har extrapolerat flux till 1e5 och skrivit en funktion som returnerar Etrue range for Ereco bins. 
+Får nu fram en normaliseringsmatris med värden mellan 0.1 och 1.2 ca. Rätt bra, men mina events är fortfarande för oberoende av z. Ska kolla hur det blir med punkterna för 18 jan. Mina bästa värden är dock kring 1e3 GeV, vilket är bra! Funderar fortfarande på lognormal... Använder den nu, vilket verkar fungera. Dock osäker på hur korrekt integreringen blir. Kanske ska skriva om alla interpolatorer i logE.
+
+20 Jan
+Har mixtrat mycket med Aeff. Har fått in zenith dependence genom deklination nu. Har två olika metoder, där den ena försöker använda ett viktning mellan de två närliggande interpolatorerna. Det ser okej ut förutom vid gränserna mellan två interpolatorer pga logaritmisk data. Istället kan man bara välja den närmsta interpolatorn, och köra på den. Ett tredje alternativ är att jag kör på med CT (som vid flux), och fixar den extrapoleringen som behövs vid låga z. Ifall jag använder CT med medelvärdesdata behöver jag fixa interpolatorn för z< -0.86 ca.
+
+21 Jan
+Fixar analytisk jupyter-kod.
+dm41-approximationen verkar leda till att Ux4 är 0 eller 1 för alla energier, givet att theta_14=0. Detta leder dock inte till att alla sannolikheterär noll (vilket jag först trodde) eftersom dmM är nollskiljd, även om dm är 0 i vakuum!
+Får nu den analytiska lösningen med dmM och UM att stämma med den numeriska! Den är givetvis inte supernära, och min single-approximation är ännu lite mer off, men detta borde räcka för att kunna argumentera för att single-approx är användbar!
+
+22 Jan
+Har lagt in mbar-events, som dock använder Aeff för muoner. Kanske borde jämföra cross sections för mu och antimu för att se hur stor skillnaden blir.
+Har fixat till Aeff_2012 i deprecated.py ifall ovan försök med aeff_2015 inte fungerar. Just nu verkar den ge allt för låga events dock.
+doi:10.3847/1538-4357/835/2/151 eq 1 är en referens till vår event integral
+
+Använder jag begränsad Et med get_Etrue_limits får jag en ganska annorlunda event-fördelning.Vet ej hur mycket detta beror på den finare indelningen,och hur mycket som beror på kortare integratiosgränser. Denna ger en faktor mellan 4 och 5 i intervallet 997-1581 GeV jämfört med 1-2 för konstanta Etrue-gränser. Har nu jämfört, och get_Etrue_limits ger mycket bättre events.
+Jag jämför Aeff_2012 med Aeff_2015, och ser att dom är off med en faktor 20... Aeff_2012 verkar ge bättre resultat och har zenith dependence, så jag väljer det istället för 2015 datat.
+
+Energy resolution är inte linjär. Jag kanske vill fixa detta? B.la. Weavers thesis skriver om detta (10 TeV Etrue ger 5 TeV Ereco). Vet dock inte hur mycket detta påverkar pga binning.
+Har nu fixat detta. Vill göra två interpolatorer som kan relatera reco <-> true, och sen rekonstruera bilden i weaver(IC2014)
+
+26 Jan
+Bestämt mig för aeff 2012. 2015-datan ger konstiga areor med en faktor 1e3, det var därför mina events blev någorlunda nära. Nu är dom 1e3 off, men jag har å andra sidan en bra aeff. Vet inte var denna faktor kommer ifrån, men normaliseringen blir bra.
+En snabb analys av inkluderingen av astrophysical och prompt flux ökar mina events med någon procent. Bra, men inte tillräckligt. Implementera den icke-linjära gaussianen!
+
+27 Jan
+Tror j
+ag fått till den icke-linjära gaussianen, dock stämmer inte riktigt standardavvikelsen överens med weavers sannolikhetshätheter. Använder jag sigma=0.3 blir den lite för bred, vilket är konstigt. Dock tror jag att jag kan ha fått till det viktigaste, dvs förskjutningen av Ereco till lägre energier. Kanske borde kolla detta närmare.
+Har extrapolerat Aeff till sidorna för z. Ska göra samma med flux, där jag kan utnyttja att jag hr periodisk data. Läs in flux för z=0.05 och interpolera.
+
+28 Jan
+Fixat fluxes och städat lite kod. Skrivit en 2d event som stämmer överens med 2d events med pytteliten std. Fixade även att jag hade fel normering/integrationsgränser, vilket löste probolemet med att mina events var 1e3 off, eftersom jag logaritmerat faktorn utan att ha logaritmerade gränser. Jag tror att jag vill skriva en ny get_Etrue_limits för den nya resolution function. Funktionen ska returnera gränserna för någon percentil av gaussianen. Detta är hur jag ska inkorporera relationen mellan Ereco och Etrue. Min arbetshypotes är att jag inte kan ha för stora Etrue-gränser eftersom min mesh då blir för sparse.
+
+29 Jan
+Just nu får jag bäst events med den gamla felaktiga metoden med sigma=0.3 och integrate(integrand,'romb', np.log10(Et),zr,Er) / scale_factor. Eftersom gaussianen integreras till 1 med exakt dessa integrationsgränser och skalfaktor så drar jag slutsatsen att denna integrering är korrekt.
+ 
+Nu använder jag mig av 99%-e percentilens gränser av energy resolution function för att få gränser för Etrue för ett givet Ereco. Denna metod känns rimlig. Får faktiskt ganska fina kurvor i E-led för TeV. Dock har z kurvan blivit lite sämre. Kan dock experimentera med sigma som just nu är väldigt låg på 0.2. Funderar på om jag inte borde maila lite IC-människor och beskriva min algoritm för S. Ett till alternativ vore att begränsa eventsen jag kollar på i z-led. Just nu får jag dålig kurva för höga z. Kanske ska föreslå detta för S. 
+
+01 Feb
+När sigma är >= 0.2 har vi inte stort nog Aeff. Alltså måste vi:
+    1. Nöja oss med sigma < 0.2
+    2. Ta fram Aeff för Ereco = 1e2
+    3. Begränsa E bins
+
+03 Feb
+Testat att digitiza höger plot från weaver och fittat den till några gaussianer. Det gick bra, men sigma är ca 0.5, vilket ger alldeles för stora gränser på Etrue. Hoppas på att antigen få tag på mer Aeff-data för E<1e2 GeV, eller på att min nuvarande sigma=0.2 fungerar okej. Hittat ett repo som jag har clonat och ska kolla på mer imorn.
+
+04 Feb
+Från github hittade jag hur man använder lognormal-fördelningen med procentvärden. Detta verkar inte ge så stor skillnad, dessutom måste jag manuellt skriva in Etrue-gränser som tidigare. Kanske kan kika mer på det senare, men är ju z som strular nu.
+
+
+08 Feb
+Att normera antalet händelser i ena ledet verkar både ge sämre MAE som chi2, jämfört med min metod som minimerar MAE för en samma konstant i båda led. Slutsats: Eventfelet i de olika leden har för olika form för att kunna normera ensidigt. Det är därför bäst att normera varje hink enskilt. Dock så skadar det inte att jag testar denna metod med 3+1/3+2 hypotesen. 
+
+12 Feb
+Fel i ic_params? Vad är theta_22?
+IC har ingen resonans pga andra parametrar.
+Generera P för dm_41=-1?
+
+17 Feb
+MC som jag kan få tag på är tyvärr bara mellan 1e0 till 1e2 GeV. Det enda jag kan göra med dessa är att hitta energy resolution och Aeff vid dessa energier. Lite orolig över mitt val av energy resolution...
+
+23 Feb
+Energy resolution ser bra ut, kanske kan mixtra lite med cv och hyperparametrar samt större sample, men det är lite slöseri med tid. Framtagandet av Etrue är korrekt, jag vill inte sampla Etrue från lognormal, eftersom multiplicerandet av pdfen tar hand om den fördelningen.
+Inte säker på att denna aeff är bättre. För N=10 verkar den nästan sämre. Men ska kolla med högre N och fler parametrar. Annars byter jag bara tillbaka.
+Mina events viker ner vid låa energier lite för tidigt nu. Men kan bero på parameter + N. Har j dm41=0.1 vilket lägger resonansen tidigare än vad jag är van vid
+
+24 Feb
+Det är fel i MC-datat. Artikeln visar ingen rate-dip vid 1e3, och jag har en markant dip där i flera bins. Detta är ju givetvisoberoende av flux,Etrue osv. Detta förklarar den stora skillnaden mellan obs och MC. 
+Gaussianen verkar aldrig integrera till under 1. Vill testa att peta på left_alpha. 0.95 verkar som ett bra värde. 
+Kanske vill skriva om lite i event_processing så allt är cleant i bin_by_bin. 
+Litar inte fullt ut på varken min flux-extrapolering,eller på den nya aeff... Kanske ska dubbelkolla fluxet och testa med gamla aef från 2012 ifall ovan inte funkar.
+Kör jag MC-filen med mitt flux får jag 4% fler events. Det är alltså inte så stor skillnad på fluxen som jag trodde
+Det är inte fel i MC-datat. Grafen har Ereco på x-axeln och jag har Etrue.
+MC stämmer dåligt överens med obs. Kan jag ens använda MC då?
+
+25 Feb
+I giuntis global 3+1 analysis arXiv:1703.00860v3 står det "we tested that our results do not change significantly if another model is used instead of
+the Honda-Gaisser one." Denna artikel innehåller en hyfsad genomgång om IC metodiken. 
+Kolla på ai platform för GPR
+
+28 Feb
+Med den "nya" aeff för jag chi2 till 10.8k (onormerad), jmf med 7k för aeff_2012. MC aeff strular så mycket och är sämre...
+Nya aeff ger bågformade z-events. Detta förklarar varför MC-eventsen är konvexa.
+Lägger jag tillbaka skalfaktorn i z-led får jag återigen en bra fit med H0 för låga z. 
+Dock ger detta dålig kontur...
+Att restricta z-bins verkar ge lite bättre kontur.
+Nu verkar filerna ha fuckat upp, generera nya med ny och gammal aeff
+
+29 Feb
+Giunti använder en annan chi2. Hur påverkar detta?
+Testa mot 2017-data?
+Just nu är 2012 Aeff bäst utan scale_factor.  Verkar dock inte spela så stor roll för konturerna! Skulle vilja begränsa och/eller rotera mina z-events.
+2012 Aeff fittar extremt bra mot IC_MC_2017 för z< -0.4. Detta är konstigt. Borde betyda att extraheringen av 2017 aeff från MC_2017 är felaktig. 
+2017 data, 2017 mc, och min kod (med 2012 Aeff) passar väldigt bra. Min kod är ganska mycket för platt för z > -0.2
+Dock ger 2020 data, 2017 Aeff, 2020 MC den bästa konturen för z < -0.5 !
+
+Slutsats: För H0 passar 2017 data, 2017 MC, 2012 Aeff bäst. För kontur passar 2020 data, 2020 MC, 2017 Aeff bäst. Det 
+
+
+03 Mar 
+Icecube sätter sigma_a till 0.4 och delta_gamma till 0.03. Delta_gamma har ett best fit på 0.068
+Salvado får best fit på delta_gamma som 0.02. Dom använder sigma_gamma=0.1
+Esmaili avänder inte spectral alls. 
+
+Lägg E_pivot i medianen?
+För att få deltaN/N =sigma = 0.1 behöver jag delta_gamma=0.15. Högt!
+Köra chi2 på detta?Låt sigma och delta_gamma vara helt fria för H0. 
+
+05 Mar
+N=9 ger för dålig contour fit. Gamma ger just nu ingen skillnad.
+Flux factors i alla led verkar ge lite bättre för höga dm, men mycket sämre för låga, så skippa det för nu.
+
+09 Mar
+Lägre alpha ger lägre chi2. Minimum verkar vara vid 0.8-0.75. Dock ändras knappt konturen, om något blir den sämre när alpha=0.75
+Konturen ser bättre ut när jag sätter z mellan 0 och 11.

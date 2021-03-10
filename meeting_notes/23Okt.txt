@@ -1,0 +1,19 @@
+send data file from figure 4 P_mt
+What is marginilazation? Keep one parameter constant, scan all others.
+Make manual step size in integrator to optimize.
+The big dip in the fig 4 plots we can use to constrain data. Small wiggles will get averaged out.
+At the point of resonance, the dm_M differs a lot from dm_vac. The mixing angles also become maximal.
+
+Plot the dm_M vs E to see resonance. Do plots to understand MSW resonance. 
+Hard task: understand why s_24 != s_34 doesnt give a big resonance (fig 6.)
+
+this week:
+for mt, ms: lokk at U elements. 
+Diagonalizing the H gives eigenvectors. Eigenvectors are U columns. 
+For a set of mixing angles and CONSTANT DENSITY, diagonalize H and get U columns. See which mixing angle affects probability. 
+take eq 21, write down U. so which matrix element of U has a form that depends on the theta. 
+plot me too
+For param in eq 21, th_24 and th_34 has this behavoir (fig6). 
+Look in IC paper about atm vs ultrahigh energy flux around 10 TeV
+
+Next week: start IC code

@@ -1,0 +1,27 @@
+---Questions for S----
+At what stage should i do the binning? Before or after interpolation/integration?
+Distinguish between starting events inside the detector and events outside? They have different angular resolutions (starting muons have double the diff)
+DOM efficiency? An IC paper uses 100% with std 10%
+
+Do 2D interpolator, and interpolate Aff as well.
+(IC86-2012-events looks ok, think we can get AngErr from here.)
+Cross section linear extrapolation is fine.
+
+Do Gaussians in E and z (?)
+Figure out the IC binning scheme
+
+The code should give theta_reco and E_reco
+Integrate out E_true and theta_true
+
+Find IC 2020 data!
+
+E_true is integrated from 0 (just pick a low number here) to inf (pick a high number), while E^r goes from left bin to right bin. The bins determine the integration limits
+
+Look up Gaussian smearing
+Check what area of Gaussian we get. Integrating the Gaussan over theta^t will not be 1 because z is periodic. Wecan just renomalize this.It's just an approximation, but S says its OK.
+
+Mathematica: do probability plots from U elements to check. Try theta14 != 0 too.
+
+
+----Questions for S---
+You mentioned simpsons rule/trapeztionial integrator? Compute array with values first, then integrate?
