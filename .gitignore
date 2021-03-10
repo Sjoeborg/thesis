@@ -12,6 +12,7 @@
 *.cb2
 .*.lb
 energy_resolution_models.p
+pre_computed/4gen
 ## Intermediate documents:
 *.dvi
 *.xdv
