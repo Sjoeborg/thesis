@@ -290,3 +290,6 @@ Flux factors i alla led verkar ge lite bättre för höga dm, men mycket sämre 
 09 Mar
 Lägre alpha ger lägre chi2. Minimum verkar vara vid 0.8-0.75. Dock ändras knappt konturen, om något blir den sämre när alpha=0.75
 Konturen ser bättre ut när jag sätter z mellan 0 och 11.
+
+10 Mar 
+N=9 ger faktiskt inte så mycket sämre kontur än vad jag trodde (cf N=21), snarare bättre! Pyttelite sämre vid höga dm, men bättre för låga. Borde kunna köra N=9 för s34.

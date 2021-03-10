@@ -53,13 +53,13 @@ def compare_an_nu(flavor_from_list, flavor_to_list, param, material,E=None, L=No
 
 
 
-def P_over_E_parameter(flavor_from, param_dict_list, E_range, flavor_to = None, L=2*r_earth, theta_i = 0, earth_start = 0, ndim = 3,vacuum=False, eval_at=2*r_earth, anti=False):
+def P_over_E_parameter(flavor_from, param_dict_list, E_range, L=2*r_earth, theta_i = 0, earth_start = 0, ndim = 3,vacuum=False, eval_at=2*r_earth, anti=False):
     '''
     Returns the range of energies and the list of all flavour oscillation probabilities. Uses all cores locally or on techila (type='local'/'cloud')
     '''
     global P_num_over_E_wrapper # Needed for wrapper to work with p.map
     def P_num_over_E_wrapper(p):
-        return P_num_over_E_single(flavor_from, E_range, flavor_to,  L,earth_start = earth_start, ndim = ndim,vacuum=vacuum,params=p, eval_at=eval_at,anti=anti, theta_i=theta_i)
+        return P_num_over_E_single(flavor_from=flavor_from, E=E_range,  L=L,earth_start = earth_start, ndim = ndim,vacuum=vacuum,params=p, eval_at=eval_at,anti=anti, theta_i=theta_i)
     #p = Pool()
     res = []
     for p in param_dict_list:
@@ -68,7 +68,7 @@ def P_over_E_parameter(flavor_from, param_dict_list, E_range, flavor_to = None, 
 
     P_list = []
     for i in range(len(param_dict_list)): # Splits result list into x and y
-            P_list.append(res[i][1])
+            P_list.append(res[i])
     return np.array(P_list)
 
 
