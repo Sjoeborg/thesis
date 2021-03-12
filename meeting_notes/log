@@ -293,3 +293,14 @@ Konturen ser bättre ut när jag sätter z mellan 0 och 11.
 
 10 Mar 
 N=9 ger faktiskt inte så mycket sämre kontur än vad jag trodde (cf N=21), snarare bättre! Pyttelite sämre vid höga dm, men bättre för låga. Borde kunna köra N=9 för s34.
+
+12 Mar
+Öka till N=13 så att Etrue inte missar resonansen. 
+For mariginalization: Find best fit th_34 and plot te regular contour with dm and s24.
+We see no clear th34 effect below 1 eV2. 
+    1. Rerun with finer parameter step sizes
+    2. Incluce tau decay. Calculate Pmt and use 17% of this flux. num->nut->(17%) num 
+Otherwise, leave 3+1 and
+    1. NSI. Look up armands and marfatias papers on NSI. See which epsilon that affects Pmm.
+    2. 3+2. Easy theory, but have more parameters that we need to fix beforehand.
+    3. Lorentz invariance breaking / non-unitarity

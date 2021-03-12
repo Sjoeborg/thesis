@@ -28,7 +28,7 @@ def probs(E_index, z_index, alpha, npoints, params=ic_params):
     zr = np.linspace(z_buckets[z_index], z_buckets[z_index+1], npoints)
 
     Et, _, _ = get_Etrue(E_index=E_index,npoints=npoints, model=models, left_alpha=alpha, right_alpha=alpha) 
-
+    
     try:
         get_probabilities('m','m',E_index, z_index, params,False,npoints,ndim=4)
     except:
@@ -45,6 +45,7 @@ def probs(E_index, z_index, alpha, npoints, params=ic_params):
         get_probabilities('e','m',E_index, z_index, params,True,npoints,ndim=4)
     except:
         generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
+    '
 
 def event_wrapper(param_list):
     E_index,z_index, alpha, params, npoints = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4]
@@ -59,7 +60,6 @@ def precompute_probs(params=ic_params):
 models= train_energy_resolution()
 
 if __name__ == '__main__':
-    #test
     dm41_range = np.logspace(np.log10(args.dmFrom),np.log10(args.dmTo),args.dmN)
     s24_range = np.logspace(np.log10(args.sFrom),np.log10(args.sTo),args.sN)
     s34_range = np.logspace(np.log10(args.s34From),np.log10(args.s34To),args.s34N)
@@ -74,4 +74,3 @@ if __name__ == '__main__':
         print(np.round(time.time() - start,0))
     #p.close()
     print(f'Finished part {args.s+1}/{args.sT} in {np.round(time.time() - start,0)} s')
-    
