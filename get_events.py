@@ -47,6 +47,15 @@ def probs(E_index, z_index, alpha, npoints, params=ic_params):
     except:
         generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
     
+    try:
+        get_probabilities('m','t',E_index, z_index, params,False,npoints,ndim=4)
+    except:
+        generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
+    try:
+        get_probabilities('m','t',E_index, z_index, params,True,npoints,ndim=4)
+    except:
+        generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
+    
 
 def event_wrapper(param_list):
     E_index,z_index, alpha, params, npoints = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4]
