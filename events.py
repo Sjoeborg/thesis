@@ -125,21 +125,15 @@ def wrap(p):
     return sim_events(0.99,25, multi=True, params=p)
 
 
-def list_of_params(dict,dm_range, s24_range, s34_range=None, s24_eq_s34=False, short= False):
+def list_of_params(dict,dm_range, s24_range, s34_range=None, s24_eq_s34=False):
     def update_dict(dict,p):
         dict2 = dict.copy()
         dict2.update(p)
         return dict2
-    if s24_eq_s34 and short:
-        dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2, 'theta_34': np.arcsin(np.sqrt(k))/2}) for k in s24_range for v in dm_range if k < 0.1 and v > 2 or k > 0.2 and v < 0.8]
-    elif s24_eq_s34 and  not short:
+    if s24_eq_s34:
         dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2, 'theta_34': np.arcsin(np.sqrt(k))/2}) for k in s24_range for v in dm_range]
-    elif s34_range is not None and short:
-        dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2, 'theta_34': np.arcsin(np.sqrt(j))/2}) for j in s34_range for k in s24_range for v in dm_range if k < 0.1 and v > 2 or k > 0.2 and v < 0.8]
-    elif s34_range is not None and not short:
+    elif s34_range is not None:
         dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2, 'theta_34': np.arcsin(np.sqrt(j))/2}) for j in s34_range for k in s24_range for v in dm_range]
-    elif short:
-        dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2}) for k in s24_range for v in dm_range if k < 0.1 and v > 2 or k > 0.2 and v < 0.8]
     else:
         dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2}) for k in s24_range for v in dm_range]
     return dict_list
