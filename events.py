@@ -66,6 +66,24 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
             generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
             P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints)
 
+        
+        '''
+        try:
+            Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints)
+        except FileNotFoundError:
+            generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
+            Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints)
+
+        try:
+            P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints)
+        except FileNotFoundError:
+            generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
+            P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints)
+
+        Pmm = Pmm + 0.1739*Pmt
+        P_amam = P_amam + 0.1739*P_amat
+        '''
+
         flux_e = get_flux('e',Et_mesh,zr_mesh,interp_flux)
         flux_ebar = get_flux('ebar',Et_mesh,zr_mesh,interp_flux)
         integrand = aeff_m*flux_m*Pmm + aeff_mbar*flux_mbar*P_amam + aeff_m*flux_e*Pem + aeff_mbar*flux_ebar*P_aeam
