@@ -75,10 +75,10 @@ if __name__ == '__main__':
     s34_range = np.logspace(np.log10(args.s34From),np.log10(args.s34To),args.s34N)
     if args.s34:
         param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_eq_s34=args.s34eqs24, short=False)
-        print(f'Precomputing probabilities for dm_41({args.dmFrom},{args.dmTo},{args.dmN}), s24({args.sFrom},{args.sTo},{args.sN}), s34({args.s34From},{args.s34To},{args.s34N}), for N = {args.N}. s={args.s+1}/{args.sT}')
+        print(f'Precomputing probabilities for dm_41({args.dmFrom},{args.dmTo},{args.dmN}), s24({args.s24From},{args.s24To},{args.s24N}), s34({args.s34From},{args.s34To},{args.s34N}), for N = {args.N}. s={args.s+1}/{args.sT}')
     else:
         param_list = list_of_params(ic_params,dm41_range, s24_range, short=False)
-        print(f'Precomputing probabilities for dm_41({args.dmFrom},{args.dmTo},{args.dmN}), s24({args.sFrom},{args.sTo},{args.sN}), s34=0, for N = {args.N}. s={args.s+1}/{args.sT}')
+        print(f'Precomputing probabilities for dm_41({args.dmFrom},{args.dmTo},{args.dmN}), s24({args.s24From},{args.s24To},{args.s24N}), s34=0, for N = {args.N}. s={args.s+1}/{args.sT}')
 
     split_array=  np.array_split(param_list,args.sT)[args.s]
     
