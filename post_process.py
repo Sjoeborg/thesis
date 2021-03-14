@@ -24,9 +24,8 @@ def gather_precomputed(npoints=args.N, update=args.u):
                         df = pickle.load(open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','rb'))
                     except FileNotFoundError:
                         df = pd.DataFrame(index=[f'E{En}z{zn}'], dtype='object')
-                    
+
                     for file in filenames:
-                        #print(flavor,En,zn,file)
                         array = np.load(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
                         try:
                             df.insert(loc=0,column=file, value=[array])
@@ -36,6 +35,24 @@ def gather_precomputed(npoints=args.N, update=args.u):
                     pickle.dump(df,open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','wb'))
                 except FileNotFoundError:
                     pass
+
+
+def merge_precomputed_df(npoints=args.N):
+    for flavor in flavors:
+        for En in E_range:
+            for zn in z_range:
+                try:
+                    try:
+                        old_df = pickle.load(open(f'./pre_computed/4gen/{flavor}/{13}/E{En}z{zn}.p','rb'))
+                    except FileNotFoundError:
+                        old_df = pd.DataFrame(index=[f'E{En}z{zn}'], dtype='object')
+
+                    probs = pickle.load(open(f'./pre_computed/new/4gen/{flavor}/{13}/E{En}z{zn}.p','rb'))
+                    old_df.update(probs)
+                    pickle.dump(old_df,open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','wb'))
+                except FileNotFoundError:
+                    pass
+
 
 def delete_files(npoints=args.N):
     for flavor in flavors:
@@ -48,5 +65,5 @@ def delete_files(npoints=args.N):
                 except FileNotFoundError:
                     pass
 if __name__ == '__main__':
-    #gather_precomputed(args.N)
+    gather_precomputed(args.N)
     delete_files(args.N)

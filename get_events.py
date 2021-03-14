@@ -36,18 +36,22 @@ def probs(E_index, z_index, alpha, npoints, params=ic_params):
     try:
         get_probabilities('m','m',E_index, z_index, params,False,npoints,ndim=4)
     except:
+        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
         generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
     try:
         get_probabilities('m','m',E_index, z_index, params,True,npoints,ndim=4)
     except:
+        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
         generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
     try:
         get_probabilities('e','m',E_index, z_index, params,False,npoints,ndim=4)
     except:
+        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
         generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
     try:
         get_probabilities('e','m',E_index, z_index, params,True,npoints,ndim=4)
     except:
+        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
         generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
     
     try:
@@ -58,6 +62,7 @@ def probs(E_index, z_index, alpha, npoints, params=ic_params):
         get_probabilities('m','t',E_index, z_index, params,True,npoints,ndim=4)
     except:
         generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
+    
     
 
 def event_wrapper(param_list):
@@ -81,6 +86,9 @@ if __name__ == '__main__':
     if args.s34:
         param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_eq_s34=args.s34eqs24)
         print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34({s34_range.min()},{s24_range.max()},{len(s34_range)}), for N = {args.N}. s={args.s+1}/{args.sT}')
+    elif args.s34eqs24:
+        param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_eq_s34=args.s34eqs24)
+        print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34=s24, for N = {args.N}. s={args.s+1}/{args.sT}')
     else:
         param_list = list_of_params(ic_params,dm41_range, s24_range)
         print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34=0, for N = {args.N}. s={args.s+1}/{args.sT}')
