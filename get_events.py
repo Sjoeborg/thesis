@@ -80,7 +80,10 @@ def gather_precomputed(npoints):
                 for file in os.listdir(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/'):
                     if file.endswith('.npy'):
                         filenames.append(file[0:-4])
-                df = pd.DataFrame(index=[f'E{En}z{zn}'], dtype='object')
+                try:
+                    df = pickle.load(open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/df.p','rb'))
+                except FileNotFoundError:
+                    df = pd.DataFrame(index=[f'E{En}z{zn}'], dtype='object')
 
                 for file in filenames:
                     array = np.load(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
@@ -91,6 +94,7 @@ def gather_precomputed(npoints):
 models= train_energy_resolution()
 
 if __name__ == '__main__':
+    '''
     dm41_range = np.logspace(np.log10(args.dmFrom),np.log10(args.dmTo),args.dmN)
     s24_range = np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N)
     if args.s34eqs24:
@@ -113,5 +117,5 @@ if __name__ == '__main__':
         print(np.round((time.time() - start)/3600,1))
     #p.close()
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
-
-    gather_precomputed(args.N)
+    '''
+    gather_precomputed(9)
