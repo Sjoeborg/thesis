@@ -54,7 +54,7 @@ def probs(E_index, z_index, alpha, npoints, params=ic_params):
     try:
         get_probabilities('m','t',E_index, z_index, params,True,npoints,ndim=4)
     except:
-        generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
+        generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
     
 
 def event_wrapper(param_list):
@@ -72,7 +72,10 @@ models= train_energy_resolution()
 if __name__ == '__main__':
     dm41_range = np.logspace(np.log10(args.dmFrom),np.log10(args.dmTo),args.dmN)
     s24_range = np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N)
-    s34_range = np.logspace(np.log10(args.s34From),np.log10(args.s34To),args.s34N)
+    if args.s34eqs24:
+        s34_range = s24_range
+    else:
+        s34_range = np.logspace(np.log10(args.s34From),np.log10(args.s34To),args.s34N)
     if args.s34:
         param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_eq_s34=args.s34eqs24, short=False)
         print(f'Precomputing probabilities for dm_41({args.dmFrom},{args.dmTo},{args.dmN}), s24({args.s24From},{args.s24To},{args.s24N}), s34({args.s34From},{args.s34To},{args.s34N}), for N = {args.N}. s={args.s+1}/{args.sT}')
