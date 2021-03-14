@@ -69,32 +69,9 @@ def precompute_probs(params=ic_params):
         for j in range(20):
             event_wrapper([i,j, 0.99, params,args.N])
 
-def gather_precomputed(npoints):
-    E_range = range(3,13)
-    z_range = range(0,20)
-    flavors = ['Pamam', 'Paeam','Pem','Pmm']
-    for flavor in flavors:
-        for En in E_range:
-            for zn in z_range:
-                filenames=[]
-                for file in os.listdir(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/'):
-                    if file.endswith('.npy'):
-                        filenames.append(file[0:-4])
-                try:
-                    df = pickle.load(open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/df.p','rb'))
-                except FileNotFoundError:
-                    df = pd.DataFrame(index=[f'E{En}z{zn}'], dtype='object')
-
-                for file in filenames:
-                    array = np.load(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
-                    df.insert(loc=0,column=file, value=[array])
-                pickle.dump(df,open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/df.p','wb'))
-
-
 models= train_energy_resolution()
 
 if __name__ == '__main__':
-    '''
     dm41_range = np.logspace(np.log10(args.dmFrom),np.log10(args.dmTo),args.dmN)
     s24_range = np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N)
     if args.s34eqs24:
@@ -117,5 +94,3 @@ if __name__ == '__main__':
         print(np.round((time.time() - start)/3600,1))
     #p.close()
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
-    '''
-    gather_precomputed(9)

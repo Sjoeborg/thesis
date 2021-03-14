@@ -119,10 +119,10 @@ def get_probabilities(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4)
 
     hashed_param_name = sha256(params) #Get hash of parm dict to be used as filename
     if anti:
-        file_dir = f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/E{E_bin}z{z_bin}/'
+        file_dir = f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/'
     else:
-        file_dir = f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/E{E_bin}z{z_bin}/'
-    df = pickle.load(open(f'{file_dir}df.p','rb'))
+        file_dir = f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/'
+    df = pickle.load(open(f'{file_dir}E{E_bin}z{z_bin}.p','rb'))
     res = df[hashed_param_name][f'E{E_bin}z{z_bin}']
     return res
 
