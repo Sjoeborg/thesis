@@ -99,7 +99,7 @@ def interpolate_aeff(recompute=False):
         pickle.dump(aeff_list,open('./pre_computed/aeff_interpolator.p','wb'))
     return aeff_list
 
-def get_probabilities(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4):
+def get_probabilitiesOLD(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4):
     '''
     Name of resulting .npy is the sha256 hash of the parameter dictionary used to generate the probablities.
     '''
@@ -110,6 +110,20 @@ def get_probabilities(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4)
     else:
         file_dir = f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/E{E_bin}z{z_bin}/'
     res = np.load(file_dir + filename+'.npy')
+    return res
+
+def get_probabilities(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4):
+    '''
+    Name of resulting .npy is the sha256 hash of the parameter dictionary used to generate the probablities.
+    '''
+
+    hashed_param_name = sha256(params) #Get hash of parm dict to be used as filename
+    if anti:
+        file_dir = f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/E{E_bin}z{z_bin}/'
+    else:
+        file_dir = f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/E{E_bin}z{z_bin}/'
+    df = pickle.load(open(f'{file_dir}df.p','rb'))
+    res = df[hashed_param_name][f'E{E_bin}z{z_bin}']
     return res
 
 def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,N, ndim=4):

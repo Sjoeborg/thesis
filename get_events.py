@@ -3,6 +3,9 @@ from events import list_of_params, ic_params
 from dataProcesser import generate_probabilities, get_Etrue, train_energy_resolution, get_probabilities
 import numpy as np
 import time
+import pandas as pd
+import os
+import pickle
 from multiprocessing import Pool
 parser = argparse.ArgumentParser()
 parser.add_argument('-dmFrom', default=0.1, type=float)
@@ -66,6 +69,24 @@ def precompute_probs(params=ic_params):
         for j in range(20):
             event_wrapper([i,j, 0.99, params,args.N])
 
+def gather_precomputed(npoints):
+    E_range = range(3,13)
+    z_range = range(0,20)
+    flavors = ['Pamam', 'Paeam','Pem','Pmm']
+    for flavor in flavors:
+        for En in E_range:
+            for zn in z_range:
+                filenames=[]
+                for file in os.listdir(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/'):
+                    if file.endswith('.npy'):
+                        filenames.append(file[0:-4])
+                df = pd.DataFrame(index=[f'E{En}z{zn}'], dtype='object')
+
+                for file in filenames:
+                    array = np.load(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
+                    df.insert(loc=0,column=file, value=[array])
+                pickle.dump(df,open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/df.p','wb'))
+
 
 models= train_energy_resolution()
 
@@ -84,12 +105,13 @@ if __name__ == '__main__':
         print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34=0, for N = {args.N}. s={args.s+1}/{args.sT}')
 
     split_array=  np.array_split(param_list,args.sT)[args.s]
-    '''
+    
     start = time.time()
     #p = Pool()
     for i, _ in enumerate(map(precompute_probs, split_array), 1):
         print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(split_array)))
         print(np.round((time.time() - start)/3600,1))
     #p.close()
-    print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} s')
-    '''
+    print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
+
+    gather_precomputed(args.N)

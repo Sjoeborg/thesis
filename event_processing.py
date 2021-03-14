@@ -114,16 +114,6 @@ def get_boundary(arr):
         except ValueError:
             returned.append(0)
     return np.array(returned)
-def fill_short_params(array):
-    short_list = np.array(list_of_params(ic_params, dm41_range, s24_range,s24_eq_s34=False, short=True))
-    long_list = np.array(list_of_params(ic_params, dm41_range, s24_range,s24_eq_s34=False, short=False)) 
-    full_array = np.empty(len(long_list))
-    full_array.fill(np.nan)
-    for i,item in enumerate(short_list):
-        index = np.where(item == long_list)[0].astype('int')
-        full_array[index] = array[i]
-    full_array = full_array.reshape(len(dm41_range),len(s24_range))
-    return full_array
 
 def norm_plot(simulated_events):
     normalization = IC_observed/simulated_events
@@ -170,7 +160,7 @@ def is_precomputed(N,ndim, dict, check=False):
             flavor_to  = 'm'
             try:
                 get_probabilities(flavor_from, flavor_to, 5,5,dict,anti,N)
-            except FileNotFoundError:
+            except (FileNotFoundError,KeyError):
                 if check:
                     return False
                 else:
