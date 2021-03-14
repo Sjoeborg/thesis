@@ -7,14 +7,14 @@ from multiprocessing import Pool
 parser = argparse.ArgumentParser()
 parser.add_argument('-dmFrom', default=0.1, type=float)
 parser.add_argument('-dmTo', default=10, type=float)
-parser.add_argument('-dmN', default=5, type=int)
+parser.add_argument('-dmN', default=10, type=int)
 parser.add_argument('-s24From', default=0.01, type=float)
 parser.add_argument('-s24To', default=1, type=float)
-parser.add_argument('-s24N', default=5, type=int)
+parser.add_argument('-s24N', default=10, type=int)
 parser.add_argument('-s34From', default=0.01, type=float)
 parser.add_argument('-s34To', default=1, type=float)
-parser.add_argument('-s34N', default=5, type=int)
-parser.add_argument('-N', default = 9, type=int)
+parser.add_argument('-s34N', default=10, type=int)
+parser.add_argument('-N', default = 13, type=int)
 parser.add_argument('-s', default = 0, type=int)
 parser.add_argument('-sT', default = 1, type=int)
 parser.add_argument('-s34eqs24', action='store_true')
@@ -77,14 +77,14 @@ if __name__ == '__main__':
     else:
         s34_range = np.logspace(np.log10(args.s34From),np.log10(args.s34To),args.s34N)
     if args.s34:
-        param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_eq_s34=args.s34eqs24, short=False)
-        print(f'Precomputing probabilities for dm_41({args.dmFrom},{args.dmTo},{args.dmN}), s24({args.s24From},{args.s24To},{args.s24N}), s34({args.s34From},{args.s34To},{args.s34N}), for N = {args.N}. s={args.s+1}/{args.sT}')
+        param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_eq_s34=args.s34eqs24)
+        print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34({s34_range.min()},{s24_range.max()},{len(s34_range)}), for N = {args.N}. s={args.s+1}/{args.sT}')
     else:
-        param_list = list_of_params(ic_params,dm41_range, s24_range, short=False)
-        print(f'Precomputing probabilities for dm_41({args.dmFrom},{args.dmTo},{args.dmN}), s24({args.s24From},{args.s24To},{args.s24N}), s34=0, for N = {args.N}. s={args.s+1}/{args.sT}')
+        param_list = list_of_params(ic_params,dm41_range, s24_range)
+        print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34=0, for N = {args.N}. s={args.s+1}/{args.sT}')
 
     split_array=  np.array_split(param_list,args.sT)[args.s]
-    
+    '''
     start = time.time()
     #p = Pool()
     for i, _ in enumerate(map(precompute_probs, split_array), 1):
@@ -92,4 +92,4 @@ if __name__ == '__main__':
         print(np.round((time.time() - start)/3600,1))
     #p.close()
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} s')
-    
+    '''
