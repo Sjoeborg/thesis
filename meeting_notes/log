@@ -321,3 +321,8 @@ Alternativ:
     2. Ta fram lite P för N=9 och jämför ifall dessa ändrats.
 Har nu kört events för 10x10 med N=13 istället. Det blir en bra kontur!! Ska nu kolla upp om det är någon reshape... Ifall det inte är det (typ om 10x20 också är bra), är jaglite osäker på vad jag borde göra...
 Problemet är löst! Det var en reshape som mixade elementen helt fel.
+Utan Pmt har vi ingen skillnad när s34=s24. Detta är logiskt eftersom P bara ändras för s34=2*s24 vid dessa låga dm (0.1-1 Ev2). Tre alternativ:
+    1. Skita i theta34
+    2. Ta med tau decay
+    3. Ta med cascades 
+Resonansen kommer bara i en-två hinkar. Även om eventsen blir något högre mha tau så är detta inte tillräckligt för att flytta konturen överallt eftersom effekten bara finns i en-två hinkar, och bara för högre (>0.5 dm41). Simulera för N=13, 7x7x7 med fri s34, och N=13 20x30x30 där 2*s24=s34

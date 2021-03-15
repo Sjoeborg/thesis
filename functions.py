@@ -316,7 +316,7 @@ def V(r, material='earth'):
     Takes the distance from the Earth's core in [km] and returns the CC potential(+) and NC potential(-) in [GeV].
     '''
     if material == 'earth':
-        rho = rho_earth(r)[1]
+        rho = rho_earth(r)
     elif type(material) is float:
         rho = material
     elif material == 'vac':

@@ -21,6 +21,7 @@ parser.add_argument('-N', default = 13, type=int)
 parser.add_argument('-s', default = 0, type=int)
 parser.add_argument('-sT', default = 1, type=int)
 parser.add_argument('-s34eqs24', action='store_true')
+parser.add_argument('-s342xs24', action='store_true')
 parser.add_argument('-s34', action='store_true')
 
 args = parser.parse_args()
@@ -89,6 +90,9 @@ if __name__ == '__main__':
     elif args.s34eqs24:
         param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_eq_s34=args.s34eqs24)
         print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34=s24, for N = {args.N}. s={args.s+1}/{args.sT}')
+    elif args.s342xs24:
+        param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_2x_s34=args.s342xs24)
+        print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34=2*s24, for N = {args.N}. s={args.s+1}/{args.sT}')
     else:
         param_list = list_of_params(ic_params,dm41_range, s24_range)
         print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34=0, for N = {args.N}. s={args.s+1}/{args.sT}')

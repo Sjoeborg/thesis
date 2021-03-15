@@ -7,7 +7,7 @@ import time
 from scipy.stats import lognorm
 
 
-def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shift_parameters=[False, 2e3, 0.02], null=False):
+def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shift_parameters=[False, 2e3, 0.02], null=False, tau=False):
     '''
     Assume zr == zt, and thus the zenith resolution function is 1.
     '''
@@ -66,23 +66,22 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
             generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
             P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints)
 
-        
-        '''
-        try:
-            Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints)
-        except FileNotFoundError:
-            generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
-            Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints)
+        if tau:
+            try:
+                Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints)
+            except FileNotFoundError:
+                generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
+                Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints)
 
-        try:
-            P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints)
-        except FileNotFoundError:
-            generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
-            P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints)
+            try:
+                P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints)
+            except FileNotFoundError:
+                generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
+                P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints)
 
-        Pmm = Pmm + 0.1739*Pmt
-        P_amam = P_amam + 0.1739*P_amat
-        '''
+            Pmm = Pmm + 0.1739*Pmt
+            P_amam = P_amam + 0.1739*P_amat
+    
 
         flux_e = get_flux('e',Et_mesh,zr_mesh,interp_flux)
         flux_ebar = get_flux('ebar',Et_mesh,zr_mesh,interp_flux)
@@ -101,18 +100,18 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
 
 
 def event_wrapper(param_list):
-    E_index,z_index, alpha, params, npoints, null, spectral = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4], param_list[5], param_list[6]
-    return get_events(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha, null=null, spectral_shift_parameters=spectral)
+    E_index,z_index, alpha, params, npoints, null, spectral, tau = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4], param_list[5], param_list[6], param_list[7]
+    return get_events(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha, null=null, spectral_shift_parameters=spectral, tau=tau)
 
-def sim_events(alpha, npoints, params=ic_params, null = False,multi=True, spectral_shift=[False, 2e3, 0.02]):
+def sim_events(alpha, npoints, params=ic_params, null = False,multi=True, spectral_shift=[False, 2e3, 0.02], tau=False):
     res = np.empty((10,20))
     E_z_combinations =[] 
     for i in range(3,13):
         for j in range(20):
             if multi:
-                E_z_combinations.append([i,j, alpha, params,npoints, null, spectral_shift])
+                E_z_combinations.append([i,j, alpha, params,npoints, null, spectral_shift, tau])
             if not multi:
-                res[i-3][j] = event_wrapper([i,j, alpha, params,npoints, null, spectral_shift])
+                res[i-3][j] = event_wrapper([i,j, alpha, params,npoints, null, spectral_shift,tau])
     if multi:
         p = Pool()
         res = p.map(event_wrapper, E_z_combinations)
@@ -125,13 +124,15 @@ def wrap(p):
     return sim_events(0.99,25, multi=True, params=p)
 
 
-def list_of_params(dict,dm_range, s24_range, s34_range=None, s24_eq_s34=False):
+def list_of_params(dict,dm_range, s24_range, s34_range=None, s24_eq_s34=False, s24_2x_s34=False):
     def update_dict(dict,p):
         dict2 = dict.copy()
         dict2.update(p)
         return dict2
     if s24_eq_s34:
         dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2, 'theta_34': np.arcsin(np.sqrt(k))/2}) for k in s24_range for v in dm_range]
+    elif s24_2x_s34:
+        dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2, 'theta_34': 2*np.arcsin(np.sqrt(k))/2}) for k in s24_range for v in dm_range]
     elif s34_range is not None:
         dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2, 'theta_34': np.arcsin(np.sqrt(j))/2}) for j in s34_range for k in s24_range for v in dm_range]
     else:

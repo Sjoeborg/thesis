@@ -1,5 +1,5 @@
 import numpy as np
-from functions import V,dm, mass_dict, U_nu,theta,param_dict,GeV2tokm1,get_radial_distance,r_earth
+from functions import V,dm, mass_dict,theta,param_dict,GeV2tokm1,get_radial_distance,r_earth
         
 def P_an(flavor_from, flavor_to, param, E=None, L=None,  param_min=None, param_max=None, material='vac',earth_start = 0, ndim = 3, anti=False, theta_i=0, npoints=500, params=param_dict):
     '''

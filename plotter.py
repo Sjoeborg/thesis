@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from numerical import P_num, P_num_over_E_single
+from numerical import P_num, P_num_over_E
 from analytical import P_an
 from functions import ic_params,r_earth
 import matplotlib
@@ -59,7 +59,7 @@ def P_over_E_parameter(flavor_from, param_dict_list, E_range, L=2*r_earth, theta
     '''
     global P_num_over_E_wrapper # Needed for wrapper to work with p.map
     def P_num_over_E_wrapper(p):
-        return P_num_over_E_single(flavor_from=flavor_from, E=E_range,  L=L,earth_start = earth_start, ndim = ndim,vacuum=vacuum,params=p, eval_at=eval_at,anti=anti, theta_i=theta_i)
+        return P_num_over_E(flavor_from=flavor_from, E=E_range,  L=L,earth_start = earth_start, ndim = ndim,vacuum=vacuum,params=p, eval_at=eval_at,anti=anti, theta_i=theta_i)
     #p = Pool()
     res = []
     for p in param_dict_list:
