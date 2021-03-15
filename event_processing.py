@@ -108,10 +108,10 @@ def count_plots(H1,H0):
 
 def get_boundary(arr):
     returned = []
-    for i in range(len(arr)):
+    for i in range(arr.shape[1]):
         try:
             returned.append((np.max(np.nonzero(arr[:,i]==True))+1))
-        except ValueError:
+        except (ValueError):
             returned.append(0)
     return np.array(returned)
 
@@ -193,7 +193,7 @@ def get_contour(H1_list_normalized,dm41_range,s24_range, delta_T, sigma = [0.25,
 
     best_fit_index = np.argmin(delta_chi)
 
-    deltachi_reshaped = delta_chi.reshape(len(dm41_range),len(s24_range))
+    deltachi_reshaped = delta_chi.reshape(len(s24_range),len(dm41_range))
 
     cl_99_bool = np.where(deltachi_reshaped < chi2.ppf(q = 0.99,df=2),True,False)
     cl_90_bool = np.where(deltachi_reshaped < chi2.ppf(q = 0.90,df=2),True,False)

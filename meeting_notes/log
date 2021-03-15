@@ -304,3 +304,20 @@ Otherwise, leave 3+1 and
     1. NSI. Look up armands and marfatias papers on NSI. See which epsilon that affects Pmm.
     2. 3+2. Easy theory, but have more parameters that we need to fix beforehand.
     3. Lorentz invariance breaking / non-unitarity
+
+15 Mar
+Med en two-flavor approximation för atmospheric oscillations beror Pmm på ett, emt, och emm. Alltså tre extra parametrar.
+Hur påverkar nsis vår cross-section/effective area?
+Den nya simuleringen med N=13, s34=0, och högre upplösning ger en dålig kontur. Vad kan ha ändrats?
+Gamla simuleringar med N=9 och N=21 ger bra konturer. Alltså borde inte förändringen i N vara boven.
+Har tidigare sett att högre upplösning kan ge lite annan kontur. Kanske ska hålla mig till 10x10.
+Denna upplösning är inte symmetrisk. Jag kan ha gjort fel i någon reshape och inte märkt det eftersom tidigare simuleringar varit symmetriska. 
+Det jag är mest rädd för är att event-koden ka ha ändrats under tiden. Jag har ju ändrat hur U tas fram och hur U och M kommer in i numeriska koden. Jag tyckte dock att jag kollade att denna optimering 
+inte påverkade P...
+
+Alternativ:
+    1. Simulera för N=13 med 10x10 och kanse även för N=11 med 10x10. Ifall dessa fortfarande är dåliga ligger problemet i ny P-kod. -> rollback av P . Om dom är bra betyder det
+        att jag måste vara försktig med min upplösning
+    2. Ta fram lite P för N=9 och jämför ifall dessa ändrats.
+Har nu kört events för 10x10 med N=13 istället. Det blir en bra kontur!! Ska nu kolla upp om det är någon reshape... Ifall det inte är det (typ om 10x20 också är bra), är jaglite osäker på vad jag borde göra...
+Problemet är löst! Det var en reshape som mixade elementen helt fel.

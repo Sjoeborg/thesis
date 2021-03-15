@@ -53,7 +53,7 @@ ic_params.update({'theta_12': np.arcsin(np.sqrt(0.846))/2, 'theta_23': np.arcsin
 ic_params.update({'theta_14': 0, 'theta_24': np.arcsin(np.sqrt(0.10))/2, 'theta_34': 0, 'dm_41': 4.5})
 
 #---- Mixing parameters and matrices -------
-def dm_vac(first, second,params=param_dict): #dm_ij = dm_kj - dm_ki, dm_ij = -dm_ji
+def dm(first, second,params=param_dict): #dm_ij = dm_kj - dm_ki, dm_ij = -dm_ji
     if first == 1: # m_1j
         if second == 2: #m_k2
             return -params['dm_21']
@@ -141,19 +141,9 @@ def dm_vac(first, second,params=param_dict): #dm_ij = dm_kj - dm_ki, dm_ij = -dm
         raise ValueError(f'dm() recieved faulty args {first}, {second}')
 
 
-def dm(first, second,A=0, params=param_dict): # 0709.1937 99.67
-    '''
-    Takes A in GeV^2, converts it to eV^2 and returns the dm_M in eV^2
-    '''
-    dm_v = dm_vac(first,second, params=params)
-    if A == 0: # do this check because sqrt removes sign. Accefts ordering
-        return dm_v
-    else: 
-        print('dm_M only valid for 2 generations')
-        return np.sqrt( (dm_v * np.cos(2*theta(second, first,params=params)) -1e18*A)**2 + (dm_v * np.sin(2*theta(second, first, params=params)))**2)
 
 
-def theta(first, second, A = 0, params=param_dict):
+def theta(first, second, params=param_dict):
     if first == 1: # th_1j
         if second == 2: #th_k2
             th = params['theta_12']
@@ -204,11 +194,7 @@ def theta(first, second, A = 0, params=param_dict):
     
     else:
         raise ValueError(f'theta() recieved faulty args {first}, {second}')
-    if A != 0: #0709.1937 eq 9
-        th_M = np.arcsin(np.sin(2*th) * dm(second, first, params=params) / dm(second, first, A=A, params=params)) / 2
-        return th_M
-    else:
-        return th
+    return th
 
 def R23_3(theta):
   return np.array([[ 1,             0,             0],
@@ -222,7 +208,6 @@ def R12_3(theta):
   return np.array([[ np.cos(theta),  np.sin(theta), 0],
                    [ -np.sin(theta), np.cos(theta), 0],
                    [ 0             , 0            , 1 ]])
-
 
 def R23_4(theta):
   return np.array([[ 1,             0,             0, 0],
@@ -261,33 +246,11 @@ def U_4(params=param_dict):
     '''
     return R34_4(params['theta_34'])@ R24_4(params['theta_24'])@R14_4(params['theta_14']) @ R23_4(params['theta_23']) @ R13_4(params['theta_13']) @ R12_4(params['theta_12'])
 
-
-def U_nu(flavor_from=None, flavor_to=None, A = 0, ndim=3, params=param_dict):
-    if ndim == 3:
-        atm_lbl = np.array([[1, 0, 0],
-                       [0, np.cos(theta(2,3,A, params=params)), np.sin(theta(2,3,A, params=params))],
-                       [0, -np.sin(theta(2,3,A, params=params)), np.cos(theta(2,3,A, params=params))]])
-        reactor = np.array([[np.cos(theta(1,3,A, params=params)), 0, np.sin(theta(1,3,A, params=params))],
-                            [0, 1, 0],
-                            [-np.sin(theta(1,3,A, params=params)), 0, np.cos(theta(1,3,A, params=params))]])
-        solar = np.array([[np.cos(theta(1,2,A, params=params)), np.sin(theta(1,2,A, params=params)), 0],
-                        [-np.sin(theta(1,2,A, params=params)), np.cos(theta(1,2,A, params=params)), 0],
-                        [0, 0, 1]])
-        return atm_lbl @ reactor @ solar
-        
-    elif ndim == 2:
-        alpha = mass_dict[flavor_from]
-        beta = mass_dict[flavor_to]
-        if alpha == beta:
-            raise ValueError('U_nu only takes different flavors for 2D. To get survival, use 1-P_ab instad')
-        return np.array([[np.cos(theta(alpha+1,beta+1, A, params=params)), np.sin(theta(alpha+1,beta+1, A, params=params))],
-                        [-np.sin(theta(alpha+1,beta+1, A, params=params)), np.cos(theta(alpha+1,beta+1, A, params=params))]])
-
-    elif ndim == 4: # Blennow 78:807 eq 2
-        return V_matrix(3,4,A,1, params=params) @ V_matrix(2,4,A,1, params=params) @ V_matrix(1,4,A,1, params=params) @ V_matrix(2,3,A,1, params=params) @ V_matrix(1,3,A,1, params=params)@ V_matrix(1,2,A,1, params=params)
-
-    elif ndim == 5: # Kopp eq 2.6
-        return V_matrix(3,5,A,2, params=params) @ V_matrix(2,5,A,2, params=params) @ V_matrix(1,5,A,2, params=params) @ V_matrix(3,4,A,2, params=params) @ V_matrix(2,4,A,2, params=params) @ V_matrix(1,4,A,2, params=params) @ V_matrix(2,3,A,2, params=params) @ V_matrix(1,3,A,2, params=params)@ V_matrix(1,2,A,2, params=params)
+def U_3(params=param_dict):
+    '''
+    Returns the 3x3 mixing matrix defined in PDG.
+    '''
+    return R23_4(params['theta_23']) @ R13_4(params['theta_13']) @ R12_4(params['theta_12'])
 
 
 def V_ijab(i,j,a,b, A=0, params=param_dict): # Blennow 78:807
@@ -317,7 +280,7 @@ def V_matrix(i,j, A=0, n = 0, params=param_dict): # Blennow 78:807
 def rho_earth(r):# lä 1306.2903 och 0612285 ocg kuo
     '''
     Calculates the density in g/cm-3 of the point at a distance r in km from the Earth's center using data from PREM https://www.cfa.harvard.edu/~lzeng/papers/PREM.pdf
-    Returns the tuple (integrated density, density in gcm-3, derivative of density)
+    Returns the density in gm/cm-3
     '''
     
     if not np.isscalar(r): #If r is array, return list of densities.
@@ -325,27 +288,27 @@ def rho_earth(r):# lä 1306.2903 och 0612285 ocg kuo
     
     x = r / r_earth #Normalized Earth radius in km
     if 0 <= r < 1221.5:
-        return (13.0885*x - 8.8381*x**3/3, 13.0885 - 8.8381*x**2, - 2*8.8381*x)
+        return 13.0885 - 8.8381*x**2
     elif 1221.5 <= r < 3480.0:
-        return (12.5815*x - 1.2638*x**2/2 - 3.6426*x**3/3 - 5.5281*x**4/4, 12.5815 - 1.2638*x - 3.6426*x**2 - 5.5281*x**3, - 1.2638 - 2*3.6426*x - 3*5.5281*x**2)
+        return 12.5815 - 1.2638*x - 3.6426*x**2 - 5.5281*x**3
     elif 3480.0 <= r  < 5701.0:
-        return (7.9565*x - 6.4761*x**2/2 + 5.5283*x**3/3 - 3.0807*x**4/4, 7.9565 - 6.4761*x + 5.5283*x**2 - 3.0807*x**3, - 6.4761 + 2*5.5283*x - 3*3.0807*x**2)
+        return 7.9565 - 6.4761*x + 5.5283*x**2 - 3.0807*x**3
     elif 5701.0 <= r < 5771.0:
-        return (5.3197*x - 1.4836*x**2/2, 5.3197 - 1.4836*x, - 1.4836)
+        return 5.3197 - 1.4836*x
     elif 5771.0 <= r < 5971.0:
-        return (11.2494*x - 8.0298*x**2/2, 11.2494 - 8.0298*x, - 8.0298)
+        return 11.2494 - 8.0298*x
     elif 5971.0 <= r < 6151.0:
-        return (7.1089*x - 3.8045*x**2/2, 7.1089 - 3.8045*x, - 3.8045)
+        return 7.1089 - 3.8045*x
     elif 6151.0 <= r < 6346.6:
-        return (2.6910*x + 0.6924*x**2/2, 2.6910 + 0.6924*x, 0.6924)
+        return 2.6910 + 0.6924*x
     elif 6346.6 <= r < 6356.0:
-        return (2.9*x, 2.9, 0)
+        return 2.9
     elif 6356.0 <= r < 6368.0:
-        return (2.6*x, 2.6, 0)
+        return 2.6
     elif 6368.0 <= r < r_earth:
-        return (1.020*x, 1.020, 0)
+        return 1.020
     else:
-        return (0.0, 0.0, 0.0)
+        return 0.0
 
 
 def V(r, material='earth'):
