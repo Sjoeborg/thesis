@@ -68,7 +68,7 @@ def P_over_E_parameter(flavor_from, param_dict_list, E, zenith = -1, ndim = 3, a
 
     P_list = []
     for i in range(len(param_dict_list)): # Splits result list into x and y
-            P_list.append(res[i])
+        P_list.append(res[i])
     return np.array(P_list)
 
 
@@ -88,14 +88,42 @@ def plot_P_E_params(x,P, ax,flavor_to='m',colors=None,legend_name='', legend_val
     ax.set_title(f'{title}')
     ax.legend()
 
-def wrap(z):
-    return P_num_over_E(flavor_from='m', E=np.logspace(3,4,50), zenith=z, ndim = 4,anti=False,params=ic_params)
-def oscillogram(z):
+def wrap(flavor_from, E, zenith, ndim, anti,params,nsi):
+    return P_num_over_E(flavor_from=flavor_from, E=E, zenith=zenith, ndim = ndim,anti=anti,params=params, nsi=nsi)
+
+def _oscillogram(p_list):
+    '''
+    p = [flavor_from, E, zenith, ndim, anti, params]
+    '''
     p = Pool() 
-    res = p.map(wrap, z)
+    res = p.starmap(wrap, p_list)
     Pmm = np.array(res)[:,1,:]
     p.close()
     return Pmm.T
+
+def oscillogram(E_range, z_range, params, nsi=False):
+    '''
+    fig, ax = plt.subplots(1, figsize=(8,6))
+    c=ax.pcolormesh(z_range, E_range,P,cmap='jet', shading='auto')
+    ax.set_yscale('log')
+    fig.colorbar(c, ax=ax)
+    '''
+    lista_m = [['m', E_range, z, 4, True, params,nsi] for z in z_range]
+    lista_e = [['e', E_range, z, 4, True, params,nsi] for z in z_range]
+    Pmm = _oscillogram(lista_m)
+    Pem = _oscillogram(lista_e)
+
+    from events import get_interpolators, get_flux
+    interp_flux, interp_aeff, energy_resolution_models = get_interpolators()
+    E_mesh, z_mesh = np.meshgrid(E_range, z_range)
+    flux_mbar = get_flux('mbar',E_mesh,z_mesh,interp_flux)
+    flux_ebar = get_flux('ebar',E_mesh,z_mesh,interp_flux)
+
+    flux_initial = flux_mbar + flux_ebar
+    flux_final = flux_mbar*Pmm + flux_ebar*Pem
+
+    return 1-flux_final/flux_initial
+
 
 
 

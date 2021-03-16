@@ -169,4 +169,4 @@ def wrapper(p):
 if __name__== '__main__':
     from functions import ic_params
     params=ic_params
-    print(wrapper(['m',[2e2],-1,True,params,4]))
+    print(P_num_over_E('m', E=[8e2],ndim=4, params=ic_params, zenith=-1))

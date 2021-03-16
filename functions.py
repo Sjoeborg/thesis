@@ -43,7 +43,8 @@ param_dict= {'theta_12': theta_12,
 ic_params = param_dict.copy() #IC2020 companion paper cites PDG 2014
 ic_params.update({'theta_12': np.arcsin(np.sqrt(0.846))/2, 'theta_23': np.arcsin(np.sqrt(0.999))/2, 'theta_13': np.arcsin(np.sqrt(9.3e-2))/2, 'dm_21': 7.53e-5, 'dm_31': 7.53e-5 + 2.44e-3})
 ic_params.update({'theta_14': 0, 'theta_24': np.arcsin(np.sqrt(0.10))/2, 'theta_34': 0, 'dm_41': 4.5})
-ic_params.update({'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
+ic_params_nsi = ic_params.copy()
+ic_params_nsi.update({'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
 #---- Mixing parameters and matrices -------
 def dm(first, second,params=param_dict): #dm_ij = dm_kj - dm_ki, dm_ij = -dm_ji
     if first == 1: # m_1j
@@ -322,6 +323,7 @@ def V(r, material='earth'):
 def baseline(theta_i):
     h = 15 # Production height
     r = np.sqrt((r_earth+h)**2 - r_earth**2*np.sin(theta_i)**2) - r_earth*np.cos(theta_i)
+    r= 2*r_earth*np.cos(theta_i)
     return r
 
 def get_radial_distance(x,theta_i):

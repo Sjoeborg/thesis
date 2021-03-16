@@ -145,10 +145,4 @@ def spectral_shift_factor(E, E_pivot=2e3, delta_gamma=0.02):
 
 interp_flux, interp_aeff, energy_resolution_models = get_interpolators()
 if __name__ == '__main__':
-
-    start = time.time()    
-    dm41_range = np.logspace(-1,0,10)
-    s24_range = np.logspace(-2,0,10)
-    param_list = list_of_params(ic_params,dm41_range, s24_range,s24_range, short=True)
-    print(get_events(5, 5, 0.99, 21, params=param_list[0], spectral_shift_parameters=[True, 2e3, 0.1], null=True))
-    print(get_events(5, 5, 0.99, 21, params=param_list[0], spectral_shift_parameters=[False, 2e3, 0.1], null=True))
+    pass
