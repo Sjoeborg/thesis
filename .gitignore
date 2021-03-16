@@ -13,6 +13,7 @@
 .*.lb
 energy_resolution_models.p
 pre_computed/4gen
+old/4gen
 *.err
 *.sh
 *.zip

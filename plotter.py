@@ -99,7 +99,7 @@ def _oscillogram(p_list):
     res = p.starmap(wrap, p_list)
     Pmm = np.array(res)[:,1,:]
     p.close()
-    return Pmm.T
+    return Pmm
 
 def oscillogram(E_range, z_range, params, nsi=False):
     '''
