@@ -25,15 +25,7 @@ theta_34 = np.arcsin(np.sqrt(0.00))
 
 
 dm_41 = -1
-U_e4 = 0.0225 # abs^2 1202.1024
-U_m4 = 0.0289 # abs^2 1202.1024
-# 2008.12769 DUNE 90% CL
-a_ee = 0.3
-a_mm = 0.2
-a_tt = 0.8
-a_me = 0.04
-a_te = 0.7
-a_tm = 0.2
+
 
 
 GeVtocm1 = e / (c*hbar) *1e7 # 
@@ -51,7 +43,7 @@ param_dict= {'theta_12': theta_12,
 ic_params = param_dict.copy() #IC2020 companion paper cites PDG 2014
 ic_params.update({'theta_12': np.arcsin(np.sqrt(0.846))/2, 'theta_23': np.arcsin(np.sqrt(0.999))/2, 'theta_13': np.arcsin(np.sqrt(9.3e-2))/2, 'dm_21': 7.53e-5, 'dm_31': 7.53e-5 + 2.44e-3})
 ic_params.update({'theta_14': 0, 'theta_24': np.arcsin(np.sqrt(0.10))/2, 'theta_34': 0, 'dm_41': 4.5})
-
+ic_params.update({'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
 #---- Mixing parameters and matrices -------
 def dm(first, second,params=param_dict): #dm_ij = dm_kj - dm_ki, dm_ij = -dm_ji
     if first == 1: # m_1j
@@ -250,7 +242,7 @@ def U_3(params=param_dict):
     '''
     Returns the 3x3 mixing matrix defined in PDG.
     '''
-    return R23_4(params['theta_23']) @ R13_4(params['theta_13']) @ R12_4(params['theta_12'])
+    return R23_3(params['theta_23']) @ R13_3(params['theta_13']) @ R12_3(params['theta_12'])
 
 
 def V_ijab(i,j,a,b, A=0, params=param_dict): # Blennow 78:807
@@ -327,29 +319,17 @@ def V(r, material='earth'):
     return V_cc, V_nc 
 
 
+def baseline(theta_i):
+    return 2*r_earth*np.abs(np.cos(theta_i))
+
 def get_radial_distance(x,theta_i):
     '''
     Returns the distance to the Earth core in [km] for a baseline x [km] and a zenith angle theta_i
     '''
-    x = 2*r_earth - x # Flip, otherwise we go from Earth out to infinity.
-    L = 2*r_earth / (np.cos(theta_i) + np.sin(theta_i)*np.tan(theta_i))
+    L = baseline(theta_i)
     r = np.sqrt((L-x)**2 + r_earth**2 - 2*(L-x)*r_earth*np.cos(theta_i))
-
+    #assert not np.isnan(r), f'Solver gave get_radial_distance() x={x}, theta={theta_i}, which evaluates to nan'
     return r
-
-
-def baseline(theta):
-    '''
-    Returns the distance [km] travelled. Should be equivalent to get_radial_distance for h=0, L=2*r_earth
-    TODO: maybe fix this
-    '''
-    production_height = 15. # Assuming neutrino produced 15 km above surface
-    detector_depth = 1. # Assuming detector depth of 1 km
-    z = np.cos(theta)
-    return np.sqrt((r_earth + production_height)**2 - r_earth**2*np.sin(theta)**2) - r_earth*np.cos(theta)
-    #return -r_earth*z +  np.sqrt( (r_earth + production_height)**2 - r_earth**2*np.sin(theta)**2 )
-    #np.sqrt((r_earth + h)**2 - r_earth**2*np.sin(theta)**2) - r_earth*np.cos(theta)
-
 
 def get_electron_density(r):
     '''
@@ -426,10 +406,10 @@ def integrate(array,method='simps',*args):
     elif np.ndim(array) == 4:
         return simps(simps(simps(simps(array,args[0]),args[1]),args[2]),args[3])
 if __name__ == '__main__':
-    events = np.array([[3,4],[5,1]])
-    events_gamma = np.array([[4,6],[6,2]])
-    sigma_g = (np.sum(events)- np.sum(events_gamma))/np.sum(events)
-    data = np.array([[4,8],[4,1]])
-    #print(chisq(params=np.array([1,0,0]),events=events, data=data,z = np.array([-0.5,-0.6]),sigma_a=0.25, sigma_b=0.15, sigma_g=sigma_g, sigma_syst=0))
-    print(perform_chisq(x0=np.array([1,0,0]),events=events, data=data,z = np.array([-0.5,-0.6]),sigma_a=0.25, sigma_b=0.15, sigma_g=sigma_g, sigma_syst=0))
-    print(perform_chisq_S(x0=np.array([1,0,0]),events=events, data=data,z = np.array([-0.5,-0.6]),sigma_a=0.25, sigma_b=0.15, sigma_g=sigma_g, sigma_syst=0))
+    import matplotlib.pyplot as plt
+    theta_i = np.pi - np.arccos(-0.83)
+    x = np.linspace(0,baseline(theta_i),100)
+    r = get_radial_distance(x,theta_i)
+    #plt.plot(x,r)
+    plt.plot(x,rho_earth(r))
+    plt.show()

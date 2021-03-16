@@ -204,4 +204,4 @@ def get_contour(H1_list_normalized,dm41_range,s24_range, delta_T, sigma = [0.25,
     dm41_cl99_index = np.linspace(0,len(s24_cl99_index)-1,len(s24_cl99_index)).astype('int')
 
 
-    return s24_range[s24_cl90_index], s24_range[s24_cl99_index], dm41_range[dm41_cl90_index], dm41_range[dm41_cl99_index]
+    return s24_range[s24_cl90_index], s24_range[s24_cl99_index], dm41_range[dm41_cl90_index], dm41_range[dm41_cl99_index], best_fit_index

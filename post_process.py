@@ -6,6 +6,7 @@ import pickle
 parser = argparse.ArgumentParser()
 parser.add_argument('-N', default = 13, type=int)
 parser.add_argument('-u', action='store_true')
+parser.add_argument('-d', action='store_true')
 args = parser.parse_args()
 E_range = range(3,13)
 z_range = range(0,20)
@@ -33,6 +34,9 @@ def gather_precomputed(npoints=args.N, update=args.u):
                             if update:  # If entry already exists, overwrite/update it
                                 df[file][f'E{En}z{zn}'] = array
                     pickle.dump(df,open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','wb'))
+                    if args.d:
+                        for file in filenames:
+                            os.remove(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
                 except FileNotFoundError:
                     pass
 
@@ -66,4 +70,4 @@ def delete_files(npoints=args.N):
                     pass
 if __name__ == '__main__':
     gather_precomputed(args.N)
-    delete_files(args.N)
+    #delete_files(args.N)

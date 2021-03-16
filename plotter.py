@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numerical import P_num, P_num_over_E
 from analytical import P_an
-from functions import ic_params,r_earth
+from functions import ic_params,r_earth, mass_dict
 import matplotlib
 from multiprocessing import Pool
 matplotlib.rcParams['mathtext.fontset'] = 'cm'
@@ -53,13 +53,13 @@ def compare_an_nu(flavor_from_list, flavor_to_list, param, material,E=None, L=No
 
 
 
-def P_over_E_parameter(flavor_from, param_dict_list, E_range, L=2*r_earth, theta_i = 0, earth_start = 0, ndim = 3,vacuum=False, eval_at=2*r_earth, anti=False):
+def P_over_E_parameter(flavor_from, param_dict_list, E, zenith = -1, ndim = 3, anti=False, nsi=False, tols=(1e-4,1e-7)):
     '''
     Returns the range of energies and the list of all flavour oscillation probabilities. Uses all cores locally or on techila (type='local'/'cloud')
     '''
     global P_num_over_E_wrapper # Needed for wrapper to work with p.map
     def P_num_over_E_wrapper(p):
-        return P_num_over_E(flavor_from=flavor_from, E=E_range,  L=L,earth_start = earth_start, ndim = ndim,vacuum=vacuum,params=p, eval_at=eval_at,anti=anti, theta_i=theta_i)
+        return P_num_over_E(flavor_from=flavor_from, E=E, ndim = ndim,params=p, anti=anti, zenith=zenith,nsi=nsi, tols=tols)
     #p = Pool()
     res = []
     for p in param_dict_list:
@@ -77,7 +77,7 @@ def plot_P_E_params(x,P, ax,flavor_to='m',colors=None,legend_name='', legend_val
         colors = ['black','blue','red','green','brown']
     beta = mass_dict[flavor_to]
     for i in range(len(legend_values)):
-        ax.plot(x[i]/1e3, P[i][beta],label=f'{legend_name} = {np.round(legend_values[i],2)}', color=colors[i])
+        ax.plot(x/1e3, P[i][beta],label=f'{legend_name} = {np.round(legend_values[i],2)}', color=colors[i])
         ax.tick_params(axis='y', which='major', length = 5, direction='in',right=True)
         ax.tick_params(axis='y', which='minor', length = 2, direction='in',right=True)
     ax.set_xlabel(f'{xlabel}')
@@ -89,7 +89,7 @@ def plot_P_E_params(x,P, ax,flavor_to='m',colors=None,legend_name='', legend_val
     ax.legend()
 
 def wrap(z):
-    return P_num_over_E_single(flavor_from='m', E=np.logspace(3,4,50), theta_i=np.pi - np.arccos(z), ndim = 4,anti=False,params=ic_params)
+    return P_num_over_E(flavor_from='m', E=np.logspace(3,4,50), zenith=z, ndim = 4,anti=False,params=ic_params)
 def oscillogram(z):
     p = Pool() 
     res = p.map(wrap, z)

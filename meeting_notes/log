@@ -325,4 +325,15 @@ Utan Pmt har vi ingen skillnad när s34=s24. Detta är logiskt eftersom P bara �
     1. Skita i theta34
     2. Ta med tau decay
     3. Ta med cascades 
-Resonansen kommer bara i en-två hinkar. Även om eventsen blir något högre mha tau så är detta inte tillräckligt för att flytta konturen överallt eftersom effekten bara finns i en-två hinkar, och bara för högre (>0.5 dm41). Simulera för N=13, 7x7x7 med fri s34, och N=13 20x30x30 där 2*s24=s34
+Resonansen kommer bara i en-två hinkar. Även om eventsen blir något högre mha tau så är detta inte tillräckligt för att flytta konturen överallt eftersom effekten bara finns i en-två hinkar, och bara för högre (>0.5 dm41). Simulera N=13 20x30x30 där 2*s24=s34.
+Efter detta kan jag prata med S och visa att theta34 inte ger så stort grafiskt utslag. Först efter den diskussionen vill jag marginalisera. Kan visa henne min 7x7x7-plot för N=9.
+Gör inget mer med th34 tills dess. 
+
+16 Mar
+Mina plots stämmer bra överens vid z=-1, men både NSI och 3+1 är helt off för E<1TeV vid z=-0.8. 
+Skillnader:
+    1. Baseline. Vid z=-0.8 färdas ju neutrinon kortare. Jag har tidigare jämfört detta med smirnov, så konstigt om det inte skulle funka nu. Har doch ändrat theta -> zenith. Ändra tillbaka?
+    2. Mean density. Har dubbelkollat PREM. Globes kanske tar härsyn till något annat?
+    3. 
+Har fixat radie-funktionen, men ingen skillnad. Dock så ger den korrekt core-mantle boundary vid z=-0.83, så den borde vara rätt.
+Fixat! Problemet var att ekvationen integrerades i 12 km oavsett zenith. Nu borde alla P behöva räknas om :))

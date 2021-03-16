@@ -1,5 +1,8 @@
 # Plots for Smirnov 2013
-from main import *
+import numpy as np 
+import matplotlib.pyplot as plt
+from functions import param_dict
+from plotter import P_over_E_parameter
 if __name__ == '__main__':
     E_range = np.linspace(0.1e3,7e3,100)
     sin_34 = [0,0.1,0.2,0.3,0.5]

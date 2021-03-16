@@ -24,14 +24,27 @@ def H_3(A_cc,U,M, params=param_dict):
     return H
 
 def E_3(A_cc, params):
-    H_eps =np.array([[params['e_ee'], params['e_em'], params['e_et']],
+    H_eps =np.array([[params['e_ee'], params['e_me'], params['e_et']],
                      [params['e_me'], params['e_mm'], params['e_mt']],
-                     [params['e_te'], params['e_tm'], params['e_tt']]])
+                     [params['e_et'], params['e_mt'], params['e_tt']]])
     return 1e18*A_cc*H_eps
 
-def H_3_NSI(A_cc,U,M, params):
+def E_4(A_cc, A_nc, params):
+    H_eps =np.array([[params['e_ee'], params['e_me'], params['e_et'], params['e_es']],
+                     [params['e_me'], params['e_mm'], params['e_mt'], params['e_ms']],
+                     [params['e_et'], params['e_mt'], params['e_tt'], params['e_ts']],
+                     [params['e_es'], params['e_ms'], params['e_ts'], params['e_ss']]])
+    return 1e18*A_cc*H_eps
+
+def H_3_nsi(A_cc,U,M, params):
     H = H_3(A_cc,U,M,params)
     H_eps = E_3(A_cc,params)
+
+    return H + H_eps
+
+def H_4_nsi(A_cc,A_nc,U,M, params):
+    H = H_4(A_cc,A_nc,U,M,params)
+    H_eps = E_4(A_cc,A_nc,params)
 
     return H + H_eps
 
@@ -65,7 +78,7 @@ def H_5(A_cc,A_nc, params=param_dict):#0709.1937 eq 5
 
 
 
-def evolve(t, state, flavor_from, flavor_to,E, U,M,ndim, theta_i, material='vac',anti=False,params=param_dict, NSI=False):
+def evolve(t, state, flavor_from, flavor_to,E, U,M,ndim, theta_i, material='vac',anti=False,params=param_dict, nsi=False):
     if anti:
         sign = -1
     else:
@@ -75,13 +88,16 @@ def evolve(t, state, flavor_from, flavor_to,E, U,M,ndim, theta_i, material='vac'
     A_cc = sign * 2 * E * V_cc #giunti 332.
     A_nc = -sign * 2 * E * V_nc #sandhya convention
     if ndim == 3:
-        if NSI:
-            H = H_3_NSI(A_cc,U=U, M=M, params=params)
+        if nsi:
+            H = H_3_nsi(A_cc,U=U, M=M, params=params)
         else:
             H = H_3(A_cc,U=U, M=M, params=params)
         RHS = -1j/(2*E) * H
     elif ndim == 4:
-        H = H_4(A_cc,A_nc, U=U, M=M, params=params)
+        if nsi:
+            H = H_4_nsi(A_cc,A_nc,U=U, M=M, params=params)
+        else:
+            H = H_4(A_cc,A_nc, U=U, M=M, params=params)
         RHS = -1j/(2*E) * H
     elif ndim == 2: #giunti 9.59
         H = H_2(flavor_from, flavor_to,A_cc, params=params)
@@ -93,7 +109,7 @@ def evolve(t, state, flavor_from, flavor_to,E, U,M,ndim, theta_i, material='vac'
     return RHS.dot(state)
 
 
-def P_num(flavor_from, flavor_to=None,L=None,  param_min=0, param_max=2*r_earth,earth_start = 0, ndim = 3, E=None,vacuum=False,anti = False,theta_i=0, params=param_dict, eval_at=None,solver = 'RK45', material='earth', NSI=False):
+def P_num(flavor_from, flavor_to=None,ndim = 3, E=None,L_max=None,vacuum=False,anti = False,zenith=-1, params=param_dict, eval_at=None,solver = 'RK45', material='earth', nsi=False, tols=(1e-3,1e-6)):
     '''
     Returns the numerical probabilities for all flavors as a list for L[km] and E[GeV].
 
@@ -103,13 +119,11 @@ def P_num(flavor_from, flavor_to=None,L=None,  param_min=0, param_max=2*r_earth,
 
     Integrates from earth_start + 2*r_earth to param_max if vacuum = False
     '''
+    theta_i = np.pi - np.arccos(zenith)
     if flavor_to is None and ndim==2:
         raise ValueError('flavor_to needs to be specified for 2 generations')
     state = np.array([0.0]*ndim, dtype=np.complex64)
     state[mass_dict[flavor_from]] = 1.0
-    earth_end = earth_start + 2*r_earth
-    x_list = np.array([])
-    P_list = [[]]*ndim
 
     if ndim == 4:
         M = np.array([[0, 0, 0, 0],
@@ -125,66 +139,43 @@ def P_num(flavor_from, flavor_to=None,L=None,  param_min=0, param_max=2*r_earth,
 
     if eval_at is not None: #Fix unit
         eval_at=[eval_at*GeV2tokm1]
-    if L is None:
-        L = earth_start + 2*r_earth
+    rtol,atol=tols # put to rtol 1e-4, atol 1e7 whenplotting for better sims (otherwise P can be slightly above unity.)  At the cost of roughly 2x the time
 
-    rtol=1e-3
-    atol=1e-6
+    if vacuum is True:
+        solver = solve_ivp(fun = evolve, t_span = [0, GeV2tokm1*L_max], method=solver, y0 = state, args=(flavor_from,flavor_to, E,U,M, ndim, theta_i,'vac',anti,params,nsi))     
+    else:
+        solver = solve_ivp(fun = evolve, t_span = [0, GeV2tokm1*baseline(theta_i)], method=solver, y0 = state, t_eval=eval_at,rtol=rtol,atol=atol, args=(flavor_from,flavor_to, E,U,M, ndim, theta_i,material,anti,params,nsi))
 
-    if param_min != earth_start or vacuum is True:
-        if vacuum is True:
-            #print(f'Solving for {np.round(E,1)} GeV in vacuum between {np.round(param_min,1)} and {np.round(param_max,1)}')
-            vac_solver = solve_ivp(fun = evolve, t_span = [GeV2tokm1*param_min, GeV2tokm1*param_max], method=solver, y0 = state, args=(flavor_from,flavor_to, E,U,M, ndim, theta_i,'vac',anti,params,NSI))
-        else:
-            #print(f'Solving for {np.round(E,1)} GeV in vacuum between {np.round(param_min,1)} and {np.round(earth_start,1)}')
-            vac_solver = solve_ivp(fun = evolve, t_span = [GeV2tokm1*param_min, GeV2tokm1*earth_start], method=solver, y0 = state, args=(flavor_from,flavor_to, E,U,M, ndim, theta_i,'vac',anti,params,NSI))
-
-        x_list = np.concatenate((x_list,vac_solver.t/GeV2tokm1))
-        for n in range(ndim):
-            state[n] = np.array([vac_solver.y[n][-1]])
-            P_list[n] = vac_solver.y[n]
-            
-    if vacuum is False:
-        if param_max < earth_end:
-            #print(f'Solving for {np.round(E,1)} GeV between Earth start at {np.round(earth_start,1)} to {np.round(param_max,1)}')
-            earth_solver = solve_ivp(fun = evolve, t_span = [0, GeV2tokm1*param_max], method=solver, y0 = state, args=(flavor_from,flavor_to, E, U,M,ndim, theta_i,material,anti,params,NSI))
-        else:
-            #print(f'Solving for {np.round(E,1)} GeV between Earth start at {np.round(earth_start,1)} to {np.round(earth_end,1)}')
-            earth_solver = solve_ivp(fun = evolve, t_span = [0, GeV2tokm1*earth_end], method=solver, y0 = state, t_eval=eval_at,rtol=rtol,atol=atol, args=(flavor_from,flavor_to, E,U,M, ndim, theta_i,material,anti,params,NSI))
-
-        x_list = np.concatenate((x_list,earth_solver.t/GeV2tokm1))
-        for n in range(ndim):
-            state[n] = np.array([earth_solver.y[n][-1]])
-            P_list[n] = np.append(P_list[n], earth_solver.y[n])
-
-    if param_max > earth_end and vacuum is False:
-        #print(f'Solving for {np.round(E,1)} GeV in vacuum between {np.round(earth_end,1)} and {np.round(param_max,1)}')
-        final_solver = solve_ivp(fun = evolve, t_span = [GeV2tokm1*earth_end, GeV2tokm1*param_max], method=solver, y0 = state, args=(flavor_from,flavor_to, E,U,M, ndim, theta_i,'vac',anti,params,NSI))
-
-        x_list = np.concatenate((x_list,final_solver.t/GeV2tokm1))
-        for n in range(ndim):
-            state[n] = np.array([final_solver.y[n][-1]])
-            P_list[n] = np.append(P_list[n], final_solver.y[n])
-
-    return np.abs(P_list)**2
+    return np.abs(solver.y)**2
 
 
-def P_num_over_E(flavor_from, E, flavor_to=None, L=2*r_earth, theta_i=0,earth_start = 0, ndim = 3,vacuum=False, eval_at=2*r_earth,anti=False,params=param_dict, material='earth', NSI=False):
+def P_num_over_E(flavor_from, E, flavor_to=None, L=2*r_earth, zenith=-1,earth_start = 0, ndim = 3,vacuum=False, eval_at=None,anti=False,params=param_dict, material='earth', nsi=False,tols=(1e-3,1e-6)):
     '''
     Returns the range of energies and the list of all flavour oscillation probabilities. Uses a single core
     '''
     P_list = [[]]*ndim
     for en in E:
         #print(f'Solving P{flavor_from} for {np.round(en,0)} GeV, theta = {np.round(theta_i,2)}')
-        probs = P_num(flavor_from=flavor_from, flavor_to=flavor_to, E=en, L=L,  param_min=0, param_max=L,earth_start = earth_start, ndim = ndim, vacuum = vacuum, anti=anti,params=params, eval_at=eval_at, theta_i=theta_i, material=material, NSI=NSI)
+        probs = P_num(flavor_from=flavor_from, flavor_to=flavor_to, E=en, L_max=L, ndim = ndim, vacuum = vacuum, anti=anti,params=params, eval_at=eval_at, zenith=zenith, material=material, nsi=nsi,tols=tols)
         for n in range(ndim):
             P_list[n] = np.append(P_list[n], probs[n][-1])
     return P_list
 
 def wrapper(p):
     flavor,E_range,z,anti, params, ndim = p 
-    P=P_num_over_E(flavor, E=E_range, theta_i=np.pi - np.arccos(z),earth_start = 0, anti = anti, params=params, ndim=ndim)
+    P=P_num_over_E(flavor, E=E_range, zenith=z,earth_start = 0, anti = anti, params=params, ndim=ndim)
     return P
 
 if __name__== '__main__':
-    print(P_num('m', flavor_to='m',ndim = 4, E=1e3))
+    from functions import ic_params
+    params=ic_params
+    params.update({'e_mm':1})
+    M = np.array([[0, 0, 0, 0],
+                    [0, dm(2,1, params=params), 0, 0],
+                    [0, 0, dm(3,1, params=params), 0],
+                    [0, 0, 0, dm(4,1, params=params)]])
+    U = U_4(params=params)
+    A_cc = 1
+    A_nc = 0.5
+    print(H_4_nsi(A_cc,A_nc,U=U, M=M, params=params))
+    print(H_4(A_cc,A_nc, U=U, M=M, params=params))
