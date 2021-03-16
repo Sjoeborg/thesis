@@ -19,7 +19,7 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
 
 
 
-    Et, mu, sigma = get_Etrue(E_index=E_index,npoints=npoints, left_alpha=alpha-0.04, right_alpha=alpha,model=energy_resolution_models) #dist is left skewed
+    Et, mu, sigma = get_Etrue(E_index=E_index,npoints=npoints, left_alpha=alpha, right_alpha=alpha,model=energy_resolution_models)
     resolution_gaussian = lognorm.pdf(Et, s = sigma, scale=np.exp(mu)) #Check doc of scipy.stats.lognorm for explanation of variables
     
 

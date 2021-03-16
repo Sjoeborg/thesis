@@ -159,23 +159,14 @@ def P_num_over_E(flavor_from, E, flavor_to=None, L=2*r_earth, zenith=-1,earth_st
         probs = P_num(flavor_from=flavor_from, flavor_to=flavor_to, E=en, L_max=L, ndim = ndim, vacuum = vacuum, anti=anti,params=params, eval_at=eval_at, zenith=zenith, material=material, nsi=nsi,tols=tols)
         for n in range(ndim):
             P_list[n] = np.append(P_list[n], probs[n][-1])
-    return P_list
+    return np.array(P_list)
 
 def wrapper(p):
     flavor,E_range,z,anti, params, ndim = p 
-    P=P_num_over_E(flavor, E=E_range, zenith=z,earth_start = 0, anti = anti, params=params, ndim=ndim)
+    P=P_num_over_E(flavor, E=E_range, zenith=z, anti = anti, params=params, ndim=ndim)
     return P
 
 if __name__== '__main__':
     from functions import ic_params
     params=ic_params
-    params.update({'e_mm':1})
-    M = np.array([[0, 0, 0, 0],
-                    [0, dm(2,1, params=params), 0, 0],
-                    [0, 0, dm(3,1, params=params), 0],
-                    [0, 0, 0, dm(4,1, params=params)]])
-    U = U_4(params=params)
-    A_cc = 1
-    A_nc = 0.5
-    print(H_4_nsi(A_cc,A_nc,U=U, M=M, params=params))
-    print(H_4(A_cc,A_nc, U=U, M=M, params=params))
+    print(wrapper(['m',[2e2],-1,True,params,4]))

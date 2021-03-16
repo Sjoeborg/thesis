@@ -320,7 +320,9 @@ def V(r, material='earth'):
 
 
 def baseline(theta_i):
-    return 2*r_earth*np.abs(np.cos(theta_i))
+    h = 15 # Production height
+    r = np.sqrt((r_earth+h)**2 - r_earth**2*np.sin(theta_i)**2) - r_earth*np.cos(theta_i)
+    return r
 
 def get_radial_distance(x,theta_i):
     '''
