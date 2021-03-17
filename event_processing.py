@@ -11,7 +11,7 @@ from scipy.stats import chi2
 IC_observed_full = np.array(get_IC_data().T)
 E_rate, z_rate = get_flux_factor()
 flux_E_factors_full, flux_z_factors_full = bin_flux_factors(E_rate,z_rate)
-EFrom,ETo,zFrom,zTo = 3,13,0,20
+EFrom,ETo,zFrom,zTo = 3,13,0,11
 z_bins = np.arange(zFrom,zTo)
 E_bins, z_bins_T = np.arange(EFrom,ETo), np.arange(zFrom,zTo)[:,None]
 n_Ebins, n_zbins = len(E_bins), len(z_bins)
@@ -113,6 +113,9 @@ def get_boundary(arr):
             returned.append((np.max(np.nonzero(arr[:,i]==True))+1))
         except (ValueError):
             returned.append(0)
+    returned= np.array(returned)
+    max_val = arr.shape[0]
+    returned[returned >= max_val] = max_val -1 # If a column has all true, set cotour at last row
     return np.array(returned)
 
 def norm_plot(simulated_events):
@@ -180,14 +183,15 @@ def normalize_events(H0_events,H1_events_list,z_bins):
     H1_list_normalized = [norm_factors*H1[:,z_bins] for H1 in H1_events_list]
 
     return H0_normalized, H1_list_normalized
-def get_contour(H1_list_normalized,dm41_range,s24_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0]):
+
+def get_deltachi(H1_list_normalized,H0_normalized,dm41_range,s24_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0]):
     sigma_a = sigma[0]
     sigma_b = sigma[1]
     sigma_g = delta_T
     f = f
     sigma_syst = f*IC_observed
     x0=x0
-    #chisq_H0, a_H0 = perform_chisq(H0_normalized,IC_observed,z=zreco[0:-1],sigma_a=sigma_a,sigma_b=sigma_b,sigma_gamma=sigma_gamma , x0=x0)
+    chisq_H0, a_H0 = perform_chisq(H0_normalized,IC_observed,sigma_syst=sigma_syst,z=zreco[0:-1],sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
     chisq_H1_list  = np.array([perform_chisq(H1_norm, IC_observed,sigma_syst=sigma_syst,z=zreco[0:-1], sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)#chisq_H1_list - chisq_H0
 
@@ -195,8 +199,11 @@ def get_contour(H1_list_normalized,dm41_range,s24_range, delta_T, sigma = [0.25,
 
     deltachi_reshaped = delta_chi.reshape(len(s24_range),len(dm41_range))
 
-    cl_99_bool = np.where(deltachi_reshaped < chi2.ppf(q = 0.99,df=2),True,False)
-    cl_90_bool = np.where(deltachi_reshaped < chi2.ppf(q = 0.90,df=2),True,False)
+    return deltachi_reshaped, best_fit_index, np.min(chisq_H1_list), chisq_H0
+
+def get_contour(deltachi, dm41_range,s24_range):
+    cl_99_bool = np.where(deltachi < chi2.ppf(q = 0.99,df=2),True,False)
+    cl_90_bool = np.where(deltachi < chi2.ppf(q = 0.90,df=2),True,False)
 
     s24_cl90_index = get_boundary(cl_90_bool)
     dm41_cl90_index = np.linspace(0,len(s24_cl90_index)-1,len(s24_cl90_index)).astype('int')
@@ -204,4 +211,8 @@ def get_contour(H1_list_normalized,dm41_range,s24_range, delta_T, sigma = [0.25,
     dm41_cl99_index = np.linspace(0,len(s24_cl99_index)-1,len(s24_cl99_index)).astype('int')
 
 
-    return s24_range[s24_cl90_index], s24_range[s24_cl99_index], dm41_range[dm41_cl90_index], dm41_range[dm41_cl99_index], best_fit_index
+    return s24_range[s24_cl90_index], s24_range[s24_cl99_index], dm41_range[dm41_cl90_index], dm41_range[dm41_cl99_index]
+if __name__ == '__main__':
+    arr = np.array([[True,True,True],
+                    [True,False,True]])
+    print(get_boundary(arr))

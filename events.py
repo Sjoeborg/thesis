@@ -44,39 +44,45 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
     if not null:
         try:
             Pmm = get_probabilities('m', 'm', E_index,z_index,params,False,npoints)
-        except FileNotFoundError:
+        except KeyError:
             generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
+            gather_specific_prob('Pmm',npoints,E_index,z_index,update=True)
             Pmm = get_probabilities('m', 'm', E_index,z_index,params,False,npoints)
 
         try:
             P_amam = get_probabilities('m', 'm', E_index,z_index,params,True,npoints)
-        except FileNotFoundError:
+        except KeyError:
             generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
+            gather_specific_prob('Pamam',npoints,E_index,z_index,update=True)
             P_amam = get_probabilities('m', 'm', E_index,z_index,params,True,npoints)
         
         try:
             Pem = get_probabilities('e', 'm', E_index,z_index,params,False,npoints)
-        except FileNotFoundError:
+        except KeyError:
             generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
+            gather_specific_prob('Pem',npoints,E_index,z_index,update=True)
             Pem = get_probabilities('e', 'm', E_index,z_index,params,False,npoints)
 
         try:
             P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints)
-        except FileNotFoundError:
+        except KeyError:
             generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
+            gather_specific_prob('Paeam',npoints,E_index,z_index,update=True)
             P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints)
 
         if tau:
             try:
                 Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints)
-            except FileNotFoundError:
+            except KeyError:
                 generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
+                gather_specific_prob('Pmt',npoints,E_index,z_index,update=True)
                 Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints)
 
             try:
                 P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints)
-            except FileNotFoundError:
+            except KeyError:
                 generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
+                gather_specific_prob('Pamat',npoints,E_index,z_index,update=True)
                 P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints)
 
             Pmm = Pmm + 0.1739*Pmt
@@ -142,6 +148,30 @@ def list_of_params(dict,dm_range, s24_range, s34_range=None, s24_eq_s34=False, s
 def spectral_shift_factor(E, E_pivot=2e3, delta_gamma=0.02):
     return  (E/E_pivot)**-delta_gamma
 
+def gather_specific_prob(flavor,npoints,En,zn, update=True):
+    import os
+    filenames=[]
+    try:
+        for file in os.listdir(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/'):
+            if file.endswith('.npy'):
+                filenames.append(file[0:-4])
+        try:
+            df = pickle.load(open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','rb'))
+        except FileNotFoundError:
+            df = pd.DataFrame(index=[f'E{En}z{zn}'], dtype='object')
+
+        for file in filenames:
+            array = np.load(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
+            try:
+                df.insert(loc=0,column=file, value=[array])
+            except ValueError: 
+                if update:  # If entry already exists, overwrite/update it
+                    df[file][f'E{En}z{zn}'] = array
+        pickle.dump(df,open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','wb'))
+        for file in filenames:
+            os.remove(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
+    except FileNotFoundError:
+        pass
 
 interp_flux, interp_aeff, energy_resolution_models = get_interpolators()
 if __name__ == '__main__':

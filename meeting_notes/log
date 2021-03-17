@@ -337,5 +337,3 @@ Skillnader:
     3. 
 Har fixat radie-funktionen, men ingen skillnad. Dock så ger den korrekt core-mantle boundary vid z=-0.83, så den borde vara rätt.
 Fixat! Problemet var att ekvationen integrerades i 12 km oavsett zenith. Nu borde alla P behöva räknas om :))
-
-Kör N=13, 

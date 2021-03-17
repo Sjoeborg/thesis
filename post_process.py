@@ -12,6 +12,7 @@ E_range = range(3,13)
 z_range = range(0,20)
 flavors = ['Pamam', 'Paeam','Pem','Pmm', 'Pmt','Pamat']
 
+
 def gather_precomputed(npoints=args.N, update=args.u):
     for flavor in flavors:
         for En in E_range:
@@ -47,11 +48,11 @@ def merge_precomputed_df(npoints=args.N):
             for zn in z_range:
                 try:
                     try:
-                        old_df = pickle.load(open(f'./pre_computed/4gen/{flavor}/{13}/E{En}z{zn}.p','rb'))
+                        old_df = pickle.load(open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','rb'))
                     except FileNotFoundError:
                         old_df = pd.DataFrame(index=[f'E{En}z{zn}'], dtype='object')
 
-                    probs = pickle.load(open(f'./pre_computed/new/4gen/{flavor}/{13}/E{En}z{zn}.p','rb'))
+                    probs = pickle.load(open(f'./pre_computed/new/4gen/{flavor}/{npoints}/E{En}z{zn}.p','rb'))
                     old_df.update(probs)
                     pickle.dump(old_df,open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','wb'))
                 except FileNotFoundError:
@@ -69,5 +70,6 @@ def delete_files(npoints=args.N):
                 except FileNotFoundError:
                     pass
 if __name__ == '__main__':
-    gather_precomputed(args.N)
+    #gather_precomputed(args.N)
     #delete_files(args.N)
+    merge_precomputed_df()
