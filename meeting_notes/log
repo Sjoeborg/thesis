@@ -337,3 +337,24 @@ Skillnader:
     3. 
 Har fixat radie-funktionen, men ingen skillnad. Dock så ger den korrekt core-mantle boundary vid z=-0.83, så den borde vara rätt.
 Fixat! Problemet var att ekvationen integrerades i 12 km oavsett zenith. Nu borde alla P behöva räknas om :))
+
+19 Mar
+Plot the impact of tau decay (ignore IC contour match)
+Then show impact of theta24=theta34 
+
+See if I can find DC MC and events for NSI. Also, include all E bins into NSI sims. 
+
+e_ss = 0 gives a NSI resonance. Simulate using global best fit of dm_41 (0.93 according to Kopp), and make a contour on theta_24 vs e_mm-e_tt. We wont have same problem as Marfatia since we don't try to 
+remove the resonance with e_ss. Simply constraining.
+See which e changes P, and take those e ranges. 
+Then we can make two contour:
+    th_34=0, e=0
+    th_34=0. e!= 0
+
+For 3+2: Look at Pmm for each theta and see which parameters are relevant. Those who are irrelevant can be put to zero, those who are somewhat relevant can be put equal to eachother.
+
+Um4,Ut4,Us4 reduceras helt perfekt till vakuum-värdena. De andra elementen verkar inte göra det. De är dessutom prop 1/A. För theta_34=0 verkar alla element reducera till vacuum (för A=1e-10). För alla andra fall
+fungerar detta inte. Alltså:
+    Jag har perfekta Um4,Ut4,Us4.
+    Alla andra element fungerar för theta_34=0
+Får ej Pmt att funka
