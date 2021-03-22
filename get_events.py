@@ -27,7 +27,6 @@ parser.add_argument('-nsi', action='store_true')
 
 args = parser.parse_args()
 
-
 def probs(E_index, z_index, alpha, npoints, params=ic_params):
     z_buckets = np.linspace(-1,0,21)
 

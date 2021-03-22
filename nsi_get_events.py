@@ -1,0 +1,99 @@
+import argparse
+from events import list_of_params
+from functions import ic_params_nsi
+from dataProcesser import generate_probabilities, get_Etrue, train_energy_resolution, get_probabilities
+import numpy as np
+import time
+import pandas as pd
+import os
+import pickle
+from multiprocessing import Pool
+parser = argparse.ArgumentParser()
+parser.add_argument('-s24From', default=0.01, type=float)
+parser.add_argument('-s24To', default=1, type=float)
+parser.add_argument('-s24N', default=10, type=int)
+parser.add_argument('-emm', default=1e-1, type=float)
+parser.add_argument('-emmN', default=10, type=int)
+parser.add_argument('-N', default = 13, type=int)
+parser.add_argument('-s', default = 0, type=int)
+parser.add_argument('-sT', default = 1, type=int)
+
+
+args = parser.parse_args()
+
+def list_of_params_nsi(dict,s24_range, emm_range):
+    def update_dict(dict,p):
+        dict2 = dict.copy()
+        dict2.update(p)
+        return dict2
+    dict_list = [update_dict(dict,{'e_mm':mm,'theta_24':np.arcsin(np.sqrt(s24))/2}) for mm in emm_range for s24 in s24_range]
+    return dict_list
+
+def probs(E_index, z_index, alpha, npoints, params=ic_params_nsi, nsi=False):
+    z_buckets = np.linspace(-1,0,21)
+
+    zr = np.linspace(z_buckets[z_index], z_buckets[z_index+1], npoints)
+
+    Et, _, _ = get_Etrue(E_index=E_index,npoints=npoints, model=models, left_alpha=alpha, right_alpha=alpha) 
+    
+    try:
+        get_probabilities('m','m',E_index, z_index, params,False,npoints,ndim=4)
+    except:
+        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
+        generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4, nsi=nsi)
+    try:
+        get_probabilities('m','m',E_index, z_index, params,True,npoints,ndim=4)
+    except:
+        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
+        generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4, nsi=nsi)
+    try:
+        get_probabilities('e','m',E_index, z_index, params,False,npoints,ndim=4)
+    except:
+        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
+        generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4, nsi=nsi)
+    try:
+        get_probabilities('e','m',E_index, z_index, params,True,npoints,ndim=4)
+    except:
+        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
+        generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4, nsi=nsi)
+    
+    try:
+        get_probabilities('m','t',E_index, z_index, params,False,npoints,ndim=4)
+    except:
+        generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=4, nsi=nsi)
+    try:
+        get_probabilities('m','t',E_index, z_index, params,True,npoints,ndim=4)
+    except:
+        generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=4, nsi=nsi)
+    
+    
+
+def event_wrapper(param_list):
+    E_index,z_index, alpha, params, npoints,nsi = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4], param_list[5]
+    return probs(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha, nsi=nsi)
+
+def precompute_probs(params=ic_params_nsi, nsi=True):
+    for i in range(0,13):
+        for j in range(20):
+            event_wrapper([i,j, 0.99, params,args.N, nsi])
+
+models= train_energy_resolution()
+
+if __name__ == '__main__':
+    s24_range = np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N)
+    emm_range = np.linspace(-args.emm,args.emm,args.emmN)
+    nsi_params = ic_params_nsi.copy()
+    nsi_params['dm_41'] = 0.93
+    param_list = list_of_params_nsi(nsi_params, s24_range,emm_range)
+    print(f'Precomputing probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), s34=0, for N = {args.N}. s={args.s+1}/{args.sT}')
+
+    split_array=  np.array_split(param_list,args.sT)[args.s]
+    
+    start = time.time()
+    #p = Pool()
+    for i, _ in enumerate(map(precompute_probs, split_array), 1):
+        print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(split_array)))
+        print(np.round((time.time() - start)/3600,1))
+    #p.close()
+    print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
+    

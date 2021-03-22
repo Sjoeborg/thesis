@@ -126,7 +126,7 @@ def get_probabilities(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4)
     res = df[hashed_param_name][f'E{E_bin}z{z_bin}']
     return res
 
-def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,N, ndim=4):
+def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,N, ndim=4, nsi=False):
     '''
     Name of resulting .csv is the sha256 hash of the parameter dictionary used to generate the probablities.
     '''
@@ -136,7 +136,7 @@ def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,p
         file_dir = f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/E{E_bin}z{z_bin}/'
     else:
         file_dir = f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/E{E_bin}z{z_bin}/'
-    res = np.array([wrapper([flavor_from, E_range,z, anti, params, ndim])[mass_dict[flavor_to]] for z in z_range])
+    res = np.array([wrapper([flavor_from, E_range,z, anti, params, ndim, nsi])[mass_dict[flavor_to]] for z in z_range])
     try:
         np.save(file_dir + filename,res)
     except FileNotFoundError:
