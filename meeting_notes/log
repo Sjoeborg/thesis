@@ -358,3 +358,10 @@ fungerar detta inte. Alltså:
     Jag har perfekta Um4,Ut4,Us4.
     Alla andra element fungerar för theta_34=0
 Får ej Pmt att funka
+
+22 Mar
+Har hittat DC-86 data och MC i E-led. Ska fråga S om jag ska inkludera atm muoner eller inte. Skulle alltså kunna göra DC analysen normerat i E-led.
+Pmm Resonansen för th_34=0 är oberoende av e_tt. Arman säger att vi måste välja e_mm och e_tt nästan lista stora för att inte sabba DC fit. 
+Pmm Resonansen för th_34=th_24 är svaaagt beroende av e_tt. Dalarna blir något djupare med lägre e_tt, men det är knappt.
+Marfatia säger att non-zero e_mt är strongly constrained.
+Med e_mm translaterar vi Pmm resonansen.

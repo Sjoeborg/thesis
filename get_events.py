@@ -23,6 +23,7 @@ parser.add_argument('-sT', default = 1, type=int)
 parser.add_argument('-s34eqs24', action='store_true')
 parser.add_argument('-s342xs24', action='store_true')
 parser.add_argument('-s34', action='store_true')
+parser.add_argument('-nsi', action='store_true')
 
 args = parser.parse_args()
 
@@ -70,8 +71,12 @@ def event_wrapper(param_list):
     E_index,z_index, alpha, params, npoints = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4]
     return probs(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha)
 
-def precompute_probs(params=ic_params):
-    for i in range(3,13):
+def precompute_probs(params=ic_params, nsi=args.nsi):
+    if nsi:
+        E_offset = 0 #For nsi, include all bins
+    else:
+        E_offset = 3 # For non-nsi, exclude bottom 3 bins
+    for i in range(E_offset,13):
         for j in range(20):
             event_wrapper([i,j, 0.99, params,args.N])
 

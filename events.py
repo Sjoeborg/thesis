@@ -109,15 +109,19 @@ def event_wrapper(param_list):
     E_index,z_index, alpha, params, npoints, null, spectral, tau = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4], param_list[5], param_list[6], param_list[7]
     return get_events(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha, null=null, spectral_shift_parameters=spectral, tau=tau)
 
-def sim_events(alpha, npoints, params=ic_params, null = False,multi=True, spectral_shift=[False, 2e3, 0.02], tau=False):
-    res = np.empty((10,20))
+def sim_events(alpha, npoints, params=ic_params, null = False,multi=True, spectral_shift=[False, 2e3, 0.02], tau=False, nsi=False):
+    if nsi:
+        E_offset = 0 #For nsi, include all bins
+    else:
+        E_offset = 3 # For non-nsi, exclude bottom 3 bins
+    res = np.empty((13-E_offset,20))
     E_z_combinations =[] 
-    for i in range(3,13):
-        for j in range(20):
+    for E_bin in range(E_offset,13):
+        for z_bin in range(20):
             if multi:
-                E_z_combinations.append([i,j, alpha, params,npoints, null, spectral_shift, tau])
+                E_z_combinations.append([E_bin,z_bin, alpha, params,npoints, null, spectral_shift, tau])
             if not multi:
-                res[i-3][j] = event_wrapper([i,j, alpha, params,npoints, null, spectral_shift,tau])
+                res[E_bin-E_offset][z_bin] = event_wrapper([E_bin,z_bin, alpha, params,npoints, null, spectral_shift,tau])
     if multi:
         p = Pool()
         res = p.map(event_wrapper, E_z_combinations)

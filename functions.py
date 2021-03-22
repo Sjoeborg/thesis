@@ -245,26 +245,28 @@ def U_3(params=param_dict):
     '''
     return R23_3(params['theta_23']) @ R13_3(params['theta_13']) @ R12_3(params['theta_12'])
 
+def U_5(params=param_dict):
+    return  V_matrix(3,5, n = 2, params=params) @ V_matrix(2,5, n = 2, params=params) @ V_matrix(1,5, n = 2, params=params) @ V_matrix(3,4, n = 2, params=params) @ V_matrix(2,4, n = 2, params=params) @ V_matrix(1,4, n = 2, params=params)@ V_matrix(2,3, n = 2, params=params)@ V_matrix(1,3, n = 2, params=params)@ V_matrix(1,2, n = 2, params=params)
 
 def V_ijab(i,j,a,b, A=0, params=param_dict): # Blennow 78:807
     if a == b:
         if a == i or a == j:
-            return np.cos(theta(i,j,A, params=params))
+            return np.cos(theta(i,j, params=params))
         else:
             return 1
     else:
         if a == i and b == j:
-            return np.sin(theta(i,j,A, params=params))
+            return np.sin(theta(i,j, params=params))
         elif a == j and b == i:
-            return -np.sin(theta(i,j,A, params=params))
+            return -np.sin(theta(i,j, params=params))
         else:
             return 0
 
 
-def V_matrix(i,j, A=0, n = 0, params=param_dict): # Blennow 78:807
+def V_matrix(i,j, n = 0, params=param_dict): # Blennow 78:807
     result = np.empty(shape=(3+n,3 + n), dtype=np.complex64)
     for a in range(1, 4+n):
-        elem = (V_ijab(i,j,a,b,A, params=params) for b in range(1, 3 + n + 1))
+        elem = (V_ijab(i,j,a,b, params=params) for b in range(1, 3 + n + 1))
         V_row = np.fromiter(elem, dtype=np.complex64, count=3 + n)
         result[a-1] = V_row
     return result

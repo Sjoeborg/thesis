@@ -1,7 +1,7 @@
 from scipy.integrate import solve_ivp
 import numpy as np
 from multiprocessing import Pool
-from functions import dm,theta,V_matrix, V, mass_dict,r_earth, param_dict,GeV2tokm1,get_radial_distance, baseline,ic_params, U_4, U_3
+from functions import dm,theta,V_matrix, V, mass_dict,r_earth, param_dict,GeV2tokm1,get_radial_distance, baseline,ic_params, U_4, U_3,U_5
 
 def H_2(flavor_from, flavor_to, A=0, params=param_dict): # giunti 9.73
     i = mass_dict[flavor_from]
@@ -58,20 +58,13 @@ def H_4(A_cc,A_nc,U, M, params=param_dict):
     return H
 
 
-def H_5(A_cc,A_nc, params=param_dict):#0709.1937 eq 5
-    M  = np.array([[0, 0, 0, 0, 0],
-                   [0, dm(2,1, params=params), 0, 0, 0],
-                   [0, 0, dm(3,1, params=params), 0, 0],
-                   [0, 0, 0, dm(4,1, params=params), 0],
-                   [0, 0, 0, 0, dm(5,1, params=params)]])
+def H_5(A_cc,A_nc,U,M, params=param_dict):#0709.1937 eq 5
 
     A = 1e18*np.array([[A_cc, 0, 0, 0, 0],
                         [0, 0, 0, 0, 0],
                         [0, 0, 0, 0, 0],
                         [0, 0, 0, A_nc, 0],
                         [0, 0, 0, 0, A_nc]])
-    
-    U = U_nu(ndim=5, params=params)
     U_conj = np.conj(U)
     H = U @ M @ U_conj.T + A 
     return H
@@ -136,6 +129,13 @@ def P_num(flavor_from, flavor_to=None,ndim = 3, E=None,L_max=None,vacuum=False,a
                       [0, dm(2,1, params=params), 0],
                       [0, 0, dm(3,1, params=params)]])
         U = U_3(params=params)
+    elif ndim==5:
+        M = np.array([[0, 0, 0, 0,0],
+                    [0, dm(2,1, params=params), 0, 0,0],
+                    [0, 0, dm(3,1, params=params), 0,0],
+                    [0, 0, 0, dm(4,1, params=params),0],
+                    [0, 0, 0,0,dm(5,1, params=params)]])
+        U = U_5(params=params)
 
     if eval_at is not None: #Fix unit
         eval_at=[eval_at*GeV2tokm1]
