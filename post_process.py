@@ -55,6 +55,7 @@ def merge_precomputed_df(npoints=args.N):
                     probs = pickle.load(open(f'./pre_computed/new/4gen/{flavor}/{npoints}/E{En}z{zn}.p','rb'))
                     old_df.update(probs)
                     pickle.dump(old_df,open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','wb'))
+                    print(f'Updated E{En}z{zn} for {flavor}')
                 except FileNotFoundError:
                     pass
 

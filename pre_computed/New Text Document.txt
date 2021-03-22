@@ -1,0 +1,5 @@
+N=13: 
+dm41_range = np.logspace(-1,0,20) 
+s24_range =  np.logspace(-2,np.log10(0.2),20)
+s24_eq_s34=True/False
+
