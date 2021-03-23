@@ -14,6 +14,7 @@ flavors = ['Pamam', 'Paeam','Pem','Pmm', 'Pmt','Pamat']
 
 
 def gather_precomputed(npoints=args.N, update=args.u):
+    print('Inserting precomputed arrays into dfs')
     for flavor in flavors:
         for En in E_range:
             for zn in z_range:
@@ -43,6 +44,7 @@ def gather_precomputed(npoints=args.N, update=args.u):
 
 
 def merge_precomputed_df(npoints=args.N):
+    print('Merging precomputed dfs')
     for flavor in flavors:
         for En in E_range:
             for zn in z_range:
@@ -71,6 +73,6 @@ def delete_files(npoints=args.N):
                 except FileNotFoundError:
                     pass
 if __name__ == '__main__':
-    #gather_precomputed(args.N)
+    gather_precomputed(args.N)
     #delete_files(args.N)
-    merge_precomputed_df()
+    #merge_precomputed_df()

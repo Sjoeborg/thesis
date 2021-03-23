@@ -170,7 +170,7 @@ def is_precomputed(N,ndim, dict, check=False):
                     raise FileNotFoundError(f'P{flavor_from}{flavor_to} for N={N}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, s34={np.sin(2*dict["theta_34"])**2}, not found')
             return True
 
-def return_precomputed(N,ndim,params):
+def return_precomputed(N,ndim,params, nsi=False):
     params= np.array(params)
     precomputed_list = np.array([is_precomputed(N,ndim, p, check=True) for p in params])
     mask = precomputed_list == True

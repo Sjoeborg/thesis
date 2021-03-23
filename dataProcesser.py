@@ -145,12 +145,13 @@ def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,p
         except FileExistsError: #Sometimes, the dir was already created by another thread
             pass
         np.save(file_dir + filename,res)
-    if anti:
-        with open(f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/hashed_params.csv','a') as fd:
-            fd.write(f'{params};{filename}\n')
-    else:
-        with open(f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/hashed_params.csv','a') as fd:
-            fd.write(f'{params};{filename}\n')
+    if E_bin == 5 and z_bin == 5:
+        if anti:
+            with open(f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/hashed_params.csv','a') as fd:
+                fd.write(f'{params};{filename}\n')
+        else:
+            with open(f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/hashed_params.csv','a') as fd:
+                fd.write(f'{params};{filename}\n')
     
 
 def train_energy_resolution(recompute=False):

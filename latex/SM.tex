@@ -1,0 +1,37 @@
+\documentclass[twocolumn]{article}
+\input{commands.tex}
+\usepackage{physics,amsmath, amsfonts, siunitx, amssymb,cite}
+\usepackage[utf8]{inputenc}
+\usepackage{xr-hyper}
+%\externaldocument{sterile}
+
+\begin{document}
+\section{The Standard Model}\label{ch:SM}
+In order to describe the three forces of nature, we gather the mediators of each force -- the vector gauge bosons -- into gauge groups. Each vector boson has one corresponding generator in the group that describes the force. 
+The strong charge is mediated by eight gluons, which correspond to the eight generators of $\t{SU}(3)_C$. The weak charge is mediated by the three massive gauge bosons $W^\pm$ and $Z$ and the massless boson $\gamma$, which constitute the generators of $\t{SU}(2)_L$. Finally, the massless gauge boson, the photon, is the generator of $\t{U}(1)_Y$. Together, these groups make up the local symmetry group $\mathrm{SU}(3)_{\mathrm{C}} \times \mathrm{SU}(2)_{L} \times \mathrm{U}(1)_{Y}$. This symmetry group determines the form of the three coupling constants of nature, whose numerical values but be experimentally derived. Thus, the vector bosons are wholly constrained by the symmetry group. However, the scalar bosons and fermions are free as long as they belong to representations of the symmetry group. 
+
+The subscript of each group denotes by which mechanism that force is mediated. The gluons mediate the strong force through interactions of color, $C$. The weak force only sees left-handed particles, $L$. And the electroweak interaction that a particle undergoes is determined by its hypercharge, $Y$. For example, the quarks all have a nonzero color and (hyper)charge, so they participate in the strong and electromagnetic interactions. If a given quark is left-handed, it will also feel the weak interaction. The neutrinos on the other hand have neither charge nor color, so they are insivible to both the strong and electromagnetic force.
+
+\subsection{Lepton mixing}
+In the unitary gauge, the Higgs-lepton Yukawa Lagrangian 
+\begin{align}
+    \label{eq:YukawaLagrangian}
+    \mathcal{L}_{H}=-\left( \frac{v + H}{\sqrt{2}} \right) \ell_{\alpha L}^{\prime} Y_{\alpha \beta}^{\prime \ell} \ell_{\beta R}^{\prime}
+\end{align}
+has a non-diagonal Yukawa coupling matrix $Y^{\prime \ell}$, which results in the lepton masses being non-definite. This can be remedied by diagonalizing $Y^{\prime \ell}$ with a unitary matrix $V^\ell$
+\begin{align}\label{eq:leptonYukawaDiag}
+    V_{L}^{\ell \dagger} Y^{\prime \ell} V_{R}^{\ell}=Y^{\ell}\,.
+\end{align}
+This procedure give the lepton fields $\ell_{X}=V_{X}^{\ell \dagger} \ell_{X}^{\prime}$ definite mass. However, this alters the form of the neutral and charged current interactions, which the neutrinos undergo. The leptonic charged weak current now takes the form
+\begin{align}
+    \label{eq:j_CC}
+    j^\rho_W &= 2 \bar{\nu}^\prime_\alpha \gamma^\rho \ell^\prime_\alpha \nonumber \\
+             &= 2 \bar{\nu}_\alpha V^{\ell \dagger} \gamma^\rho V^\ell \ell_\alpha \nonumber \\
+             &= 2 \bar{\nu}_\alpha \gamma^\rho \ell_\alpha\,,
+\end{align}
+where each fermion field and matrix have an implied $L$ subscript which was dropped for clarity. The flavor neutrino fields $\nu_\alpha$ now only couple to the associated charged lepton field $\ell_\alpha$. However, since we still operate under the SM framework, $\nu_\alpha$ is still massless, since any flavor rotation $V_{L}^{\ell \dagger}$ can make massless fields massive.
+
+The leptonic current in Eq.~\ref{eq:j_CC} implies that the lepton number $L_\alpha$ is conserved. When we introduce neutrino mixing, this conservation will be broken. 
+%\bibliographystyle{apalike}
+%\bibliography{ref}
+\end{document}

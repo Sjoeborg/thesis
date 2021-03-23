@@ -1,0 +1,68 @@
+\documentclass[twocolumn]{article}
+\input{commands.tex}
+\usepackage{physics,amsmath, amsfonts, siunitx, amssymb,cite}
+\usepackage[utf8]{inputenc}
+\usepackage{xr-hyper}
+%\usepackage{hyperref}
+\externaldocument{SM}
+
+\begin{document}
+\section{Sterile and Massive Neutrinos}\label{ch:sterile}
+As we saw in Eq.~\ref{eq:j_CC}
+, the neutrino fields $\nu_\alpha$ only couple to the associated lepton fields $\ell_\alpha$, conserving the lepton number $L_\alpha$. We will now introduce two separate extensions to this part of the Standard Model.
+
+We introduce a right-handed neutrino field, $\nu_R$. It has the usual properties of the conventional left-handed neutrino such as hypercharge and color zero. Moreover, since the electroweak gauge group $\t{SU}(2)_L$ only couple to left-handed particles and right-handed antiparticles, it transforms as a singlet under the SM symmetry group $\mathrm{SU}(3)_{\mathrm{C}} \times \mathrm{SU}(2)_{L} \times \mathrm{U}(1)_{Y}$. This neutrino is \emph{sterile} since it doesn't participate any of the SM interactions. 
+
+We extend the SM by adding a right-handed component to the Higgs-lepton Yukawa Lagrangian from Eq.~\ref{eq:YukawaLagrangian} with neutrino Yukawa couplings $Y_{\alpha \beta}^{\prime \nu}$ ,
+
+\begin{align}
+    \mathcal{L}_{H}=-\left( \frac{v + H}{\sqrt{2}} \right) \left[\ell_{\alpha L}^{\prime} Y_{\alpha \beta}^{\prime \ell} \ell_{\beta R}^{\prime} + \nu_{\alpha L}^{\prime} Y_{\alpha \beta}^{\prime \nu} \nu_{\beta R}^{\prime}\right]
+\end{align}
+Similar to how we diagonalized the lepton Yukawa couplings $Y_{\alpha \beta}^{\prime \ell}$ in Eq.~~\ref{eq:leptonYukawaDiag}, we diagonalize $Y_{\alpha \beta}^{\prime \nu}$ as
+\begin{align}
+    V_{\alpha k L}^{\nu \dagger} Y^{\prime \nu}_{\alpha \beta} V_{\beta j R}^{\nu}=Y^{\nu}_{kj} \,.
+\end{align}
+Now, let the neutrino field with chriality $X$ be denoted $n_X$, with components Latin numerals to distinguish them from the flavour components, i.e 
+\begin{align}
+    \nu_{k X} =  V_{kj X}^{\nu \dagger} \nu_{jX}^\prime\,.
+\end{align}
+The diagonalized Lagrangian now takes the form 
+\begin{align}
+    \mathcal{L}_{H} &= -\left( \frac{v + H}{\sqrt{2}} \right) \left[\ell_{\alpha L}^{\prime} Y_{\alpha \beta}^{\prime \ell} \ell_{\beta R}^{\prime} + \nu_{\alpha L}^{\prime} Y_{\alpha \beta}^{\prime \nu} \nu_{\beta R}^{\prime}\right] \nonumber \\
+    &= -\left( \frac{v + H}{\sqrt{2}} \right) \left[\ell_{\alpha L}^{\prime} V_{\alpha \beta L}^{\ell} Y_{\alpha \beta}^{ \ell} V_{\alpha \beta R}^{\ell \dagger} \ell_{\beta R}^{\prime}\right.\\
+    &\hspace{5.7em}+\left. \nu_{\alpha L}^{\prime} V_{\alpha k L}^{\nu} Y_{kj}^{\nu} V_{\beta j  R}^{\nu \dagger} \nu_{\beta R}^{\prime}\right] \nonumber \\
+    &= -\left( \frac{v + H}{\sqrt{2}} \right) \left[\ell_{\alpha L}^\dagger Y_{\alpha \beta}^{ \ell} \ell_{\beta R} + \nu_{k L}^{\dagger} Y_{kj}^{ \nu} \nu_{j R}\right] \nonumber \\
+    &= -\left( \frac{v + H}{\sqrt{2}} \right) \left[\bar{\ell}_{\alpha L} Y_{\alpha \beta}^{ \ell} \ell_{\beta R} + \bar{\nu}_{k L} Y_{kj}^\nu \nu_{j R}\right]
+\end{align}
+Now using the fact that $Y^\nu_{kj}$ is diagonal, we write it as $Y_{k j}^{\nu}=y_{k}^{\nu} \delta_{k j}$, leaving the Lagrangian as 
+\begin{align}
+    \mathcal{L}_{H} 
+    &=-\left( \frac{v + H}{\sqrt{2}} \right) \left[\bar{\ell}_{\alpha L} y_{\alpha}^{\ell} \delta_{\alpha \beta} \ell_{\beta R} + \bar{\nu}_{k L} y_{k}^{\nu} \delta_{k j} \nu_{j R}\right] \nonumber \\
+    &=-\left( \frac{v + H}{\sqrt{2}} \right) \left[\bar{\ell}_{\alpha L} y_{\alpha}^{\ell}  \ell_{\alpha R} + \bar{\nu}_{k L} y_{k}^{\nu} \nu_{k R}\right] \nonumber \\
+    &=-\left( \frac{v + H}{\sqrt{2}} \right) \left[ y_{\alpha}^{\ell}  \bar{\ell}_{\alpha L}\ell_{\alpha R} +  y_{k}^{\nu}\bar{\nu}_{k L} \nu_{k R}\right] 
+\end{align}
+
+Now, the Dirac neutrino field is
+\begin{align}
+    \nu_k = \nu_{kL} + \nu_{kR}\,.
+\end{align}
+Multiplying $\nu_k$ with its conjugate $\bar{\nu}_k$, we get 
+\begin{align}
+    \bar{\nu}_k \nu_k 
+    & = \bar{\nu}_{k L} \nu_{k L} +\bar{\nu}_{k R}\nu_{k L} + \bar{\nu}_{k L}\nu_{k R} + \bar{\nu}_{k R}\nu_{k R} \nonumber \\
+    & = \bar{\nu}_{k L}\nu_{k R} + \bar{\nu}_{k R}\nu_{k L} \nonumber \\
+    & = \bar{\nu}_{k L}\nu_{k R} + \t{h.c.}
+\end{align}
+The same calculation for the charged lepton field yields the same result for $\ell_k$. Substituting this result and expanding the Higgs VEV into the fields gives us
+\begin{align}
+    \mathcal{L}_{H} 
+    &=-\left( \frac{v + H}{\sqrt{2}} \right) \left[ y_{\alpha}^{\ell}   \bar{\ell}_\alpha \ell_\alpha  +  y_{k}^{\nu} \bar{\nu}_k \nu_k \right] \nonumber \\
+    &=- \frac{y_{\alpha}^{\ell} v}{\sqrt{2}}   \bar{\ell}_\alpha \ell_\alpha   -  \frac{ y_{k}^{\nu} v}{\sqrt{2}} \bar{\nu}_k \nu_k  - \frac{y_{\alpha}^{\ell}}{\sqrt{2}}   \bar{\ell}_\alpha \ell_\alpha H  -  \frac{ y_{k}^{\nu}}{\sqrt{2}} \bar{\nu}_k \nu_k H\,.
+\end{align}
+Thus, this extension to the SM generates neutrino masses by the Higgs mechanism, in the same fashion as with the charged leptons and the quarks:
+\begin{align}
+    m_k = \frac{y_k^\nu v}{\sqrt{2}}
+\end{align}
+%\bibliographystyle{apalike}
+%\bibliography{ref}
+\end{document}
