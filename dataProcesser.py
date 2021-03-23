@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
 from functions import mass_dict
-from dataImporter import get_flux_df,get_aeff_df
+from dataImporter import get_flux_df,get_aeff_df,get_flux_df_DC
 from dict_hash import sha256
 import pandas as pd
 from numerical import wrapper 
@@ -60,6 +60,34 @@ def interpolate_flux(recompute=False):
         pickle.dump(inter_df,open('./pre_computed/flux_interpolator.p','wb'))
     return inter_df
 
+def interpolate_flux_DC(recompute=False):
+    '''
+    Returns a df of the interpolated fluxes. 
+    '''
+    colnames = ['m_flux', 'mbar_flux', 'e_flux', 'ebar_flux']
+    if not recompute:
+        try:
+            inter_df = pickle.load(open('./pre_computed/flux_interpolator_DC.p','rb'))
+        except:
+            raise FileNotFoundError('File ´flux_interpolator_DC.p´ not present in ´./pre_computed/´. Rerun with recompute = True to generate it.')
+    else:
+        df = get_flux_df_DC()
+        E = df.GeV
+        z_avg = (df.z_min + df.z_max)/2
+
+        points_avg = np.array([E,z_avg]).T
+
+        interp_list=[]
+        for flavor in colnames:
+            phi = df[flavor]
+            values=np.array(phi)
+
+            f_avg = CT(points_avg, values,rescale=True) #Rescale seems to have no effect, but is good according to doc
+            interp_list.append([f_avg])
+
+        inter_df = pd.DataFrame(np.transpose(interp_list), columns=colnames)
+        pickle.dump(inter_df,open('./pre_computed/flux_interpolator_DC.p','wb'))
+    return inter_df
 
 def bin_flux_factors(E_df, z_df):
     E_bins  = 500*10**(np.linspace(0.0,1.3,14))
@@ -75,6 +103,19 @@ def bin_flux_factors(E_df, z_df):
             mean_per_bin)
     return np.array(E_res),np.array(z_res)
 
+def bin_flux_factors_DC(E_df, z_df):
+    z_buckets = np.linspace(-1,1,9)
+    E_buckets = np.logspace(0.75,1.75,9)
+    E_res=[]
+    z_res=[]
+    for i in range(9):
+        mean_per_bin = E_df[E_df.E.between(E_buckets[i], E_buckets[i+1])].factor.mean()
+        E_res.append(mean_per_bin)
+    for i in range(9):
+        mean_per_bin = z_df[z_df.E.between(z_buckets[i], z_buckets[i+1])].factor.mean()
+        z_res.append(
+            mean_per_bin)
+    return np.array(E_res),np.array(z_res)
 
 
 def interpolate_aeff(recompute=False):
@@ -197,5 +238,14 @@ def get_interpolators(recompute_flux=False, recompute_aeff=False, recompute_ener
 
     return interp_flux, interp_aeff, gpr_models
 
+
+def get_interpolators_dc(recompute_flux=False, recompute_aeff=False):
+    interp_flux = interpolate_flux_DC(recompute_flux)
+    from old.deprecated import get_Aeff_df_2012, interpolate_Aeff_2012
+    aeff_df = get_Aeff_df_2012()
+    interp_aeff = interpolate_Aeff_2012(aeff_df)
+
+    return interp_flux, interp_aeff
+
 if __name__ == '__main__':
-    pass
+    get_interpolators_dc(recompute_flux=True, recompute_aeff=False)

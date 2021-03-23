@@ -99,6 +99,25 @@ def event_data():
     df = pd.DataFrame(events, columns= E_buckets, index=z_range)
     return df
 
+def DC_event_data():
+    '''
+    Data from https://journals.aps.org/prd/pdf/10.1103/PhysRevD.102.052009 fig2
+    Double-checked and confirmed to sum to 305735
+    '''
+    events = np.array([[32, 85,  143, 186, 208, 179, 119,  67],  
+                       [66, 101, 162, 223, 271, 276, 230, 147],
+                       [119, 150, 216, 288, 355, 366, 310, 211], 
+                       [179, 193, 266, 356, 431, 440, 401, 295], 
+                       [248, 240, 291, 353, 440, 468, 445, 332], 
+                       [252, 236, 260, 279, 338, 343, 347, 262], 
+                       [218, 192, 211, 206, 220, 215, 218, 186], 
+                       [182, 197, 206, 206, 171, 137, 128, 113]])
+    z_range = np.linspace(-1,1,9)
+    E_buckets = np.logspace(0.75,1.75,9)
+
+    df = pd.DataFrame(events, columns= E_buckets, index=z_range)
+    return df
+
 def get_flux_df():
     '''
     Reads the files data/spl-nu-20-01-000.d and data/spl-nu-20-01-n3650.d which contain the solar min and max atm fluxes. Averages these for each zenith angle range and returns the fluxes for zenith between -1.05 to 0.05, extrapolated to 1e5 GeV.
@@ -128,6 +147,50 @@ def get_flux_df():
     df = pd.concat(binned_df)
     df = extrapolate_flux(df) #Extrapolate flux to 1e5 GeV
     return df
+
+def get_flux_df_DC():
+    '''
+    Reads the files data/spl-nu-20-01-000.d and data/spl-nu-20-01-n3650.d which contain the solar min and max atm fluxes. Averages these for each zenith angle range and returns the fluxes for zenith between -1.05 to 0.05, extrapolated to 1e5 GeV.
+
+    Files are from http://www.icrr.u-tokyo.ac.jp/~mhonda/nflx2014/index.html section 2.6
+    '''
+    file1 = 'data/spl-nu-20-01-000.d'
+    file2 = 'data/spl-nu-20-01-n3650.d'
+    colnames = ['GeV', 'm_flux', 'mbar_flux', 'e_flux', 'ebar_flux']
+
+    text_rows = np.append(np.arange(0,2500,103),(np.arange(1,2500,103)))
+
+    df1 = pd.read_csv(file1, skiprows=text_rows, header=None, names=colnames, dtype = np.float64, sep = ' ', chunksize=101)
+    df2 = pd.read_csv(file2, skiprows=text_rows, header=None, names=colnames, dtype = np.float64, sep = ' ', chunksize=101)
+
+    df_list = [] #List of the dataframes for each zenith angle bin. df_list[i] is the df for angle theta_range[i]
+    for left,right in zip(df1,df2):
+        left = left.set_index('GeV')
+        right = right.set_index('GeV')
+        df_concat = pd.concat([left, right])
+        by_row_index = df_concat.groupby(df_concat.index)
+        df_means = by_row_index.mean()
+        df_means.reset_index(inplace=True)
+        df_list.append(df_means)
+    df_list.append(df_list[-1])
+    binned_df = z_bins_DC(df_list)
+    df = pd.concat(binned_df)
+    return df
+
+def z_bins_DC(df_list):
+    '''
+    Doubles the number of dataframes, and puts half of the initial flux in each one.
+    Also puts the new z-bin limits in columns
+    '''
+    new_theta_range =np.round(np.linspace(1,-1.1,22),2) #See comment in get_flux_df
+    new_df_list = []
+    for i,df in enumerate(df_list):
+        
+        df['z_min'] = new_theta_range[i+1]
+        df['z_max'] = new_theta_range[i]
+
+        new_df_list.append(df)
+    return new_df_list
 
 def z_bins(df_list):
     '''
@@ -181,4 +244,5 @@ def fit_flux(flux_df,zmin):
 
     return pd.DataFrame(np.transpose([x_new, 10**y_new_m, 10**y_new_mbar, 10**y_new_e, 10**y_new_ebar, zmin*np.ones(100), (zmin + 0.1)*np.ones(100)]),columns=['GeV', 'm_flux','mbar_flux','e_flux', 'ebar_flux', 'z_min','z_max'])
 if __name__ == '__main__':
-    pass
+    print(get_flux_df_DC())
+    print(get_flux_df())
