@@ -365,3 +365,9 @@ Pmm Resonansen för th_34=0 är oberoende av e_tt. Arman säger att vi måste v�
 Pmm Resonansen för th_34=th_24 är svaaagt beroende av e_tt. Dalarna blir något djupare med lägre e_tt, men det är knappt.
 Marfatia säger att non-zero e_mt är strongly constrained.
 Med e_mm translaterar vi Pmm resonansen.
+
+24 Mar
+Får inte DC data att funka med min extrapolerade Aeff. Har dock hittat väldigt bra DC aeff från 2016. Känner just nu att jag vill släppa DC och "lita" på arman. Behöver jag verkligen simulera hela DC 
+för att kunna säga att e_mm-e_tt ska vara liten? Jag har ju redan 90% CL från någon konferens. Kör om denna med finare värden och kortare range i e-led och längre range i th-led.
+Kör en sim där du marginaliserar över dm.
+Gällande 3+2 verkar th25 bidra på samma sätt som th24. En extra grej här är att th35 bidrar till två resonanser, så även fast effekten av th24 uteblev i 3+1 kanske den syns i 3+2.

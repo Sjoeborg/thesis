@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
 from functions import mass_dict
-from dataImporter import get_flux_df,get_aeff_df,get_flux_df_DC
+from dataImporter import get_flux_df,get_aeff_df,get_flux_df_DC, get_aeff_df_dc
 from dict_hash import sha256
 import pandas as pd
 from numerical import wrapper 
@@ -14,13 +14,13 @@ from sklearn.gaussian_process.kernels import WhiteKernel, RBF
 def get_flux(flavor,E,z,df):
     '''
     Returns flux for a set of flavor, energy [GeV], and z=cos(theta_z).
-    Returns the absolute value since the flux has a small negative dip at the boundary between the interpolated and extrapolated fluxes at 1e4 GeV. TODO:Fix this in fit_flux()
     '''
     try:
         flux_avg = df[f'{flavor}_flux'][0](E,z)
     except KeyError:
         raise KeyError('NYI for tau flux')
     return np.abs(flux_avg) 
+
 
 def get_aeff(anti,E,z,df_list):
     if anti:
@@ -29,6 +29,14 @@ def get_aeff(anti,E,z,df_list):
         index = 0
     aeff = df_list[index](E,z)
     return aeff
+
+def get_aeff_dc(E,interpolator):
+    try:
+        return interpolator(np.log10(E))
+    except ValueError: #extrapolate
+        y1 = interpolator(1.13)
+        y2 = interpolator(1.2)
+        return (y2-y1)/(1.2-1.13) * np.log10(E)
 
 
 def interpolate_flux(recompute=False):
@@ -140,6 +148,19 @@ def interpolate_aeff(recompute=False):
         pickle.dump(aeff_list,open('./pre_computed/aeff_interpolator.p','wb'))
     return aeff_list
 
+def interpolate_aeff_dc(recompute=False):
+    if not recompute:
+        try:
+            inter = pickle.load(open('./pre_computed/aeff_dc_interpolator.p','rb'))
+        except:
+            raise FileNotFoundError('File aeff_dc_interpolator.p´ not present in ´./pre_computed/´. Run ´interpolate_aeff_dc()´ with recompute = True to generate it.')
+    else:
+        aeff_df = get_aeff_df_dc()
+        from scipy.interpolate import interp1d
+        inter = interp1d(aeff_df.logE, aeff_df.Aeff)
+        pickle.dump(inter,open('./pre_computed/aeff_dc_interpolator.p','wb'))
+    return inter
+
 def get_probabilitiesOLD(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4):
     '''
     Name of resulting .npy is the sha256 hash of the parameter dictionary used to generate the probablities.
@@ -241,9 +262,7 @@ def get_interpolators(recompute_flux=False, recompute_aeff=False, recompute_ener
 
 def get_interpolators_dc(recompute_flux=False, recompute_aeff=False):
     interp_flux = interpolate_flux_DC(recompute_flux)
-    from old.deprecated import get_Aeff_df_2012, interpolate_Aeff_2012
-    aeff_df = get_Aeff_df_2012()
-    interp_aeff = interpolate_Aeff_2012(aeff_df)
+    interp_aeff = interpolate_aeff_dc(recompute_aeff)
 
     return interp_flux, interp_aeff
 

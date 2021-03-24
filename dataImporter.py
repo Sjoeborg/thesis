@@ -31,7 +31,10 @@ def get_aeff_df():
     pickle.dump(df_list,open('./pre_computed/aeff.p','wb'))
     return df_list
 
-
+def get_aeff_df_dc():
+    filename = './data/dc_aeff.csv'
+    dc_aeff = pd.read_csv(filename, names=['logE','Aeff'])
+    return dc_aeff
 
 def get_flux_factor():
     file1 = 'data/event_rate_conv.csv'
@@ -112,8 +115,8 @@ def DC_event_data():
                        [252, 236, 260, 279, 338, 343, 347, 262], 
                        [218, 192, 211, 206, 220, 215, 218, 186], 
                        [182, 197, 206, 206, 171, 137, 128, 113]])
-    z_range = np.linspace(-1,1,9)
-    E_buckets = np.logspace(0.75,1.75,9)
+    z_range = np.linspace(-1,-0.25,8)
+    E_buckets = np.logspace(0.75,1.5,8)
 
     df = pd.DataFrame(events, columns= E_buckets, index=z_range)
     return df

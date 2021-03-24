@@ -2,9 +2,11 @@
 \input{commands.tex}
 \usepackage{physics,amsmath, amsfonts, siunitx, amssymb,cite}
 \usepackage[utf8]{inputenc}
-
+\usepackage{xr-hyper}
+\externaldocument{SM}
 
 \begin{document}
+\section{Non-Standard Interactions}
 Just as we before only considered matter interactions with electrons, we can extend this to include the up and down quarks which are present in the Earth as components of neutrons and protons. 
 Consider interactions beyond the Standard Model through the following Lagrangians,
 \begin{align*}
@@ -12,6 +14,34 @@ Consider interactions beyond the Standard Model through the following Lagrangian
     \mathcal{L}_{\mathrm{NC}} &= -2 \sqrt{2} G_{F} \epsilon_{\alpha \beta}^{f X}\left(\bar{\nu}_{\alpha} \gamma^{\mu} P_{L} \nu_{\beta}\right)\left(\bar{f} \gamma_{\mu} P_{X} f\right)\,,
 \end{align*}
 where CC denotes the charged current interaction with the matter field $f\neq f^\prime \in \{u,d\}$, and NC denotes the neutral current interaction with $f \in \{e,u,d\}$. 
+
+We have no independent sensitivity for the neither chirality nor flavor type of $\varepsilon^X$, so we sum over these and study the effective matter NSI parameter $\varepsilon_{\ab}$:
+\begin{align}
+    \varepsilon_{\ab} = \sum_{X \in \{L,R\}} \sum_{f \in \{e,u,d\}} \frac{N_f}{N_e} \varepsilon^{fX}_{\ab}\,.
+\end{align}
+Our matter study will be wholly confined to the interior of the Earth, where we assume electrical neutrality and equal distribution of neutrons and protons, we get $N_u/N_e \simeq U_d/N_e \simeq 3$. Thus,
+\begin{align}
+    \varepsilon_{\ab} =  \sum_X [\varepsilon_{\ab}^{eX} + 3(\varepsilon_{\ab}^{uX} + \varepsilon_{\ab}^{dX})]
+\end{align}
+Now, $\varepsilon_{\ab}$ enters the Hamiltonian as entries of a potential-like matrix:
+\begin{align}\label{eq:NSIH}
+    H &= \frac{1}{2E} \left[UMU^\dagger + A_{CC}\text{diag}(1,0,0,\kappa) + A_{CC} \varepsilon \right] \nonumber \\
+      &= \frac{1}{2E} \left[UMU^\dagger + A_{CC}
+      \begin{pmatrix}
+          1 + \varepsilon_{ee} & \varepsilon_{e\mu} & \varepsilon_{e\tau} & \varepsilon_{es} \\
+          \varepsilon_{\mu e} & \varepsilon_{\mu\mu} & \varepsilon_{\mu\tau} & \varepsilon_{\mu s} \\
+          \varepsilon_{\tau e} & \varepsilon_{\tau\mu} & \varepsilon_{\tau\tau} & \varepsilon_{\tau s} \\
+          \varepsilon_{ss} & \varepsilon_{s\mu} & \varepsilon_{s\tau} & \kappa+\varepsilon_{ss} \\
+      \end{pmatrix} \right]\,, 
+\end{align}
+where $\kappa$ denotes the ratio $A_{NC}/A_{CC} = N_n/2N_e$ and can be taken to be $\simeq 0.5$ since $N_n/N_e\simeq 1$. 
+
+We can draw several conclusions from this form of the Hamiltonian. The any nonzero off-diagonal element $\varepsilon_{\ab}, \a \neq \b$ will make the NSI violate lepton flavor, just as the off-diagonal elements of $U$ does in the SM. Moreover, since both SM potential entries are of $\mathcal{O}(1)$, any $\varepsilon_{\ab} \sim 1$ will make the new matter effect be the same order as the SM effect.
+As in Ref.~\cite{tommyNSI}, $\varepsilon_{\ab}$ have the scale
+\begin{align}
+    \varepsilon_{\ab} \propto \frac{m_W^2}{m_{\varepsilon}^2} \sim \frac{10^{-2}}{m_\varepsilon^2}\,
+\end{align} 
+in TeV, so the new interactions generated at a mass scale of $m_\varepsilon = \SI{1}{TeV}$ will produce NSI parameters in the order of $10^{-2}$, , two magnitudes below the SM matter effect. Thus, if we assume the new interactions to arise from a higher-energy theory at or above TeV scale, we then predict that the NSI parameters contribute at most $10^{-2}$ to the SM matter effect, decreasing quadratically. 
 \bibliographystyle{apalike}
 \bibliography{ref}
 \end{document}

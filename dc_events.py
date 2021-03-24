@@ -1,5 +1,5 @@
 import numpy as np
-from dataProcesser import get_flux,get_aeff, generate_probabilities, get_probabilities, get_Etrue, get_interpolators_dc
+from dataProcesser import get_flux,get_aeff, generate_probabilities, get_probabilities, get_Etrue, get_interpolators_dc,get_aeff_dc
 from dataImporter import *
 from multiprocessing import Pool
 from functions import ic_params, integrate
@@ -20,17 +20,19 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
     Et = np.logspace(np.log10(norm.ppf(1-alpha, scale=0.24*Er[0], loc= Er[0])), 
                          np.log10(norm.ppf(alpha, scale=0.24*Er[-1], loc= Er[-1])),npoints)
 
-    zt = -np.linspace(norm.ppf(1-alpha, scale=-0.1*zr[0], loc= -zr[0]), 
-                         norm.ppf(alpha, scale=-0.1*zr[-1], loc= -zr[-1]),npoints)
-
+    zt = np.linspace(norm.ppf(1-alpha, scale=0.1*np.abs(zr[0]), loc= zr[0]), 
+                         norm.ppf(alpha, scale=0.1*np.abs(zr[-1]+0.001), loc= zr[-1]),npoints)
+    # Reflect zenith around -1
+    mask = zt < -1
+    zt[mask] = -zt[mask] -2
+    
     Eresolution_gaussian = norm.pdf(Et, scale = 0.24*Et, loc=Er)
 
-    zresolution_gaussian = norm.pdf(-zt, scale = -0.1*zt, loc=-zr)
-
+    zresolution_gaussian = norm.pdf(zt, scale = 0.1*np.abs(zt), loc= zr)
+    
     zr_mesh,zt_mesh, Er_mesh, Et_mesh = np.meshgrid(zr,zt, Er, Et)
-
-    aeff_m = 10#interp_aeff(Et_mesh,zt_mesh)
-    aeff_mbar = 20#interp_aeff(Et_mesh,zt_mesh)
+    aeff_m = get_aeff_dc(Et_mesh,interp_aeff)
+    aeff_mbar = aeff_m
 
     if spectral_shift_parameters[0]:
         E_pivot = spectral_shift_parameters[1]
@@ -79,17 +81,16 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
         integrand = aeff_m*flux_m*Pmm + aeff_mbar*flux_mbar*P_amam
     else:
         integrand = aeff_m*flux_m + aeff_mbar*flux_mbar
-    integrand *= Eresolution_gaussian * zresolution_gaussian* 2*np.pi * 240747841
- 
+    integrand *= Eresolution_gaussian * 2*np.pi * 240747841
+    scale_factor = np.arccos(zr.max()) - np.arccos(zr.min())
+    '''
     if np.isnan(np.sum(integrand)):
         print('aeff_m:', np.sum(aeff_m),'\n')
         print('flux_m:', np.sum(flux_m),'\n')
         print('aeff_mbar:', np.sum(aeff_mbar),'\n')
         print('flux_mbar:', np.sum(flux_mbar),'\n')
-
-    from scipy.integrate import simps
-    #return simps(integrand, Et_mesh)
-    return integrate(integrand,'simps', Et,zt,-zr,Er)
+    '''
+    return -integrate(integrand,'simps', Et,zt,zr,Er) #/ scale_factor
 
 
 def event_wrapper(param_list):
@@ -161,5 +162,6 @@ def gather_specific_prob(flavor,npoints,En,zn, update=True):
         pass
 interp_flux, interp_aeff,=get_interpolators_dc()
 if __name__ == '__main__':
-    res = get_events(0, 0, 0.99, 5, params=ic_params, spectral_shift_parameters=[False, 2e3, 0.02], null=True, tau=False)
+    #res = sim_events(0.99, 5, params=ic_params, null = True,multi=False, spectral_shift=[False, 2e3, 0.02], tau=False, nsi=False)
+    res = get_events(7,0,0.99,5,null=True)
     print(res)

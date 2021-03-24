@@ -7,7 +7,7 @@
 \externaldocument{SM}
 
 \begin{document}
-\section{Sterile and Massive Neutrinos}\label{ch:sterile}
+\section{Neutrino Masses and Oscillations}\label{ch:oscillation}
 As we saw in Eq.~\ref{eq:j_CC}
 , the neutrino fields $\nu_\alpha$ only couple to the associated lepton fields $\ell_\alpha$, conserving the lepton number $L_\alpha$. We will now introduce two separate extensions to this part of the Standard Model.
 
@@ -22,20 +22,23 @@ Similar to how we diagonalized the lepton Yukawa couplings $Y_{\alpha \beta}^{\p
 \begin{align}
     V_{\alpha k L}^{\nu \dagger} Y^{\prime \nu}_{\alpha \beta} V_{\beta j R}^{\nu}=Y^{\nu}_{kj} \,.
 \end{align}
-Now, let the neutrino field with chriality $X$ be denoted $n_X$, with components Latin numerals to distinguish them from the flavour components, i.e 
-\begin{align}
-    \nu_{k X} =  V_{kj X}^{\nu \dagger} \nu_{jX}^\prime\,.
+Now we introduce a crucial difference between the properties of the charged lepton and the neutrino fields.
+While the charged lepton flavor eigenstate was uniquely determined by its mass eigenstate, the neutrino flavor is a superposition of mass eigenstates. This is because neutrinos are indirectly detected via the observation of its associated charged lepton, so there is no requirement of neutrino flavor eigenstates to have a definite mass. The flavor of a neutrino is then, by definition, the flavor of the associated charged lepton. This is commonly introduced as giving the mass eigenstates Latin numerals and letters, while the flavor eigenstates stay as Greek letters.
+
+So, let the neutrino field with chriality $X$ be denoted $\nu_X$, with components having Latin numerals to distinguish them from the flavour components, i.e 
+\begin{align}\label{eq:nu_rotation}
+    \nu_{k X} =  V_{k\beta X}^{\nu \dagger} \nu_{\beta X}^\prime\,.
 \end{align}
 The diagonalized Lagrangian now takes the form 
 \begin{align}
     \mathcal{L}_{H} &= -\left( \frac{v + H}{\sqrt{2}} \right) \left[\ell_{\alpha L}^{\prime} Y_{\alpha \beta}^{\prime \ell} \ell_{\beta R}^{\prime} + \nu_{\alpha L}^{\prime} Y_{\alpha \beta}^{\prime \nu} \nu_{\beta R}^{\prime}\right] \nonumber \\
-    &= -\left( \frac{v + H}{\sqrt{2}} \right) \left[\ell_{\alpha L}^{\prime} V_{\alpha \beta L}^{\ell} Y_{\alpha \beta}^{ \ell} V_{\alpha \beta R}^{\ell \dagger} \ell_{\beta R}^{\prime}\right.\\
+    &= -\left( \frac{v + H}{\sqrt{2}} \right) \left[\ell_{\alpha L}^{\prime} V_{\alpha \beta L}^{\ell} Y_{\alpha \beta}^{ \ell} V_{\alpha \beta R}^{\ell \dagger} \ell_{\beta R}^{\prime}\right. \nonumber \\
     &\hspace{5.7em}+\left. \nu_{\alpha L}^{\prime} V_{\alpha k L}^{\nu} Y_{kj}^{\nu} V_{\beta j  R}^{\nu \dagger} \nu_{\beta R}^{\prime}\right] \nonumber \\
     &= -\left( \frac{v + H}{\sqrt{2}} \right) \left[\ell_{\alpha L}^\dagger Y_{\alpha \beta}^{ \ell} \ell_{\beta R} + \nu_{k L}^{\dagger} Y_{kj}^{ \nu} \nu_{j R}\right] \nonumber \\
     &= -\left( \frac{v + H}{\sqrt{2}} \right) \left[\bar{\ell}_{\alpha L} Y_{\alpha \beta}^{ \ell} \ell_{\beta R} + \bar{\nu}_{k L} Y_{kj}^\nu \nu_{j R}\right]
 \end{align}
-Now using the fact that $Y^\nu_{kj}$ is diagonal, we write it as $Y_{k j}^{\nu}=y_{k}^{\nu} \delta_{k j}$, leaving the Lagrangian as 
-\begin{align}
+By construction, $Y^\ell_{\alpha \beta}$ and $Y^\nu_{kj}$ are diagonal, so we write them as $y_{\alpha}^{\ell} \delta_{\alpha \beta}$ and $y_{k}^{\nu} \delta_{k j}$ respectively, leaving the Lagrangian as 
+\begin{align}\label{eq:L_H}
     \mathcal{L}_{H} 
     &=-\left( \frac{v + H}{\sqrt{2}} \right) \left[\bar{\ell}_{\alpha L} y_{\alpha}^{\ell} \delta_{\alpha \beta} \ell_{\beta R} + \bar{\nu}_{k L} y_{k}^{\nu} \delta_{k j} \nu_{j R}\right] \nonumber \\
     &=-\left( \frac{v + H}{\sqrt{2}} \right) \left[\bar{\ell}_{\alpha L} y_{\alpha}^{\ell}  \ell_{\alpha R} + \bar{\nu}_{k L} y_{k}^{\nu} \nu_{k R}\right] \nonumber \\
@@ -63,6 +66,21 @@ Thus, this extension to the SM generates neutrino masses by the Higgs mechanism,
 \begin{align}
     m_k = \frac{y_k^\nu v}{\sqrt{2}}
 \end{align}
+
+Substituting the new transformation from Eq.~\ref{eq:nu_rotation} into the weak charged current, we get
+\begin{align}\label{eq:j_CC2}
+    j^\rho_L &= 2\bar{\nu}^\prime_{\alpha L} \gamma^\rho \ell_{\alpha L}^\prime \nonumber \\
+             &= 2\bar{\nu}_{k L} V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} \gamma^\rho  \ell_{\alpha L}
+\end{align}
+Call $V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} = U^\dagger_{k \alpha}$
+Now, the current in Eq.~\ref{eq:j_CC2} conserves lepton number, since the neutrino field with flavor $\alpha$ only couples to the lepton field with flavor $\alpha$. However, the Higgs-lepton Yukawa Lagrangian 
+in Eq.~\ref{eq:L_H} violates lepton number conservation since it couples the charged lepton flavor $\alpha$ to the neutrino mass eigenstate $k$, which is a superposition of flavors. There is no transformation that leaves both the interaction and kinetic Lagrangian invariant.
+We now have 
+\begin{align}
+    j^\rho_L &= 2 U^*_{\alpha k} \bar{\nu}_{k L} \gamma^\rho  \ell_{\alpha L}
+\end{align}
+
+Derivation of neutrino oscillation formula
 %\bibliographystyle{apalike}
 %\bibliography{ref}
 \end{document}
