@@ -1,46 +1,63 @@
+import sys,os
+if __name__ == '__main__':
+    os.chdir('../../')
 import numpy as np
 import pandas as pd
 import warnings
 import pickle
 
 def get_aeff_df():
-    filename = '~/NuFSGenMC_nominal.dat'
-    mc_df = pd.read_csv(filename, delimiter=' ', names= ['pdg', 'Ereco', 'zreco', 'Etrue', 'ztrue', 'mcweight', 'flux_pion', 'flux_kaon'], skiprows=12)
-    #df.mcweight = df.mcweight/1e4 #weights are given in cm^2. our flux is in 1/m^2
-    num_mask = (mc_df["pdg"] == 13)
-    nuam_mask = (mc_df["pdg"] == -13)
-    energy_bins_fine = 500*10**np.linspace(-0.4,2.5,30)
-    z = np.linspace(-1,0.01,102)
+    '''
+    Data from 2012
+    https://icecube.wisc.edu/science/data/PS-3years
+    Returns a df with cols 'E_min', 'E_max', 'z_min', 'z_max', 'Aeff', 'E_avg', 'z_avg'
 
-    df_list=[]
-    for flavor_df in [mc_df[num_mask], mc_df[nuam_mask]]:
-        df = pd.DataFrame(columns=['Etrue','ztrue','aeff'])
-        for i in range(len(z)-1):
-            left_z = z[i]
-            right_z = z[i+1]
-            sub_df = flavor_df[(flavor_df.ztrue < right_z) & (flavor_df.ztrue>left_z)]
-            aeff, bin_edges_num = np.histogram(sub_df.Etrue, weights=sub_df.mcweight, bins=energy_bins_fine )
-            n_items = len(aeff)
-            aeff /= 2. * np.pi # Normalise by steradian
-            aeff /= np.diff(bin_edges_num) # Bin widths
-            aeff = aeff/1e4/(343.7*24*3600) # units to m^2 and livetime in seconds
-            new_rows = np.array([bin_edges_num[0:n_items],[left_z]*n_items,aeff])
-            new_df = pd.DataFrame(new_rows.T, columns=['Etrue','ztrue','aeff'])
-            df= pd.concat([df,new_df], ignore_index=True)
-        df_list.append(df)
-    pickle.dump(df_list,open('./pre_computed/aeff.p','wb'))
-    return df_list
+    Cuts off energies above 20 000 GeV and z above 0 
+
+    '''
+    file1 = './src/data/files/IC86-2012-TabulatedAeff.txt'
+    colnames = ['E_min', 'E_max', 'z_min', 'z_max', 'Aeff']
+
+    A = pd.read_csv(file1, header=None, skiprows=1,names=colnames, dtype = np.float64, skipinitialspace=True, sep=' ')
+
+    #Constant extrapolation of aeff for z edge
+    import warnings
+    df_edges = A.query('z_min == -1.00')
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        df_edges['z_max'] = np.round(df_edges['z_max'],2).replace(-0.99,-1.0)
+    df_fixed = pd.concat([df_edges, A])
+
+    df_fixed['E_avg'] = (df_fixed.E_min + df_fixed.E_max)/2
+    df_fixed['z_avg'] = (df_fixed.z_min + df_fixed.z_max)/2
+    df_fixed = df_fixed.query('E_max <= 1e6') #Remove E_max over 1e6 GeV
+    df_fixed = df_fixed.query('E_min <= 1e6') #Remove E_min over 1e6 GeV
+    df_fixed = df_fixed.query('z_max <= 0.1') #Remove z_max above 0.1
+
+    df = df_fixed.reset_index(drop=True)
+    extrapolated_df = extrapolate_aeff_edges(df)
+    return extrapolated_df
+def extrapolate_aeff_edges(df):
+    E_averages = df.E_avg.unique()
+    for E in E_averages:
+        aeff_at_edge = df[df.E_avg == E].query('z_min <= -0.99').reset_index()
+        extrapolated_aeff = 2*aeff_at_edge.loc[1,'Aeff']-aeff_at_edge.loc[2,'Aeff']
+        constant_aeff = aeff_at_edge.loc[1,'Aeff']
+        aeff_at_edge.loc[0,'Aeff'] = extrapolated_aeff
+        df.iloc[aeff_at_edge['index'][0]] = aeff_at_edge.iloc[0]
+
+    return df.sort_values(by=['E_avg','z_avg'])
 
 def get_aeff_df_dc():
-    filename = './data/dc_aeff.csv'
+    filename = './src/data/files/dc_aeff.csv'
     dc_aeff = pd.read_csv(filename, names=['logE','Aeff'])
     return dc_aeff
 
 def get_flux_factor():
-    file1 = 'data/event_rate_conv.csv'
-    file2 = 'data/event_rate_astro.csv'
-    file3 = 'data/event_rate_prompt.csv'
-    file4 = 'data/event_rate_z.csv'
+    file1 = './src/data/files/event_rate_conv.csv'
+    file2 = './src/data/files/event_rate_astro.csv'
+    file3 = './src/data/files/event_rate_prompt.csv'
+    file4 = './src/data/files/event_rate_z.csv'
     conv = pd.read_csv(file1, skiprows=0, header=None, names=['E', 'rate'], dtype = np.float64, skipinitialspace=True, sep=',').sort_values(by='E').reset_index()
     astro = pd.read_csv(file2, skiprows=0, header=None, names=['E', 'rate'], dtype = np.float64, skipinitialspace=True, sep=',').sort_values(by='E').reset_index()
     prompt = pd.read_csv(file3, skiprows=0, header=None, names=['E', 'rate'], dtype = np.float64, skipinitialspace=True, sep=',').sort_values(by='E').reset_index()
@@ -123,12 +140,12 @@ def DC_event_data():
 
 def get_flux_df():
     '''
-    Reads the files data/spl-nu-20-01-000.d and data/spl-nu-20-01-n3650.d which contain the solar min and max atm fluxes. Averages these for each zenith angle range and returns the fluxes for zenith between -1.05 to 0.05, extrapolated to 1e5 GeV.
+    Reads the files files/spl-nu-20-01-000.d and files/spl-nu-20-01-n3650.d which contain the solar min and max atm fluxes. Averages these for each zenith angle range and returns the fluxes for zenith between -1.05 to 0.05, extrapolated to 1e5 GeV.
 
     Files are from http://www.icrr.u-tokyo.ac.jp/~mhonda/nflx2014/index.html section 2.6
     '''
-    file1 = 'data/spl-nu-20-01-000.d'
-    file2 = 'data/spl-nu-20-01-n3650.d'
+    file1 = './src/data/files/spl-nu-20-01-000.d'
+    file2 = './src/data/files/spl-nu-20-01-n3650.d'
     colnames = ['GeV', 'm_flux', 'mbar_flux', 'e_flux', 'ebar_flux']
 
     text_rows = np.append(np.arange(0,2500,103),(np.arange(1,2500,103)))
@@ -153,12 +170,12 @@ def get_flux_df():
 
 def get_flux_df_DC():
     '''
-    Reads the files data/spl-nu-20-01-000.d and data/spl-nu-20-01-n3650.d which contain the solar min and max atm fluxes. Averages these for each zenith angle range and returns the fluxes for zenith between -1.05 to 0.05, extrapolated to 1e5 GeV.
+    Reads the files files/spl-nu-20-01-000.d and files/spl-nu-20-01-n3650.d which contain the solar min and max atm fluxes. Averages these for each zenith angle range and returns the fluxes for zenith between -1.05 to 0.05, extrapolated to 1e5 GeV.
 
     Files are from http://www.icrr.u-tokyo.ac.jp/~mhonda/nflx2014/index.html section 2.6
     '''
-    file1 = 'data/spl-nu-20-01-000.d'
-    file2 = 'data/spl-nu-20-01-n3650.d'
+    file1 = './src/data/files/spl-nu-20-01-000.d'
+    file2 = './src/data/files/spl-nu-20-01-n3650.d'
     colnames = ['GeV', 'm_flux', 'mbar_flux', 'e_flux', 'ebar_flux']
 
     text_rows = np.append(np.arange(0,2500,103),(np.arange(1,2500,103)))
@@ -247,5 +264,4 @@ def fit_flux(flux_df,zmin):
 
     return pd.DataFrame(np.transpose([x_new, 10**y_new_m, 10**y_new_mbar, 10**y_new_e, 10**y_new_ebar, zmin*np.ones(100), (zmin + 0.1)*np.ones(100)]),columns=['GeV', 'm_flux','mbar_flux','e_flux', 'ebar_flux', 'z_min','z_max'])
 if __name__ == '__main__':
-    print(get_flux_df_DC())
-    print(get_flux_df())
+    get_flux_factor()

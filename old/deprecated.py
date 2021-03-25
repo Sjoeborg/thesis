@@ -2,49 +2,62 @@ from scipy.interpolate import CloughTocher2DInterpolator as CT
 import numpy as np
 import pandas as pd
 
-def extrapolate_aeff_edges(df):
-    E_averages = df.E_avg.unique()
-    for E in E_averages:
-        aeff_at_edge = df[df.E_avg == E].query('z_min <= -0.99').reset_index()
-        extrapolated_aeff = 2*aeff_at_edge.loc[1,'Aeff']-aeff_at_edge.loc[2,'Aeff']
-        constant_aeff = aeff_at_edge.loc[1,'Aeff']
-        aeff_at_edge.loc[0,'Aeff'] = extrapolated_aeff
-        df.iloc[aeff_at_edge['index'][0]] = aeff_at_edge.iloc[0]
+def get_aeff(anti,E,z,df_list):
+    if anti:
+        index = 1
+    else:
+        index = 0
+    aeff = df_list[index](E,z)
+    return aeff
+def interpolate_aeff(recompute=False):
+    if not recompute:
+        try:
+            aeff_list = pickle.load(open('./pre_computed/aeff_interpolator.p','rb'))
+        except:
+            raise FileNotFoundError('File aeff_interpolator.p´ not present in ´./pre_computed/´. Run ´interpolate_aeff()´ with recompute = True to generate it.')
+        try:
+            df_list = pickle.load(open('./pre_computed/aeff.p','rb'))
+        except:
+            raise FileNotFoundError('File aeff.p´ not present in ´./pre_computed/´. Run get_aeff_df() to generate it.')
+    else:
+        df_list = get_aeff_df()
+        aeff_list = []
+        for df in df_list:
+            E = df.Etrue
+            z = df.ztrue
+            aeff = np.array(df.aeff)
+            f = CT(np.array([E,z]).T, aeff)
+            aeff_list.append(f)
+        pickle.dump(aeff_list,open('./pre_computed/aeff_interpolator.p','wb'))
+    return aeff_list
 
-    return df.sort_values(by=['E_avg','z_avg'])
+def get_aeff_df():
+    filename = '~/NuFSGenMC_nominal.dat'
+    mc_df = pd.read_csv(filename, delimiter=' ', names= ['pdg', 'Ereco', 'zreco', 'Etrue', 'ztrue', 'mcweight', 'flux_pion', 'flux_kaon'], skiprows=12)
+    #df.mcweight = df.mcweight/1e4 #weights are given in cm^2. our flux is in 1/m^2
+    num_mask = (mc_df["pdg"] == 13)
+    nuam_mask = (mc_df["pdg"] == -13)
+    energy_bins_fine = 500*10**np.linspace(-0.4,2.5,30)
+    z = np.linspace(-1,0.01,102)
 
-    
-def get_Aeff_df_2012():
-    '''
-    Data from 2012
-    https://icecube.wisc.edu/science/data/PS-3years
-    Returns a df with cols 'E_min', 'E_max', 'z_min', 'z_max', 'Aeff', 'E_avg', 'z_avg'
-
-    Cuts off energies above 20 000 GeV and z above 0 
-
-    '''
-    file1 = 'data/IC86-2012-TabulatedAeff.txt'
-    colnames = ['E_min', 'E_max', 'z_min', 'z_max', 'Aeff']
-
-    A = pd.read_csv(file1, header=None, skiprows=1,names=colnames, dtype = np.float64, skipinitialspace=True, sep=' ')
-
-    #Constant extrapolation of aeff for z edge
-    import warnings
-    df_edges = A.query('z_min == -1.00')
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        df_edges['z_max'] = np.round(df_edges['z_max'],2).replace(-0.99,-1.0)
-    df_fixed = pd.concat([df_edges, A])
-
-    df_fixed['E_avg'] = (df_fixed.E_min + df_fixed.E_max)/2
-    df_fixed['z_avg'] = (df_fixed.z_min + df_fixed.z_max)/2
-    df_fixed = df_fixed.query('E_max <= 1e6') #Remove E_max over 1e6 GeV
-    df_fixed = df_fixed.query('E_min <= 1e6') #Remove E_min over 1e6 GeV
-    df_fixed = df_fixed.query('z_max <= 0.1') #Remove z_max above 0.1
-
-    df = df_fixed.reset_index(drop=True)
-    extrapolated_df = extrapolate_aeff_edges(df)
-    return extrapolated_df
+    df_list=[]
+    for flavor_df in [mc_df[num_mask], mc_df[nuam_mask]]:
+        df = pd.DataFrame(columns=['Etrue','ztrue','aeff'])
+        for i in range(len(z)-1):
+            left_z = z[i]
+            right_z = z[i+1]
+            sub_df = flavor_df[(flavor_df.ztrue < right_z) & (flavor_df.ztrue>left_z)]
+            aeff, bin_edges_num = np.histogram(sub_df.Etrue, weights=sub_df.mcweight, bins=energy_bins_fine )
+            n_items = len(aeff)
+            aeff /= 2. * np.pi # Normalise by steradian
+            aeff /= np.diff(bin_edges_num) # Bin widths
+            aeff = aeff/1e4/(343.7*24*3600) # units to m^2 and livetime in seconds
+            new_rows = np.array([bin_edges_num[0:n_items],[left_z]*n_items,aeff])
+            new_df = pd.DataFrame(new_rows.T, columns=['Etrue','ztrue','aeff'])
+            df= pd.concat([df,new_df], ignore_index=True)
+        df_list.append(df)
+    pickle.dump(df_list,open('./pre_computed/aeff.p','wb'))
+    return df_list
 
 def get_energy_resolutionOLD(Er, GPR_model):
     mu_base_e, std_base_e = GPR_model.predict(np.log(Er).reshape(-1,1), return_std=True)
@@ -89,15 +102,7 @@ def interpolate_reco_to_true(df):
     inter = interpolate.interp1d(df['Ereco'], df['Etrue'],fill_value='extrapolate',kind='linear')
     return inter
 
-def interpolate_Aeff_2012(df):
-    E = df.E_avg
-    z_avg = df.z_avg
-    aeff = np.array(df.Aeff)
 
-
-    points_avg = np.array([E,z_avg]).T
-    f_avg = CT(points_avg, aeff,rescale=True)
-    return f_avg
 
 
 def get_E_prob(deposited, reconstructed):

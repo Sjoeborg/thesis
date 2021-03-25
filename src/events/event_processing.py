@@ -1,9 +1,15 @@
+import sys,os
+if __name__ == '__main__':
+    os.chdir('../../')
+    sys.path.append('./src/data')
+    sys.path.append('./src/events')
+    sys.path.append('./src/probability')
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import pandas as pd
-from dataImporter import *
-from dataProcesser import *
+from importer import *
+from processer import *
 from events import sim_events, list_of_params, ic_params
 from functions import perform_chisq
 from scipy.stats import chi2
@@ -20,8 +26,8 @@ flux_z_factors = flux_z_factors_full[z_bins]
 flux_factors = np.outer(flux_E_factors, flux_z_factors)
 IC_observed = IC_observed_full[E_bins,z_bins_T].T
 
-E_ratios_full = pd.read_csv('./data/E_ratios.csv', header=None, names=['Ereco', 'Eratio']).Eratio.values
-z_ratios_full = pd.read_csv('./data/z_ratios.csv', header=None, names=['zreco', 'zratio']).zratio.values
+E_ratios_full = pd.read_csv('./src/data/files/E_ratios.csv', header=None, names=['Ereco', 'Eratio']).Eratio.values
+z_ratios_full = pd.read_csv('./src/data/files/z_ratios.csv', header=None, names=['zreco', 'zratio']).zratio.values
 IC_per_z_full = np.array(np.sum(IC_observed_full, axis=0))
 IC_per_E_full = np.array(np.sum(IC_observed_full, axis=1))
 MC_per_E_full = (IC_per_E_full/E_ratios_full)
@@ -212,7 +218,31 @@ def get_contour(deltachi, dm41_range,s24_range):
 
 
     return s24_range[s24_cl90_index], s24_range[s24_cl99_index], dm41_range[dm41_cl90_index], dm41_range[dm41_cl99_index]
+
+def list_of_params_nsi(dicta,s24_range, emm_range):
+    def update_dict(dict,p):
+        dict2 = dicta.copy()
+        dict2.update(p)
+        return dict2
+    dict_list = [update_dict(dicta,{'e_mm':mm,'theta_24':np.arcsin(np.sqrt(s24))/2}) for mm in emm_range for s24 in s24_range]
+    return dict_list
+def return_precomputed_nsi(N,ndim,params, nsi=False):
+    params= np.array(params)
+    precomputed_list = np.array([is_precomputed_nsi(N,ndim, p, check=False) for p in params])
+    mask = precomputed_list == True
+    computed_params = params[mask]
+    return computed_params
+def is_precomputed_nsi(N,ndim, dict, check=False):
+    for anti in [True,False]:
+        for flavor_from in ['e','m']:
+            flavor_to  = 'm'
+            try:
+                get_probabilities(flavor_from, flavor_to, 5,5,dict,anti,N)
+            except (FileNotFoundError,KeyError):
+                if check:
+                    return False
+                else:
+                    raise FileNotFoundError(f'P{flavor_from}{flavor_to} for N={N}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, e_mm={dict["e_mm"]}, not found')
+            return True
 if __name__ == '__main__':
-    arr = np.array([[True,True,True],
-                    [True,False,True]])
-    print(get_boundary(arr))
+    pass

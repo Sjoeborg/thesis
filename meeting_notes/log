@@ -369,5 +369,10 @@ Med e_mm translaterar vi Pmm resonansen.
 24 Mar
 Får inte DC data att funka med min extrapolerade Aeff. Har dock hittat väldigt bra DC aeff från 2016. Känner just nu att jag vill släppa DC och "lita" på arman. Behöver jag verkligen simulera hela DC 
 för att kunna säga att e_mm-e_tt ska vara liten? Jag har ju redan 90% CL från någon konferens. Kör om denna med finare värden och kortare range i e-led och längre range i th-led.
-Kör en sim där du marginaliserar över dm.
+Kör en sim där du marginaliserar icke-NSI över dm.
 Gällande 3+2 verkar th25 bidra på samma sätt som th24. En extra grej här är att th35 bidrar till två resonanser, så även fast effekten av th24 uteblev i 3+1 kanske den syns i 3+2.
+Just nu känns 3+2 lite bökigt, men kan ju ha det som backup
+
+25 Mar
+Har gjort om strukturen helt, och märkt att den precomputade aeff antagligen var den dåliga från 2015. Har genereat den gamla igen. Ifall något fuckar så kan jag alltid reverta.
+Jämför standardkonture med s34=0 mot Giuntis och kolla att din nya fortfarande är bättre. Oavsett så kanske det ändå är intressant att kolla hur th34-konturen påverkas?

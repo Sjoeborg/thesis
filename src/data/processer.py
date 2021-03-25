@@ -1,16 +1,22 @@
+import sys,os
+if __name__ == '__main__':
+    os.chdir('../../')
+    sys.path.append('./src/probability')
+    sys.path.append('./src/data')
 import numpy as np
 import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
 from functions import mass_dict
-from dataImporter import get_flux_df,get_aeff_df,get_flux_df_DC, get_aeff_df_dc
+from importer import get_flux_df,get_aeff_df,get_flux_df_DC, get_aeff_df_dc
 from dict_hash import sha256
 import pandas as pd
-from numerical import wrapper 
+#from numerical import wrapper 
 from scipy.stats import lognorm
 import pickle
 import os
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import WhiteKernel, RBF
+
 def get_flux(flavor,E,z,df):
     '''
     Returns flux for a set of flavor, energy [GeV], and z=cos(theta_z).
@@ -22,14 +28,6 @@ def get_flux(flavor,E,z,df):
     return np.abs(flux_avg) 
 
 
-def get_aeff(anti,E,z,df_list):
-    if anti:
-        index = 1
-    else:
-        index = 0
-    aeff = df_list[index](E,z)
-    return aeff
-
 def get_aeff_dc(E,interpolator):
     try:
         return interpolator(np.log10(E))
@@ -38,6 +36,23 @@ def get_aeff_dc(E,interpolator):
         y2 = interpolator(1.2)
         return (y2-y1)/(1.2-1.13) * np.log10(E)
 
+def interpolate_aeff(recompute):
+    if recompute:
+        df = get_aeff_df()
+        E = df.E_avg
+        z_avg = df.z_avg
+        aeff = np.array(df.Aeff)
+
+        points_avg = np.array([E,z_avg]).T
+        f_avg = CT(points_avg, aeff,rescale=True)
+        pickle.dump(f_avg,open('./pre_computed/aeff_interpolator.p','wb'))
+    else:
+        try:
+            f_avg = pickle.load(open('./pre_computed/aeff_interpolator.p','rb'))
+        except:
+            raise FileNotFoundError('File ´aeff_interpolator.p´ not present in ´./pre_computed/´. Rerun with recompute = True to generate it.')
+
+    return f_avg
 
 def interpolate_flux(recompute=False):
     '''
@@ -126,27 +141,7 @@ def bin_flux_factors_DC(E_df, z_df):
     return np.array(E_res),np.array(z_res)
 
 
-def interpolate_aeff(recompute=False):
-    if not recompute:
-        try:
-            aeff_list = pickle.load(open('./pre_computed/aeff_interpolator.p','rb'))
-        except:
-            raise FileNotFoundError('File aeff_interpolator.p´ not present in ´./pre_computed/´. Run ´interpolate_aeff()´ with recompute = True to generate it.')
-        try:
-            df_list = pickle.load(open('./pre_computed/aeff.p','rb'))
-        except:
-            raise FileNotFoundError('File aeff.p´ not present in ´./pre_computed/´. Run get_aeff_df() to generate it.')
-    else:
-        df_list = get_aeff_df()
-        aeff_list = []
-        for df in df_list:
-            E = df.Etrue
-            z = df.ztrue
-            aeff = np.array(df.aeff)
-            f = CT(np.array([E,z]).T, aeff)
-            aeff_list.append(f)
-        pickle.dump(aeff_list,open('./pre_computed/aeff_interpolator.p','wb'))
-    return aeff_list
+
 
 def interpolate_aeff_dc(recompute=False):
     if not recompute:
@@ -224,7 +219,7 @@ def train_energy_resolution(recompute=False):
         except:
             raise FileNotFoundError('File energy_resolution_models.p´ not present in ´../´. Run ´train_energy_resolution()´ with recompute=True to generate it.')
     else:
-        filename = '~/NuFSGenMC_nominal.dat'
+        filename = '../NuFSGenMC_nominal.dat'
         df = pd.read_csv(filename, delimiter=' ', names= ['pdg', 'Ereco', 'zreco', 'Etrue', 'ztrue', 'mcweight', 'flux_pion', 'flux_kaon'], skiprows=12)
         df.Ereco = np.round(df.Ereco,0)
         df = df.groupby('Ereco').median().reset_index()
@@ -251,10 +246,8 @@ def get_Etrue(model, npoints, left_alpha, right_alpha,E_index=None,Ereco=False):
 
 def get_interpolators(recompute_flux=False, recompute_aeff=False, recompute_energy_res=False):
     interp_flux = interpolate_flux(recompute_flux)
+
     interp_aeff = interpolate_aeff(recompute_aeff)
-    from old.deprecated import get_Aeff_df_2012, interpolate_Aeff_2012
-    aeff_df = get_Aeff_df_2012()
-    interp_aeff = interpolate_Aeff_2012(aeff_df)
     gpr_models = train_energy_resolution(recompute_energy_res)
 
     return interp_flux, interp_aeff, gpr_models
@@ -267,4 +260,4 @@ def get_interpolators_dc(recompute_flux=False, recompute_aeff=False):
     return interp_flux, interp_aeff
 
 if __name__ == '__main__':
-    get_interpolators_dc(recompute_flux=True, recompute_aeff=False)
+    pass

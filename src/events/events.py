@@ -1,6 +1,11 @@
+import sys,os
+if __name__ == '__main__':
+    os.chdir('../../')
+    sys.path.append('./src/probability')
+    sys.path.append('./src/data')
 import numpy as np
-from dataProcesser import get_flux,get_aeff, generate_probabilities, get_probabilities, get_Etrue, get_interpolators
-from dataImporter import *
+from processer import get_flux, generate_probabilities, get_probabilities, get_Etrue, get_interpolators
+from importer import *
 from multiprocessing import Pool
 from functions import ic_params, integrate
 import time
@@ -179,4 +184,4 @@ def gather_specific_prob(flavor,npoints,En,zn, update=True):
 
 interp_flux, interp_aeff, energy_resolution_models = get_interpolators()
 if __name__ == '__main__':
-    pass
+   pass

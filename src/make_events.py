@@ -1,6 +1,11 @@
+import sys,os
+os.chdir('../')
+sys.path.append('./src/data')
+sys.path.append('./src/events')
+sys.path.append('./src/probability')
 import argparse
-from events import list_of_params, ic_params
-from dataProcesser import generate_probabilities, get_Etrue, train_energy_resolution, get_probabilities
+from events.events import list_of_params, ic_params
+from data.processer import generate_probabilities, get_Etrue, train_energy_resolution, get_probabilities
 import numpy as np
 import time
 import pandas as pd
@@ -24,7 +29,6 @@ parser.add_argument('-s34eqs24', action='store_true')
 parser.add_argument('-s342xs24', action='store_true')
 parser.add_argument('-s34', action='store_true')
 parser.add_argument('-nsi', action='store_true')
-
 args = parser.parse_args()
 
 def probs(E_index, z_index, alpha, npoints, params=ic_params):
@@ -105,8 +109,10 @@ if __name__ == '__main__':
     
     start = time.time()
     #p = Pool()
+    
     for i, _ in enumerate(map(precompute_probs, split_array), 1):
         print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(split_array)))
         print(np.round((time.time() - start)/3600,1))
     #p.close()
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
+    
