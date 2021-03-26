@@ -1,0 +1,14 @@
+The information contained in this data release contains the necessary pieces to reproduce the DeepCore low-energy neutrino oscillations and the DeepCore sterile neutrino study (independent from the high-energy sterile neutrino search) presented in Neutrino'16:
+http://neutrino2016.iopconfs.org/IOP/media/uploaded/EVIOP/event_948/Koskinen_IceCube-DeepCore-PINGU_Neutrino_2016_v3.pdf
+This is an update to the result first published in Phys.Rev.D91,072004(2015). Figures with the updated result are also included.
+
+The data given here are:
+- Neutrino effective areas. Extreme fine binning [400 bins in log10(NuEnergy) and 410 in cos(zenith)] is used in order to reproduce the detector resolutions and biases. Bins with zero contents are removed from the tables to make them lightweight.
+- Impact of detector systematic uncertainties. DOM (optical) efficiency and hole ice (angular acceptance) are provided. They are given as functions that modify the expected number of neutrinos in each of the analysis bins. Evaluate both at the desired value (e.g. DOM eff 1.02 and hole ice 0.025) and multiply times the bin content. The multiplicative factor should be applied to the sum of all neutrino contributions. The previous release provided functions for each neutrino flavor/interaction, but it has been shown that such detail was not necessary for this dataset. This release provides a single, but higher order polynomial function, for all neutrinos.
+- Atmospheric muon background PDF. The PDF is not normalized. It is obtained from data and the values are number of events expected. The template should be left to float freely in the fit.
+- Observed events per bin.
+- The BestFit_values.txt file contains the nominal value and assumed errors for the nuisance parameters (systematic uncertainties), as well as the best fit point retrieved.
+- Maps of the 2*deltaLLH. This difference is interpreted as a chi-squared.
+
+If you have any questions, please contact:
+data@icecube.wisc.edu
