@@ -376,3 +376,8 @@ Just nu känns 3+2 lite bökigt, men kan ju ha det som backup
 25 Mar
 Har gjort om strukturen helt, och märkt att den precomputade aeff antagligen var den dåliga från 2015. Har genereat den gamla igen. Ifall något fuckar så kan jag alltid reverta.
 Jämför standardkonture med s34=0 mot Giuntis och kolla att din nya fortfarande är bättre. Oavsett så kanske det ändå är intressant att kolla hur th34-konturen påverkas?
+
+29 Mar 
+DC: För varje E och z-bin i reco har jag en aeff för varje uppsättning Etrue,ztrue. Antingen summerar jag över alla reco, och får då en snitt-aeff för Etrue,ztrue. Jag kan sen använda den osummerade dfen för att träna/ta fram E och z resolution som tidigare.
+Eller så kör jag på "som dom vill", behöver då beräkna ca 200 probs för varje reco bin. Har då totalt 4 gånger fler probs än IC vid N=13. 
+Tredje alternativet är att beskära dfen lite för att få ner antalet probs som behöver beräknas per bin. 

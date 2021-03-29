@@ -19,7 +19,26 @@ def extrapolate_aeff_edges(df):
     return df.sort_values(by=['E_avg','z_avg'])
 
 def get_aeff_df_dc():
-    df_chunks = pd.read_csv('../src/data/files/DC/CC_NuE.txt', skiprows=1, delimiter='\t', names=['z', 'E', 'aeff'],skip_blank_lines=False)
+    flavor_list=[]
+    df_list=[]
+    for flavor in ['E','EBar','Mu','Mubar', 'Tau', 'TauBar','X','XBar']:
+        df_list.append(flavor_aeff_df_dc(flavor))
+    return df_list
+
+def get_DC_MC():
+    bins = np.arange(1,9)
+    MC_factors =[]
+    for bin in bins:
+        df = pd.read_csv(f'./src/data/files/DC/DC2015_MC_bin{bin}.csv', skiprows=2, names=['z1','rates','z2','events'], dtype=np.float64)
+        MC = df.events/df.rates
+        MC_factors.append(MC.to_numpy())
+    return np.array(MC_factors)
+
+def flavor_aeff_df_dc(flavor):
+    filename = f'./src/data/files/DC/CC_Nu{flavor}.txt'
+    if flavor[0] == 'X':
+        filename = f'./src/data/files/DC/NC_Nu{flavor}.txt'
+    df_chunks = pd.read_csv(filename, skiprows=1, delimiter='\t', names=['z', 'E', f'aeff_{flavor}'],skip_blank_lines=False)
     df_list = np.split(df_chunks, df_chunks[df_chunks.isnull().all(1)].index)
     _=df_list.pop(-1)
     new_list=[]
@@ -39,12 +58,39 @@ def get_aeff_df_dc():
         df['zmax'] = z_ranges[1].astype(np.float64)
         df['Emin'] = E_ranges[0].astype(np.float64)
         df['Emax'] = E_ranges[1].astype(np.float64)
+        df[f'aeff_{flavor}'] = df[f'aeff_{flavor}'].astype(np.float64)
 
         df['E_avg'] = (df['Emax'] + df['Emin'])/2
         df['z_avg'] = (df['zmax'] + df['zmin'])/2
         new_list.append(df)
     return new_list
 
+def get_systematics():
+    best_fit_optical_eff = 1.015
+    best_fit_hole = 0.02
+    eval_DOM = lambda p:eval(p.replace('^','**').replace(' x',f'*{best_fit_optical_eff}'))
+    eval_ICE = lambda p:eval(p.replace('^','**').replace(' x',f'*{best_fit_hole}'))
+    df = pd.read_csv('./src/data/files/DC/DOMeff.txt', skiprows=3, delimiter='\t', names=['E', 'z', 'del','DOMeff','del1'])
+    df_ICE = pd.read_csv('./src/data/files/DC/HoleIce.txt', skiprows=3, delimiter='\t', names=['E', 'z', 'del','ICEeff','del1'])
+    df_ICE = df_ICE['ICEeff']
+    df.z = df.z.str.replace('cosZreco=\[','')
+    df.E = df.E.str.replace('logEreco=\[','')
+    df.z = df.z.str.replace('=\[','')
+    df.z = df.z.str.replace(']','')
+    df.E = df.E.str.replace(']','')
+    df = df.drop(['del','del1'],axis=1)
+    z_ranges = pd.DataFrame(df.z.str.split(',', expand=True))
+    E_ranges = pd.DataFrame(df.E.str.split(',', expand=True))
+    df['zmin'] = z_ranges[0].astype(np.float64)
+    df['zmax'] = z_ranges[1].astype(np.float64)
+    df['Emin'] = E_ranges[0].astype(np.float64)
+    df['Emax'] = E_ranges[1].astype(np.float64)
+    df['E_avg'] = (df['Emax'] + df['Emin'])/2
+    df['z_avg'] = (df['zmax'] + df['zmin'])/2
+
+    df.DOMeff = df.DOMeff.apply(eval_DOM)
+    df['ICEeff']= df_ICE.apply(eval_ICE)
+    return df[['E_avg','z_avg','DOMeff','ICEeff']]
 
 
 def flux_parametrization(x, K, b, c, a):
