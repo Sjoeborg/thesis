@@ -1,11 +1,11 @@
 import sys,os
-os.chdir('../')
+#os.chdir('../')
 sys.path.append('./src/data')
 sys.path.append('./src/events')
 sys.path.append('./src/probability')
 import argparse
-from functions import ic_params_nsi
-from processer import generate_probabilities, get_Etrue, train_energy_resolution, get_probabilities
+from probability.functions import ic_params_nsi
+from data.processer import generate_probabilities, get_Etrue, train_energy_resolution, get_probabilities
 import numpy as np
 import time
 import pandas as pd
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     print(f'Precomputing probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), s34=0, for N = {args.N}. s={args.s+1}/{args.sT}')
 
     split_array=  np.array_split(param_list,args.sT)[args.s]
-    '''
+    
     start = time.time()
     #p = Pool()
     for i, _ in enumerate(map(precompute_probs, split_array), 1):
@@ -99,5 +99,5 @@ if __name__ == '__main__':
         print(np.round((time.time() - start)/3600,1))
     #p.close()
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
-    '''
+    
     

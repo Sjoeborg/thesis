@@ -1,5 +1,5 @@
 import sys,os
-os.chdir('../')
+#os.chdir('../')
 sys.path.append('./src/data')
 sys.path.append('./src/events')
 sys.path.append('./src/probability')

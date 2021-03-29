@@ -4,10 +4,10 @@ if __name__ == '__main__':
     sys.path.append('./src/probability')
     sys.path.append('./src/data')
 import numpy as np
-from processer import get_flux, generate_probabilities, get_probabilities, get_Etrue, get_interpolators
-from importer import *
+from data.processer import get_flux, generate_probabilities, get_probabilities, get_Etrue, get_interpolators
+from data.importer import *
 from multiprocessing import Pool
-from functions import ic_params, integrate
+from probability.functions import ic_params, integrate
 import time
 from scipy.stats import lognorm
 

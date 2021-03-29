@@ -1,16 +1,16 @@
 import sys,os
-if __name__ == '__main__':
-    os.chdir('../../')
-    sys.path.append('./src/probability')
-    sys.path.append('./src/data')
+#if __name__ == '__main__':
+#os.chdir('../')
+sys.path.append('./src/probability')
+sys.path.append('./src/data')
 import numpy as np
 import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
-from functions import mass_dict
-from importer import get_flux_df,get_aeff_df,get_flux_df_DC, get_aeff_df_dc
+from probability.functions import mass_dict
+from data.importer import get_flux_df,get_aeff_df,get_flux_df_DC, get_aeff_df_dc
 from dict_hash import sha256
 import pandas as pd
-#from numerical import wrapper 
+from probability.numerical import wrapper 
 from scipy.stats import lognorm
 import pickle
 import os
@@ -63,6 +63,7 @@ def interpolate_flux(recompute=False):
         try:
             inter_df = pickle.load(open('./pre_computed/flux_interpolator.p','rb'))
         except:
+            print(os.getcwd())
             raise FileNotFoundError('File ´flux_interpolator.p´ not present in ´./pre_computed/´. Rerun with recompute = True to generate it.')
     else:
         df = get_flux_df()
