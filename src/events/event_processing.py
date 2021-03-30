@@ -10,7 +10,7 @@ import matplotlib
 import pandas as pd
 from importer import *
 from processer import *
-from events import sim_events, list_of_params, ic_params
+from events.events import sim_events, list_of_params, ic_params
 from functions import perform_chisq
 from scipy.stats import chi2
 

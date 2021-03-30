@@ -7,17 +7,19 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-N', default = 13, type=int)
 parser.add_argument('-u', action='store_true')
 parser.add_argument('-d', action='store_true')
+parser.add_argument('-s', default = 0, type=int)
+parser.add_argument('-sT', default = 1, type=int)
 args = parser.parse_args()
-E_range = range(3,13)
+E_range = range(0,13)
 z_range = range(0,20)
 flavors = ['Pamam', 'Paeam','Pem','Pmm', 'Pmt','Pamat']
 
 
-def gather_precomputed(npoints=args.N, update=args.u):
-    print('Inserting precomputed arrays into dfs')
+def gather_precomputed(z_bins,npoints=args.N, update=args.u):
+    #print('Inserting precomputed arrays into dfs')
     for flavor in flavors:
         for En in E_range:
-            for zn in z_range:
+            for zn in z_bins:
                 filenames=[]
                 try:
                     for file in os.listdir(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/'):
@@ -25,7 +27,7 @@ def gather_precomputed(npoints=args.N, update=args.u):
                             filenames.append(file[0:-4])
                     try:
                         df = pickle.load(open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','rb'))
-                    except FileNotFoundError:
+                    except (FileNotFoundError,EOFError):
                         df = pd.DataFrame(index=[f'E{En}z{zn}'], dtype='object')
 
                     for file in filenames:
@@ -41,7 +43,7 @@ def gather_precomputed(npoints=args.N, update=args.u):
                             os.remove(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
                 except FileNotFoundError:
                     pass
-
+            print(f'{flavor}, E{En}z{zn} done')
 
 def merge_precomputed_df(npoints=args.N):
     print('Merging precomputed dfs')
@@ -73,6 +75,7 @@ def delete_files(npoints=args.N):
                 except FileNotFoundError:
                     pass
 if __name__ == '__main__':
-    gather_precomputed(args.N)
+    split_z=  np.array_split(z_range,args.sT)[args.s]
+    gather_precomputed(split_z,args.N,args.u)
     #delete_files(args.N)
     #merge_precomputed_df()
