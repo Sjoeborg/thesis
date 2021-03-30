@@ -381,3 +381,8 @@ Jämför standardkonture med s34=0 mot Giuntis och kolla att din nya fortfarande
 DC: För varje E och z-bin i reco har jag en aeff för varje uppsättning Etrue,ztrue. Antingen summerar jag över alla reco, och får då en snitt-aeff för Etrue,ztrue. Jag kan sen använda den osummerade dfen för att träna/ta fram E och z resolution som tidigare.
 Eller så kör jag på "som dom vill", behöver då beräkna ca 200 probs för varje reco bin. Har då totalt 4 gånger fler probs än IC vid N=13. 
 Tredje alternativet är att beskära dfen lite för att få ner antalet probs som behöver beräknas per bin. 
+
+30 Mar
+DC 2018 MC stämmer varken överens med DC 2015 MC eller min null...
+Min null stämmer jättebra överens med DC 2015 i z-led, men dåligt i E-led. 
+Just nu känns det bäst att använda DC 2015. Avvikelsen hos DC2018 kan bero på annan event selection och muon background.

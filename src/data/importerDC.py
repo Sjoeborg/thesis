@@ -6,24 +6,16 @@ import pandas as pd
 import warnings
 import pickle
 
-
-def extrapolate_aeff_edges(df):
-    E_averages = df.E_avg.unique()
-    for E in E_averages:
-        aeff_at_edge = df[df.E_avg == E].query('z_min <= -0.99').reset_index()
-        extrapolated_aeff = 2*aeff_at_edge.loc[1,'Aeff']-aeff_at_edge.loc[2,'Aeff']
-        constant_aeff = aeff_at_edge.loc[1,'Aeff']
-        aeff_at_edge.loc[0,'Aeff'] = extrapolated_aeff
-        df.iloc[aeff_at_edge['index'][0]] = aeff_at_edge.iloc[0]
-
-    return df.sort_values(by=['E_avg','z_avg'])
-
 def get_aeff_df_dc():
     flavor_list=[]
     df_list=[]
     for flavor in ['E','EBar','Mu','Mubar', 'Tau', 'TauBar','X','XBar']:
         df_list.append(flavor_aeff_df_dc(flavor))
     return df_list
+
+def get_DC_MC_2018():
+    df = pd.read_csv(f'./src/data/files/DC/dc2018_MC.csv', skiprows=0, names=['E','events'], dtype=np.float64)
+    return df
 
 def get_DC_MC():
     bins = np.arange(1,9)
@@ -93,22 +85,7 @@ def get_systematics():
     return df[['E_avg','z_avg','DOMeff','ICEeff']]
 
 
-def flux_parametrization(x, K, b, c, a):
-    '''
-    Source: https://arxiv.org/abs/hep-ph/0203272v2
-    '''
-    return K * np.power(x + b * np.exp(-c * np.sqrt(x)),-a)
-    #return K * np.power(x,-a)
-
-
-
-
-
-def DC_event_data():
-    '''
-    Data from https://journals.aps.org/prd/pdf/10.1103/PhysRevD.102.052009 fig2
-    Double-checked and confirmed to sum to 305735
-    '''
+def DC2018_event_data():
     events = np.array([[32, 85,  143, 186, 208, 179, 119,  67],  
                        [66, 101, 162, 223, 271, 276, 230, 147],
                        [119, 150, 216, 288, 355, 366, 310, 211], 
@@ -123,9 +100,29 @@ def DC_event_data():
     df = pd.DataFrame(events, columns= E_buckets, index=z_range)
     return df
 
+def DC2015_event_data():
+    df = pd.read_csv('./src/data/files/DC/DataCounts.txt', skiprows=2, delimiter='\t', names=['z','E','events'])
+    background = pd.read_csv('./src/data/files/DC/AtmMuons_fromData.txt', skiprows=2, delimiter='\t', names=['z','E','events'])
+    df['background'] = background.events
+    df.z = df.z.str.replace('[','')
+    df.E = df.E.str.replace('[','')
+    df.z = df.z.str.replace(']','')
+    df.E = df.E.str.replace(']','')
+    z_ranges = pd.DataFrame(df.z.str.split(',', expand=True))
+    E_ranges = pd.DataFrame(df.E.str.split(',', expand=True))
+    df['zmin'] = z_ranges[0].astype(np.float64)
+    df['zmax'] = z_ranges[1].astype(np.float64)
+    df['Emin'] = E_ranges[0].astype(np.float64)
+    df['Emax'] = E_ranges[1].astype(np.float64)
+    df['Eavg'] = (df['Emax'] + df['Emin'])/2
+    df['zavg'] = (df['zmax'] + df['zmin'])/2
+    df = df[['zavg','Eavg','events', 'background']]
+    df = df.pivot(index='zavg', columns='Eavg')
+    return df
+
 def get_flux_df_DC():
     '''
-    Reads the files files/spl-nu-20-01-000.d and files/spl-nu-20-01-n3650.d which contain the solar min and max atm fluxes. Averages these for each zenith angle range and returns the fluxes for zenith between -1.05 to 0.05, extrapolated to 1e5 GeV.
+    Reads the files files/spl-nu-20-01-000.d and files/spl-nu-20-01-n3650.d which contain the solar min and max atm fluxes. Averages these for each zenith angle range
 
     Files are from http://www.icrr.u-tokyo.ac.jp/~mhonda/nflx2014/index.html section 2.6
     '''
@@ -167,42 +164,5 @@ def z_bins_DC(df_list):
         new_df_list.append(df)
     return new_df_list
 
-
-def extrapolate_flux(flux_df):
-    '''
-    Extrapolates the fluxes to 1e5 GeV
-    '''
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore") #Ignore warning about covariance not estimated
-        for zmin in flux_df.z_min.unique():
-            res = fit_flux(flux_df,zmin)
-            flux_df = flux_df.append(res)
-    return flux_df
-
-def fit_flux(flux_df,zmin):
-    from sklearn.linear_model import LinearRegression as LR
-    '''
-    Fits all four fluxes for a given z_min 
-    '''
-    df = flux_df[flux_df.z_min == zmin]
-
-    x = df.query('GeV > 5e3').GeV
-    y_m = df.query('GeV > 5e3').m_flux
-    y_mbar = df.query('GeV > 5e3').mbar_flux
-    y_e = df.query('GeV > 5e3').e_flux
-    y_ebar = df.query('GeV > 5e3').ebar_flux
-
-
-    model_m = LR().fit(np.array(np.log10(x)).reshape(-1, 1), np.log10(y_m))
-    model_mbar = LR().fit(np.array(np.log10(x)).reshape(-1, 1), np.log10(y_mbar))
-    model_e = LR().fit(np.array(np.log10(x)).reshape(-1, 1), np.log10(y_e))
-    model_ebar = LR().fit(np.array(np.log10(x)).reshape(-1, 1), np.log10(y_ebar))
-    x_new = np.logspace(np.log10(1e4),np.log10(1e6),100)
-    y_new_m = model_m.predict(np.log10(x_new.reshape(-1,1)))
-    y_new_mbar = model_mbar.predict(np.log10(x_new.reshape(-1,1)))
-    y_new_e = model_e.predict(np.log10(x_new.reshape(-1,1)))
-    y_new_ebar = model_ebar.predict(np.log10(x_new.reshape(-1,1)))
-
-    return pd.DataFrame(np.transpose([x_new, 10**y_new_m, 10**y_new_mbar, 10**y_new_e, 10**y_new_ebar, zmin*np.ones(100), (zmin + 0.1)*np.ones(100)]),columns=['GeV', 'm_flux','mbar_flux','e_flux', 'ebar_flux', 'z_min','z_max'])
 if __name__ == '__main__':
     get_flux_factor()
