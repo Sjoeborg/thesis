@@ -8,10 +8,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import pandas as pd
-from importer import *
-from processer import *
-from events.events import sim_events, list_of_params, ic_params
-from functions import perform_chisq
+from data.importer import *
+from data.processer import *
+from events.main import sim_events, list_of_params, ic_params
+from probability.functions import perform_chisq
 from scipy.stats import chi2
 
 IC_observed_full = np.array(get_IC_data().T)
@@ -163,22 +163,30 @@ def normalize_bin_by_bin(simulated_events, MC = True, MC_old=False, correct_flux
     return np.array(normalization)
 
 
-def is_precomputed(N,ndim, dict, check=False):
+def is_precomputed(N,ndim, dict, check=False, quick=True):
     for anti in [True,False]:
         for flavor_from in ['e','m']:
             flavor_to  = 'm'
             try:
-                get_probabilities(flavor_from, flavor_to, 5,5,dict,anti,N)
+                if quick:
+                    get_probabilities(flavor_from, flavor_to, 5,5,dict,anti,N)
+                else:
+                    for Ebin in range(3,13):
+                        for zbin in range(0,20):
+                            get_probabilities(flavor_from, flavor_to, Ebin,zbin,dict,anti,N)
             except (FileNotFoundError,KeyError):
                 if check:
                     return False
                 else:
-                    raise FileNotFoundError(f'P{flavor_from}{flavor_to} for N={N}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, s34={np.sin(2*dict["theta_34"])**2}, not found')
+                    if quick:
+                        raise FileNotFoundError(f'P{flavor_from}{flavor_to}, for N={N}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, s34={np.sin(2*dict["theta_34"])**2}, not found')
+                    else:
+                        raise FileNotFoundError(f'P{flavor_from}{flavor_to}, E{Ebin}z{zbin} for N={N}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, s34={np.sin(2*dict["theta_34"])**2}, not found')
             return True
 
-def return_precomputed(N,ndim,params, nsi=False):
+def return_precomputed(N,ndim,params, nsi=False, quick=True):
     params= np.array(params)
-    precomputed_list = np.array([is_precomputed(N,ndim, p, check=True) for p in params])
+    precomputed_list = np.array([is_precomputed(N,ndim, p, check=True,quick=quick) for p in params])
     mask = precomputed_list == True
     computed_params = params[mask]
     return computed_params
@@ -219,12 +227,15 @@ def get_contour(deltachi, dm41_range,s24_range):
 
     return s24_range[s24_cl90_index], s24_range[s24_cl99_index], dm41_range[dm41_cl90_index], dm41_range[dm41_cl99_index]
 
-def list_of_params_nsi(dicta,s24_range, emm_range):
+def list_of_params_nsi(dicta,s24_range, emm_range, emt_range=None):
     def update_dict(dict,p):
         dict2 = dicta.copy()
         dict2.update(p)
         return dict2
-    dict_list = [update_dict(dicta,{'e_mm':mm,'theta_24':np.arcsin(np.sqrt(s24))/2}) for mm in emm_range for s24 in s24_range]
+    if emt_range is None:
+        dict_list = [update_dict(dicta,{'e_mm':mm,'theta_24':np.arcsin(np.sqrt(s24))/2}) for mm in emm_range for s24 in s24_range]
+    else:
+        dict_list = [update_dict(dicta,{'e_mm':mm,'e_mt':mt,'theta_24':np.arcsin(np.sqrt(s24))/2}) for mt in emt_range for mm in emm_range for s24 in s24_range]
     return dict_list
 def return_precomputed_nsi(N,ndim,params, nsi=False):
     params= np.array(params)

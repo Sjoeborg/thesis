@@ -1,16 +1,16 @@
 import sys,os
-#if __name__ == '__main__':
-#os.chdir('../')
-sys.path.append('./src/probability')
-sys.path.append('./src/data')
+if __name__ == '__main__':
+    os.chdir('../../')
+    sys.path.append('./src/probability')
+    sys.path.append('./src/data')
 import numpy as np
 import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
-from probability.functions import mass_dict
-from data.importer import get_flux_df,get_aeff_df,get_flux_df_DC, get_aeff_df_dc
+from functions import mass_dict
+from importer import get_flux_df,get_aeff_df,get_flux_df_DC, get_aeff_df_dc
 from dict_hash import sha256
 import pandas as pd
-from probability.numerical import wrapper 
+from numerical import wrapper 
 from scipy.stats import lognorm
 import pickle
 import os

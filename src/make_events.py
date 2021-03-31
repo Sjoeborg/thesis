@@ -3,116 +3,49 @@ import sys,os
 sys.path.append('./src/data')
 sys.path.append('./src/events')
 sys.path.append('./src/probability')
-import argparse
-from events.events import list_of_params, ic_params
-from data.processer import generate_probabilities, get_Etrue, train_energy_resolution, get_probabilities
 import numpy as np
-import time
 import pandas as pd
-import os
+from importer import *
+from processer import *
+from event_processing import *
+from events.main import sim_events, list_of_params, ic_params
 import pickle
-from multiprocessing import Pool
-parser = argparse.ArgumentParser()
-parser.add_argument('-dmFrom', default=0.1, type=float)
-parser.add_argument('-dmTo', default=10, type=float)
-parser.add_argument('-dmN', default=10, type=int)
-parser.add_argument('-s24From', default=0.01, type=float)
-parser.add_argument('-s24To', default=1, type=float)
-parser.add_argument('-s24N', default=10, type=int)
-parser.add_argument('-s34From', default=0.01, type=float)
-parser.add_argument('-s34To', default=1, type=float)
-parser.add_argument('-s34N', default=10, type=int)
-parser.add_argument('-N', default = 13, type=int)
-parser.add_argument('-s', default = 0, type=int)
-parser.add_argument('-sT', default = 1, type=int)
-parser.add_argument('-s34eqs24', action='store_true')
-parser.add_argument('-s342xs24', action='store_true')
-parser.add_argument('-s34', action='store_true')
-parser.add_argument('-nsi', action='store_true')
-args = parser.parse_args()
 
-def probs(E_index, z_index, alpha, npoints, params=ic_params):
-    z_buckets = np.linspace(-1,0,21)
 
-    zr = np.linspace(z_buckets[z_index], z_buckets[z_index+1], npoints)
+ndim = 4
+N = 13
+alpha = 0.99
+precomputed_events = False
+gamma=0
+dm41_range = np.logspace(-1,1,20)
+s24_range = np.logspace(-2,np.log10(0.2),20)
+#s34_range = np.logspace(-2,0,10)
+s34_range = s24_range
+param_list = list_of_params(ic_params, dm41_range, s24_range,s24_eq_s34=True)
+for p in param_list: # Assert all dicts returned from param_list have precomputed probs.
+    assert is_precomputed(N=N,ndim=ndim, dict=p,check=False)
 
-    Et, _, _ = get_Etrue(E_index=E_index,npoints=npoints, model=models, left_alpha=alpha, right_alpha=alpha) 
-    
-    try:
-        get_probabilities('m','m',E_index, z_index, params,False,npoints,ndim=4)
-    except:
-        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
-        generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
-    try:
-        get_probabilities('m','m',E_index, z_index, params,True,npoints,ndim=4)
-    except:
-        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
-        generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
-    try:
-        get_probabilities('e','m',E_index, z_index, params,False,npoints,ndim=4)
-    except:
-        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
-        generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
-    try:
-        get_probabilities('e','m',E_index, z_index, params,True,npoints,ndim=4)
-    except:
-        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
-        generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
-    
-    try:
-        get_probabilities('m','t',E_index, z_index, params,False,npoints,ndim=4)
-    except:
-        generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
-    try:
-        get_probabilities('m','t',E_index, z_index, params,True,npoints,ndim=4)
-    except:
-        generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
-    
-    
+param_list = return_precomputed(N,ndim,params=param_list)
+dm41_range = np.sort(np.unique(np.array([p['dm_41'] for p in param_list])))
+s24_range = np.sin(2*np.sort(np.unique(np.array([p['theta_24'] for p in param_list]))))**2
+s34_range = np.sin(2*np.sort(np.unique(np.array([p['theta_34'] for p in param_list]))))**2
+print(dm41_range)
+print(s24_range)
+print(s34_range)
 
-def event_wrapper(param_list):
-    E_index,z_index, alpha, params, npoints = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4]
-    return probs(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha)
 
-def precompute_probs(params=ic_params, nsi=args.nsi):
-    if nsi:
-        E_offset = 0 #For nsi, include all bins
+if not precomputed_events:
+    print('Computing events')
+    from multiprocessing import Pool
+    p = Pool()
+    data = [(alpha, N,p, False,False, [False, np.median(Ereco), gamma],True) for p in param_list]
+    H1_events_list = p.starmap(sim_events, data)
+    p.close()
+    if len(s34_range) > 1:
+        pickle.dump(H1_events_list,open(f'./pre_computed/H1_34_N{N}_{len(dm41_range)}x{len(s24_range)}x{len(s34_range)}_tau_all.p','wb'))
     else:
-        E_offset = 3 # For non-nsi, exclude bottom 3 bins
-    for i in range(E_offset,13):
-        for j in range(20):
-            event_wrapper([i,j, 0.99, params,args.N])
+        pickle.dump(H1_events_list,open(f'./pre_computed/H1_no34_N{N}_{len(dm41_range)}x{len(s24_range)}_tau_all.p','wb'))
 
-models= train_energy_resolution()
 
-if __name__ == '__main__':
-    dm41_range = np.logspace(np.log10(args.dmFrom),np.log10(args.dmTo),args.dmN)
-    s24_range = np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N)
-    if args.s34eqs24:
-        s34_range = s24_range
-    else:
-        s34_range = np.logspace(np.log10(args.s34From),np.log10(args.s34To),args.s34N)
-    if args.s34:
-        param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_eq_s34=args.s34eqs24)
-        print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34({s34_range.min()},{s24_range.max()},{len(s34_range)}), for N = {args.N}. s={args.s+1}/{args.sT}')
-    elif args.s34eqs24:
-        param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_eq_s34=args.s34eqs24)
-        print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34=s24, for N = {args.N}. s={args.s+1}/{args.sT}')
-    elif args.s342xs24:
-        param_list = list_of_params(ic_params,dm41_range, s24_range, s34_range=s34_range, s24_2x_s34=args.s342xs24)
-        print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34=2*s24, for N = {args.N}. s={args.s+1}/{args.sT}')
-    else:
-        param_list = list_of_params(ic_params,dm41_range, s24_range)
-        print(f'Precomputing probabilities for dm_41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}), s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), s34=0, for N = {args.N}. s={args.s+1}/{args.sT}')
-
-    split_array=  np.array_split(param_list,args.sT)[args.s]
-    
-    start = time.time()
-    #p = Pool()
-    
-    for i, _ in enumerate(map(precompute_probs, split_array), 1):
-        print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(split_array)))
-        print(np.round((time.time() - start)/3600,1))
-    #p.close()
-    print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
-    
+    H0_events = sim_events(alpha=alpha,npoints=N,params=param_list[0], null=True, multi=False, spectral_shift=[False, np.median(Ereco), gamma],tau=True)
+    pickle.dump(H0_events,open(f'./pre_computed/H0_N{N}_all.p','wb'))

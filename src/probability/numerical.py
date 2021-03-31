@@ -1,7 +1,7 @@
 from scipy.integrate import solve_ivp
 import numpy as np
 from multiprocessing import Pool
-from probability.functions import dm,theta,V_matrix, V, mass_dict,r_earth, param_dict,GeV2tokm1,get_radial_distance, baseline,ic_params, U_4, U_3,U_5
+from functions import dm,theta,V_matrix, V, mass_dict,r_earth, param_dict,GeV2tokm1,get_radial_distance, baseline,ic_params, U_4, U_3,U_5
 
 def H_2(flavor_from, flavor_to, A=0, params=param_dict): # giunti 9.73
     i = mass_dict[flavor_from]
