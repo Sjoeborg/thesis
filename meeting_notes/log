@@ -386,3 +386,16 @@ Tredje alternativet är att beskära dfen lite för att få ner antalet probs so
 DC 2018 MC stämmer varken överens med DC 2015 MC eller min null...
 Min null stämmer jättebra överens med DC 2015 i z-led, men dåligt i E-led. 
 Just nu känns det bäst att använda DC 2015. Avvikelsen hos DC2018 kan bero på annan event selection och muon background.
+
+31 Mar
+Salvado 2017 constrainade -6e-3 < e_mt < 5.4e-3 med IC86 data från sterile datasettet. Dom har också en closed contour med e' vs e_mt. Dom tittade bara på Pmt, och 
+    kunde därför inte constraina e', så dom satte en prior på den till |e'| < 0.049
+Demidov 2020 använde DC data från 2019 (som jag kanske vill andvända istället??) för att rita conturer för e_mt vs e_tt. -0.027<e_mt<0.022, samt -0.063<e_tt<0.064
+Arman och Smirnov 2013 använde IC-79 och DC för att constraina e' och e_mt. -6.1e-3 < e_mt < 5.6e-3, -3.6e-2<e'<3.1e-2. Intressant artikel som jag kan hämta metodik ifrån.
+DC 2017 constrainade enbart −0.0067 < ϵµτ < 0.0081. Dom satte e' till 0 eftersom "they are highly correlated".
+
+Slutsatser:
+Ingen verkar ha använt IC-86 och DC för att constraina. Den senaste joint analysen är från 2013 med IC79.
+Det jag vill göra är en blandning av Demidov 2020 och Salvado/DC 2017. 
+Demidovs DC-data från 2019 är på samma format som min IC-data. Alltså kanske jag vill använda den istället för min nuvarande DC-metod.
+Första steget kanske är att enbart fokusera på IC constraint, för att sen se hur DC blir. 
