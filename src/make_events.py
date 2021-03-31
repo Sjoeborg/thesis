@@ -8,7 +8,7 @@ import pandas as pd
 from importer import *
 from processer import *
 from event_processing import *
-from events.main import sim_events, list_of_params, ic_params
+from events.events import sim_events, list_of_params, ic_params
 import pickle
 
 
@@ -49,3 +49,8 @@ if not precomputed_events:
 
     H0_events = sim_events(alpha=alpha,npoints=N,params=param_list[0], null=True, multi=False, spectral_shift=[False, np.median(Ereco), gamma],tau=True)
     pickle.dump(H0_events,open(f'./pre_computed/H0_N{N}_all.p','wb'))
+if len(s34_range) > 1:
+    H1_events_list = pickle.load(open(f'./pre_computed/H1_34_N{N}_{len(dm41_range)}x{len(s24_range)}_tau.p','rb'))
+else:
+    H1_events_list = pickle.load(open(f'./pre_computed/H1_no34_N{N}_{len(dm41_range)}x{len(s24_range)}_tau.p','rb'))
+H0_events = pickle.load(open(f'./pre_computed/H0_N{N}.p','rb'))
