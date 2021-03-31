@@ -82,13 +82,14 @@ models= train_energy_resolution()
 if __name__ == '__main__':
     s24_range = np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N)
     emm_range = np.linspace(-args.emm,args.emm,args.emmN)
+    emt_range = None
     if args.emt is not None:
         emt_range = np.linspace(-args.emt,args.emt,args.emtN)
     nsi_params = ic_params_nsi.copy()
     nsi_params['dm_41'] = 0.93
     param_list = list_of_params_nsi(nsi_params, s24_range,emm_range, emt_range)
-
-    if args.emt is not None:
+    
+    if emt_range is not None:
         print(f'Precomputing probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), emt({emt_range.min()},{emt_range.max()},{len(emt_range)}), for N = {args.N}. s={args.s+1}/{args.sT}')
     else:
         print(f'Precomputing probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), for N = {args.N}. s={args.s+1}/{args.sT}')
@@ -102,5 +103,4 @@ if __name__ == '__main__':
         print(np.round((time.time() - start)/3600,1))
     #p.close()
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
-    
     
