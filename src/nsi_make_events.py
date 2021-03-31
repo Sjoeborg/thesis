@@ -21,15 +21,15 @@ precomputed_events = False
 gamma=0
 ic_params_nsi['dm_41'] = 0.93
 ic_params['dm_41'] = 0.93
-emm_range = np.logspace(-1e-2,1e-2,20)
-s24_range = np.logspace(-2,np.log10(0.2),20)
-emt_range = np.logspace(-1e-2,1e-2,20)
+emm_range = np.linspace(-1e-2,1e-2,20)
+s24_range = np.logspace(-2,np.log10(0.2),10)
+emt_range = np.lispace(-1e-2,1e-2,20)
 param_list = list_of_params_nsi(ic_params_nsi, emm_range, s24_range, emt_range)
 for p in param_list: # Assert all dicts returned from param_list have precomputed probs.
     assert is_precomputed_nsi(N=N,ndim=ndim, dict=p,check=False)
 
 param_list = return_precomputed_nsi(N,ndim,params=param_list)
-emm_range = np.sort(np.unique(np.array([p['em_mm'] for p in param_list])))
+emm_range = np.sort(np.unique(np.array([p['e_mm'] for p in param_list])))
 s24_range = np.sin(2*np.sort(np.unique(np.array([p['theta_24'] for p in param_list]))))**2
 emt_range = np.sin(2*np.sort(np.unique(np.array([p['e_mt'] for p in param_list]))))**2
 print(emm_range)
