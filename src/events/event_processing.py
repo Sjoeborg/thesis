@@ -8,10 +8,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import pandas as pd
-from data.importer import *
-from data.processer import *
-from events.main import sim_events, list_of_params, ic_params
-from probability.functions import perform_chisq
+from importer import *
+from processer import *
+from main import sim_events, list_of_params, ic_params
+from functions import perform_chisq
 from scipy.stats import chi2
 
 IC_observed_full = np.array(get_IC_data().T)
