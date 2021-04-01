@@ -40,9 +40,9 @@ def gather_precomputed(z_bins,npoints=args.N, update=args.u):
                     if args.d:
                         for file in filenames:
                             os.remove(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
-                except FileNotFoundError:
-                    pass
-            print(f'{flavor}, E{En}z{zn} done')
+                except (FileNotFoundError,ValueError):
+                    print(f'Could not load {flavor} E{En}z{zn}, skipping it')
+            print(f'{flavor}, E{En} done')
 
 def merge_precomputed_df(npoints=args.N):
     print('Merging precomputed dfs')
