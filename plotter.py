@@ -57,14 +57,13 @@ def P_over_E_parameter(flavor_from, param_dict_list, E, zenith = -1, ndim = 3, a
     '''
     Returns the range of energies and the list of all flavour oscillation probabilities. Uses all cores locally or on techila (type='local'/'cloud')
     '''
-    global P_num_over_E_wrapper # Needed for wrapper to work with p.map
-    def P_num_over_E_wrapper(p):
-        return P_num_over_E(flavor_from=flavor_from, E=E, ndim = ndim,params=p, anti=anti, zenith=zenith,nsi=nsi, tols=tols)
-    #p = Pool()
-    res = []
-    for p in param_dict_list:
-        res.append(P_num_over_E_wrapper(p))
-    #res = map(P_num_over_E_wrapper, param_dict_list)
+
+    args = [(flavor_from, E, None, 2*r_earth, zenith, 0,ndim,False, None, anti, p,'earth',nsi, tols) for p in param_dict_list]
+    p = Pool()
+    #res = []
+    #for p in param_dict_list:
+    #    res.append(P_num_over_E_wrapper(p))
+    res = p.starmap(P_num_over_E, args)
 
     P_list = []
     for i in range(len(param_dict_list)): # Splits result list into x and y
@@ -108,12 +107,12 @@ def oscillogram(E_range, z_range, params, nsi=False):
     ax.set_yscale('log')
     fig.colorbar(c, ax=ax)
     '''
-    lista_m = [['m', E_range, z, 4, True, params,nsi] for z in z_range]
-    lista_e = [['e', E_range, z, 4, True, params,nsi] for z in z_range]
+    lista_m = [('m', E_range, z, 4, True, params,nsi) for z in z_range]
+    lista_e = [('e', E_range, z, 4, True, params,nsi) for z in z_range]
     Pmm = _oscillogram(lista_m)
     Pem = _oscillogram(lista_e)
 
-    from events import get_interpolators, get_flux
+    from main import get_interpolators, get_flux
     interp_flux, interp_aeff, energy_resolution_models = get_interpolators()
     E_mesh, z_mesh = np.meshgrid(E_range, z_range)
     flux_mbar = get_flux('mbar',E_mesh,z_mesh,interp_flux)
@@ -128,4 +127,4 @@ def oscillogram(E_range, z_range, params, nsi=False):
 
 
 if __name__ == '__main__':
-    pass
+    P_over_E_parameter('m', [ic_params, ic_params], [1e3])

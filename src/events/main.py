@@ -179,8 +179,8 @@ def gather_specific_prob(flavor,npoints,En,zn, update=True):
         pickle.dump(df,open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','wb'))
         for file in filenames:
             os.remove(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
-    except FileNotFoundError:
-        pass
+    except (FileNotFoundError,ValueError):
+        print(f'Could not load {flavor} E{En}z{zn}, skipping it')
 
 interp_flux, interp_aeff, energy_resolution_models = get_interpolators()
 if __name__ == '__main__':
