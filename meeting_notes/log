@@ -399,3 +399,6 @@ Ingen verkar ha använt IC-86 och DC för att constraina. Den senaste joint anal
 Det jag vill göra är en blandning av Demidov 2020 och Salvado/DC 2017. 
 Demidovs DC-data från 2019 är på samma format som min IC-data. Alltså kanske jag vill använda den istället för min nuvarande DC-metod.
 Första steget kanske är att enbart fokusera på IC constraint, för att sen se hur DC blir. 
+
+1 Apr 
+Eventsen med e_mm=0, e_mt!= 0 råkade bli med enbart 10 E bins. Blir lite segt att jämföra med emm...

@@ -37,7 +37,6 @@ MC_ratios_full = np.outer(E_ratios_full, z_ratios_full)
 IC_MC_full = IC_observed_full / MC_ratios_full
 IC_MC = IC_MC_full[EFrom:ETo+1,z_bins]
 
-
 Ereco_full = 500*10**np.linspace(0.0,1.3,14)
 Ereco_full_midpoints = Ereco_full[0:-1] +np.diff(Ereco_full)/2 #For scatter plot
 
@@ -198,7 +197,7 @@ def normalize_events(H0_events,H1_events_list,z_bins):
 
     return H0_normalized, H1_list_normalized
 
-def get_deltachi(H1_list_normalized,H0_normalized,dm41_range,s24_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0]):
+def get_deltachi(H1_list_normalized,H0_normalized,dm41_range,s24_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], emt_range=None):
     sigma_a = sigma[0]
     sigma_b = sigma[1]
     sigma_g = delta_T
@@ -210,9 +209,10 @@ def get_deltachi(H1_list_normalized,H0_normalized,dm41_range,s24_range, delta_T,
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)#chisq_H1_list - chisq_H0
 
     best_fit_index = np.argmin(delta_chi)
-
-    deltachi_reshaped = delta_chi.reshape(len(s24_range),len(dm41_range))
-
+    if emt_range is not None:
+        deltachi_reshaped = delta_chi.reshape(len(s24_range),len(dm41_range),len(emt_range))
+    else:
+        deltachi_reshaped = delta_chi.reshape(len(s24_range),len(dm41_range))
     return deltachi_reshaped, best_fit_index, np.min(chisq_H1_list), chisq_H0
 
 def get_contour(deltachi, dm41_range,s24_range):
