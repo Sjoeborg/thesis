@@ -24,12 +24,12 @@ parser.add_argument('-N', default = 13, type=int)
 parser.add_argument('-s', default = 0, type=int)
 parser.add_argument('-sT', default = 1, type=int)
 parser.add_argument('-v', action='store_true')
-
+parser.add_argument('-Ndim', default=4, type=int)
 args = parser.parse_args()
 
 
 
-def probs(E_index, z_index, alpha, npoints, params=ic_params_nsi, nsi=True):
+def probs(E_index, z_index, alpha, npoints, params=ic_params_nsi, nsi=True, ndim=args.Ndim):
     z_buckets = np.linspace(-1,0,21)
 
     zr = np.linspace(z_buckets[z_index], z_buckets[z_index+1], npoints)
@@ -37,35 +37,35 @@ def probs(E_index, z_index, alpha, npoints, params=ic_params_nsi, nsi=True):
     Et, _, _ = get_Etrue(E_index=E_index,npoints=npoints, model=models, left_alpha=alpha, right_alpha=alpha) 
     
     try:
-        get_probabilities('m','m',E_index, z_index, params,False,npoints,ndim=4)
+        get_probabilities('m','m',E_index, z_index, params,False,npoints,ndim=ndim)
     except:
         if args.v:
             print(E_index, z_index, params['e_mm'], params['theta_24'], params['e_mt'])
-        generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4, nsi=nsi)
+        generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim, nsi=nsi)
     try:
-        get_probabilities('m','m',E_index, z_index, params,True,npoints,ndim=4)
+        get_probabilities('m','m',E_index, z_index, params,True,npoints,ndim=ndim)
     except:
         #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
-        generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4, nsi=nsi)
+        generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim, nsi=nsi)
     try:
-        get_probabilities('e','m',E_index, z_index, params,False,npoints,ndim=4)
+        get_probabilities('e','m',E_index, z_index, params,False,npoints,ndim=ndim)
     except:
         #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
-        generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4, nsi=nsi)
+        generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim, nsi=nsi)
     try:
-        get_probabilities('e','m',E_index, z_index, params,True,npoints,ndim=4)
+        get_probabilities('e','m',E_index, z_index, params,True,npoints,ndim=ndim)
     except:
         #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
-        generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4, nsi=nsi)
+        generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim, nsi=nsi)
     
     try:
-        get_probabilities('m','t',E_index, z_index, params,False,npoints,ndim=4)
+        get_probabilities('m','t',E_index, z_index, params,False,npoints,ndim=ndim)
     except:
-        generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=4, nsi=nsi)
+        generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim, nsi=nsi)
     try:
-        get_probabilities('m','t',E_index, z_index, params,True,npoints,ndim=4)
+        get_probabilities('m','t',E_index, z_index, params,True,npoints,ndim=ndim)
     except:
-        generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=4, nsi=nsi)
+        generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim, nsi=nsi)
     
     
 
@@ -81,7 +81,10 @@ def precompute_probs(params=ic_params_nsi, nsi=True):
 models= train_energy_resolution()
 
 if __name__ == '__main__':
-    s24_range = np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N)
+    if args.Ndim > 3:
+        s24_range = np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N)
+    else:
+        s24_range=[0.]
     emm_range = np.linspace(-args.emm,args.emm,args.emmN)
     emt_range = None
     if args.emt is not None:
@@ -91,9 +94,9 @@ if __name__ == '__main__':
     param_list = list_of_params_nsi(nsi_params, s24_range,emm_range, emt_range)
     
     if emt_range is not None:
-        print(f'Precomputing probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), emt({emt_range.min()},{emt_range.max()},{len(emt_range)}), for N = {args.N}. s={args.s+1}/{args.sT}')
+        print(f'Precomputing {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), emt({emt_range.min()},{emt_range.max()},{len(emt_range)}), for N = {args.N}. s={args.s+1}/{args.sT}')
     else:
-        print(f'Precomputing probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), for N = {args.N}. s={args.s+1}/{args.sT}')
+        print(f'Precomputing {args.Ndim} probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), for N = {args.N}. s={args.s+1}/{args.sT}')
         
     split_array=  np.array_split(param_list,args.sT)[args.s]
 
