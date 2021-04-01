@@ -39,7 +39,7 @@ def probs(E_index, z_index, alpha, npoints, params=ic_params_nsi, nsi=True):
     try:
         get_probabilities('m','m',E_index, z_index, params,False,npoints,ndim=4)
     except:
-        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
+        print(E_index, z_index, params['e_mm'], params['theta_24'], params['e_mt'])
         generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4, nsi=nsi)
     try:
         get_probabilities('m','m',E_index, z_index, params,True,npoints,ndim=4)

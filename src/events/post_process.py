@@ -12,8 +12,7 @@ parser.add_argument('-sT', default = 1, type=int)
 args = parser.parse_args()
 E_range = range(0,13)
 z_range = range(0,20)
-flavors = ['Pamam', 'Paeam','Pem','Pmm', 'Pmt','Pamat']
-
+flavors = ['Pmm', 'Pamam', 'Pem', 'Paeam','Pmt','Pamat']
 
 def gather_precomputed(z_bins,npoints=args.N, update=args.u):
     #print('Inserting precomputed arrays into dfs')
@@ -43,7 +42,7 @@ def gather_precomputed(z_bins,npoints=args.N, update=args.u):
                             os.remove(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
                 except FileNotFoundError:
                     pass
-        print(f'{flavor}, E{En}z{zn} done')
+            print(f'{flavor}, E{En}z{zn} done')
 
 def merge_precomputed_df(npoints=args.N):
     print('Merging precomputed dfs')
