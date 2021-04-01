@@ -84,7 +84,7 @@ if __name__ == '__main__':
     if args.Ndim > 3:
         s24_range = np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N)
     else:
-        s24_range=[0.]
+        s24_range=np.linspace(0.,0.,1)
     emm_range = np.linspace(-args.emm,args.emm,args.emmN)
     emt_range = None
     if args.emt is not None:

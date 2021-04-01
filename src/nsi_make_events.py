@@ -14,7 +14,7 @@ from probability.functions import ic_params_nsi, ic_params
 import pickle
 
 if __name__ == '__main__':
-    ndim = 4
+    ndim = 3#4
     N = 13
     alpha = 0.99
     precomputed_events = False
