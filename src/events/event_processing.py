@@ -17,7 +17,7 @@ from scipy.stats import chi2
 IC_observed_full = np.array(get_IC_data().T)
 E_rate, z_rate = get_flux_factor()
 flux_E_factors_full, flux_z_factors_full = bin_flux_factors(E_rate,z_rate)
-EFrom,ETo,zFrom,zTo = 3,13,0,20
+EFrom,ETo,zFrom,zTo = 0,13,0,20
 z_bins = np.arange(zFrom,zTo)
 E_bins, z_bins_T = np.arange(EFrom,ETo), np.arange(zFrom,zTo)[:,None]
 n_Ebins, n_zbins = len(E_bins), len(z_bins)
