@@ -42,7 +42,7 @@ if __name__ == '__main__':
         print('Computing events')
         from multiprocessing import Pool
         p = Pool()
-        data = [(alpha, N,p, False,False, [False, np.median(Ereco), gamma],True, True) for p in param_list]
+        data = [(alpha, N,p, False,False, [False, np.median(Ereco), gamma],True, True,ndim) for p in param_list]
         H1_events_list = p.starmap(sim_events, data)
         p.close()
         if len(emt_range) > 1:
@@ -51,5 +51,5 @@ if __name__ == '__main__':
             pickle.dump(H1_events_list,open(f'./pre_computed/H1_N{N}_{len(emm_range)}x{len(s24_range)}_tau_nsi.p','wb'))
 
 
-        H0_events = sim_events(alpha=alpha,npoints=N,params=ic_params, null=False, multi=False, spectral_shift=[False, np.median(Ereco), gamma],tau=True, nsi=False)
+        H0_events = sim_events(alpha=alpha,npoints=N,params=ic_params, null=False, multi=False, spectral_shift=[False, np.median(Ereco), gamma],tau=True, nsi=False, ndim=ndim)
         pickle.dump(H0_events,open(f'./pre_computed/H0_N{N}_nsi.p','wb'))
