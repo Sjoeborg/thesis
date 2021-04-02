@@ -111,7 +111,7 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
 
 
 def event_wrapper(param_list):
-    E_index,z_index, alpha, params, npoints, null, spectral, tau = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4], param_list[5], param_list[6], param_list[7], param_list[8]
+    E_index,z_index, alpha, params, npoints, null, spectral, tau, ndim = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4], param_list[5], param_list[6], param_list[7], param_list[8]
     return get_events(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha, null=null, spectral_shift_parameters=spectral, tau=tau, ndim=ndim)
 
 def sim_events(alpha, npoints, params=ic_params, null = False,multi=True, spectral_shift=[False, 2e3, 0.02], tau=False, nsi=False, ndim=4):
