@@ -12,7 +12,7 @@ import time
 from scipy.stats import lognorm
 
 
-def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shift_parameters=[False, 2e3, 0.02], null=False, tau=False):
+def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shift_parameters=[False, 2e3, 0.02], null=False, tau=False, ndim=4):
     '''
     Assume zr == zt, and thus the zenith resolution function is 1.
     '''
@@ -48,47 +48,47 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
 
     if not null:
         try:
-            Pmm = get_probabilities('m', 'm', E_index,z_index,params,False,npoints)
+            Pmm = get_probabilities('m', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
         except KeyError:
-            generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
-            gather_specific_prob('Pmm',npoints,E_index,z_index,update=True)
-            Pmm = get_probabilities('m', 'm', E_index,z_index,params,False,npoints)
+            generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
+            gather_specific_prob('Pmm',npoints,E_index,z_index,update=True,ndim=ndim)
+            Pmm = get_probabilities('m', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
 
         try:
-            P_amam = get_probabilities('m', 'm', E_index,z_index,params,True,npoints)
+            P_amam = get_probabilities('m', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
         except KeyError:
-            generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
-            gather_specific_prob('Pamam',npoints,E_index,z_index,update=True)
-            P_amam = get_probabilities('m', 'm', E_index,z_index,params,True,npoints)
+            generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
+            gather_specific_prob('Pamam',npoints,E_index,z_index,update=True,ndim=ndim)
+            P_amam = get_probabilities('m', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
         
         try:
-            Pem = get_probabilities('e', 'm', E_index,z_index,params,False,npoints)
+            Pem = get_probabilities('e', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
         except KeyError:
-            generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
-            gather_specific_prob('Pem',npoints,E_index,z_index,update=True)
-            Pem = get_probabilities('e', 'm', E_index,z_index,params,False,npoints)
+            generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
+            gather_specific_prob('Pem',npoints,E_index,z_index,update=True,ndim=ndim)
+            Pem = get_probabilities('e', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
 
         try:
-            P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints)
+            P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
         except KeyError:
-            generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
-            gather_specific_prob('Paeam',npoints,E_index,z_index,update=True)
-            P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints)
+            generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
+            gather_specific_prob('Paeam',npoints,E_index,z_index,update=True,ndim=ndim)
+            P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
 
         if tau:
             try:
-                Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints)
+                Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints,ndim=ndim)
             except KeyError:
-                generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=4)
-                gather_specific_prob('Pmt',npoints,E_index,z_index,update=True)
-                Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints)
+                generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
+                gather_specific_prob('Pmt',npoints,E_index,z_index,update=True,ndim=ndim)
+                Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints,ndim=ndim)
 
             try:
-                P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints)
+                P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints,ndim=ndim)
             except KeyError:
-                generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=4)
-                gather_specific_prob('Pamat',npoints,E_index,z_index,update=True)
-                P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints)
+                generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
+                gather_specific_prob('Pamat',npoints,E_index,z_index,update=True,ndim=ndim)
+                P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints,ndim=ndim)
 
             Pmm = Pmm + 0.1739*Pmt
             P_amam = P_amam + 0.1739*P_amat
@@ -111,10 +111,10 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
 
 
 def event_wrapper(param_list):
-    E_index,z_index, alpha, params, npoints, null, spectral, tau = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4], param_list[5], param_list[6], param_list[7]
-    return get_events(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha, null=null, spectral_shift_parameters=spectral, tau=tau)
+    E_index,z_index, alpha, params, npoints, null, spectral, tau = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4], param_list[5], param_list[6], param_list[7], param_list[8]
+    return get_events(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha, null=null, spectral_shift_parameters=spectral, tau=tau, ndim=ndim)
 
-def sim_events(alpha, npoints, params=ic_params, null = False,multi=True, spectral_shift=[False, 2e3, 0.02], tau=False, nsi=False):
+def sim_events(alpha, npoints, params=ic_params, null = False,multi=True, spectral_shift=[False, 2e3, 0.02], tau=False, nsi=False, ndim=4):
     if nsi:
         E_offset = 0 #For nsi, include all bins
     else:
@@ -126,7 +126,7 @@ def sim_events(alpha, npoints, params=ic_params, null = False,multi=True, spectr
             if multi:
                 E_z_combinations.append([E_bin,z_bin, alpha, params,npoints, null, spectral_shift, tau])
             if not multi:
-                res[E_bin-E_offset][z_bin] = event_wrapper([E_bin,z_bin, alpha, params,npoints, null, spectral_shift,tau])
+                res[E_bin-E_offset][z_bin] = event_wrapper([E_bin,z_bin, alpha, params,npoints, null, spectral_shift,tau, ndim])
     if multi:
         p = Pool()
         res = p.map(event_wrapper, E_z_combinations)
@@ -157,28 +157,28 @@ def list_of_params(dict,dm_range, s24_range, s34_range=None, s24_eq_s34=False, s
 def spectral_shift_factor(E, E_pivot=2e3, delta_gamma=0.02):
     return  (E/E_pivot)**-delta_gamma
 
-def gather_specific_prob(flavor,npoints,En,zn, update=True):
+def gather_specific_prob(flavor,npoints,En,zn, update=True, ndim=4):
     import os
     filenames=[]
     try:
-        for file in os.listdir(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/'):
+        for file in os.listdir(f'./pre_computed/{ndim}gen/{flavor}/{npoints}/E{En}z{zn}/'):
             if file.endswith('.npy'):
                 filenames.append(file[0:-4])
         try:
-            df = pickle.load(open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','rb'))
+            df = pickle.load(open(f'./pre_computed/{ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p','rb'))
         except FileNotFoundError:
             df = pd.DataFrame(index=[f'E{En}z{zn}'], dtype='object')
 
         for file in filenames:
-            array = np.load(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
+            array = np.load(f'./pre_computed/{ndim}gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
             try:
                 df.insert(loc=0,column=file, value=[array])
             except ValueError: 
                 if update:  # If entry already exists, overwrite/update it
                     df[file][f'E{En}z{zn}'] = array
-        pickle.dump(df,open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','wb'))
+        pickle.dump(df,open(f'./pre_computed/{ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p','wb'))
         for file in filenames:
-            os.remove(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
+            os.remove(f'./pre_computed/{ndim}gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
     except (FileNotFoundError,ValueError):
         print(f'Could not load {flavor} E{En}z{zn}, skipping it')
 
