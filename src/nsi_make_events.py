@@ -12,18 +12,33 @@ from event_processing import *
 from events.main import sim_events
 from probability.functions import ic_params_nsi, ic_params
 import pickle
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('-s24From', default=0.01, type=float)
+parser.add_argument('-s24To', default=1, type=float)
+parser.add_argument('-s24N', default=10, type=int)
+parser.add_argument('-emm', default=1e-1, type=float)
+parser.add_argument('-emmN', default=10, type=int)
+parser.add_argument('-emt', default=None, type=float)
+parser.add_argument('-emtN', default=10, type=int)
+parser.add_argument('-N', default = 13, type=int)
+parser.add_argument('-Ndim', default=4, type=int)
+args = parser.parse_args()
 
 if __name__ == '__main__':
-    ndim = 3#4
-    N = 13
+    ndim = args.Ndim
+    N = args.N
     alpha = 0.99
     precomputed_events = False
     gamma=0
     ic_params_nsi['dm_41'] = 0.93
     ic_params['dm_41'] = 0.93
-    emm_range = np.linspace(-1e-1,1e-1,30)
-    s24_range = [0]#np.logspace(-2,np.log10(0.2),10)
-    emt_range = np.linspace(-1e-2,1e-2,20)
+    emm_range = np.linspace(-args.emm,args.emm,args.emmN)
+    if ndim == 3:
+        s24_range = np.linspace(0.,0.,1)
+    else:
+        s24_range= np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N)
+    emt_range = np.linspace(-args.emt,args.emt,args.emtN)
     param_list = list_of_params_nsi(ic_params_nsi, s24_range, emm_range ,emt_range)
     for p in param_list: # Assert all dicts returned from param_list have precomputed probs.
         assert is_precomputed_nsi(N=N,ndim=ndim, dict=p,check=False)
