@@ -168,11 +168,11 @@ def is_precomputed(N,ndim, dict, check=False, quick=True):
             flavor_to  = 'm'
             try:
                 if quick:
-                    get_probabilities(flavor_from, flavor_to, 5,5,dict,anti,N)
+                    get_probabilities(flavor_from, flavor_to, 5,5,dict,anti,N,ndim)
                 else:
                     for Ebin in range(3,13):
                         for zbin in range(0,20):
-                            get_probabilities(flavor_from, flavor_to, Ebin,zbin,dict,anti,N)
+                            get_probabilities(flavor_from, flavor_to, Ebin,zbin,dict,anti,N,ndim)
             except (FileNotFoundError,KeyError):
                 if check:
                     return False
