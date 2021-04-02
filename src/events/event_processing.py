@@ -248,12 +248,12 @@ def is_precomputed_nsi(N,ndim, dict, check=False):
         for flavor_from in ['e','m']:
             flavor_to  = 'm'
             try:
-                get_probabilities(flavor_from, flavor_to, 5,5,dict,anti,N)
+                get_probabilities(flavor_from, flavor_to, 5,5,dict,anti,N, ndim)
             except (FileNotFoundError,KeyError):
                 if check:
                     return False
                 else:
-                    raise FileNotFoundError(f'P{flavor_from}{flavor_to} for N={N}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, e_mm={dict["e_mm"]}, not found')
+                    raise FileNotFoundError(f'P{flavor_from}{flavor_to} {ndim}gen for N={N}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, e_mm={dict["e_mm"]}, not found')
             return True
 if __name__ == '__main__':
     pass
