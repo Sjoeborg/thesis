@@ -4,7 +4,7 @@ sys.path.append('./src/data')
 sys.path.append('./src/events')
 sys.path.append('./src/probability')
 import argparse
-from events.events import list_of_params, ic_params
+from events.main import list_of_params, ic_params
 from data.processer import generate_probabilities, get_Etrue, train_energy_resolution, get_probabilities
 import numpy as np
 import time

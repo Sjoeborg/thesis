@@ -197,7 +197,7 @@ def normalize_events(H0_events,H1_events_list,z_bins):
 
     return H0_normalized, H1_list_normalized
 
-def get_deltachi(H1_list_normalized,H0_normalized,dm41_range,s24_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], emt_range=None):
+def get_deltachi(H1_list_normalized,H0_normalized,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], z_range=None):
     sigma_a = sigma[0]
     sigma_b = sigma[1]
     sigma_g = delta_T
@@ -209,23 +209,24 @@ def get_deltachi(H1_list_normalized,H0_normalized,dm41_range,s24_range, delta_T,
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)#chisq_H1_list - chisq_H0
 
     best_fit_index = np.argmin(delta_chi)
-    if emt_range is not None:
-        deltachi_reshaped = delta_chi.reshape(len(s24_range),len(dm41_range),len(emt_range))
+    
+    if z_range is not None:
+        deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range),len(z_range))
     else:
-        deltachi_reshaped = delta_chi.reshape(len(s24_range),len(dm41_range))
+        deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range))
     return deltachi_reshaped, best_fit_index, np.min(chisq_H1_list), chisq_H0
 
-def get_contour(deltachi, dm41_range,s24_range):
-    cl_99_bool = np.where(deltachi < chi2.ppf(q = 0.99,df=2),True,False)
-    cl_90_bool = np.where(deltachi < chi2.ppf(q = 0.90,df=2),True,False)
+def get_contour(deltachi, y_range,x_range, df):
+    cl_99_bool = np.where(deltachi < chi2.ppf(q = 0.99,df=df),True,False)
+    cl_90_bool = np.where(deltachi < chi2.ppf(q = 0.90,df=df),True,False)
 
-    s24_cl90_index = get_boundary(cl_90_bool)
-    dm41_cl90_index = np.linspace(0,len(s24_cl90_index)-1,len(s24_cl90_index)).astype('int')
-    s24_cl99_index = get_boundary(cl_99_bool)
-    dm41_cl99_index = np.linspace(0,len(s24_cl99_index)-1,len(s24_cl99_index)).astype('int')
+    x_cl90_index = get_boundary(cl_90_bool)
+    y_cl90_index = np.linspace(0,len(x_cl90_index)-1,len(x_cl90_index)).astype('int')
+    x_cl99_index = get_boundary(cl_99_bool)
+    y_cl99_index = np.linspace(0,len(x_cl99_index)-1,len(x_cl99_index)).astype('int')
 
 
-    return s24_range[s24_cl90_index], s24_range[s24_cl99_index], dm41_range[dm41_cl90_index], dm41_range[dm41_cl99_index]
+    return x_range[x_cl90_index], x_range[x_cl99_index], y_range[y_cl90_index], y_range[y_cl99_index]
 
 def list_of_params_nsi(dicta,s24_range, emm_range, emt_range=None):
     def update_dict(dict,p):

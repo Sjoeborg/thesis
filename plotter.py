@@ -127,4 +127,4 @@ def oscillogram(E_range, z_range, params, nsi=False):
 
 
 if __name__ == '__main__':
-    P_over_E_parameter('m', [ic_params, ic_params], [1e3])
+    pass
