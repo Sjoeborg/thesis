@@ -193,6 +193,7 @@ def get_true_models():
     models = []
     for zbin in range(8):
         for Ebin in range(8):
+            print(f'training {Ebin} {zbin}')
             df_sub = df.query(f'Ebin=={Ebin} ad zbin=={zbin}')
             models.append(train(df_sub))
     models = np.array(models).reshape(8,8)
@@ -220,5 +221,5 @@ def get_interpolators_dc(recompute_flux=False, recompute_aeff=False):
     return interp_flux, interp_aeff
 
 if __name__ == '__main__':
-    df_list = get_aeff_df_dc()
-    process_aeff(df_list)
+    models = get_true_models()
+    pickle.dump(models,open('./pre_computed/DC_models.p','wb'))
