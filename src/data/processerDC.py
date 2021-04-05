@@ -110,6 +110,43 @@ def bin_flux_factors_DC(E_df, z_df):
             mean_per_bin)
     return np.array(E_res),np.array(z_res)
 
+def get_probabilitiesDC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,N,ndim):
+    hashed_param_name = sha256(param_dict)
+    if anti:
+        flavor_from = 'a' + flavor_from
+        flavor_to = 'a' + flavor_to
+    try:
+        f = h5py.File(f'./pre_computed/DC/E{Ebin}z{zbin}.hdf5', 'r')
+    except OSError:
+        raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/DC/')
+    try:
+        fh = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
+    except KeyError:
+        f.close()
+        raise KeyError(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} doesnt exist in E{Ebin}z{zbin}.hdf5')
+    res = fh[()]
+    f.close()
+    return res
+
+def generate_probabilitiesDC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,N, ndim=4, nsi=False):
+    prob = np.array([wrapper([flavor_from, E_range,z, anti, params, ndim, nsi])[mass_dict[flavor_to]] for z in z_range])
+    hashed_param_name = sha256(params)
+    if anti:
+        flavor_from = 'a' + flavor_from
+        flavor_to = 'a' + flavor_to
+    f = h5py.File(f'./pre_computed/DC/E{E_bin}z{z_bin}.hdf5', 'a')
+    try:
+        dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}', data=prob, chunks=True)
+        for key in params.keys():
+            dset.attrs[key] = params[key]
+        f.close()
+    except RuntimeError:
+        print(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} already exists, skipping')
+        f.close()
+        return
+    if E_bin == 5 and z_bin == 5 and flavor_from == 'am':
+        with open(f'./pre_computed/DC/hashed_params.csv','a') as fd:
+            fd.write(f'{params};{hashed_param_name}\n')
 
 def process_aeff(df_list):
     eff_df = get_systematics()
@@ -138,7 +175,41 @@ def interpolate_aeff_dc(recompute=False):
         pickle.dump(inter,open('./pre_computed/aeff_dc_interpolator.p','wb'))
     return inter
 
+def get_true_models():
+    filename = './src/data/files/DC/sample_b/neutrino_mc.csv'
+    df = (pd.read_csv(filename)
+        .query('pdg == 14 or pdg == -14') #only muon (anti)neutrinos
+        .query('pid == 1 ')) # only tracks
+    df['Ebin'] = pd.cut(df.reco_energy, bins=Ereco, labels=False)
+    df['zbin'] = pd.cut(df.reco_coszen, bins=zreco, labels=False)
+    
+    def train(df):
+        X = np.array([df.reco_coszen, np.log(df.reco_energy)]).reshape(-1, 2)
+        y = np.array([df.true_coszen, np.log(df.true_energy)]).reshape(-1, 2)
+        kernel2  = 1.0 * RBF() + WhiteKernel(noise_level=3)
+        gpr = GaussianProcessRegressor(kernel=kernel2,random_state=0).fit(X, y)
+        return gpr
 
+    models = []
+    for zbin in range(8):
+        for Ebin in range(8):
+            df_sub = df.query(f'Ebin=={Ebin} ad zbin=={zbin}')
+            models.append(train(df_sub))
+    models = np.array(models).reshape(8,8)
+    return models
+
+
+def get_true(models, npoints, left_alpha, right_alpha,E_bin,z_bin):
+    E_buckets = np.array([5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413])
+    z_buckets = np.array([-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.])
+
+    mu_base_e, std_base_e = model.predict(np.array([np.log(E_buckets[E_bin]), z_buckets[z_bin]]).reshape(-1,2), return_std=True)
+
+    Etrue = np.logspace(np.log10(lognorm.ppf(1-left_alpha, s=std_base_e[0,0], scale= np.exp(mu_base_e[0,0]))), 
+                         np.log10(lognorm.ppf(right_alpha, s=std_base_e[-1,0], scale= np.exp(mu_base_e[-1,0]))),npoints)
+    ztrue = np.linspace(np.log10(lognorm.ppf(1-left_alpha, s=std_base_e[0,1], scale= np.exp(mu_base_e[0,1]))), 
+                         np.log10(lognorm.ppf(right_alpha, s=std_base_e[-1,1], scale= np.exp(mu_base_e[-1,1]))),npoints)
+    return Etrue, ztrue, mu_base_e, std_base_e
 
 
 

@@ -3,6 +3,8 @@ import argparse
 import numpy as np 
 import pandas as pd
 import pickle
+import h5py
+from multiprocessing import Process,Event, Pool
 parser = argparse.ArgumentParser()
 parser.add_argument('-N', default = 13, type=int)
 parser.add_argument('-u', action='store_true')
@@ -73,8 +75,35 @@ def delete_files(npoints=args.N):
                             os.remove(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}')
                 except FileNotFoundError:
                     pass
+def df_to_hdf(En,zn, group, npoints, param_dict, add_attrs=False):
+    for flavor in flavors:
+        try:
+            df = pickle.load(open(f'./pre_computed/{group}/{flavor}/{npoints}/E{En}z{zn}.p','rb'))
+            hashed_list = df.iloc[0].index
+            arrays = df.iloc[0].values
+            for i in range(len(arrays)):
+                insert_prob(arrays[i],group,flavor,npoints,En,zn, hashed_list[i], param_dict, add_attrs)
+            os.remove(f'./pre_computed/{group}/{flavor}/{npoints}/E{En}z{zn}.p')
+        except RuntimeError:
+            return
+                    
+
+
 if __name__ == '__main__':
-    split_z=  np.array_split(z_range,args.sT)[args.s]
-    gather_precomputed(split_z,args.N,args.u)
+    #split_z=  np.array_split(z_range,args.sT)[args.s]
+    #gather_precomputed(split_z,args.N,args.u)
+    group = '4gen'
+
+    for En in E_range:
+            for zn in z_range:
+                df_to_hdf(En,zn,group, args.N, {'dm':1, 'th':0.5}, add_attrs=False)
+    print('All written!')
+    
+    '''
+    for En in E_range[0:2]:
+            for zn in z_range[0:2]:
+                res= get_array(En,zn, group, 'Pmm', 13, '003ae2ace21703971f3909e8a9745723b4f2b2bca637e4c3fc532421bf00b0ef', True)
+                print(res)
+    '''
     #delete_files(args.N)
     #merge_precomputed_df()

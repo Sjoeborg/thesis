@@ -14,6 +14,7 @@ from numerical import wrapper
 from scipy.stats import lognorm
 import pickle
 import os
+import h5py
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import WhiteKernel, RBF
 
@@ -157,20 +158,47 @@ def interpolate_aeff_dc(recompute=False):
         pickle.dump(inter,open('./pre_computed/aeff_dc_interpolator.p','wb'))
     return inter
 
-def get_probabilitiesOLD(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4):
-    '''
-    Name of resulting .npy is the sha256 hash of the parameter dictionary used to generate the probablities.
-    '''
 
-    filename = sha256(params) #Get hash of parm dict to be used as filename
+def get_probabilities(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,N,ndim):
+    hashed_param_name = sha256(param_dict)
     if anti:
-        file_dir = f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/E{E_bin}z{z_bin}/'
-    else:
-        file_dir = f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/E{E_bin}z{z_bin}/'
-    res = np.load(file_dir + filename+'.npy')
+        flavor_from = 'a' + flavor_from
+        flavor_to = 'a' + flavor_to
+    try:
+        f = h5py.File(f'./pre_computed/IC/E{Ebin}z{zbin}.hdf5', 'r')
+    except OSError:
+        raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/IC/')
+    try:
+        fh = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
+    except KeyError:
+        f.close()
+        raise KeyError(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} doesnt exist in E{Ebin}z{zbin}.hdf5')
+    res = fh[()]
+    f.close()
     return res
 
-def get_probabilities(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4):
+def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,N, ndim=4, nsi=False):
+    prob = np.array([wrapper([flavor_from, E_range,z, anti, params, ndim, nsi])[mass_dict[flavor_to]] for z in z_range])
+    hashed_param_name = sha256(params)
+    if anti:
+        flavor_from = 'a' + flavor_from
+        flavor_to = 'a' + flavor_to
+    f = h5py.File(f'./pre_computed/IC/E{E_bin}z{z_bin}.hdf5', 'a')
+    try:
+        dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}', data=prob, chunks=True)
+        for key in params.keys():
+            dset.attrs[key] = params[key]
+        f.close()
+    except RuntimeError:
+        print(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} already exists, skipping')
+        f.close()
+        return
+    if E_bin == 5 and z_bin == 5 and flavor_from == 'am':
+        with open(f'./pre_computed/IC/hashed_params.csv','a') as fd:
+            fd.write(f'{params};{hashed_param_name}\n')
+
+
+def get_probabilitiesOLD(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4):
     '''
     Name of resulting .npy is the sha256 hash of the parameter dictionary used to generate the probablities.
     '''
@@ -184,7 +212,7 @@ def get_probabilities(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4)
     res = df[hashed_param_name][f'E{E_bin}z{z_bin}']
     return res
 
-def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,N, ndim=4, nsi=False):
+def generate_probabilitiesOLD(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,N, ndim=4, nsi=False):
     '''
     Name of resulting .csv is the sha256 hash of the parameter dictionary used to generate the probablities.
     '''

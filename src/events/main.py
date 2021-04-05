@@ -1,6 +1,6 @@
 import sys,os
 if __name__ == '__main__':
-    os.chdir('../../')
+    #os.chdir('../../')
     sys.path.append('./src/probability')
     sys.path.append('./src/data')
 import numpy as np
@@ -51,28 +51,28 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
             Pmm = get_probabilities('m', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
         except KeyError:
             generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
-            gather_specific_prob('Pmm',npoints,E_index,z_index,update=True,ndim=ndim)
+            #gather_specific_prob('Pmm',npoints,E_index,z_index,update=True,ndim=ndim)
             Pmm = get_probabilities('m', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
 
         try:
             P_amam = get_probabilities('m', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
         except KeyError:
             generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
-            gather_specific_prob('Pamam',npoints,E_index,z_index,update=True,ndim=ndim)
+            #gather_specific_prob('Pamam',npoints,E_index,z_index,update=True,ndim=ndim)
             P_amam = get_probabilities('m', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
         
         try:
             Pem = get_probabilities('e', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
         except KeyError:
             generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
-            gather_specific_prob('Pem',npoints,E_index,z_index,update=True,ndim=ndim)
+            #gather_specific_prob('Pem',npoints,E_index,z_index,update=True,ndim=ndim)
             Pem = get_probabilities('e', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
 
         try:
             P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
         except KeyError:
             generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
-            gather_specific_prob('Paeam',npoints,E_index,z_index,update=True,ndim=ndim)
+            #gather_specific_prob('Paeam',npoints,E_index,z_index,update=True,ndim=ndim)
             P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
 
         if tau:
@@ -80,14 +80,14 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
                 Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints,ndim=ndim)
             except KeyError:
                 generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
-                gather_specific_prob('Pmt',npoints,E_index,z_index,update=True,ndim=ndim)
+                #gather_specific_prob('Pmt',npoints,E_index,z_index,update=True,ndim=ndim)
                 Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints,ndim=ndim)
 
             try:
                 P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints,ndim=ndim)
             except KeyError:
                 generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
-                gather_specific_prob('Pamat',npoints,E_index,z_index,update=True,ndim=ndim)
+                #gather_specific_prob('Pamat',npoints,E_index,z_index,update=True,ndim=ndim)
                 P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints,ndim=ndim)
 
             Pmm = Pmm + 0.1739*Pmt
@@ -184,4 +184,4 @@ def gather_specific_prob(flavor,npoints,En,zn, update=True, ndim=4):
 
 interp_flux, interp_aeff, energy_resolution_models = get_interpolators()
 if __name__ == '__main__':
-   pass
+   print(get_events(10, 10, 0.99, 13))

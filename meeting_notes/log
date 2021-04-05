@@ -406,6 +406,7 @@ Eventsen med e_mm=0, e_mt!= 0 råkade bli med enbart 10 E bins. Blir lite segt a
 
 5 Apr
 Lägg 3+1 åt sidan helt for now.
+Renormalize DC 2015, and check how close that comes to DC 2018.
 Gör klart DC utan systematic uncertainty. Du borde få bättre bounds på emt utan syst unc. 
 1. Scan only emt for DC, IC, (and maybe gen2) (result is deltachi vs emt plot)
 2. Put prior on e' and do the same thing
