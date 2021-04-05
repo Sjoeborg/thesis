@@ -82,9 +82,11 @@ def df_to_hdf(En,zn, group, npoints, param_dict, N,add_attrs=False):
             hashed_list = df.iloc[0].index
             arrays = df.iloc[0].values
             f = h5py.File(f'./pre_computed/IC/E{En}z{zn}.hdf5', 'a')
+            #print(f'{group}/{flavor}/{N}/{hashed_list[0]}')
+            #print(arrays[0])
             for i in range(len(arrays)): 
-                dset = f.create_dataset(f'{group}/{flavor}/{N}/{hashed_list[i]}', data=arrays[i], chunks=True)
-                f.close()
+                dset = f.create_dataset(f'{group}/{flavor}/{N}/{hashed_list[i]}', data=arrays[i])
+            f.close()
             os.remove(f'./pre_computed/{group}/{flavor}/{npoints}/E{En}z{zn}.p')
         except RuntimeError:
             return
