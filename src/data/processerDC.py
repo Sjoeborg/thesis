@@ -1,6 +1,6 @@
 import sys,os
 if __name__ == '__main__':
-    os.chdir('../../')
+    #os.chdir('../../')
     sys.path.append('./src/probability')
     sys.path.append('./src/data')
 import numpy as np
@@ -176,6 +176,8 @@ def interpolate_aeff_dc(recompute=False):
     return inter
 
 def get_true_models():
+    Ereco = np.array([5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413])
+    zreco = np.array([-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.])
     filename = './src/data/files/DC/sample_b/neutrino_mc.csv'
     df = (pd.read_csv(filename)
         .query('pdg == 14 or pdg == -14') #only muon (anti)neutrinos
@@ -194,7 +196,7 @@ def get_true_models():
     for zbin in range(8):
         for Ebin in range(8):
             print(f'training {Ebin} {zbin}')
-            df_sub = df.query(f'Ebin=={Ebin} ad zbin=={zbin}')
+            df_sub = df.query(f'Ebin=={Ebin} and zbin=={zbin}')
             models.append(train(df_sub))
     models = np.array(models).reshape(8,8)
     return models
