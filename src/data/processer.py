@@ -238,6 +238,7 @@ def generate_probabilitiesOLD(flavor_from, flavor_to, E_range,z_range,E_bin,z_bi
         else:
             with open(f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/hashed_params.csv','a') as fd:
                 fd.write(f'{params};{filename}\n')
+    return res
     
 
 def train_energy_resolution(recompute=False):

@@ -88,19 +88,19 @@ def df_to_hdf(En,zn, group, npoints, param_dict, N,add_attrs=False):
                 dset = f.create_dataset(f'{group}/{flavor}/{N}/{hashed_list[i]}', data=arrays[i])
             f.close()
             os.remove(f'./pre_computed/{group}/{flavor}/{npoints}/E{En}z{zn}.p')
-        except RuntimeError:
+        except(RuntimeError,FileNotFoundError):
             return
                     
 
 
 if __name__ == '__main__':
-    #split_z=  np.array_split(z_range,args.sT)[args.s]
-    #gather_precomputed(split_z,args.N,args.u)
+    split_z=  np.array_split(z_range,args.sT)[args.s]
+    gather_precomputed(split_z,args.N,args.u)
     group = '4gen'
 
     for En in E_range:
-        for zn in z_range:
-            df_to_hdf(En,zn,group, args.N, {'dm':1, 'th':0.5}, 13,add_attrs=False)
-        print(f'{En}{zn} done')
+        for zn in split_z:
+            df_to_hdf(En,zn,group, args.N, None, 13,add_attrs=False)
+        print(f'E{En}z{zn} done')
     #delete_files(args.N)
     #merge_precomputed_df()
