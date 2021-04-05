@@ -402,3 +402,14 @@ Första steget kanske är att enbart fokusera på IC constraint, för att sen se
 
 1 Apr 
 Eventsen med e_mm=0, e_mt!= 0 råkade bli med enbart 10 E bins. Blir lite segt att jämföra med emm...
+
+
+5 Apr
+Lägg 3+1 åt sidan helt for now.
+Gör klart DC utan systematic uncertainty. Du borde få bättre bounds på emt utan syst unc. 
+1. Scan only emt for DC, IC, (and maybe gen2) (result is deltachi vs emt plot)
+2. Put prior on e' and do the same thing
+3. Let e' free and do  the same thing.
+
+Every time i see something in the chi2 plots, i should check that with the probability plots. 
+
