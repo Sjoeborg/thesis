@@ -100,12 +100,5 @@ if __name__ == '__main__':
             for zn in [0]:
                 df_to_hdf(En,zn,group, args.N, {'dm':1, 'th':0.5}, 13,add_attrs=False)
     print('All written!')
-    
-    '''
-    for En in E_range[0:2]:
-            for zn in z_range[0:2]:
-                res= get_array(En,zn, group, 'Pmm', 13, '003ae2ace21703971f3909e8a9745723b4f2b2bca637e4c3fc532421bf00b0ef', True)
-                print(res)
-    '''
     #delete_files(args.N)
     #merge_precomputed_df()
