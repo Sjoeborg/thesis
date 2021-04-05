@@ -97,6 +97,7 @@ if __name__ == '__main__':
     for En in E_range:
             for zn in z_range:
                 df_to_hdf(En,zn,group, args.N, {'dm':1, 'th':0.5}, add_attrs=False)
+            print(f'{En zn} done')
     print('All written!')
     
     '''
