@@ -75,14 +75,16 @@ def delete_files(npoints=args.N):
                             os.remove(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}')
                 except FileNotFoundError:
                     pass
-def df_to_hdf(En,zn, group, npoints, param_dict, add_attrs=False):
+def df_to_hdf(En,zn, group, npoints, param_dict, N,add_attrs=False):
     for flavor in flavors:
         try:
             df = pickle.load(open(f'./pre_computed/{group}/{flavor}/{npoints}/E{En}z{zn}.p','rb'))
             hashed_list = df.iloc[0].index
             arrays = df.iloc[0].values
-            for i in range(len(arrays)):
-                insert_prob(arrays[i],group,flavor,npoints,En,zn, hashed_list[i], param_dict, add_attrs)
+            f = h5py.File(f'./pre_computed/IC/E{En}z{zn}.hdf5', 'a')
+            for i in range(len(arrays)): 
+                dset = f.create_dataset(f'{group}/{flavor}/{N}/{hashed_list[i]}', data=arrays[i], chunks=True)
+                f.close()
             os.remove(f'./pre_computed/{group}/{flavor}/{npoints}/E{En}z{zn}.p')
         except RuntimeError:
             return
@@ -94,9 +96,9 @@ if __name__ == '__main__':
     #gather_precomputed(split_z,args.N,args.u)
     group = '4gen'
 
-    for En in E_range:
-            for zn in z_range:
-                df_to_hdf(En,zn,group, args.N, {'dm':1, 'th':0.5}, add_attrs=False)
+    for En in [0]:
+            for zn in [0]:
+                df_to_hdf(En,zn,group, args.N, {'dm':1, 'th':0.5}, 13,add_attrs=False)
     print('All written!')
     
     '''
