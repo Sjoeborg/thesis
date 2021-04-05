@@ -98,9 +98,9 @@ if __name__ == '__main__':
     #gather_precomputed(split_z,args.N,args.u)
     group = '4gen'
 
-    for En in [0]:
-            for zn in [0]:
-                df_to_hdf(En,zn,group, args.N, {'dm':1, 'th':0.5}, 13,add_attrs=False)
-    print('All written!')
+    for En in E_range:
+        for zn in z_range:
+            df_to_hdf(En,zn,group, args.N, {'dm':1, 'th':0.5}, 13,add_attrs=False)
+        print(f'{En}{zn} done')
     #delete_files(args.N)
     #merge_precomputed_df()
