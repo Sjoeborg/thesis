@@ -105,7 +105,7 @@ if __name__ == '__main__':
     start = time.time()
     #p = Pool()
     for i, _ in enumerate(map(precompute_probs, para), 1):
-        print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(split_array)))
+        print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(para)))
         print(np.round((time.time() - start)/3600,1))
     #p.close()
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
