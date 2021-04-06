@@ -195,8 +195,8 @@ def get_true_models():
     models = []
     for zbin in range(8):
         for Ebin in range(8):
-            print(f'training {Ebin} {zbin}')
             df_sub = df.query(f'Ebin=={Ebin} and zbin=={zbin}')
+            print(f'training {Ebin} {zbin}, len: {len(df_sub)}')
             models.append(train(df_sub))
     models = np.array(models).reshape(8,8)
     return models
