@@ -169,8 +169,12 @@ def get_probabilities(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,N,ndim
     except OSError:
         raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/IC/')
     try:
-        f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}'] = f[f'4gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
-        fh = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
+        f1= f[f'4gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
+        try:
+            del f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
+        except:
+            pass
+        f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}'] = f1
         del f[f'4gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
     except KeyError:
         f.close()
