@@ -193,7 +193,7 @@ def get_true_models():
         gpr = GaussianProcessRegressor(kernel=kernel2,random_state=0).fit(X, y)
         return gpr
 
-    return train(df_sub)
+    return train(df)
 
 
 def get_true(models, npoints, left_alpha, right_alpha,E_bin,z_bin):
