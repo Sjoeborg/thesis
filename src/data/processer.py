@@ -193,7 +193,7 @@ def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,p
         print(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} already exists, skipping')
         f.close()
         return
-    if E_bin == 5 and z_bin == 5 and flavor_from == 'am':
+    if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am':
         with open(f'./pre_computed/IC/hashed_params.csv','a') as fd:
             fd.write(f'{params};{hashed_param_name}\n')
 
@@ -230,14 +230,11 @@ def generate_probabilitiesOLD(flavor_from, flavor_to, E_range,z_range,E_bin,z_bi
             os.makedirs(file_dir)
         except FileExistsError: #Sometimes, the dir was already created by another thread
             pass
-        np.save(file_dir + filename,res)
-    if E_bin == 5 and z_bin == 5:
-        if anti:
-            with open(f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/hashed_params.csv','a') as fd:
-                fd.write(f'{params};{filename}\n')
-        else:
-            with open(f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/hashed_params.csv','a') as fd:
-                fd.write(f'{params};{filename}\n')
+        pass
+    np.save(file_dir + filename,res)
+    if E_bin == 5 and z_bin == 5 and flavor_from == 'm' and flavor_to == 'm':
+        with open(f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/hashed_params.csv','a') as fd:
+            fd.write(f'{params};{filename}\n')
     return res
     
 
