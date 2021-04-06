@@ -254,7 +254,7 @@ def is_precomputed_nsi(N,ndim, dict, check=False):
                 if check:
                     return False
                 else:
-                    raise FileNotFoundError(f'P{flavor_from}{flavor_to} {ndim}gen for N={N}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, e_mm={dict["e_mm"]}, not found')
+                    raise FileNotFoundError(f'P{flavor_from}{flavor_to} {ndim}gen for N={N}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, e_mm={dict["e_mm"]},e_mt={dict["e_mt"]}, not found')
             return True
 if __name__ == '__main__':
     pass
