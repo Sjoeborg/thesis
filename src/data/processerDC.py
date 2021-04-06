@@ -178,14 +178,14 @@ def interpolate_aeff_dc(recompute=False):
 
 def get_true_models():
     Ereco = np.array([5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413])
-    zreco = np.array([-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.])
+    zreco = np.array([-1., -0.75, -0.5 , -0.25,  0.])
     filename = './src/data/files/DC/sample_b/neutrino_mc.csv'
     df = (pd.read_csv(filename)
         .query('pdg == 14 or pdg == -14') #only muon (anti)neutrinos
         .query('pid == 1 ')) # only tracks
     df['Ebin'] = pd.cut(df.reco_energy, bins=Ereco, labels=False)
     df['zbin'] = pd.cut(df.reco_coszen, bins=zreco, labels=False)
-    
+    df = df.dropna()
     def train(df):
         X = np.array([df.reco_coszen, np.log(df.reco_energy)]).reshape(-1, 2)
         y = np.array([df.true_coszen, np.log(df.true_energy)]).reshape(-1, 2)
