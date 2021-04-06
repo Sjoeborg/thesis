@@ -165,21 +165,14 @@ def get_probabilities(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,N,ndim
         flavor_from = 'a' + flavor_from
         flavor_to = 'a' + flavor_to
     try:
-        f = h5py.File(f'./pre_computed/IC/E{Ebin}z{zbin}.hdf5', 'r+')
+        f = h5py.File(f'./pre_computed/IC/E{Ebin}z{zbin}.hdf5', 'r')
     except OSError:
         raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/IC/')
     try:
-        fh= f[f'4gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
-        try:
-            del f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
-        except:
-            pass
-        f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}'] = fh
-        del f[f'4gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
+        fh = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
     except KeyError:
-        fh= f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
-        #f.close()
-        #raise KeyError(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} doesnt exist in E{Ebin}z{zbin}.hdf5')
+        f.close()
+        raise KeyError(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} doesnt exist in E{Ebin}z{zbin}.hdf5')
     res = fh[()]
     f.close()
     return res
