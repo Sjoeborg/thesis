@@ -11,6 +11,7 @@ from importer import get_flux_df,get_aeff_df,get_flux_df_DC, get_aeff_df_dc
 from importerDC import get_systematics, get_aeff_df_dc
 from dict_hash import sha256
 import pandas as pd
+from multiprocessing import Pool
 #from numerical import wrapper 
 from scipy.stats import lognorm
 import pickle
@@ -175,7 +176,7 @@ def interpolate_aeff_dc(recompute=False):
         pickle.dump(inter,open('./pre_computed/aeff_dc_interpolator.p','wb'))
     return inter
 
-def get_true_models():
+def get_true_models(zbin):
     Ereco = np.array([5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413])
     zreco = np.array([-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.])
     filename = './src/data/files/DC/sample_b/neutrino_mc.csv'
@@ -193,12 +194,10 @@ def get_true_models():
         return gpr
 
     models = []
-    for zbin in range(8):
-        for Ebin in range(8):
-            df_sub = df.query(f'Ebin=={Ebin} and zbin=={zbin}')
-            print(f'training {Ebin} {zbin}, len: {len(df_sub)}')
-            models.append(train(df_sub))
-    models = np.array(models).reshape(8,8)
+    for Ebin in range(8):
+        df_sub = df.query(f'Ebin=={Ebin} and zbin=={zbin}')
+        print(f'training {Ebin} {zbin}, len: {len(df_sub)}')
+        models.append(train(df_sub))
     return models
 
 
@@ -223,5 +222,7 @@ def get_interpolators_dc(recompute_flux=False, recompute_aeff=False):
     return interp_flux, interp_aeff
 
 if __name__ == '__main__':
-    models = get_true_models()
+    zbin = range(8)
+    p = Pool()
+    models = p.map(get_true_models,zbin)
     pickle.dump(models,open('./pre_computed/DC_models.p','wb'))
