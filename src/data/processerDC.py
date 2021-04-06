@@ -185,7 +185,8 @@ def get_true_models():
         .query('pid == 1 ')) # only tracks
     df['Ebin'] = pd.cut(df.reco_energy, bins=Ereco, labels=False)
     df['zbin'] = pd.cut(df.reco_coszen, bins=zreco, labels=False)
-    df = df.dropna()
+    df = df.sample(100000)
+    print(len(df))
     def train(df):
         X = np.array([df.reco_coszen, np.log(df.reco_energy)]).reshape(-1, 2)
         y = np.array([df.true_coszen, np.log(df.true_energy)]).reshape(-1, 2)
