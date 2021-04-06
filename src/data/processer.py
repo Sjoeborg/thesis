@@ -192,10 +192,11 @@ def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,p
     except RuntimeError:
         print(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} already exists, skipping')
         f.close()
-        return
+        return prob
     if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am':
         with open(f'./pre_computed/IC/hashed_params.csv','a') as fd:
             fd.write(f'{params};{hashed_param_name}\n')
+    return prob
 
 
 def get_probabilitiesOLD(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4):

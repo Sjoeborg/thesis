@@ -73,10 +73,9 @@ def event_wrapper(param_list):
     E_index,z_index, alpha, params, npoints,nsi = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4], param_list[5]
     return probs(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha, nsi=nsi)
 
-def precompute_probs(params=ic_params_nsi, nsi=True):
-    for i in range(0,13):
-        for j in range(20):
-            event_wrapper([i,j, 0.99, params,args.N, nsi])
+def precompute_probs(args_tuple, nsi=True):
+    i,j,params = args_tuple
+    event_wrapper([i,j, 0.99, params,args.N, nsi])
 
 models= train_energy_resolution()
 
@@ -97,13 +96,17 @@ if __name__ == '__main__':
         print(f'Precomputing {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), emt({emt_range.min()},{emt_range.max()},{len(emt_range)}), for N = {args.N}. s={args.s+1}/{args.sT}')
     else:
         print(f'Precomputing {args.Ndim} probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), for N = {args.N}. s={args.s+1}/{args.sT}')
-        
-    split_array=  np.array_split(param_list,args.sT)[args.s]
+    
+    #split_array=  np.array_split(param_list,args.sT)[args.s]
+    bins = [(i,j) for i in range(0,13) for j in range(20)]
+    split_array=  np.array_split(bins,args.sT)[args.s]
+    para = [(*b,p) for b in split_array.tolist() for p in param_list]
 
     start = time.time()
     #p = Pool()
-    for i, _ in enumerate(map(precompute_probs, split_array), 1):
+    for i, _ in enumerate(map(precompute_probs, para), 1):
         print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(split_array)))
         print(np.round((time.time() - start)/3600,1))
     #p.close()
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
+    
