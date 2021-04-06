@@ -199,7 +199,7 @@ def get_true_models():
 
 def get_true(models, npoints, left_alpha, right_alpha,E_bin,z_bin):
     E_buckets = np.array([5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413])
-    z_buckets = np.array([-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.])
+    z_buckets = np.array([-1., -0.75, -0.5 , -0.25,  0.])
 
     mu_base_e, std_base_e = model.predict(np.array([np.log(E_buckets[E_bin]), z_buckets[z_bin]]).reshape(-1,2), return_std=True)
 

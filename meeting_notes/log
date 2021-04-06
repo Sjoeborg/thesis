@@ -416,3 +416,10 @@ Every time i see something in the chi2 plots, i should check that with the proba
 
 6 Apr
 Salvado har 20 E bins och 20 z bins. 
+
+DC:
+    Jag har MC och events för DC 2018 från fil.
+    Jag har MC och events från plot för DC 2015.
+    Gör klart DC 2018, dvs subtrahera muon background (?) och ta med efficiency från notebooken.
+    MC 2018 i E-led passar asbra.
+    MC 2015 i z-led passar asbra

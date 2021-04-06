@@ -13,23 +13,12 @@ def get_aeff_df_dc():
         df_list.append(flavor_aeff_df_dc(flavor))
     return df_list
 
-def get_DC_MC_2018():
-    df = pd.read_csv(f'./src/data/files/DC/dc2018_MC.csv', skiprows=0, names=['E','events'], dtype=np.float64)
-    return df
 
-def get_DC_MC():
-    bins = np.arange(1,9)
-    MC_factors =[]
-    for bin in bins:
-        df = pd.read_csv(f'./src/data/files/DC/DC2015_MC_bin{bin}.csv', skiprows=2, names=['z1','rates','z2','events'], dtype=np.float64)
-        MC = df.events/df.rates
-        MC_factors.append(MC.to_numpy())
-    return np.array(MC_factors)
 
 def flavor_aeff_df_dc(flavor):
-    filename = f'./src/data/files/DC/CC_Nu{flavor}.txt'
+    filename = f'./src/data/files/DC/2015/CC_Nu{flavor}.txt'
     if flavor[0] == 'X':
-        filename = f'./src/data/files/DC/NC_Nu{flavor}.txt'
+        filename = f'./src/data/files/DC/2015/NC_Nu{flavor}.txt'
     df_chunks = pd.read_csv(filename, skiprows=1, delimiter='\t', names=['z', 'E', f'aeff_{flavor}'],skip_blank_lines=False)
     df_list = np.split(df_chunks, df_chunks[df_chunks.isnull().all(1)].index)
     _=df_list.pop(-1)
@@ -62,8 +51,8 @@ def get_systematics():
     best_fit_hole = 0.02
     eval_DOM = lambda p:eval(p.replace('^','**').replace(' x',f'*{best_fit_optical_eff}'))
     eval_ICE = lambda p:eval(p.replace('^','**').replace(' x',f'*{best_fit_hole}'))
-    df = pd.read_csv('./src/data/files/DC/DOMeff.txt', skiprows=3, delimiter='\t', names=['E', 'z', 'del','DOMeff','del1'])
-    df_ICE = pd.read_csv('./src/data/files/DC/HoleIce.txt', skiprows=3, delimiter='\t', names=['E', 'z', 'del','ICEeff','del1'])
+    df = pd.read_csv('./src/data/files/DC/2015/DOMeff.txt', skiprows=3, delimiter='\t', names=['E', 'z', 'del','DOMeff','del1'])
+    df_ICE = pd.read_csv('./src/data/files/DC/2015/HoleIce.txt', skiprows=3, delimiter='\t', names=['E', 'z', 'del','ICEeff','del1'])
     df_ICE = df_ICE['ICEeff']
     df.z = df.z.str.replace('cosZreco=\[','')
     df.E = df.E.str.replace('logEreco=\[','')
@@ -84,25 +73,66 @@ def get_systematics():
     df['ICEeff']= df_ICE.apply(eval_ICE)
     return df[['E_avg','z_avg','DOMeff','ICEeff']]
 
+def DC2018_MC():
+    from processerDC import get_flux, interpolate_flux_DC
+    interp_flux = interpolate_flux_DC()
+    df = pd.read_csv(f'./src/data/files/DC/2018/sample_b/neutrino_mc.csv', dtype=np.float64)
+
+    nue_mask = (df["pdg"] == 12)
+    numu_mask = (df["pdg"] == 14)
+    nutau_mask = (df["pdg"] == 16)
+    nuebar_mask = (df["pdg"] == -12)
+    numubar_mask = (df["pdg"] == -14)
+    nutaubar_mask = (df["pdg"] == -16)
+
+    nc_mask = (df["type"] == 0)
+    cc_mask = (df["type"] == 1)
+    track_mask = (df['pid'] == 1)
+    cascade_mask = (df['pid'] == 0)
+
+    nue_cc_mask = nue_mask & cc_mask
+    numu_cc_mask = numu_mask & cc_mask
+    nutau_cc_mask = nutau_mask & cc_mask
+
+    nuebar_cc_mask = nuebar_mask & cc_mask
+    numubar_cc_mask = numubar_mask & cc_mask
+    nutaubar_cc_mask = nutaubar_mask & cc_mask
+
+    rate_weight = np.zeros_like(df["weight"])
+
+    mflux = get_flux('m',df[numu_mask].true_energy,df[numu_mask].true_coszen,interp_flux)
+    eflux = get_flux('e',df[nue_mask].true_energy,df[nue_mask].true_coszen,interp_flux)
+    mbarflux = get_flux('mbar',df[numubar_mask].true_energy,df[numubar_mask].true_coszen,interp_flux)
+    ebarflux = get_flux('ebar',df[nuebar_mask].true_energy,df[nuebar_mask].true_coszen,interp_flux)
+
+    rate_weight[nue_mask] = eflux * df['weight'][nue_mask]
+    rate_weight[numu_mask] = mflux * df['weight'][numu_mask]
+    rate_weight[nuebar_mask] = ebarflux * df['weight'][nuebar_mask]
+    rate_weight[numubar_mask] = mbarflux * df['weight'][numubar_mask]
+
+    df['rate_weight'] = rate_weight
+    livetime = 1022*24*3600
+    reco_df = df[['reco_coszen', 'reco_energy', 'rate_weight']]
+    dc2018_mc = reco_df.groupby(['reco_coszen','reco_energy']).sum().reset_index().pivot(index='reco_coszen',columns='reco_energy')*livetime
+    return dc2018_mc.query('reco_coszen < 0')
+
+def DC2015_MC():
+    bins = np.arange(1,9)
+    MC_factors =[]
+    for bin in bins:
+        df = pd.read_csv(f'./src/data/files/DC/2015/DC2015_MC_bin{bin}.csv', skiprows=2, names=['z1','rates','z2','events'], dtype=np.float64)
+        MC = df.events/df.rates
+        MC_factors.append(MC.to_numpy())
+    return np.array(MC_factors)
 
 def DC2018_event_data():
-    events = np.array([[32, 85,  143, 186, 208, 179, 119,  67],  
-                       [66, 101, 162, 223, 271, 276, 230, 147],
-                       [119, 150, 216, 288, 355, 366, 310, 211], 
-                       [179, 193, 266, 356, 431, 440, 401, 295], 
-                       [248, 240, 291, 353, 440, 468, 445, 332], 
-                       [252, 236, 260, 279, 338, 343, 347, 262], 
-                       [218, 192, 211, 206, 220, 215, 218, 186], 
-                       [182, 197, 206, 206, 171, 137, 128, 113]])
-    z_range = np.linspace(-1,-0.25,8)
-    E_buckets = np.logspace(0.75,1.5,8)
-
-    df = pd.DataFrame(events, columns= E_buckets, index=z_range)
-    return df
+    df = pd.read_csv('./src/data/files/DC/2018/sample_b/data.csv').query('pid==1')
+    df = df.pivot(index='reco_coszen', columns='reco_energy')
+    return df['count'].query('reco_coszen < 0')
 
 def DC2015_event_data():
-    df = pd.read_csv('./src/data/files/DC/DataCounts.txt', skiprows=2, delimiter='\t', names=['z','E','events'])
-    background = pd.read_csv('./src/data/files/DC/AtmMuons_fromData.txt', skiprows=2, delimiter='\t', names=['z','E','events'])
+    df = pd.read_csv('./src/data/files/DC/2015/DataCounts.txt', skiprows=2, delimiter='\t', names=['z','E','events'])
+    background = pd.read_csv('./src/data/files/DC/2015/AtmMuons_fromData.txt', skiprows=2, delimiter='\t', names=['z','E','events'])
     df['background'] = background.events
     df.z = df.z.str.replace('[','')
     df.E = df.E.str.replace('[','')
