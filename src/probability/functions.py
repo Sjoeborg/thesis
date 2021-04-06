@@ -348,37 +348,21 @@ def get_electron_density(r):
     else:
         raise ValueError(f'{r} not numerical')
 
-def chisq_S(params,events, data,sigma_a, sigma_b, sigma_g, sigma_syst):
-    if len(params) == 3:
-        a,b, g = params
-        S_th = events * (1 + a*sigma_a + b*sigma_b + g*sigma_g)
-        penalty = a**2 + b**2 + g**2
-    elif len(params) == 2:
-        a,b = params
-        S_th = events * (1 + a*sigma_a + b*sigma_b)
-        penalty = a**2 + b**2
-    elif len(params) == 1:
-        a = params
-        S_th = events * (1 + a*sigma_a)
-        penalty = a**2 
-    chi2= np.sum((S_th - data)**2/(data + sigma_syst**2))+ penalty
-    return chi2
-
-
 def chisq(params,events, data,z,sigma_a, sigma_b, sigma_g, sigma_syst):
     z_0 = -np.median(z)
+
     if len(params) == 3:
         a,b, g = params
-        S_th = a*(1+b*(z+z_0)+g)*events 
+        S_th = a*(1+b*(z[0:-1]+z_0)+g)*events 
         penalty = (1-a)**2/sigma_a**2 + b**2 / sigma_b**2 + g**2 /sigma_g**2
     elif len(params) == 2:
         a,b = params
-        S_th = a*(1+b*(z+z_0))*events
+        S_th = a*(1+b*(z[0:-1]+z_0))*events
         penalty = (1-a)**2/sigma_a**2 + b**2 / sigma_b**2 
     elif len(params) == 1:
         a = params
         S_th = a*events
-        penalty = a**2 
+        penalty = (1-a)**2 
     chi2= np.sum((S_th - data)**2/(data + sigma_syst**2))+ penalty
     return chi2
 
@@ -387,10 +371,6 @@ def perform_chisq(events, data,sigma_syst, z = np.linspace(-1,0,21), sigma_a=0.2
     assert res.success, res
     return res.fun, res.x
 
-def perform_chisq_S(events, data,sigma_syst, z = np.linspace(-1,0,21), sigma_a=0.25, sigma_b=None, sigma_g =None, x0=[1]):
-    res = minimize(fun=chisq_S, x0=x0, args=(events,data,sigma_a, sigma_b, sigma_g, sigma_syst), method='Nelder-Mead',options={'maxiter': 1e5, 'maxfev':1e5})
-    assert res.success, res
-    return res.fun, res.x
 
 def integrate(array,method='simps',*args):
     '''

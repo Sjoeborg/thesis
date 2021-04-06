@@ -202,10 +202,10 @@ def get_deltachi(H1_list_normalized,H0_normalized,y_range,x_range, delta_T, sigm
     sigma_b = sigma[1]
     sigma_g = delta_T
     f = f
-    sigma_syst = f*IC_observed
+    sigma_syst = f*np.sum(IC_observed, axis=0)
     x0=x0
-    chisq_H0, a_H0 = perform_chisq(H0_normalized,IC_observed,sigma_syst=sigma_syst,z=zreco[0:-1],sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
-    chisq_H1_list  = np.array([perform_chisq(H1_norm, IC_observed,sigma_syst=sigma_syst,z=zreco[0:-1], sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
+    chisq_H0, a_H0 = perform_chisq(H0_normalized,np.sum(IC_observed, axis=0),sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
+    chisq_H1_list  = np.array([perform_chisq(H1_norm, np.sum(IC_observed, axis=0),sigma_syst=sigma_syst,z=zreco, sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)#chisq_H1_list - chisq_H0
 
     best_fit_index = np.argmin(delta_chi)
