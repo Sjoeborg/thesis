@@ -144,10 +144,11 @@ def generate_probabilitiesDC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin
     except RuntimeError:
         print(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} already exists, skipping')
         f.close()
-        return
-    if E_bin == 5 and z_bin == 5 and flavor_from == 'am':
+        return prob
+    if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am':
         with open(f'./pre_computed/DC/hashed_params.csv','a') as fd:
             fd.write(f'{params};{hashed_param_name}\n')
+    return prob
 
 def process_aeff(df_list):
     eff_df = get_systematics()
@@ -197,17 +198,19 @@ def get_true_models():
     return train(df)
 
 
-def get_true(models, npoints, left_alpha, right_alpha,E_bin,z_bin):
-    E_buckets = np.array([5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413])
-    z_buckets = np.array([-1., -0.75, -0.5 , -0.25,  0.])
+def get_true(flavor,pid,E_bin,z_bin):
+    Ebins_2018 = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
+    zbins_2018 = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
 
-    mu_base_e, std_base_e = model.predict(np.array([np.log(E_buckets[E_bin]), z_buckets[z_bin]]).reshape(-1,2), return_std=True)
+    df1 = (df.query(f'pid=={pid}')
+             .query(f'pdg=={flavor}')
+             .query(f'reco_energy<{Ebins_2018[E_bin+1]}')
+             .query(f'reco_energy>{Ebins_2018[E_bin]}')
+             .query(f'reco_coszen<{zbins_2018[1]}')
+             .query(f'reco_coszen>{zbins_2018[0]}'))
 
-    Etrue = np.logspace(np.log10(lognorm.ppf(1-left_alpha, s=std_base_e[0,0], scale= np.exp(mu_base_e[0,0]))), 
-                         np.log10(lognorm.ppf(right_alpha, s=std_base_e[-1,0], scale= np.exp(mu_base_e[-1,0]))),npoints)
-    ztrue = np.linspace(np.log10(lognorm.ppf(1-left_alpha, s=std_base_e[0,1], scale= np.exp(mu_base_e[0,1]))), 
-                         np.log10(lognorm.ppf(right_alpha, s=std_base_e[-1,1], scale= np.exp(mu_base_e[-1,1]))),npoints)
-    return Etrue, ztrue, mu_base_e, std_base_e
+    return df1.true_energy.values, df1.true_coszen.values
+
 
 
 

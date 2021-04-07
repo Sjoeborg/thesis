@@ -73,48 +73,65 @@ def get_systematics():
     df['ICEeff']= df_ICE.apply(eval_ICE)
     return df[['E_avg','z_avg','DOMeff','ICEeff']]
 
-def DC2018_MC():
+def DC2018_MC(track, cascade):
+    #TODO division of CC/NC at end might be redundant.
     from processerDC import get_flux, interpolate_flux_DC
     interp_flux = interpolate_flux_DC()
+    livetime = 1022*24*3600
     df = pd.read_csv(f'./src/data/files/DC/2018/sample_b/neutrino_mc.csv', dtype=np.float64)
 
-    nue_mask = (df["pdg"] == 12)
-    numu_mask = (df["pdg"] == 14)
-    nutau_mask = (df["pdg"] == 16)
-    nuebar_mask = (df["pdg"] == -12)
-    numubar_mask = (df["pdg"] == -14)
-    nutaubar_mask = (df["pdg"] == -16)
+    e_mask = (df["pdg"] == 12)
+    mu_mask = (df["pdg"] == 14)
+    tau_mask = (df["pdg"] == 16)
+    ebar_mask = (df["pdg"] == -12)
+    mubar_mask = (df["pdg"] == -14)
+    taubar_mask = (df["pdg"] == -16)
 
-    nc_mask = (df["type"] == 0)
-    cc_mask = (df["type"] == 1)
     track_mask = (df['pid'] == 1)
     cascade_mask = (df['pid'] == 0)
 
-    nue_cc_mask = nue_mask & cc_mask
-    numu_cc_mask = numu_mask & cc_mask
-    nutau_cc_mask = nutau_mask & cc_mask
+    if track and not cascade:
+        pid_mask = track_mask
+    elif not track and cascade:
+        pid_mask = cascade_mask
+    elif track and cascade:
+        pid_mask = track_mask | cascade_mask
+    else:
+        raise ValueError('Specify track and/or cascade')
 
-    nuebar_cc_mask = nuebar_mask & cc_mask
-    numubar_cc_mask = numubar_mask & cc_mask
-    nutaubar_cc_mask = nutaubar_mask & cc_mask
+    e_mask = e_mask & pid_mask
+    mu_mask = mu_mask & pid_mask
+    tau_mask = tau_mask & pid_mask
+    ebar_mask = ebar_mask & pid_mask
+    mubar_mask = mubar_mask & pid_mask
+    taubar_mask = taubar_mask & pid_mask
+    
 
     rate_weight = np.zeros_like(df["weight"])
 
-    mflux = get_flux('m',df[numu_mask].true_energy,df[numu_mask].true_coszen,interp_flux)
-    eflux = get_flux('e',df[nue_mask].true_energy,df[nue_mask].true_coszen,interp_flux)
-    mbarflux = get_flux('mbar',df[numubar_mask].true_energy,df[numubar_mask].true_coszen,interp_flux)
-    ebarflux = get_flux('ebar',df[nuebar_mask].true_energy,df[nuebar_mask].true_coszen,interp_flux)
+    mflux = get_flux('m',df[mu_mask].true_energy,df[mu_mask].true_coszen,interp_flux)
+    eflux = get_flux('e',df[e_mask].true_energy,df[e_mask].true_coszen,interp_flux)
+    mbarflux = get_flux('mbar',df[mubar_mask].true_energy,df[mubar_mask].true_coszen,interp_flux)
+    ebarflux = get_flux('ebar',df[ebar_mask].true_energy,df[ebar_mask].true_coszen,interp_flux)
 
-    rate_weight[nue_mask] = eflux * df['weight'][nue_mask]
-    rate_weight[numu_mask] = mflux * df['weight'][numu_mask]
-    rate_weight[nuebar_mask] = ebarflux * df['weight'][nuebar_mask]
-    rate_weight[numubar_mask] = mbarflux * df['weight'][numubar_mask]
+    rate_weight[e_mask] = eflux * df['weight'][e_mask]
+    rate_weight[mu_mask] = mflux * df['weight'][mu_mask]
+    rate_weight[ebar_mask] = ebarflux * df['weight'][ebar_mask]
+    rate_weight[mubar_mask] = mbarflux * df['weight'][mubar_mask]
 
-    df['rate_weight'] = rate_weight
-    livetime = 1022*24*3600
-    reco_df = df[['reco_coszen', 'reco_energy', 'rate_weight']]
-    dc2018_mc = reco_df.groupby(['reco_coszen','reco_energy']).sum().reset_index().pivot(index='reco_coszen',columns='reco_energy')*livetime
-    return dc2018_mc.query('reco_coszen < 0')
+    
+    df['rate_weight'] = rate_weight*livetime
+    
+    reco_df = df[['reco_coszen', 'reco_energy', 'rate_weight','pid','pdg','type']]
+    dc2018_mc = reco_df.groupby(['reco_coszen','reco_energy','pid','pdg','type']).sum().reset_index()
+    
+    neutrinos = {}
+    neutrinos['nc'] = dc2018_mc[dc2018_mc['type'] == 0].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
+    neutrinos['e'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 12)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
+    neutrinos['mu'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 14)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
+    neutrinos['tau'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 16)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
+    
+    return neutrinos
 
 def DC2015_MC():
     bins = np.arange(1,9)
@@ -125,10 +142,26 @@ def DC2015_MC():
         MC_factors.append(MC.to_numpy())
     return np.array(MC_factors)
 
-def DC2018_event_data():
-    df = pd.read_csv('./src/data/files/DC/2018/sample_b/data.csv').query('pid==1')
-    df = df.pivot(index='reco_coszen', columns='reco_energy')
-    return df['count'].query('reco_coszen < 0')
+def DC2018_event_data(track,cascade):
+    df = pd.read_csv('./src/data/files/DC/2018/sample_b/data.csv')
+    df1 = pd.read_csv('./src/data/files/DC/2018/sample_b/muons.csv')
+
+    merged_df = pd.merge(df,df1, on =['pid', 'reco_coszen','reco_energy'], suffixes=('_events','_background'))
+
+    track_mask = (merged_df['pid'] == 1)
+    cascade_mask = (merged_df['pid'] == 0)
+
+    if track and not cascade:
+        type_mask = track_mask
+    elif not track and cascade:
+        type_mask = cascade_mask
+    elif track and cascade:
+        type_mask = track_mask | cascade_mask
+    else:
+        raise ValueError('Specify track and/or cascade')
+    df_reduced = merged_df[type_mask]
+    #pivoted_df = df_reduced.pivot(index='reco_coszen', columns='reco_energy')
+    return df_reduced#['count_events'], df_reduced['abs_uncert'], df_reduced['count_background']
 
 def DC2015_event_data():
     df = pd.read_csv('./src/data/files/DC/2015/DataCounts.txt', skiprows=2, delimiter='\t', names=['z','E','events'])
@@ -142,13 +175,48 @@ def DC2015_event_data():
     E_ranges = pd.DataFrame(df.E.str.split(',', expand=True))
     df['zmin'] = z_ranges[0].astype(np.float64)
     df['zmax'] = z_ranges[1].astype(np.float64)
-    df['Emin'] = E_ranges[0].astype(np.float64)
-    df['Emax'] = E_ranges[1].astype(np.float64)
-    df['Eavg'] = (df['Emax'] + df['Emin'])/2
-    df['zavg'] = (df['zmax'] + df['zmin'])/2
-    df = df[['zavg','Eavg','events', 'background']]
-    df = df.pivot(index='zavg', columns='Eavg')
-    return df
+    df['Emin'] = 10**(E_ranges[0].astype(np.float64))
+    df['Emax'] = 10**(E_ranges[1].astype(np.float64))
+    df['reco_energy'] = (df['Emax'] + df['Emin'])/2
+    df['reco_coszen'] = (df['zmax'] + df['zmin'])/2
+    df = df[['reco_coszen','reco_energy','events', 'background']]
+    #df = df.pivot(index='reco_coszen', columns='reco_energy')
+    return df#['events'], df['background']
+
+def DC2018_systematics(track, cascade):
+    if track and not cascade:
+        q = 'pid==1'
+    elif not track and cascade:
+        q = 'pid==0'
+    elif track and cascade:
+        q = 'pid < 2'
+    hyperplanes = {}
+    hyperplanes['e'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_nue_cc.csv").query(q)
+    hyperplanes['mu'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_numu_cc.csv").query(q)
+    hyperplanes['tau'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_nutau_cc.csv").query(q)
+    hyperplanes['nc'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_all_nc.csv").query(q)
+
+    # bestfit point of detector systematics from Phys. Rev. D 99, 032007 (2019), Table 2
+    bestfit = {}
+    bestfit['ice_scattering'] = 0.974
+    bestfit['ice_absorption'] = 1.021
+    bestfit['opt_eff_overall'] = 1.05
+    bestfit['opt_eff_lateral'] = -0.25
+    bestfit['opt_eff_headon'] = -1.15
+
+    # calculate the correction factors from detector systematics at bestfit point
+    for hyperplane in hyperplanes.values():
+        hyperplane['correction_factor'] = (
+            hyperplane['offset'] +
+            hyperplane['ice_absorption'] * (bestfit['ice_absorption'] - 1.) * 100. +
+            hyperplane['ice_scattering'] * (bestfit['ice_scattering'] - 1.) * 100. +
+            hyperplane['opt_eff_overall'] * (bestfit['opt_eff_overall']) +
+            hyperplane['opt_eff_lateral'] * ((bestfit['opt_eff_lateral'] * 10) + 25) +
+            hyperplane['opt_eff_headon'] * (bestfit['opt_eff_headon'])
+            )
+    return hyperplanes
+
+
 
 def get_flux_df_DC():
     '''
