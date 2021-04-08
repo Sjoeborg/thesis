@@ -5,12 +5,11 @@ import numpy as np
 import pandas as pd
 import warnings
 import pickle
+from processer_DC import get_flux, interpolate_flux_DC #DC flux can be used
 
 
 def gen2_MC(track, cascade):
-    from processerDC import get_flux, interpolate_flux_DC #DC flux can be used
     interp_flux = interpolate_flux_DC()
-    livetime = 365*24*3600 #arbitary, set to 1 year
     df = pd.read_csv(f'./src/data/files/gen2/neutrino_mc.csv', dtype=np.float64)
     df['reco_coszen'] = np.cos(df['reco_zenith'])
     df['true_coszen'] = np.cos(df['true_zenith'])
@@ -54,13 +53,13 @@ def gen2_MC(track, cascade):
     rate_weight[mubar_mask] = mbarflux * df['weight'][mubar_mask]
 
     
-    df['rate_weight'] = rate_weight*livetime
+    df['rate_weight'] = rate_weight
     
-    reco_df = df[['reco_coszen', 'reco_energy', 'rate_weight','pid','pdg','current_type']]
-    grouped_mc = reco_df.groupby(['reco_coszen','reco_energy','pid','pdg','current_type']).sum().reset_index()
+    reco_df = df[['reco_coszen', 'reco_energy','true_coszen','true_energy', 'rate_weight','pid','pdg']]
+    #grouped_mc = reco_df.groupby(['reco_coszen', 'reco_energy','true_coszen','true_energy', 'rate_weight','pid','pdg']).sum().reset_index()
     
-    return grouped_mc
+    return reco_df#grouped_mc
 
 
 if __name__ == '__main__':
-    get_flux_factor()
+    pass

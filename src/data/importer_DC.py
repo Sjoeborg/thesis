@@ -1,12 +1,13 @@
 import sys,os
 if __name__ == '__main__':
-    os.chdir('../../')
+    sys.path.append('./src/data')
+    sys.path.append('./src/probability')
 import numpy as np
 import pandas as pd
 import warnings
 import pickle
 
-def get_aeff_df_dc():
+def get_aeff_df_DC():
     flavor_list=[]
     df_list=[]
     for flavor in ['E','EBar','Mu','Mubar', 'Tau', 'TauBar','X','XBar']:
@@ -15,7 +16,7 @@ def get_aeff_df_dc():
 
 
 
-def flavor_aeff_df_dc(flavor):
+def flavor_aeff_df_DC(flavor):
     filename = f'./src/data/files/DC/2015/CC_Nu{flavor}.txt'
     if flavor[0] == 'X':
         filename = f'./src/data/files/DC/2015/NC_Nu{flavor}.txt'
@@ -46,7 +47,7 @@ def flavor_aeff_df_dc(flavor):
         new_list.append(df)
     return new_list
 
-def get_systematics():
+def systematics2015_DC():
     best_fit_optical_eff = 1.015
     best_fit_hole = 0.02
     eval_DOM = lambda p:eval(p.replace('^','**').replace(' x',f'*{best_fit_optical_eff}'))
@@ -73,67 +74,8 @@ def get_systematics():
     df['ICEeff']= df_ICE.apply(eval_ICE)
     return df[['E_avg','z_avg','DOMeff','ICEeff']]
 
-def DC2018_MC(track, cascade):
-    #TODO division of CC/NC at end might be redundant.
-    from processerDC import get_flux, interpolate_flux_DC
-    interp_flux = interpolate_flux_DC()
-    livetime = 1022*24*3600
-    df = pd.read_csv(f'./src/data/files/DC/2018/sample_b/neutrino_mc.csv', dtype=np.float64)
 
-    e_mask = (df["pdg"] == 12)
-    mu_mask = (df["pdg"] == 14)
-    tau_mask = (df["pdg"] == 16)
-    ebar_mask = (df["pdg"] == -12)
-    mubar_mask = (df["pdg"] == -14)
-    taubar_mask = (df["pdg"] == -16)
-
-    track_mask = (df['pid'] == 1)
-    cascade_mask = (df['pid'] == 0)
-
-    if track and not cascade:
-        pid_mask = track_mask
-    elif not track and cascade:
-        pid_mask = cascade_mask
-    elif track and cascade:
-        pid_mask = track_mask | cascade_mask
-    else:
-        raise ValueError('Specify track and/or cascade')
-
-    e_mask = e_mask & pid_mask
-    mu_mask = mu_mask & pid_mask
-    tau_mask = tau_mask & pid_mask
-    ebar_mask = ebar_mask & pid_mask
-    mubar_mask = mubar_mask & pid_mask
-    taubar_mask = taubar_mask & pid_mask
-    
-
-    rate_weight = np.zeros_like(df["weight"])
-
-    mflux = get_flux('m',df[mu_mask].true_energy,df[mu_mask].true_coszen,interp_flux)
-    eflux = get_flux('e',df[e_mask].true_energy,df[e_mask].true_coszen,interp_flux)
-    mbarflux = get_flux('mbar',df[mubar_mask].true_energy,df[mubar_mask].true_coszen,interp_flux)
-    ebarflux = get_flux('ebar',df[ebar_mask].true_energy,df[ebar_mask].true_coszen,interp_flux)
-
-    rate_weight[e_mask] = eflux * df['weight'][e_mask]
-    rate_weight[mu_mask] = mflux * df['weight'][mu_mask]
-    rate_weight[ebar_mask] = ebarflux * df['weight'][ebar_mask]
-    rate_weight[mubar_mask] = mbarflux * df['weight'][mubar_mask]
-
-    
-    df['rate_weight'] = rate_weight*livetime
-    
-    reco_df = df[['reco_coszen', 'reco_energy', 'rate_weight','pid','pdg','type']]
-    dc2018_mc = reco_df.groupby(['reco_coszen','reco_energy','pid','pdg','type']).sum().reset_index()
-    
-    neutrinos = {}
-    neutrinos['nc'] = dc2018_mc[dc2018_mc['type'] == 0].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
-    neutrinos['e'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 12)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
-    neutrinos['mu'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 14)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
-    neutrinos['tau'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 16)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
-    
-    return neutrinos
-
-def DC2015_MC():
+def MC2015_DC():
     bins = np.arange(1,9)
     MC_factors =[]
     for bin in bins:
@@ -142,7 +84,7 @@ def DC2015_MC():
         MC_factors.append(MC.to_numpy())
     return np.array(MC_factors)
 
-def DC2018_event_data(track,cascade):
+def events2018_DC(track,cascade):
     df = pd.read_csv('./src/data/files/DC/2018/sample_b/data.csv')
     df1 = pd.read_csv('./src/data/files/DC/2018/sample_b/muons.csv')
 
@@ -163,7 +105,7 @@ def DC2018_event_data(track,cascade):
     #pivoted_df = df_reduced.pivot(index='reco_coszen', columns='reco_energy')
     return df_reduced#['count_events'], df_reduced['abs_uncert'], df_reduced['count_background']
 
-def DC2015_event_data():
+def events2015_DC():
     df = pd.read_csv('./src/data/files/DC/2015/DataCounts.txt', skiprows=2, delimiter='\t', names=['z','E','events'])
     background = pd.read_csv('./src/data/files/DC/2015/AtmMuons_fromData.txt', skiprows=2, delimiter='\t', names=['z','E','events'])
     df['background'] = background.events
@@ -183,7 +125,7 @@ def DC2015_event_data():
     #df = df.pivot(index='reco_coszen', columns='reco_energy')
     return df#['events'], df['background']
 
-def DC2018_systematics(track, cascade):
+def systematics2018_DC(track, cascade):
     if track and not cascade:
         q = 'pid==1'
     elif not track and cascade:
@@ -263,4 +205,4 @@ def z_bins_DC(df_list):
     return new_df_list
 
 if __name__ == '__main__':
-    get_flux_factor()
+    pass

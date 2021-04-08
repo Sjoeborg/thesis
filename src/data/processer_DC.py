@@ -1,28 +1,85 @@
 import sys,os
 if __name__ == '__main__':
-    #os.chdir('../../')
     sys.path.append('./src/probability')
     sys.path.append('./src/data')
 import numpy as np
 import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
+from scipy.interpolate import NearestNDInterpolator
 from functions import mass_dict
-from importer import get_flux_df,get_aeff_df,get_flux_df_DC, get_aeff_df_dc
-from importerDC import get_systematics, get_aeff_df_dc
+from importer_DC import systematics2015_DC, get_aeff_df_DC, get_flux_df_DC
 from dict_hash import sha256
 import pandas as pd
 from numerical import wrapper 
-from multiprocessing import Pool
-#from numerical import wrapper 
 import h5py
 from scipy.stats import lognorm
 import pickle
-import os
-from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import WhiteKernel, RBF
+
 pdg_dict={'e':12,'m':14,'t':16}
 Ebins_2018 = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
 zbins_2018 = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
+
+def MC2018_DC(track, cascade):
+    #TODO division of CC/NC at end might be redundant.
+    interp_flux = interpolate_flux_DC()
+    
+    df = pd.read_csv(f'./src/data/files/DC/2018/sample_b/neutrino_mc.csv', dtype=np.float64)
+
+    e_mask = (df["pdg"] == 12)
+    mu_mask = (df["pdg"] == 14)
+    tau_mask = (df["pdg"] == 16)
+    ebar_mask = (df["pdg"] == -12)
+    mubar_mask = (df["pdg"] == -14)
+    taubar_mask = (df["pdg"] == -16)
+
+    track_mask = (df['pid'] == 1)
+    cascade_mask = (df['pid'] == 0)
+
+    if track and not cascade:
+        pid_mask = track_mask
+    elif not track and cascade:
+        pid_mask = cascade_mask
+    elif track and cascade:
+        pid_mask = track_mask | cascade_mask
+    else:
+        raise ValueError('Specify track and/or cascade')
+
+    e_mask = e_mask & pid_mask
+    mu_mask = mu_mask & pid_mask
+    tau_mask = tau_mask & pid_mask
+    ebar_mask = ebar_mask & pid_mask
+    mubar_mask = mubar_mask & pid_mask
+    taubar_mask = taubar_mask & pid_mask
+    
+
+    rate_weight = np.zeros_like(df["weight"])
+
+    mflux = get_flux('m',df[mu_mask].true_energy,df[mu_mask].true_coszen,interp_flux)
+    eflux = get_flux('e',df[e_mask].true_energy,df[e_mask].true_coszen,interp_flux)
+    mbarflux = get_flux('mbar',df[mubar_mask].true_energy,df[mubar_mask].true_coszen,interp_flux)
+    ebarflux = get_flux('ebar',df[ebar_mask].true_energy,df[ebar_mask].true_coszen,interp_flux)
+
+    rate_weight[e_mask] = eflux * df['weight'][e_mask]
+    rate_weight[mu_mask] = mflux * df['weight'][mu_mask]
+    rate_weight[ebar_mask] = ebarflux * df['weight'][ebar_mask]
+    rate_weight[mubar_mask] = mbarflux * df['weight'][mubar_mask]
+
+    
+    df['rate_weight'] = rate_weight
+    
+    reco_df = df[['reco_coszen', 'reco_energy','true_coszen','true_energy', 'rate_weight','pid','pdg','type']].dropna()
+    '''
+    dc2018_mc = reco_df.groupby(['reco_coszen','reco_energy','pid','pdg','type']).sum().reset_index()
+    
+    neutrinos = {}
+    neutrinos['nc'] = dc2018_mc[dc2018_mc['type'] == 0].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
+    neutrinos['e'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 12)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
+    neutrinos['mu'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 14)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
+    neutrinos['tau'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 16)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
+    '''
+    return reco_df#neutrinos
+
+
 def get_flux(flavor,E,z,df):
     '''
     Returns flux for a set of flavor, energy [GeV], and z=cos(theta_z).
@@ -34,42 +91,13 @@ def get_flux(flavor,E,z,df):
     return np.abs(flux_avg) 
 
 
-def get_aeff_dc(E,interpolator):
+def get_aeff_DC(E,interpolator):
     try:
         return interpolator(np.log10(E))
     except ValueError: #extrapolate
         y1 = interpolator(1.13)
         y2 = interpolator(1.2)
         return (y2-y1)/(1.2-1.13) * np.log10(E)
-
-def interpolate_flux(recompute=False):
-    '''
-    Returns a df of the interpolated fluxes. 
-    '''
-    colnames = ['m_flux', 'mbar_flux', 'e_flux', 'ebar_flux']
-    if not recompute:
-        try:
-            inter_df = pickle.load(open('./pre_computed/flux_interpolator.p','rb'))
-        except:
-            raise FileNotFoundError('File ´flux_interpolator.p´ not present in ´./pre_computed/´. Rerun with recompute = True to generate it.')
-    else:
-        df = get_flux_df()
-        E = df.GeV
-        z_avg = (df.z_min + df.z_max)/2
-
-        points_avg = np.array([E,z_avg]).T
-
-        interp_list=[]
-        for flavor in colnames:
-            phi = df[flavor]
-            values=np.array(phi)
-
-            f_avg = CT(points_avg, values,rescale=True) #Rescale seems to have no effect, but is good according to doc
-            interp_list.append([f_avg])
-
-        inter_df = pd.DataFrame(np.transpose(interp_list), columns=colnames)
-        pickle.dump(inter_df,open('./pre_computed/flux_interpolator.p','wb'))
-    return inter_df
 
 def interpolate_flux_DC(recompute=False):
     '''
@@ -115,7 +143,7 @@ def bin_flux_factors_DC(E_df, z_df):
             mean_per_bin)
     return np.array(E_res),np.array(z_res)
 
-def get_probabilitiesDC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,ndim):
+def get_probabilities_DC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,ndim):
     hashed_param_name = sha256(param_dict)
     if anti:
         flavor_from = 'a' + flavor_from
@@ -125,7 +153,7 @@ def get_probabilitiesDC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,
     except OSError:
         raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/DC/')
     try:
-        fh = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
+        fh = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}']
     except KeyError:
         f.close()
         raise KeyError(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name} doesnt exist in E{Ebin}z{zbin}.hdf5')
@@ -133,8 +161,8 @@ def get_probabilitiesDC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,
     f.close()
     return res
 
-def generate_probabilitiesDC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,pid, ndim=4, nsi=False):
-    prob = np.array([wrapper([flavor_from, E_range,z, anti, params, ndim, nsi])[mass_dict[flavor_to]] for z in z_range])
+def generate_probabilities_DC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,pid, ndim=4, nsi=False):
+    prob = np.array([wrapper([flavor_from, [E_range[i]],z, anti, params, ndim, nsi])[mass_dict[flavor_to]] for i,z in enumerate(z_range)])
     hashed_param_name = sha256(params)
     if anti:
         flavor_from = 'a' + flavor_from
@@ -155,10 +183,8 @@ def generate_probabilitiesDC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin
     return prob
 
 def process_aeff(df_list):
-    eff_df = get_systematics()
+    eff_df = systematics2015_DC()
     
-    
-    from scipy.interpolate import NearestNDInterpolator
     DOMeff = NearestNDInterpolator(np.array([eff_df.E_avg, eff_df.z_avg]).T, eff_df.DOMeff, rescale=True)
     ICEeff = NearestNDInterpolator(np.array([eff_df.E_avg, eff_df.z_avg]).T, eff_df.ICEeff, rescale=True)
 
@@ -168,14 +194,14 @@ def process_aeff(df_list):
     return df_list
         
 
-def interpolate_aeff_dc(recompute=False):
+def interpolate_aeff_DC(recompute=False):
     if not recompute:
         try:
             inter = pickle.load(open('./pre_computed/aeff_dc_interpolator.p','rb'))
         except:
             raise FileNotFoundError('File aeff_dc_interpolator.p´ not present in ´./pre_computed/´. Run ´interpolate_aeff_dc()´ with recompute = True to generate it.')
     else:
-        aeff_df = get_aeff_df_dc()
+        aeff_df = get_aeff_df_DC()
         from scipy.interpolate import interp1d
         inter = interp1d(aeff_df.logE, aeff_df.Aeff)
         pickle.dump(inter,open('./pre_computed/aeff_dc_interpolator.p','wb'))
@@ -202,7 +228,7 @@ def get_true_models():
     return train(df)
 
 
-def get_true(flavor,anti,pid,E_bin,z_bin,df):
+def get_true_DC(flavor,anti,pid,E_bin,z_bin,df):
     pdg = pdg_dict[flavor]
     if anti:
         pdg = -pdg
@@ -213,18 +239,16 @@ def get_true(flavor,anti,pid,E_bin,z_bin,df):
              .query(f'reco_coszen<{zbins_2018[z_bin+1]}')
              .query(f'reco_coszen>{zbins_2018[z_bin]}'))
 
-    return df1.true_energy.values, df1.true_coszen.values
+    return df1
 
 
 
 
-def get_interpolators_dc(recompute_flux=False, recompute_aeff=False):
+def get_interpolators_DC(recompute_flux=False, recompute_aeff=False):
     interp_flux = interpolate_flux_DC(recompute_flux)
-    interp_aeff = interpolate_aeff_dc(recompute_aeff)
+    interp_aeff = interpolate_aeff_DC(recompute_aeff)
 
     return interp_flux, interp_aeff
 
 if __name__ == '__main__':
-    p = Pool()
-    models = get_true_models()
-    pickle.dump(models,open('./pre_computed/DC_models.p','wb'))
+    pass

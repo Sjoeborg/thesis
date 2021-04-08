@@ -8,9 +8,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import pandas as pd
-from importer import *
-from processer import *
-from main import sim_events, list_of_params, ic_params
+from importer_IC import *
+from processer_IC import *
+from IC.main import sim_events, list_of_params, ic_params
 from functions import perform_chisq
 from scipy.stats import chi2
 
