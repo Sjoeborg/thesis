@@ -17,7 +17,7 @@ def get_events(Ebin,zbin,params,pid,null):
             for flavor_to in ['e','m','t']:
                 try:
                     df2 = get_true_gen2(flavor=flavor_to,anti=anti,pid=pid,E_bin=Ebin,z_bin=zbin,df=df)
-                    Etrue,ztrue,weights = df2.true_energy.values, df2.true_coszen.values, df2.rate_weight.valuesn
+                    Etrue,ztrue,weights = df2.true_energy.values, df2.true_coszen.values, df2.rate_weight.values
                     P = get_probabilities_gen2(flavor_from, flavor_to, Ebin,zbin,params,anti,pid,ndim=3)
                 except KeyError:
                     P = generate_probabilities_gen2(flavor_from,flavor_to,Etrue,ztrue,Ebin, zbin, params,anti,pid,ndim=3)
