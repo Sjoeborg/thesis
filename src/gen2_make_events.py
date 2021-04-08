@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import sys,os
 sys.path.append('./src/data')
 sys.path.append('./src/events')
@@ -25,18 +19,29 @@ matplotlib.rc('text', usetex=True)
 matplotlib.rc('text.latex', preamble=r'\usepackage{amsmath}')
 np.set_printoptions(linewidth=200)
 
+parser = argparse.ArgumentParser()
+parser.add_argument('-emm', default=1e-1, type=float)
+parser.add_argument('-emmN', default=10, type=int)
+parser.add_argument('-emt', default=None, type=float)
+parser.add_argument('-emtN', default=10, type=int)
+parser.add_argument('-tracks', action='store_true')
+parser.add_argument('-Ndim', default=4, type=int)
+args = parser.parse_args()
 
-# In[2]:
-
-
-ndim = 3
-pid = 1
+ndim = args.Ndim
+if args.tracks:
+    pid = 1
+else:
+    pid = 0
 precomputed_events = False
 dc_params_nsi['dm_41'] = 0.93
 dc_params['dm_41'] = 0.93
-emm_range = np.linspace(0,0,1)
+if args.emmN > 1:
+    emm_range = np.linspace(-args.emm,args.emm,args.emmN)
+else:
+    emm_range = np.linspace(0,0,1)
 s24_range = np.linspace(0,0,1)
-emt_range = np.linspace(-1e-2,1e-2,10)
+emt_range = np.linspace(-args.emt,args.emt,args.emtN)
 param_list = list_of_params_nsi(dc_params_nsi,s24_range, emm_range,emt_range)
 
 #for p in param_list: # Assert all dicts returned from param_list have precomputed probs.
@@ -55,8 +60,6 @@ print(emt_range)
 '''
 
 
-# In[ ]:
-
 
 if not precomputed_events:
     print('Computing events')
@@ -71,7 +74,7 @@ if not precomputed_events:
     pickle.dump(H0_events,open(f'./pre_computed/H0_gen2_{pid}.p','wb'))
 
 H1_events_list = pickle.load(open(f'./pre_computed/H1_gen2_{pid}_{len(emm_range)}x{len(emt_range)}_tau_nsi.p','rb'))
-H0_events = pickle.load(open(f'./pre_computed/H0_gen2_{pid}.p','wb','rb'))
+H0_events = pickle.load(open(f'./pre_computed/H0_gen2_{pid}.p','rb'))
 
 
 #H0_normalized, H1_list_normalized = normalize_events(H0_events,H1_events_list,z_bins)
