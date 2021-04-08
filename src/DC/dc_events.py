@@ -8,36 +8,19 @@ from scipy.stats import norm
 
 
 def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shift_parameters=[False, 2e3, 0.02], null=False, tau=False):
-    '''
-    Assume zr == zt, and thus the zenith resolution function is 1.
-    '''
     z_buckets = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
     E_buckets = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
 
 
     Et, zt = get_true(flavor,pid,E_bin,z_bin,df)
     
-    # Reflect zenith around -1
-    mask = zt < -1
-    zt[mask] = -zt[mask] -2
-    
-    Eresolution_gaussian = norm.pdf(Et, scale = 0.24*Et, loc=Er)
-
-    zresolution_gaussian = norm.pdf(zt, scale = 0.1*np.abs(zt), loc= zr)
-    
-    zr_mesh,zt_mesh, Er_mesh, Et_mesh = np.meshgrid(zr,zt, Er, Et)
-    aeff_m = get_aeff_dc(Et_mesh,interp_aeff)
-    aeff_mbar = aeff_m
 
     if spectral_shift_parameters[0]:
         E_pivot = spectral_shift_parameters[1]
         delta_gamma = spectral_shift_parameters[2]
         factor = spectral_shift_factor(E = Et_mesh, E_pivot = E_pivot, delta_gamma=delta_gamma)   
-        flux_m = factor*get_flux('m',Et_mesh,zt_mesh,interp_flux)
-        flux_mbar = factor*get_flux('mbar',Et_mesh,zt_mesh,interp_flux)
     else:
-        flux_m = get_flux('m',Et_mesh,zt_mesh,interp_flux)
-        flux_mbar = get_flux('mbar',Et_mesh,zt_mesh,interp_flux)
+        factor=1
 
     if not null:
         try:
