@@ -210,8 +210,8 @@ def get_true(flavor,anti,pid,E_bin,z_bin,df):
              .query(f'pdg=={pdg}')
              .query(f'reco_energy<{Ebins_2018[E_bin+1]}')
              .query(f'reco_energy>{Ebins_2018[E_bin]}')
-             .query(f'reco_coszen<{zbins_2018[1]}')
-             .query(f'reco_coszen>{zbins_2018[0]}'))
+             .query(f'reco_coszen<{zbins_2018[z_bin+1]}')
+             .query(f'reco_coszen>{zbins_2018[z_bin]}'))
 
     return df1.true_energy.values, df1.true_coszen.values
 
