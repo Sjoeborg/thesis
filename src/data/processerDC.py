@@ -11,14 +11,18 @@ from importer import get_flux_df,get_aeff_df,get_flux_df_DC, get_aeff_df_dc
 from importerDC import get_systematics, get_aeff_df_dc
 from dict_hash import sha256
 import pandas as pd
+from numerical import wrapper 
 from multiprocessing import Pool
 #from numerical import wrapper 
+import h5py
 from scipy.stats import lognorm
 import pickle
 import os
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import WhiteKernel, RBF
-
+pdg_dict={'e':12,'m':14,'t':16}
+Ebins_2018 = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
+zbins_2018 = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
 def get_flux(flavor,E,z,df):
     '''
     Returns flux for a set of flavor, energy [GeV], and z=cos(theta_z).
@@ -111,7 +115,7 @@ def bin_flux_factors_DC(E_df, z_df):
             mean_per_bin)
     return np.array(E_res),np.array(z_res)
 
-def get_probabilitiesDC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,N,ndim):
+def get_probabilitiesDC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,ndim):
     hashed_param_name = sha256(param_dict)
     if anti:
         flavor_from = 'a' + flavor_from
@@ -124,12 +128,12 @@ def get_probabilitiesDC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,N,nd
         fh = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}']
     except KeyError:
         f.close()
-        raise KeyError(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} doesnt exist in E{Ebin}z{zbin}.hdf5')
+        raise KeyError(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name} doesnt exist in E{Ebin}z{zbin}.hdf5')
     res = fh[()]
     f.close()
     return res
 
-def generate_probabilitiesDC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,N, ndim=4, nsi=False):
+def generate_probabilitiesDC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,pid, ndim=4, nsi=False):
     prob = np.array([wrapper([flavor_from, E_range,z, anti, params, ndim, nsi])[mass_dict[flavor_to]] for z in z_range])
     hashed_param_name = sha256(params)
     if anti:
@@ -137,12 +141,12 @@ def generate_probabilitiesDC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin
         flavor_to = 'a' + flavor_to
     f = h5py.File(f'./pre_computed/DC/E{E_bin}z{z_bin}.hdf5', 'a')
     try:
-        dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}', data=prob, chunks=True)
+        dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}', data=prob, chunks=True)
         for key in params.keys():
             dset.attrs[key] = params[key]
         f.close()
     except RuntimeError:
-        print(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} already exists, skipping')
+        print(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name} already exists, skipping')
         f.close()
         return prob
     if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am':
@@ -198,12 +202,12 @@ def get_true_models():
     return train(df)
 
 
-def get_true(flavor,pid,E_bin,z_bin):
-    Ebins_2018 = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
-    zbins_2018 = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
-
+def get_true(flavor,anti,pid,E_bin,z_bin,df):
+    pdg = pdg_dict[flavor]
+    if anti:
+        pdg = -pdg
     df1 = (df.query(f'pid=={pid}')
-             .query(f'pdg=={flavor}')
+             .query(f'pdg=={pdg}')
              .query(f'reco_energy<{Ebins_2018[E_bin+1]}')
              .query(f'reco_energy>{Ebins_2018[E_bin]}')
              .query(f'reco_coszen<{zbins_2018[1]}')

@@ -11,17 +11,12 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
     '''
     Assume zr == zt, and thus the zenith resolution function is 1.
     '''
-    z_buckets = np.linspace(-1,1,9)
-    E_buckets = np.logspace(0.75,1.75,9)
+    z_buckets = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
+    E_buckets = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
 
-    Er = np.logspace(np.log10(E_buckets[E_index]), np.log10(E_buckets[E_index+1]), npoints)
-    zr = np.linspace(z_buckets[z_index], z_buckets[z_index+1], npoints)
 
-    Et = np.logspace(np.log10(norm.ppf(1-alpha, scale=0.24*Er[0], loc= Er[0])), 
-                         np.log10(norm.ppf(alpha, scale=0.24*Er[-1], loc= Er[-1])),npoints)
-
-    zt = np.linspace(norm.ppf(1-alpha, scale=0.1*np.abs(zr[0]), loc= zr[0]), 
-                         norm.ppf(alpha, scale=0.1*np.abs(zr[-1]+0.001), loc= zr[-1]),npoints)
+    Et, zt = get_true(flavor,pid,E_bin,z_bin,df)
+    
     # Reflect zenith around -1
     mask = zt < -1
     zt[mask] = -zt[mask] -2
@@ -118,48 +113,10 @@ def wrap(p):
     return sim_events(0.99,25, multi=True, params=p)
 
 
-def list_of_params(dict,dm_range, s24_range, s34_range=None, s24_eq_s34=False, s24_2x_s34=False):
-    def update_dict(dict,p):
-        dict2 = dict.copy()
-        dict2.update(p)
-        return dict2
-    if s24_eq_s34:
-        dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2, 'theta_34': np.arcsin(np.sqrt(k))/2}) for k in s24_range for v in dm_range]
-    elif s24_2x_s34:
-        dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2, 'theta_34': 2*np.arcsin(np.sqrt(k))/2}) for k in s24_range for v in dm_range]
-    elif s34_range is not None:
-        dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2, 'theta_34': np.arcsin(np.sqrt(j))/2}) for j in s34_range for k in s24_range for v in dm_range]
-    else:
-        dict_list = [update_dict(dict,{'dm_41':v, 'theta_24': np.arcsin(np.sqrt(k))/2}) for k in s24_range for v in dm_range]
-    return dict_list
 
 def spectral_shift_factor(E, E_pivot=2e3, delta_gamma=0.02):
     return  (E/E_pivot)**-delta_gamma
 
-def gather_specific_prob(flavor,npoints,En,zn, update=True):
-    import os
-    filenames=[]
-    try:
-        for file in os.listdir(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/'):
-            if file.endswith('.npy'):
-                filenames.append(file[0:-4])
-        try:
-            df = pickle.load(open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','rb'))
-        except FileNotFoundError:
-            df = pd.DataFrame(index=[f'E{En}z{zn}'], dtype='object')
-
-        for file in filenames:
-            array = np.load(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
-            try:
-                df.insert(loc=0,column=file, value=[array])
-            except ValueError: 
-                if update:  # If entry already exists, overwrite/update it
-                    df[file][f'E{En}z{zn}'] = array
-        pickle.dump(df,open(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}.p','wb'))
-        for file in filenames:
-            os.remove(f'./pre_computed/4gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy')
-    except FileNotFoundError:
-        pass
 interp_flux, interp_aeff,=get_interpolators_dc()
 if __name__ == '__main__':
     #res = sim_events(0.99, 5, params=ic_params, null = True,multi=False, spectral_shift=[False, 2e3, 0.02], tau=False, nsi=False)
