@@ -84,6 +84,7 @@ def get_flux(flavor,E,z,df):
     '''
     Returns flux for a set of flavor, energy [GeV], and z=cos(theta_z).
     '''
+    z = np.clip(z,a_min=-1,a_max=0.95)#I dont have flux for this bin, so just set it to 0.95.
     try:
         flux_avg = df[f'{flavor}_flux'][0](E,z)
     except KeyError:

@@ -194,7 +194,7 @@ def z_bins_DC(df_list):
     Doubles the number of dataframes, and puts half of the initial flux in each one.
     Also puts the new z-bin limits in columns
     '''
-    new_theta_range =np.round(np.linspace(1,-1.1,22),2) #See comment in get_flux_df
+    new_theta_range =np.round(np.linspace(1.1,-1.1,23),2) #See comment in get_flux_df
     new_df_list = []
     for i,df in enumerate(df_list):
         
