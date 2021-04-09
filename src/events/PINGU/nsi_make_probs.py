@@ -8,7 +8,7 @@ from functions import dc_params_nsi
 from IC.event_processing import list_of_params_nsi
 import numpy as np
 import time
-from gen2.main import get_events
+from PINGU.main import get_events
 from multiprocessing import Pool
 parser = argparse.ArgumentParser()
 parser.add_argument('-s24From', default=0.01, type=float)
@@ -49,9 +49,9 @@ if __name__ == '__main__':
     param_list = list_of_params_nsi(nsi_params, s24_range,emm_range, emt_range)
     
     if emt_range is not None:
-        print(f'Precomputing gen2 {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), emt({emt_range.min()},{emt_range.max()},{len(emt_range)}), for pid {pid}. s={args.s+1}/{args.sT}')
+        print(f'Precomputing PINGU {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), emt({emt_range.min()},{emt_range.max()},{len(emt_range)}), for pid {pid}. s={args.s+1}/{args.sT}')
     else:
-        print(f'Precomputing gen2 {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), for pid {pid}. s={args.s+1}/{args.sT}')
+        print(f'Precomputing PINGU {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), for pid {pid}. s={args.s+1}/{args.sT}')
     
     bins = [(i,j) for i in range(8) for j in range(4)]
     split_array=  np.array_split(bins,args.sT)[args.s]

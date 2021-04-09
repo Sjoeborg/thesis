@@ -3,8 +3,7 @@ sys.path.append('./src/data')
 sys.path.append('./src/probability')
 import numpy as np 
 import pandas as pd 
-from importer_gen2 import gen2_MC
-from processer_gen2 import get_true_gen2,generate_probabilities_gen2, get_probabilities_gen2
+from PINGU.processer import get_true_PINGU,generate_probabilities_PINGU, get_probabilities_PINGU
 
 
 df = gen2_MC(track=True, cascade=True)
@@ -16,11 +15,11 @@ def get_events(Ebin,zbin,params,pid,null):
         for flavor_from in ['e','m','t']:
             for flavor_to in ['e','m','t']:
                 try:
-                    df2 = get_true_gen2(flavor=flavor_to,anti=anti,pid=pid,E_bin=Ebin,z_bin=zbin,df=df)
+                    df2 = get_true_PINGU(flavor=flavor_to,anti=anti,pid=pid,E_bin=Ebin,z_bin=zbin,df=df)
                     Etrue,ztrue,weights = df2.true_energy.values, df2.true_coszen.values, df2.rate_weight.values
-                    P = get_probabilities_gen2(flavor_from, flavor_to, Ebin,zbin,params,anti,pid,ndim=3)
+                    P = get_probabilities_PINGU(flavor_from, flavor_to, Ebin,zbin,params,anti,pid,ndim=3)
                 except KeyError:
-                    P = generate_probabilities_gen2(flavor_from,flavor_to,Etrue,ztrue,Ebin, zbin, params,anti,pid,ndim=3)
+                    P = generate_probabilities_PINGU(flavor_from,flavor_to,Etrue,ztrue,Ebin, zbin, params,anti,pid,ndim=3, nsi=True)
                 if not null:
                     events += np.sum(P*weights)
                 else:

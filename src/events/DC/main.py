@@ -4,7 +4,7 @@ if __name__ == '__main__':
     sys.path.append('./src/data')
 import numpy as np 
 import pandas as pd 
-from processer_DC import get_true_DC, generate_probabilities_DC, get_probabilities_DC, MC2018_DC
+from DC.processer import get_true_DC, generate_probabilities_DC, get_probabilities_DC, MC2018_DC
 from functions import dc_params_nsi
 
 df = MC2018_DC(track=True, cascade=True)
@@ -20,7 +20,7 @@ def get_events(Ebin,zbin,params,pid,null):
                     Etrue,ztrue,weights = df2.true_energy.values, df2.true_coszen.values, df2.rate_weight.values
                     P = get_probabilities_DC(flavor_from, flavor_to, Ebin,zbin,params,anti,pid,ndim=3)
                 except KeyError:
-                    P = generate_probabilities_DC(flavor_from,flavor_to,Etrue,ztrue,Ebin, zbin, params,anti,pid,ndim=3)
+                    P = generate_probabilities_DC(flavor_from,flavor_to,Etrue,ztrue,Ebin, zbin, params,anti,pid,ndim=3, nsi=True)
                 if not null:
                     events += np.sum(P*weights)
                 else:

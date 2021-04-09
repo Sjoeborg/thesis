@@ -17,7 +17,7 @@ Ebins_2018 = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622
 zbins_2018 = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
 
 
-def get_probabilities_gen2(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,ndim):
+def get_probabilities_PINGU(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,ndim):
     hashed_param_name = sha256(param_dict)
     if anti:
         flavor_from = 'a' + flavor_from
@@ -35,7 +35,7 @@ def get_probabilities_gen2(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,p
     f.close()
     return res
 
-def generate_probabilities_gen2(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,pid, ndim=4, nsi=False):
+def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,pid, ndim=4, nsi=False):
     prob = np.array([wrapper([flavor_from, [E_range[i]],z, anti, params, ndim, nsi])[mass_dict[flavor_to]] for i,z in enumerate(z_range)])
     
     hashed_param_name = sha256(params)
@@ -59,7 +59,7 @@ def generate_probabilities_gen2(flavor_from, flavor_to, E_range,z_range,E_bin,z_
     return prob
 
 
-def get_true_gen2(flavor,anti,pid,E_bin,z_bin,df):
+def get_true_PINGU(flavor,anti,pid,E_bin,z_bin,df):
     pdg = pdg_dict[flavor]
     if anti:
         pdg = -pdg

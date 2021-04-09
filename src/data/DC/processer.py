@@ -7,7 +7,7 @@ import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
 from scipy.interpolate import NearestNDInterpolator
 from functions import mass_dict
-from importer_DC import systematics2015_DC, get_aeff_df_DC, get_flux_df_DC
+from DC.importer import systematics2015_DC, get_aeff_df_DC, get_flux_df_DC
 from dict_hash import sha256
 import pandas as pd
 from numerical import wrapper 

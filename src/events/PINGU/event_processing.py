@@ -8,9 +8,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import pandas as pd
-from importer_gen2 import *
-from processer_gen2 import *
-from DC.main import get_all_events, dc_params_nsi
+from PINGU.importer import *
+from PINGU.processer import *
+from PINGU.main import get_all_events, dc_params_nsi
 from functions import perform_chisq
 from scipy.stats import chi2
 '''
