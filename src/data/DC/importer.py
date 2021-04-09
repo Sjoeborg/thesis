@@ -14,7 +14,9 @@ def get_aeff_df_DC():
         df_list.append(flavor_aeff_df_dc(flavor))
     return df_list
 
-
+def MC2018_DC(pid):
+    df = pd.read_csv(f'./src/data/files/DC/2018/sample_b/neutrino_mc.csv', dtype=np.float64)
+    return df.query(f'pid=={pid}')
 
 def flavor_aeff_df_DC(flavor):
     filename = f'./src/data/files/DC/2015/CC_Nu{flavor}.txt'

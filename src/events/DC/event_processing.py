@@ -121,7 +121,7 @@ def list_of_params_nsi(dicta,s24_range, emm_range, emt_range=None):
     else:
         dict_list = [update_dict(dicta,{'e_mm':mm,'e_mt':mt,'theta_24':np.arcsin(np.sqrt(s24))/2}) for mt in emt_range for mm in emm_range for s24 in s24_range]
     return dict_list
-def return_precomputed_nsi(pid,ndim,params, nsi=False):
+def return_precomputed_nsi(pid,ndim,params):
     params= np.array(params)
     precomputed_list = np.array([is_precomputed_nsi(pid,ndim, p, check=False) for p in params])
     mask = precomputed_list == True
@@ -132,7 +132,7 @@ def is_precomputed_nsi(pid,ndim, dict, check=False):
         for flavor_from in ['e','m']:
             for flavor_to in ['e','m','t']:
                 try:
-                    get_probabilities_DC(flavor_from, flavor_to, 5,2,dict,anti,pid, ndim)
+                    get_probabilities_DC(flavor_from, flavor_to, 5,2,dict,anti,pid, ndim, nsi=True)
                 except (FileNotFoundError,KeyError):
                     if check:
                         return False

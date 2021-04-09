@@ -19,66 +19,6 @@ pdg_dict={'e':12,'m':14,'t':16}
 Ebins_2018 = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
 zbins_2018 = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
 
-def MC2018_DC(track, cascade):
-    #TODO division of CC/NC at end might be redundant.
-    interp_flux = interpolate_flux_DC()
-    
-    df = pd.read_csv(f'./src/data/files/DC/2018/sample_b/neutrino_mc.csv', dtype=np.float64)
-
-    e_mask = (df["pdg"] == 12)
-    mu_mask = (df["pdg"] == 14)
-    tau_mask = (df["pdg"] == 16)
-    ebar_mask = (df["pdg"] == -12)
-    mubar_mask = (df["pdg"] == -14)
-    taubar_mask = (df["pdg"] == -16)
-
-    track_mask = (df['pid'] == 1)
-    cascade_mask = (df['pid'] == 0)
-
-    if track and not cascade:
-        pid_mask = track_mask
-    elif not track and cascade:
-        pid_mask = cascade_mask
-    elif track and cascade:
-        pid_mask = track_mask | cascade_mask
-    else:
-        raise ValueError('Specify track and/or cascade')
-
-    e_mask = e_mask & pid_mask
-    mu_mask = mu_mask & pid_mask
-    tau_mask = tau_mask & pid_mask
-    ebar_mask = ebar_mask & pid_mask
-    mubar_mask = mubar_mask & pid_mask
-    taubar_mask = taubar_mask & pid_mask
-    
-
-    rate_weight = np.zeros_like(df["weight"])
-
-    mflux = get_flux('m',df[mu_mask].true_energy,df[mu_mask].true_coszen,interp_flux)
-    eflux = get_flux('e',df[e_mask].true_energy,df[e_mask].true_coszen,interp_flux)
-    mbarflux = get_flux('mbar',df[mubar_mask].true_energy,df[mubar_mask].true_coszen,interp_flux)
-    ebarflux = get_flux('ebar',df[ebar_mask].true_energy,df[ebar_mask].true_coszen,interp_flux)
-
-    rate_weight[e_mask] = eflux * df['weight'][e_mask]
-    rate_weight[mu_mask] = mflux * df['weight'][mu_mask]
-    rate_weight[ebar_mask] = ebarflux * df['weight'][ebar_mask]
-    rate_weight[mubar_mask] = mbarflux * df['weight'][mubar_mask]
-
-    
-    df['rate_weight'] = rate_weight
-    
-    reco_df = df[['reco_coszen', 'reco_energy','true_coszen','true_energy', 'rate_weight','pid','pdg','type']].dropna()
-    '''
-    dc2018_mc = reco_df.groupby(['reco_coszen','reco_energy','pid','pdg','type']).sum().reset_index()
-    
-    neutrinos = {}
-    neutrinos['nc'] = dc2018_mc[dc2018_mc['type'] == 0].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
-    neutrinos['e'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 12)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
-    neutrinos['mu'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 14)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
-    neutrinos['tau'] = dc2018_mc[(dc2018_mc['type'] > 0) & (abs(dc2018_mc['pdg']) == 16)].drop('type',axis=1).groupby(['reco_coszen','reco_energy','pid','pdg']).sum().reset_index()
-    '''
-    return reco_df#neutrinos
-
 
 def get_flux(flavor,E,z,df):
     '''

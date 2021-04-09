@@ -4,10 +4,11 @@ if __name__ == '__main__':
     sys.path.append('./src/data')
 import numpy as np 
 import pandas as pd 
-from DC.processer import get_true_DC, generate_probabilities_DC, get_probabilities_DC, MC2018_DC
+from DC.importer import MC2018_DC
+from DC.processer import get_true_DC, generate_probabilities_DC, get_probabilities_DC
 from functions import dc_params_nsi,dc_params
 
-df = MC2018_DC(track=True, cascade=True)
+df = MC2018_DC(1)
 
 def get_events(Ebin,zbin,params,pid,nsi):
     events = 0
@@ -22,6 +23,7 @@ def get_events(Ebin,zbin,params,pid,nsi):
                     P = generate_probabilities_DC(flavor_from,flavor_to,Etrue,ztrue,Ebin, zbin, params,anti,pid,ndim=3, nsi=nsi)
                 events += np.sum(P*weights)
     return events
+
 
 def get_all_events(params, pid, null):
     result = np.zeros((8,8))
