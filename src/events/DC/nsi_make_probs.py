@@ -8,7 +8,7 @@ from functions import dc_params_nsi
 from IC.event_processing import list_of_params_nsi
 import numpy as np
 import time
-from DC.main import get_events
+from DC.main import get_events, get_all_events
 from multiprocessing import Pool
 parser = argparse.ArgumentParser()
 parser.add_argument('-s24From', default=0.01, type=float)
@@ -28,7 +28,7 @@ args = parser.parse_args()
 
 def precompute_probs(args_tuple, nsi=True):
     i,j,params = args_tuple
-    get_events(Ebin=i,zbin=j,params=params,pid=pid,null=False)
+    get_events(Ebin=i,zbin=j,params=params,pid=pid,nsi=nsi)
 
 
 if __name__ == '__main__':
