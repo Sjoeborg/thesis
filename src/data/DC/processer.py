@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
 from scipy.interpolate import NearestNDInterpolator
-from functions import mass_dict
+from functions import mass_dict,dc_params
 from DC.importer import systematics2015_DC, get_aeff_df_DC, get_flux_df_DC
 from dict_hash import sha256
 import pandas as pd
@@ -144,7 +144,9 @@ def bin_flux_factors_DC(E_df, z_df):
             mean_per_bin)
     return np.array(E_res),np.array(z_res)
 
-def get_probabilities_DC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,ndim):
+def get_probabilities_DC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,ndim, nsi):
+    if not nsi:
+        param_dict = dc_params
     hashed_param_name = sha256(param_dict)
     if anti:
         flavor_from = 'a' + flavor_from
@@ -162,25 +164,31 @@ def get_probabilities_DC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid
     f.close()
     return res
 
-def generate_probabilities_DC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,pid, ndim=4, nsi=True):
-    prob = np.array([wrapper([flavor_from, [E_range[i]],z, anti, params, ndim, nsi])[mass_dict[flavor_to]] for i,z in enumerate(z_range)])
-    hashed_param_name = sha256(params)
+def generate_probabilities_DC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,param_dict,anti,pid, ndim=4, nsi=True, overwrite=False):
+    if not nsi:
+        param_dict = dc_params
+    prob = np.array([wrapper([flavor_from, [E_range[i]],z, anti, param_dict, ndim, nsi])[mass_dict[flavor_to]] for i,z in enumerate(z_range)])
+    hashed_param_name = sha256(param_dict)
     if anti:
         flavor_from = 'a' + flavor_from
         flavor_to = 'a' + flavor_to
     f = h5py.File(f'./pre_computed/DC/E{E_bin}z{z_bin}.hdf5', 'a')
     try:
         dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}', data=prob, chunks=True)
-        for key in params.keys():
-            dset.attrs[key] = params[key]
+        for key in param_dict.keys():
+            dset.attrs[key] = param_dict[key]
         f.close()
     except RuntimeError:
-        print(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name} already exists, skipping')
+        if overwrite:
+            dset = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}']
+            dset[...] = prob
+        else:
+            print(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name} already exists, skipping')
         f.close()
         return prob
     if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am':
         with open(f'./pre_computed/DC/hashed_params.csv','a') as fd:
-            fd.write(f'{params};{hashed_param_name}\n')
+            fd.write(f'{param_dict};{hashed_param_name}\n')
     return prob
 
 def process_aeff(df_list):
@@ -207,26 +215,6 @@ def interpolate_aeff_DC(recompute=False):
         inter = interp1d(aeff_df.logE, aeff_df.Aeff)
         pickle.dump(inter,open('./pre_computed/aeff_dc_interpolator.p','wb'))
     return inter
-
-def get_true_models():
-    Ereco = np.array([5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413])
-    zreco = np.array([-1., -0.75, -0.5 , -0.25,  0.])
-    filename = './src/data/files/DC/sample_b/neutrino_mc.csv'
-    df = (pd.read_csv(filename)
-        .query('pdg == 14 or pdg == -14') #only muon (anti)neutrinos
-        .query('pid == 1 ')) # only tracks
-    df['Ebin'] = pd.cut(df.reco_energy, bins=Ereco, labels=False)
-    df['zbin'] = pd.cut(df.reco_coszen, bins=zreco, labels=False)
-    df = df.sample(100000)
-    print(len(df))
-    def train(df):
-        X = np.array([df.reco_coszen, np.log(df.reco_energy)]).reshape(-1, 2)
-        y = np.array([df.true_coszen, np.log(df.true_energy)]).reshape(-1, 2)
-        kernel2  = 1.0 * RBF() + WhiteKernel(noise_level=3)
-        gpr = GaussianProcessRegressor(kernel=kernel2,random_state=0).fit(X, y)
-        return gpr
-
-    return train(df)
 
 
 def get_true_DC(flavor,anti,pid,E_bin,z_bin,df):

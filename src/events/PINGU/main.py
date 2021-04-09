@@ -7,12 +7,11 @@ from PINGU.processer import get_true_PINGU,generate_probabilities_PINGU, get_pro
 from PINGU.importer import PINGU_MC
 
 df = PINGU_MC(track=True, cascade=True)
-livetime = 365*24*3600 #arbitary, set to 1 year
 
 def get_events(Ebin,zbin,params,pid,null):
     events = 0
     for anti in [True,False]:
-        for flavor_from in ['e','m','t']:
+        for flavor_from in ['e','m']:
             for flavor_to in ['e','m','t']:
                 try:
                     df2 = get_true_PINGU(flavor=flavor_to,anti=anti,pid=pid,E_bin=Ebin,z_bin=zbin,df=df)

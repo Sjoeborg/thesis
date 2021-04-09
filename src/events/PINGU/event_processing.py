@@ -150,18 +150,6 @@ def norm_plot(simulated_events):
     ax.set_yticklabels(E_ticks.astype(int), fontsize=11)
     '''
 
-def normalize_bin_by_bin(simulated_events, MC = True, MC_old=False, correct_flux=False):
-    if MC_old:
-        IC_events = IC_MC_2017
-    elif MC:
-        IC_events = IC_MC
-
-    if correct_flux:
-        simulated_events = flux_E_factors*simulated_events
-
-    normalization = IC_events/simulated_events
-
-    return np.array(normalization)
 
 
 def is_precomputed(pid,ndim, dict, check=False, quick=True):
@@ -192,10 +180,12 @@ def return_precomputed(pid,ndim,params, nsi=False, quick=True):
     computed_params = params[mask]
     return computed_params
 
-def normalize_events(H0_events,H1_events_list,z_bins):
-    norm_factors = normalize_bin_by_bin(H0_events[:,z_bins],MC=True)
-    H0_normalized = norm_factors *H0_events[:,z_bins]
-    H1_list_normalized = [norm_factors*H1[:,z_bins] for H1 in H1_events_list]
+def normalize_events(H0_events,H1_events_list,pid):
+    if pid == 1:
+        null = pd.read_csv('./src/data/files/DC/2018/track_null.csv', header=None)
+    N = np.sum(null[1].values)/np.sum(np.array(H0_events))
+    H0_normalized = H0_events*N
+    H1_list_normalized = [N*H1 for H1 in H1_events_list]
 
     return H0_normalized, H1_list_normalized
 
@@ -204,10 +194,10 @@ def get_deltachi(H1_list_normalized,H0_normalized,y_range,x_range, delta_T, sigm
     sigma_b = sigma[1]
     sigma_g = delta_T
     f = f
-    sigma_syst = 0#f*np.sum(IC_observed, axis=0)
+    sigma_syst = f*IC_observed
     x0=x0
-    #chisq_H0, a_H0 = perform_chisq(H0_normalized,np.sum(IC_observed, axis=0),sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
-    chisq_H1_list  = np.array([perform_chisq(H1_norm, H0_normalized,sigma_syst=sigma_syst,z=zreco, sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
+    chisq_H0, a_H0 = perform_chisq(H0_normalized,IC_observed,sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
+    chisq_H1_list  = np.array([perform_chisq(H1_norm, IC_observed,sigma_syst=sigma_syst,z=zreco, sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)#chisq_H1_list - chisq_H0
 
     best_fit_index = np.argmin(delta_chi)
