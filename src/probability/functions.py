@@ -47,7 +47,7 @@ ic_params_nsi = ic_params.copy()
 ic_params_nsi.update({'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
 
 dc_params = param_dict.copy() #From demidov 2020
-dc_params.update({'theta_12': np.arcsin(np.sqrt(0.304)), 'theta_23': np.arcsin(np.sqrt(0.52)), 'theta_13': np.arcsin(np.sqrt(0.0217)), 'dm_21': 7.53e-5, 'dm_31': 7.53e-5 + 2.29e-3})
+dc_params.update({'theta_12': 0.5839958715755919, 'theta_23': 0.8054035005744429, 'theta_13': 0.14784723758432042, 'dm_21': 7.53e-5, 'dm_31': 7.53e-5 + 2.29e-3})
 dc_params_nsi = dc_params.copy()
 dc_params_nsi.update({'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
 
