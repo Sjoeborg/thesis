@@ -53,7 +53,7 @@ if __name__ == '__main__':
     else:
         print(f'Precomputing PINGU {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), for pid {pid}. s={args.s+1}/{args.sT}')
     
-    bins = [(i,j) for i in range(8) for j in range(4)]
+    bins = [(i,j) for i in range(8) for j in range(8)]
     split_array=  np.array_split(bins,args.sT)[args.s]
     para = [(*b,p) for b in split_array.tolist() for p in param_list]
 
