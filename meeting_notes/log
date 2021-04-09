@@ -426,3 +426,21 @@ DC:
 7 Apr
 DC2015 har för många punkter för att kunna simuleras. Behöver sampla ner den. 
 DC2018 verkar lovande
+
+9 Apr
+Include cascades and treat them as separate data points, so chi2 sums over both track and cascades.
+Systematic uncertainties has two types:
+    1. Theoretical: pull/penalty with sigma 
+    2. Experimental/detector: modeled with f in denominator
+Salvados limits dont improve because of the increased E bins since P has no rapid oscillations.
+
+When we put the pulls to 0, I should get a different CL. Fix this!
+Try poissonian likelihood.
+
+For PINGU: set oscillation parameters to best fit from nu-fit without NSI and generate the 3gen case. This is my "data"
+
+Compare your DC CL with your IC, and with the DC collab.
+You can plot Fig3 from the DC2017 paper that shows the "event importance" with (N_SI - N_NSI)/sqrt(N_SI). Compare IC and DC 
+to see which of them has the best statistics (i.e. number of events)
+
+We can ignore the muon background for now.

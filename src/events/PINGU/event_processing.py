@@ -10,8 +10,8 @@ import matplotlib
 import pandas as pd
 from PINGU.importer import *
 from PINGU.processer import *
-from PINGU.main import get_all_events, dc_params_nsi
-from functions import perform_chisq
+from PINGU.main import get_all_events
+from functions import perform_chisq,dc_params_nsi
 from scipy.stats import chi2
 '''
 IC_observed_full = np.array(get_IC_data().T)
@@ -167,23 +167,23 @@ def normalize_bin_by_bin(simulated_events, MC = True, MC_old=False, correct_flux
 def is_precomputed(pid,ndim, dict, check=False, quick=True):
     for anti in [True,False]:
         for flavor_from in ['e','m']:
-            flavor_to  = 'm'
-            try:
-                if quick:
-                    get_probabilities_gen2(flavor_from, flavor_to, 5,2,dict,anti,pid,ndim)
-                else:
-                    for Ebin in range(8):
-                        for zbin in range(4):
-                            get_probabilities_gen2(flavor_from, flavor_to, Ebin,zbin,dict,anti,pid,ndim)
-            except (FileNotFoundError,KeyError):
-                if check:
-                    return False
-                else:
+            for flavor_to in ['e','m','t']:
+                try:
                     if quick:
-                        raise FileNotFoundError(f'P{flavor_from}{flavor_to}, for pid {pid}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, s34={np.sin(2*dict["theta_34"])**2}, not found')
+                        get_probabilities_PINGU(flavor_from, flavor_to, 5,2,dict,anti,pid,ndim)
                     else:
-                        raise FileNotFoundError(f'P{flavor_from}{flavor_to}, E{Ebin}z{zbin} for pid {pid}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, s34={np.sin(2*dict["theta_34"])**2}, not found')
-            return True
+                        for Ebin in range(8):
+                            for zbin in range(8):
+                                get_probabilities_PINGU(flavor_from, flavor_to, Ebin,zbin,dict,anti,pid,ndim)
+                except (FileNotFoundError,KeyError):
+                    if check:
+                        return False
+                    else:
+                        if quick:
+                            raise FileNotFoundError(f'P{flavor_from}{flavor_to}, for pid {pid}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, s34={np.sin(2*dict["theta_34"])**2}, not found')
+                        else:
+                            raise FileNotFoundError(f'P{flavor_from}{flavor_to}, E{Ebin}z{zbin} for pid {pid}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, s34={np.sin(2*dict["theta_34"])**2}, not found')
+                return True
 
 def return_precomputed(pid,ndim,params, nsi=False, quick=True):
     params= np.array(params)
@@ -249,14 +249,14 @@ def return_precomputed_nsi(pid,ndim,params, nsi=False):
 def is_precomputed_nsi(pid,ndim, dict, check=False):
     for anti in [True,False]:
         for flavor_from in ['e','m']:
-            flavor_to  = 'm'
-            try:
-                get_probabilities_gen2(flavor_from, flavor_to, 5,2,dict,anti,pid, ndim)
-            except (FileNotFoundError,KeyError):
-                if check:
-                    return False
-                else:
-                    raise FileNotFoundError(f'P{flavor_from}{flavor_to} {ndim}gen for pid {pid}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, e_mm={dict["e_mm"]},e_mt={dict["e_mt"]}, not found')
-            return True
+            for flavor_to in ['e','m','t']:
+                try:
+                    get_probabilities_PINGU(flavor_from, flavor_to, 5,2,dict,anti,pid, ndim)
+                except (FileNotFoundError,KeyError):
+                    if check:
+                        return False
+                    else:
+                        raise FileNotFoundError(f'P{flavor_from}{flavor_to} {ndim}gen for pid {pid}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, e_mm={dict["e_mm"]},e_mt={dict["e_mt"]}, not found')
+                return True
 if __name__ == '__main__':
     pass

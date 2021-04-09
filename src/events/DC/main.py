@@ -28,9 +28,9 @@ def get_events(Ebin,zbin,params,pid,null):
     return events
 
 def get_all_events(params, pid, null):
-    result = np.zeros((8,4))
+    result = np.zeros((8,8))
     for Ebin in range(8):
-        for zbin in range(4):
+        for zbin in range(8):
             result[Ebin,zbin] = get_events(Ebin,zbin,params,pid,null)
     return result
 print(get_events(Ebin=0,zbin=0,params=dc_params_nsi,pid=0,null=True))
