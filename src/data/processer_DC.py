@@ -162,7 +162,7 @@ def get_probabilities_DC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid
     f.close()
     return res
 
-def generate_probabilities_DC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,pid, ndim=4, nsi=False):
+def generate_probabilities_DC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,pid, ndim=4, nsi=True):
     prob = np.array([wrapper([flavor_from, [E_range[i]],z, anti, params, ndim, nsi])[mass_dict[flavor_to]] for i,z in enumerate(z_range)])
     hashed_param_name = sha256(params)
     if anti:

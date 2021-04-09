@@ -48,7 +48,6 @@ param_list = list_of_params_nsi(dc_params_nsi,s24_range, emm_range,emt_range)
 #for p in param_list: # Assert all dicts returned from param_list have precomputed probs.
 #    assert is_precomputed_nsi(N=N,ndim=ndim, dict=p,check=False)
 
-
 '''
 param_list = return_precomputed_nsi(pid,ndim,params=param_list)
 emm_range = np.sort(np.unique(np.array([p['e_mm'] for p in param_list])))

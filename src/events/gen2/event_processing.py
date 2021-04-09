@@ -49,7 +49,9 @@ zreco_full_midpoints = zreco_full[0:-1] +np.diff(zreco_full)/2 #For scatter plot
 zreco = zreco_full[zFrom:zTo+1]
 zreco_midpoints = zreco_full_midpoints[z_bins]
 '''
-
+Ereco = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
+zreco = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
+zreco = zreco[0:4]
 def to_hist(arr):
     return arr.tolist() + [arr[-1]]
 
@@ -202,10 +204,10 @@ def get_deltachi(H1_list_normalized,H0_normalized,y_range,x_range, delta_T, sigm
     sigma_b = sigma[1]
     sigma_g = delta_T
     f = f
-    sigma_syst = f*np.sum(IC_observed, axis=0)
+    sigma_syst = 0#f*np.sum(IC_observed, axis=0)
     x0=x0
-    chisq_H0, a_H0 = perform_chisq(H0_normalized,np.sum(IC_observed, axis=0),sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
-    chisq_H1_list  = np.array([perform_chisq(H1_norm, np.sum(IC_observed, axis=0),sigma_syst=sigma_syst,z=zreco, sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
+    #chisq_H0, a_H0 = perform_chisq(H0_normalized,np.sum(IC_observed, axis=0),sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
+    chisq_H1_list  = np.array([perform_chisq(H1_norm, H0_normalized,sigma_syst=sigma_syst,z=zreco, sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)#chisq_H1_list - chisq_H0
 
     best_fit_index = np.argmin(delta_chi)
@@ -214,7 +216,7 @@ def get_deltachi(H1_list_normalized,H0_normalized,y_range,x_range, delta_T, sigm
         deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range),len(z_range))
     else:
         deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range))
-    return deltachi_reshaped, best_fit_index, np.min(chisq_H1_list), chisq_H0
+    return deltachi_reshaped, best_fit_index, np.min(chisq_H1_list)#, chisq_H0
 
 def get_contour(deltachi, y_range,x_range, df):
     cl_99_bool = np.where(deltachi < chi2.ppf(q = 0.99,df=df),True,False)
