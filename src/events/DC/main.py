@@ -59,10 +59,8 @@ def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
             Pmbar = get_probabilities_DC('m', flavor_to, Ebin,zbin,params,anti=True,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
         except KeyError:
             Pmbar = generate_probabilities_DC('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=True, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
-        if not no_osc:
-            rate_weight[mask] = binned_df[mask]['weight'] * (mbar_flux*Pmbar + ebar_flux*Pebar)
-        else:
-            rate_weight[mask] = binned_df[mask]['weight']
+        
+        rate_weight[mask] = binned_df[mask]['weight'] * (mbar_flux*Pmbar + ebar_flux*Pebar) if not no_osc else binned_df[mask]['weight']
     
     binned_df["rate_weight"] = rate_weight
 
@@ -70,8 +68,5 @@ def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
 
 
 def get_all_events(params, pid, nsi, no_osc=False):
-    result = np.zeros((8,8))
-    for Ebin in range(8):
-        for zbin in range(8):
-            result[Ebin,zbin] = get_events(Ebin,zbin,params,pid,nsi,no_osc)
-    return result
+    result = [get_events(Ebin,zbin,params,pid,nsi,no_osc) for zbin in range(8) for Ebin in range(8)]
+    return np.array(result).reshape(8,8)

@@ -32,26 +32,23 @@ def precompute_probs(args_tuple, nsi=True):
 
 
 if __name__ == '__main__':
-    if args.Ndim > 3:
-        s24_range = np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N)
-    else:
-        s24_range=np.linspace(0.,0.,1)
-    if args.tracks:
-        pid = 1
-    else:
-        pid=0
+    s24_range = np.logspace(np.log10(args.s24From),np.log10(args.s24To),args.s24N) if args.Ndim > 3 else np.linspace(0.,0.,1)
+    pid = 1 if args.tracks else 0
     emm_range = np.linspace(-args.emm,args.emm,args.emmN)
-    emt_range = None
-    if args.emt is not None:
-        emt_range = np.linspace(-args.emt,args.emt,args.emtN)
+    emt_range = np.linspace(-args.emt,args.emt,args.emtN) if args.emt is not None else None
+
     nsi_params = dc_params_nsi.copy()
     nsi_params['dm_41'] = 0.93
     param_list = list_of_params_nsi(nsi_params, s24_range,emm_range, emt_range)
     
     if emt_range is not None:
-        print(f'Precomputing PINGU {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), emt({emt_range.min()},{emt_range.max()},{len(emt_range)}), for pid {pid}. s={args.s+1}/{args.sT}')
+        print(f'Precomputing PINGU {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]}, \
+                s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()}, \
+                {len(emm_range)}), emt({emt_range.min()},{emt_range.max()},{len(emt_range)}), for pid {pid}. s={args.s+1}/{args.sT}')
     else:
-        print(f'Precomputing PINGU {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]}, s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()},{len(emm_range)}), for pid {pid}. s={args.s+1}/{args.sT}')
+        print(f'Precomputing PINGU {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]}, \
+                s24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},{emm_range.max()}, \
+                {len(emm_range)}), for pid {pid}. s={args.s+1}/{args.sT}')
     
     bins = [(i,j) for i in range(8) for j in range(8)]
     split_array=  np.array_split(bins,args.sT)[args.s]

@@ -8,20 +8,14 @@ import warnings
 import pickle
 
 def get_aeff_df_DC():
-    flavor_list=[]
-    df_list=[]
-    for flavor in ['E','EBar','Mu','Mubar', 'Tau', 'TauBar','X','XBar']:
-        df_list.append(flavor_aeff_df_dc(flavor))
-    return df_list
+    return [flavor_aeff_df_dc(flavor) for flavor in ['E','EBar','Mu','Mubar', 'Tau', 'TauBar','X','XBar']]
 
 def MC2018_DC():
-    df = pd.read_csv(f'./src/data/files/DC/2018/sample_b/neutrino_mc.csv', dtype=np.float64)
-    return df
+    return pd.read_csv(f'./src/data/files/DC/2018/sample_b/neutrino_mc.csv', dtype=np.float64)
 
 def flavor_aeff_df_DC(flavor):
-    filename = f'./src/data/files/DC/2015/CC_Nu{flavor}.txt'
-    if flavor[0] == 'X':
-        filename = f'./src/data/files/DC/2015/NC_Nu{flavor}.txt'
+
+    filename = f'./src/data/files/DC/2015/NC_Nu{flavor}.txt' if flavor[0] == 'X' else f'./src/data/files/DC/2015/CC_Nu{flavor}.txt'
     df_chunks = pd.read_csv(filename, skiprows=1, delimiter='\t', names=['z', 'E', f'aeff_{flavor}'],skip_blank_lines=False)
     df_list = np.split(df_chunks, df_chunks[df_chunks.isnull().all(1)].index)
     _=df_list.pop(-1)
