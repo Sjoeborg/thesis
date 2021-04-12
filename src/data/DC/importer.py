@@ -13,6 +13,13 @@ def get_aeff_df_DC():
 def MC2018_DC():
     return pd.read_csv(f'./src/data/files/DC/2018/sample_b/neutrino_mc.csv', dtype=np.float64)
 
+def no_osc2018_DC(pid):
+    if pid == 1:
+        df = pd.read_csv(f'./src/data/files/DC/2018/track_null.csv', dtype=np.float64, header=None) 
+    else:
+        df = pd.read_csv(f'./src/data/files/DC/2018/cascade_null.csv', dtype=np.float64, header=None)
+    return df
+
 def flavor_aeff_df_DC(flavor):
 
     filename = f'./src/data/files/DC/2015/NC_Nu{flavor}.txt' if flavor[0] == 'X' else f'./src/data/files/DC/2015/CC_Nu{flavor}.txt'
@@ -80,26 +87,12 @@ def MC2015_DC():
         MC_factors.append(MC.to_numpy())
     return np.array(MC_factors)
 
-def events2018_DC(track,cascade):
+def events2018_DC():
     df = pd.read_csv('./src/data/files/DC/2018/sample_b/data.csv')
     df1 = pd.read_csv('./src/data/files/DC/2018/sample_b/muons.csv')
 
     merged_df = pd.merge(df,df1, on =['pid', 'reco_coszen','reco_energy'], suffixes=('_events','_background'))
-
-    track_mask = (merged_df['pid'] == 1)
-    cascade_mask = (merged_df['pid'] == 0)
-
-    if track and not cascade:
-        type_mask = track_mask
-    elif not track and cascade:
-        type_mask = cascade_mask
-    elif track and cascade:
-        type_mask = track_mask | cascade_mask
-    else:
-        raise ValueError('Specify track and/or cascade')
-    df_reduced = merged_df[type_mask]
-    #pivoted_df = df_reduced.pivot(index='reco_coszen', columns='reco_energy')
-    return df_reduced#['count_events'], df_reduced['abs_uncert'], df_reduced['count_background']
+    return merged_df
 
 def events2015_DC():
     df = pd.read_csv('./src/data/files/DC/2015/DataCounts.txt', skiprows=2, delimiter='\t', names=['z','E','events'])
@@ -121,18 +114,12 @@ def events2015_DC():
     #df = df.pivot(index='reco_coszen', columns='reco_energy')
     return df#['events'], df['background']
 
-def systematics2018_DC(track, cascade):
-    if track and not cascade:
-        q = 'pid==1'
-    elif not track and cascade:
-        q = 'pid==0'
-    elif track and cascade:
-        q = 'pid < 2'
+def systematics2018_DC():
     hyperplanes = {}
-    hyperplanes['e'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_nue_cc.csv").query(q)
-    hyperplanes['mu'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_numu_cc.csv").query(q)
-    hyperplanes['tau'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_nutau_cc.csv").query(q)
-    hyperplanes['nc'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_all_nc.csv").query(q)
+    hyperplanes['e'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_nue_cc.csv")
+    hyperplanes['mu'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_numu_cc.csv")
+    hyperplanes['tau'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_nutau_cc.csv")
+    hyperplanes['nc'] = pd.read_csv("./src/data/files/DC/2018/sample_b/hyperplanes_all_nc.csv")
 
     # bestfit point of detector systematics from Phys. Rev. D 99, 032007 (2019), Table 2
     bestfit = {}

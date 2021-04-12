@@ -65,29 +65,16 @@ def return_precomputed(pid,ndim,params, nsi=False, quick=True):
     computed_params = params[mask]
     return computed_params
 
-def normalize_events(H0_events,H1_events_list,pid):
-    if pid == 1:
-        null = pd.read_csv('./src/data/files/DC/2018/track_null.csv', header=None)
-    elif pid == 0:
-        null = pd.read_csv('./src/data/files/DC/2018/cascade_null.csv', header=None)
-    N = np.sum(null[1].values)/np.sum(np.array(H0_events))
-    H0_normalized = H0_events*N
-    H1_list_normalized = [N*H1 for H1 in H1_events_list]
 
-    return H0_normalized, H1_list_normalized
-
-def get_deltachi(H1_list_normalized,H0_normalized,pid,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], z_range=None):
+def get_deltachi(H1_list_normalized,pid,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], z_range=None):
     sigma_a = sigma[0]
     sigma_b = sigma[1]
     sigma_g = delta_T
     f = f
-    if pid == 1:
-        DC_observed = events2018_DC(track=True, cascade=False)
-    elif pid == 0:
-        DC_observed = events2018_DC(track=False, cascade=True)
+    DC_observed = events2018_DC().query(f'pid=={pid}').pivot(columns='reco_coszen', index='reco_energy')['count_events'].values
     sigma_syst = f*DC_observed
     x0=x0
-    chisq_H0, a_H0 = perform_chisq(H0_normalized,DC_observed,sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
+    #chisq_H0, a_H0 = perform_chisq(H0_normalized,DC_observed,sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
     chisq_H1_list  = np.array([perform_chisq(H1_norm, DC_observed,sigma_syst=sigma_syst,z=zreco, sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)#chisq_H1_list - chisq_H0
 

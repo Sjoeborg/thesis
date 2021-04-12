@@ -4,11 +4,12 @@ if __name__ == '__main__':
     sys.path.append('./src/data')
 import numpy as np 
 import pandas as pd 
-from DC.importer import MC2018_DC
-from DC.processer import get_binned_DC, generate_probabilities_DC, get_probabilities_DC, get_flux, get_interpolators_DC
+from DC.importer import MC2018_DC, systematics2018_DC
+from DC.processer import get_binned_DC, generate_probabilities_DC, get_probabilities_DC, get_flux, get_interpolators_DC,process_systematics
 from functions import dc_params_nsi,dc_params
 df = MC2018_DC()
 interp_flux,_ = get_interpolators_DC()
+systematics = systematics2018_DC()
 
 def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
     binned_df = get_binned_DC(pid,Ebin,zbin,df)
@@ -43,7 +44,10 @@ def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
         if not no_osc:
             rate_weight[mask] = binned_df[mask]['weight'] * (m_flux*Pm + e_flux*Pe)
         else:
-            rate_weight[mask] = binned_df[mask]['weight']
+            if flavor_to == 'e':
+                rate_weight[mask] = binned_df[mask]['weight'] * e_flux
+            elif flavor_to == 'm':
+                rate_weight[mask] = binned_df[mask]['weight'] * m_flux
 
     for flavor_to, mask in anti_masks.items():
         Etrue = binned_df[mask]['true_energy'].values
@@ -60,13 +64,19 @@ def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
         except KeyError:
             Pmbar = generate_probabilities_DC('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=True, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
         
-        rate_weight[mask] = binned_df[mask]['weight'] * (mbar_flux*Pmbar + ebar_flux*Pebar) if not no_osc else binned_df[mask]['weight']
+        if not no_osc:
+            rate_weight[mask] = binned_df[mask]['weight'] * (mbar_flux*Pmbar + ebar_flux*Pebar)
+        else:
+            if flavor_to == 'e':
+                rate_weight[mask] = binned_df[mask]['weight'] * ebar_flux
+            elif flavor_to == 'm':
+                rate_weight[mask] = binned_df[mask]['weight'] * mbar_flux
     
     binned_df["rate_weight"] = rate_weight
-
-    return np.sum(binned_df["rate_weight"])
+    res = process_systematics(binned_df, systematics,pid)
+    return np.sum(res) #np.sum(binned_df["rate_weight"])
 
 
 def get_all_events(params, pid, nsi, no_osc=False):
-    result = [get_events(Ebin,zbin,params,pid,nsi,no_osc) for zbin in range(8) for Ebin in range(8)]
+    result = [get_events(Ebin,zbin,params,pid,nsi,no_osc) for Ebin in range(8) for zbin in range(8)]
     return np.array(result).reshape(8,8)

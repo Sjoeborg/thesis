@@ -7,7 +7,7 @@ import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
 from scipy.interpolate import NearestNDInterpolator
 from functions import mass_dict,dc_params
-from DC.importer import systematics2015_DC, get_aeff_df_DC, get_flux_df_DC
+from DC.importer import systematics2015_DC, get_aeff_df_DC, get_flux_df_DC, events2018_DC, no_osc2018_DC
 from dict_hash import sha256
 import pandas as pd
 from numerical import wrapper 
@@ -87,6 +87,7 @@ def bin_flux_factors_DC(E_df, z_df):
 def get_probabilities_DC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,ndim, nsi):
     if not nsi:
         param_dict = dc_params
+        param_dict['dm_41'] = -1
     hashed_param_name = sha256(param_dict)
     if anti:
         flavor_from = 'a' + flavor_from
@@ -174,6 +175,53 @@ def get_interpolators_DC(recompute_flux=False, recompute_aeff=False):
     interp_aeff = interpolate_aeff_DC(recompute_aeff)
 
     return interp_flux, interp_aeff
+
+def get_hist(df, weight):
+    '''retrieve histogram in (energy x coszen) space'''
+    hist, _, _ = np.histogram2d(df['reco_energy'], df['reco_coszen'], bins=(Ebins_2018, zbins_2018), weights=df[weight])
+    return hist
+
+def multiply_fluxes(MC_df):
+    interp_flux = interpolate_flux_DC()
+    e_mask = (MC_df['pdg'] == 12)
+    m_mask = (MC_df['pdg'] == 14)
+    t_mask = (MC_df['pdg'] == 16)
+
+    ebar_mask = (MC_df['pdg'] == -12)
+    mbar_mask = (MC_df['pdg'] == -14)
+    tbar_mask = (MC_df['pdg'] == -16)
+
+    rate_weights = np.zeros_like(MC_df['weight'])
+
+    rate_weights[e_mask] = MC_df[e_mask]['weight'] * get_flux('e',MC_df[e_mask]['true_energy'], MC_df[e_mask]['true_coszen'], interp_flux)
+    rate_weights[m_mask] = MC_df[m_mask]['weight'] * get_flux('m',MC_df[m_mask]['true_energy'], MC_df[m_mask]['true_coszen'], interp_flux)
+    rate_weights[ebar_mask] = MC_df[ebar_mask]['weight'] * get_flux('ebar',MC_df[ebar_mask]['true_energy'], MC_df[ebar_mask]['true_coszen'], interp_flux)
+    rate_weights[mbar_mask] = MC_df[mbar_mask]['weight'] * get_flux('mbar',MC_df[mbar_mask]['true_energy'], MC_df[mbar_mask]['true_coszen'], interp_flux)
+
+    MC_df['rate_weight'] = rate_weights
+    return MC_df
+
+def process_systematics(df, systematics, pid):
+    result = []
+    pdg_dict = {'e': 12, 'mu': 14, 'tau':16}
+    for key in systematics.keys():
+        if key != 'nc':
+            temp = df.query(f'abs(pdg)=={pdg_dict[key]}')
+        else:
+            temp = df.query('type == 0')
+
+        raw = get_hist(temp.query(f'pid == {pid}'), weight='rate_weight')
+        correction = get_hist(systematics[key].query(f'pid=={pid}'), weight='correction_factor')
+
+        result.append(raw* correction)
+    result = np.sum(np.array(result),axis=0)
+
+    return result
+
+def normalization_factors(no_osc_tracks, no_osc_cascades):
+    track_null = no_osc2018_DC(pid=1)[1].values
+    cascade_null = no_osc2018_DC(pid=0)[1].values
+    return track_null/no_osc_tracks, cascade_null/no_osc_cascades
 
 if __name__ == '__main__':
     pass
