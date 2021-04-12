@@ -21,6 +21,7 @@ parser.add_argument('-emtN', default=10, type=int)
 parser.add_argument('-s', default = 0, type=int)
 parser.add_argument('-sT', default = 1, type=int)
 parser.add_argument('-tracks', action='store_true')
+parser.add_argument('-nsi', action='store_false')
 parser.add_argument('-v', action='store_true')
 parser.add_argument('-Ndim', default=4, type=int)
 args = parser.parse_args()
@@ -28,7 +29,7 @@ args = parser.parse_args()
 
 def precompute_probs(args_tuple, nsi=True):
     i,j,params = args_tuple
-    get_events(Ebin=i,zbin=j,params=params,pid=pid,nsi=nsi, no_osc=False)
+    get_events(Ebin=i,zbin=j,params=params,pid=pid,nsi=args.nsi, no_osc=False)
 
 
 if __name__ == '__main__':
