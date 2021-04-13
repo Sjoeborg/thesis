@@ -28,7 +28,8 @@ args = parser.parse_args()
 
 def precompute_probs(args_tuple, nsi=True):
     i,j,params = args_tuple
-    get_events(Ebin=i,zbin=j,params=params,pid=pid,null=False)
+    get_events(Ebin=i,zbin=j,params=params,pid=pid,nsi=False)
+    get_events(Ebin=i,zbin=j,params=params,pid=pid,nsi=True)
 
 
 if __name__ == '__main__':
