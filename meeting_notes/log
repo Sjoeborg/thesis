@@ -444,3 +444,15 @@ You can plot Fig3 from the DC2017 paper that shows the "event importance" with (
 to see which of them has the best statistics (i.e. number of events)
 
 We can ignore the muon background for now.
+
+13 Apr 
+no_osc från get_all_events stämmer överens med no_osc från multiply_fluxes (dvs "manuell" no_osc).
+Dessa stämmer dock inte exakt med no_osc från DCs artikel. Avviker med 4 till -2 %.
+Utan normering kommer avviker min H0 med deras no_osc med som värst -10%. Verkar som normering mot no_osc gör saker värre. Jag vil nog normera mot H0 istället! Det är också logiskt.
+Frågan nu är bara ifall jag ska normera inkl eller exkl background. En annan fråga är ifall jag ska normera öht. En normering begränsar mig till E-planet.
+
+Nu stämmer min noosc perfekt med deras (om jag multiplicerar min med 0.79...).
+Min H0 är fortfarande sämre, här är faktorn 0.85, och felet mellan 5 och -10%
+Det är ok att multiplicera eventsen med ca 0.85! DC har en neutrino event rate best fit på 85%.
+
+H0 är för hög i dom 3 sista Ebinsen, men har rätt form. z>0 bidrar mycket till dessa events. Vill jag göra om min interpolator? (iaf för DC)

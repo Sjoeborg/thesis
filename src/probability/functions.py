@@ -368,7 +368,7 @@ def chisq(params,events, data,z,sigma_a, sigma_b, sigma_g, sigma_syst):
     elif len(params) == 1:
         a = params
         S_th = a*events
-        penalty = (1-a)**2 
+        penalty = (1-a)**2/sigma_a**2
     chi2= np.sum((S_th - data)**2/(data + sigma_syst**2))+ penalty
     return chi2
 

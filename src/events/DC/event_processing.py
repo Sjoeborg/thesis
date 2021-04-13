@@ -11,9 +11,9 @@ import pandas as pd
 from DC.importer import *
 from DC.processer import *
 from DC.main import get_all_events
-from functions import perform_chisq,dc_params_nsi
+from functions import dc_params_nsi
 from scipy.stats import chi2
-
+from scipy.optimize import minimize
 Ereco = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
 zreco = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
 Ereco_midpoints = Ereco[0:-1] +np.diff(Ereco)/2 #For scatter plot
@@ -65,17 +65,40 @@ def return_precomputed(pid,ndim,params, nsi=False, quick=True):
     computed_params = params[mask]
     return computed_params
 
+def chisq(params,events, data, background,z,sigma_a, sigma_b, sigma_g, sigma_syst):
+    z_0 = -np.median(z)
+    if len(params) == 4:
+        a,c,b, g = params
+        S_th = a*(1+b*(z[0:-1]+z_0)+g)*events  + c*background
+        penalty = (1-a)**2/sigma_a**2 + b**2 / sigma_b**2 + g**2 /sigma_g**2
+    elif len(params) == 3:
+        a,c,b = params
+        S_th = a*(1+b*(z[0:-1]+z_0))*events + c*background
+        penalty = (1-a)**2/sigma_a**2 + b**2 / sigma_b**2 
+    elif len(params) == 2:
+        a,c = params
+        S_th = a*events + c*background
+        penalty = (1-a)**2/sigma_a**2
+    
+    chi2= np.sum((S_th - data)**2/(data + sigma_syst**2))+ penalty
+    return chi2
 
-def get_deltachi(H1_list_normalized,pid,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], z_range=None):
+def perform_chisq(events, data,background,sigma_syst, z = np.linspace(-1,1,9), sigma_a=0.25, sigma_b=None, sigma_g =None, x0=[1,1]):
+    res = minimize(fun=chisq, x0=x0, args=(events,data, background, z,sigma_a, sigma_b, sigma_g,sigma_syst), method='Nelder-Mead',options={'maxiter': 1e5, 'maxfev':1e5})
+    assert res.success, res
+    return res.fun, res.x
+
+def get_deltachi(H1_list_normalized, pid,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], z_range=None):
     sigma_a = sigma[0]
     sigma_b = sigma[1]
     sigma_g = delta_T
-    f = f
-    DC_observed = events2018_DC().query(f'pid=={pid}').pivot(columns='reco_coszen', index='reco_energy')['count_events'].values
-    sigma_syst = f*DC_observed
+    data = get_hist(events2018_DC().query(f'pid=={pid}'), 'count_events')
+    background =get_hist(events2018_DC().query(f'pid=={pid}'), 'count_background')
+    sigma_syst = f * get_hist(events2018_DC().query(f'pid=={pid}'), 'abs_uncert')
     x0=x0
     #chisq_H0, a_H0 = perform_chisq(H0_normalized,DC_observed,sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
-    chisq_H1_list  = np.array([perform_chisq(H1_norm, DC_observed,sigma_syst=sigma_syst,z=zreco, sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
+    chisq_H1_list  = np.array([perform_chisq(H1_norm, data, background,z=zreco, sigma_syst=sigma_syst,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
+    
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)#chisq_H1_list - chisq_H0
 
     best_fit_index = np.argmin(delta_chi)
