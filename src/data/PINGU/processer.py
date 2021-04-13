@@ -1,16 +1,15 @@
 import sys,os
 if __name__ == '__main__':
-    #os.chdir('../../')
     sys.path.append('./src/probability')
     sys.path.append('./src/data')
 import numpy as np
 import pandas as pd
-from functions import mass_dict
+from functions import mass_dict,dc_params
 from dict_hash import sha256
 import pandas as pd
 from numerical import wrapper 
-#from numerical import wrapper 
 import h5py
+from scipy.stats import lognorm
 import pickle
 pdg_dict={'e':12,'m':14,'t':16}
 Ebins_2018 = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
