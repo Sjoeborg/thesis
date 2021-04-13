@@ -283,7 +283,8 @@ def rho_earth(r):# lä 1306.2903 och 0612285 ocg kuo
     Calculates the density in g/cm-3 of the point at a distance r in km from the Earth's center using data from PREM https://www.cfa.harvard.edu/~lzeng/papers/PREM.pdf
     Returns the density in gm/cm-3
     '''
-    
+    if r == -1: #Neutrino doesn't traverse Earth
+        return 0
     if not np.isscalar(r): #If r is array, return list of densities.
         return [rho_earth(item) for item in r]
     
@@ -330,17 +331,22 @@ def V(r, material='earth'):
 
 def baseline(theta_i):
     h = 15 # Production height
-    r = np.sqrt((r_earth+h)**2 - r_earth**2*np.sin(theta_i)**2) - r_earth*np.cos(theta_i)
-    r= 2*r_earth*np.cos(theta_i)
+    if theta_i <= np.pi/2:
+        r = np.sqrt((r_earth+h)**2 - r_earth**2*np.sin(theta_i)**2) - r_earth*np.cos(theta_i)
+        r= 2*r_earth*np.cos(theta_i)
+    elif theta_i > np.pi/2:
+        r = h/np.cos(np.pi-theta_i)
     return r
 
 def get_radial_distance(x,theta_i):
     '''
-    Returns the distance to the Earth core in [km] for a baseline x [km] and a zenith angle theta_i
+    Returns the distance to the Earth core in [km] for a baseline x [km] and an angle theta_i
     '''
-    L = baseline(theta_i)
-    r = np.sqrt((L-x)**2 + r_earth**2 - 2*(L-x)*r_earth*np.cos(theta_i))
-    #assert not np.isnan(r), f'Solver gave get_radial_distance() x={x}, theta={theta_i}, which evaluates to nan'
+    if theta_i <= np.pi/2:
+        L = baseline(theta_i)
+        r = np.sqrt((L-x)**2 + r_earth**2 - 2*(L-x)*r_earth*np.cos(theta_i))
+    else: # Neutrino doesn't traverse Earth
+        r = -1 
     return r
 
 def get_electron_density(r):
@@ -349,10 +355,10 @@ def get_electron_density(r):
     '''
     if r >= r_core:
         return 0.4957
-    elif r < r_core:
+    elif r < r_core and r > 0:
         return 0.4656
-    else:
-        raise ValueError(f'{r} not numerical')
+    elif r == -1: #Neutrino doesn't traverse Earth
+        return 0
 
 def chisq(params,events, data,z,sigma_a, sigma_b, sigma_g, sigma_syst):
     z_0 = -np.median(z)
@@ -399,9 +405,6 @@ def integrate(array,method='simps',*args):
         return simps(simps(simps(simps(array,args[0]),args[1]),args[2]),args[3])
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
-    theta_i = np.pi - np.arccos(-0.83)
-    x = np.linspace(0,baseline(theta_i),100)
-    r = get_radial_distance(x,theta_i)
-    #plt.plot(x,r)
-    plt.plot(x,rho_earth(r))
-    plt.show()
+    z = 1
+    print(baseline(np.pi - np.arccos(z)))
+    print(get_radial_distance(500, np.pi - np.arccos(z)))

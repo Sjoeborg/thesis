@@ -456,3 +456,4 @@ Min H0 är fortfarande sämre, här är faktorn 0.85, och felet mellan 5 och -10
 Det är ok att multiplicera eventsen med ca 0.85! DC har en neutrino event rate best fit på 85%.
 
 H0 är för hög i dom 3 sista Ebinsen, men har rätt form. z>0 bidrar mycket till dessa events. Vill jag göra om min interpolator? (iaf för DC)
+Bidraget från m fortsätter upp för höga E, när det egentligen ska minska. 
