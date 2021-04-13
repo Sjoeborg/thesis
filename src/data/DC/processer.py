@@ -214,7 +214,7 @@ def process_systematics(df, systematics, pid):
         correction = get_hist(systematics[key].query(f'pid=={pid}'), weight='correction_factor')
 
         result.append(raw* correction)
-    result = np.sum(np.array(result),axis=0)
+    #result = np.sum(np.array(result),axis=0)
 
     return result
 

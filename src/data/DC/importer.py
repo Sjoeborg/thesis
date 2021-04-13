@@ -157,35 +157,24 @@ def get_flux_df_DC():
 
     df1 = pd.read_csv(file1, skiprows=text_rows, header=None, names=colnames, dtype = np.float64, sep = ' ', chunksize=101)
     df2 = pd.read_csv(file2, skiprows=text_rows, header=None, names=colnames, dtype = np.float64, sep = ' ', chunksize=101)
+    z_bins_left = np.linspace(-1,0.9,20)
+    z_bins_right = np.linspace(-0.9,1,20)
+    df = pd.DataFrame()
+    for i,(left,right) in enumerate(zip(df1,df2)):
+        new = (left + right)/2
+        new['GeV'] = left['GeV']
+        new['z_min'] = np.round(z_bins_left[i],2)
+        new['z_max'] = np.round(z_bins_right[i],2)
+        df = pd.concat([df,new])
+    new_leftmost = df[df['z_min'] == -1].copy()
+    new_rightmost = df[df['z_max'] == 1].copy()
 
-    df_list = [] #List of the dataframes for each zenith angle bin. df_list[i] is the df for angle theta_range[i]
-    for left,right in zip(df1,df2):
-        left = left.set_index('GeV')
-        right = right.set_index('GeV')
-        df_concat = pd.concat([left, right])
-        by_row_index = df_concat.groupby(df_concat.index)
-        df_means = by_row_index.mean()
-        df_means.reset_index(inplace=True)
-        df_list.append(df_means)
-    df_list.append(df_list[-1])
-    binned_df = z_bins_DC(df_list)
-    df = pd.concat(binned_df)
+    new_leftmost['z_min'] = -1.1
+    new_leftmost['z_max'] = -1
+    new_rightmost['z_min'] = 1
+    new_rightmost['z_max'] = 1.1
+    df = pd.concat([new_leftmost,df,new_rightmost])
     return df
-
-def z_bins_DC(df_list):
-    '''
-    Doubles the number of dataframes, and puts half of the initial flux in each one.
-    Also puts the new z-bin limits in columns
-    '''
-    new_theta_range =np.round(np.linspace(1.1,-1.1,23),2) #See comment in get_flux_df
-    new_df_list = []
-    for i,df in enumerate(df_list):
-        
-        df['z_min'] = new_theta_range[i+1]
-        df['z_max'] = new_theta_range[i]
-
-        new_df_list.append(df)
-    return new_df_list
 
 if __name__ == '__main__':
     pass
