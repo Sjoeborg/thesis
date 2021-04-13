@@ -87,7 +87,6 @@ def bin_flux_factors_DC(E_df, z_df):
 def get_probabilities_DC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,ndim, nsi):
     if not nsi:
         param_dict = dc_params
-        param_dict['dm_41'] = -1
     hashed_param_name = sha256(param_dict)
     if anti:
         flavor_from = 'a' + flavor_from
@@ -127,7 +126,7 @@ def generate_probabilities_DC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bi
             print(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name} already exists, skipping')
         f.close()
         return prob
-    if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am':
+    if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am' and pid == 1:
         with open(f'./pre_computed/DC/hashed_params.csv','a') as fd:
             fd.write(f'{param_dict};{hashed_param_name}\n')
     return prob
@@ -214,7 +213,7 @@ def process_systematics(df, systematics, pid):
         correction = get_hist(systematics[key].query(f'pid=={pid}'), weight='correction_factor')
 
         result.append(raw* correction)
-    #result = np.sum(np.array(result),axis=0)
+    result = np.sum(np.array(result),axis=0)
 
     return result
 
