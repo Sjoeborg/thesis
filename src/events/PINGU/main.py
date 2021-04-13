@@ -12,7 +12,7 @@ df = MC_PINGU()
 interp_flux,_ = get_interpolators_DC()
 
 def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
-    binned_df = get_binned_DC(pid,Ebin,zbin,df)
+    binned_df = get_binned_PINGU(pid,Ebin,zbin,df)
     events = 0
     
     rate_weight = np.zeros_like(binned_df["weight"])
@@ -34,13 +34,13 @@ def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
         m_flux = get_flux('m',Etrue,ztrue,interp_flux)
 
         try:
-            Pe = get_probabilities_DC('e', flavor_to, Ebin,zbin,params,anti=False,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
+            Pe = get_probabilities_PINGU('e', flavor_to, Ebin,zbin,params,anti=False,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
         except KeyError:
-            Pe = generate_probabilities_DC('e', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=False, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
+            Pe = generate_probabilities_PINGU('e', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=False, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
         try:
-            Pm = get_probabilities_DC('m', flavor_to, Ebin,zbin,params,anti=False,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
+            Pm = get_probabilities_PINGU('m', flavor_to, Ebin,zbin,params,anti=False,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
         except KeyError:
-            Pm = generate_probabilities_DC('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=False, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
+            Pm = generate_probabilities_PINGU('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=False, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
         if not no_osc:
             rate_weight[mask] = binned_df[mask]['weight'] * (m_flux*Pm + e_flux*Pe)
         else:
@@ -56,13 +56,13 @@ def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
         mbar_flux = get_flux('mbar',Etrue,ztrue,interp_flux)
 
         try:
-            Pebar = get_probabilities_DC('e', flavor_to, Ebin,zbin,params,anti=True,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
+            Pebar = get_probabilities_PINGU('e', flavor_to, Ebin,zbin,params,anti=True,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
         except KeyError:
-            Pebar = generate_probabilities_DC('e', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=True, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
+            Pebar = generate_probabilities_PINGU('e', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=True, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
         try:
-            Pmbar = get_probabilities_DC('m', flavor_to, Ebin,zbin,params,anti=True,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
+            Pmbar = get_probabilities_PINGU('m', flavor_to, Ebin,zbin,params,anti=True,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
         except KeyError:
-            Pmbar = generate_probabilities_DC('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=True, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
+            Pmbar = generate_probabilities_PINGU('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=True, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
         
         if not no_osc:
             rate_weight[mask] = binned_df[mask]['weight'] * (mbar_flux*Pmbar + ebar_flux*Pebar)
