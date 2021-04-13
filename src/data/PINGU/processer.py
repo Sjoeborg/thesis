@@ -68,11 +68,7 @@ def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z
 
 
 def get_binned_PINGU(flavor,anti,pid,E_bin,z_bin,df):
-    pdg = pdg_dict[flavor]
-    if anti:
-        pdg = -pdg
     df1 = (df.query(f'pid=={pid}')
-             .query(f'pdg=={pdg}')
              .query(f'reco_energy<{Ebins_2018[E_bin+1]}')
              .query(f'reco_energy>{Ebins_2018[E_bin]}')
              .query(f'reco_coszen<{zbins_2018[z_bin+1]}')
