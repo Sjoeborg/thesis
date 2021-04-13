@@ -67,7 +67,7 @@ def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z
     return prob
 
 
-def get_true_PINGU(flavor,anti,pid,E_bin,z_bin,df):
+def get_binned_PINGU(flavor,anti,pid,E_bin,z_bin,df):
     pdg = pdg_dict[flavor]
     if anti:
         pdg = -pdg
