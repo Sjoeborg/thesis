@@ -74,9 +74,9 @@ def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
     
     binned_df["rate_weight"] = rate_weight
     res = process_systematics(binned_df, systematics,pid)
-    return res#np.sum(res) #np.sum(binned_df["rate_weight"])
+    return np.sum(res) #np.sum(binned_df["rate_weight"])
 
 
 def get_all_events(params, pid, nsi, no_osc=False):
     result = [get_events(Ebin,zbin,params,pid,nsi,no_osc) for Ebin in range(8) for zbin in range(8)]
-    return result#np.array(result).reshape(8,8)
+    return np.array(result).reshape(8,8)
