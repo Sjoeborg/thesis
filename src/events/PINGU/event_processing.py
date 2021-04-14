@@ -88,18 +88,15 @@ def perform_chisq(events, data,background,sigma_syst, z = np.linspace(-1,1,9), s
     assert res.success, res
     return res.fun, res.x
 
-def get_deltachi(H1_list_normalized, pid,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], z_range=None):
+def get_deltachi(H1_list,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], z_range=None):
     sigma_a = sigma[0]
     sigma_b = sigma[1]
     sigma_g = delta_T
-    data = get_hist(events2018_DC().query(f'pid=={pid}'), 'count_events')
-    background =get_hist(events2018_DC().query(f'pid=={pid}'), 'count_background')
-    sigma_syst = f * get_hist(events2018_DC().query(f'pid=={pid}'), 'abs_uncert')
-    x0=x0
-    #chisq_H0, a_H0 = perform_chisq(H0_normalized,DC_observed,sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
-    chisq_H1_list  = np.array([perform_chisq(H1_norm, data, background,z=zreco, sigma_syst=sigma_syst,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
-    
-    delta_chi = chisq_H1_list - np.min(chisq_H1_list)#chisq_H1_list - chisq_H0
+    data = np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_events'),get_hist(events2018_DC().query(f'pid==1'), 'count_events')])
+    background =np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_background'),get_hist(events2018_DC().query(f'pid==1'), 'count_background')])
+    sigma_syst = f * np.array([get_hist(events2018_DC().query(f'pid==0'), 'abs_uncert'),get_hist(events2018_DC().query(f'pid==1'), 'abs_uncert')])
+    chisq_H1_list  = np.array([perform_chisq(H1, data, background,z=zbins_2018, sigma_syst=sigma_syst,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1 in H1_list])
+    delta_chi = chisq_H1_list - np.min(chisq_H1_list)
 
     best_fit_index = np.argmin(delta_chi)
     
