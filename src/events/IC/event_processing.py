@@ -210,7 +210,7 @@ def get_deltachi(H1_list_normalized,H0_normalized,y_range,x_range, delta_T, sigm
         data = IC_observed  
     sigma_syst = f*data
     x0=x0
-    chisq_H0, a_H0 = perform_chisq(H0_normalized,data,sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
+    #chisq_H0, a_H0 = perform_chisq(H0_normalized,data,sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
     chisq_H1_list  = np.array([perform_chisq(H1_norm, data,sigma_syst=sigma_syst,z=zreco, sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)#chisq_H1_list - chisq_H0
 
@@ -220,7 +220,7 @@ def get_deltachi(H1_list_normalized,H0_normalized,y_range,x_range, delta_T, sigm
         deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range),len(z_range))
     else:
         deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range))
-    return deltachi_reshaped, best_fit_index, np.min(chisq_H1_list), chisq_H0
+    return chisq_H1_list, best_fit_index, np.min(chisq_H1_list)#, chisq_H0
 
 def get_contour(deltachi, y_range,x_range, df):
     cl_99_bool = np.where(deltachi < chi2.ppf(q = 0.99,df=df),True,False)

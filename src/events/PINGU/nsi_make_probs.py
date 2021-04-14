@@ -4,7 +4,7 @@ sys.path.append('./src/DC')
 sys.path.append('./src/events')
 sys.path.append('./src/probability')
 import argparse
-from functions import dc_params_nsi, nufit_params
+from functions import dc_params_nsi, dc_params
 from IC.event_processing import list_of_params_nsi
 import numpy as np
 import time
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     
     if not args.nsi:
         print('Generating null data using NuFit params with no NSI')
-        param_list = [nufit_params]
+        param_list = [dc_params]
     else:
         if emt_range is not None:
             print(f'Precomputing PINGU {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]},\

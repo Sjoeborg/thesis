@@ -103,7 +103,7 @@ def get_deltachi(H1_list,H0,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.0
         deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range),len(z_range))
     else:
         deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range))
-    return deltachi_reshaped, best_fit_index, np.min(chisq_H1_list)#, chisq_H0
+    return chisq_H1_list, best_fit_index, np.min(chisq_H1_list)#, chisq_H0
 
 def get_contour(deltachi, y_range,x_range, df):
     cl_99_bool = np.where(deltachi < chi2.ppf(q = 0.99,df=df),True,False)
