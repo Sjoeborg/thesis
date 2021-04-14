@@ -15,9 +15,9 @@ def MC2018_DC():
 
 def no_osc2018_DC(pid):
     if pid == 1:
-        df = pd.read_csv(f'./src/data/files/DC/2018/track_null.csv', dtype=np.float64, header=None) 
+        df = pd.read_csv(f'./src/data/files/DC/2018/track_noosc.csv', dtype=np.float64, header=None) 
     else:
-        df = pd.read_csv(f'./src/data/files/DC/2018/cascade_null.csv', dtype=np.float64, header=None)
+        df = pd.read_csv(f'./src/data/files/DC/2018/cascade_noosc.csv', dtype=np.float64, header=None)
     return df
 
 def flavor_aeff_df_DC(flavor):

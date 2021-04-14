@@ -4,7 +4,7 @@ if __name__ == '__main__':
     sys.path.append('./src/data')
 import numpy as np
 import pandas as pd
-from functions import mass_dict,dc_params
+from functions import mass_dict,dc_params, nufit_params
 from dict_hash import sha256
 import pandas as pd
 from numerical import wrapper 
@@ -18,9 +18,8 @@ zbins_2018 = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
 
 
 def get_probabilities_PINGU(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,ndim, nsi):
-    if not nsi:
-        param_dict = dc_params
-        param_dict['dm_41'] = -1
+    if not nsi: #Use best fit to generate 'data'
+        param_dict = nufit_params
     hashed_param_name = sha256(param_dict)
     if anti:
         flavor_from = 'a' + flavor_from
@@ -39,8 +38,8 @@ def get_probabilities_PINGU(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,
     return res
 
 def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,param_dict,anti,pid, ndim=4, nsi=True, overwrite=False):
-    if not nsi:
-        param_dict = dc_params
+    if not nsi: #Use best fit to generate 'data'
+        param_dict = nufit_params
     prob = np.array([wrapper([flavor_from, [E_range[i]],z, anti, param_dict, ndim, nsi])[mass_dict[flavor_to]] for i,z in enumerate(z_range)])
     hashed_param_name = sha256(param_dict)
     if anti:
@@ -60,7 +59,7 @@ def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z
             print(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name} already exists, skipping')
         f.close()
         return prob
-    if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am':
+    if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am' and pid==1:
         with open(f'./pre_computed/PINGU/hashed_params.csv','a') as fd:
             fd.write(f'{param_dict};{hashed_param_name}\n')
     return prob
