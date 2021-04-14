@@ -5,8 +5,8 @@ sys.path.append('./src/events')
 sys.path.append('./src/probability')
 import argparse
 from probability.functions import ic_params_nsi
-from data.processer import generate_probabilities, get_Etrue, train_energy_resolution, get_probabilities
-from event_processing import list_of_params_nsi
+from IC.processer import generate_probabilities, get_Etrue, train_energy_resolution, get_probabilities
+from IC.event_processing import list_of_params_nsi
 import numpy as np
 import time
 import pandas as pd
