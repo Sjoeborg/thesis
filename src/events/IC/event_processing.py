@@ -202,10 +202,16 @@ def get_deltachi(H1_list_normalized,H0_normalized,y_range,x_range, delta_T, sigm
     sigma_b = sigma[1]
     sigma_g = delta_T
     f = f
-    sigma_syst = f*IC_observed#f*np.sum(IC_observed, axis=0)
+    if np.ndim(H1_list_normalized) != 3:
+        data = np.sum(IC_observed, axis=0)
+    elif H1_list_normalized.shape[2] == 13: 
+        data = np.sum(IC_observed, axis=1)
+    else:
+        data = IC_observed  
+    sigma_syst = f*data
     x0=x0
-    chisq_H0, a_H0 = perform_chisq(H0_normalized,IC_observed,sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
-    chisq_H1_list  = np.array([perform_chisq(H1_norm, IC_observed,sigma_syst=sigma_syst,z=zreco, sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
+    chisq_H0, a_H0 = perform_chisq(H0_normalized,data,sigma_syst=sigma_syst,z=zreco,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g , x0=x0)
+    chisq_H1_list  = np.array([perform_chisq(H1_norm, data,sigma_syst=sigma_syst,z=zreco, sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1_norm in H1_list_normalized])
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)#chisq_H1_list - chisq_H0
 
     best_fit_index = np.argmin(delta_chi)
