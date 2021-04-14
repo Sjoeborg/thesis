@@ -11,6 +11,7 @@ import pandas as pd
 from PINGU.importer import *
 from PINGU.processer import *
 from PINGU.main import get_all_events
+from DC.processer import get_hist
 from functions import dc_params_nsi
 from scipy.stats import chi2
 from scipy.optimize import minimize
@@ -65,39 +66,37 @@ def return_precomputed(pid,ndim,params, nsi=False, quick=True):
     computed_params = params[mask]
     return computed_params
 
-def chisq(params,events, data, background,z,sigma_a, sigma_b, sigma_g, sigma_syst):
+def chisq(params,events, data,z,sigma_a, sigma_b, sigma_g, sigma_syst):
     z_0 = -np.median(z)
-    if len(params) == 4:
-        a,c,b, g = params
-        S_th = a*(1+b*(z[0:-1]+z_0)+g)*events  + c*background
+    if len(params) == 3:
+        a,b, g = params
+        S_th = a*(1+b*(z[0:-1]+z_0)+g)*events
         penalty = (1-a)**2/sigma_a**2 + b**2 / sigma_b**2 + g**2 /sigma_g**2
-    elif len(params) == 3:
-        a,c,b = params
-        S_th = a*(1+b*(z[0:-1]+z_0))*events + c*background
-        penalty = (1-a)**2/sigma_a**2 + b**2 / sigma_b**2 
     elif len(params) == 2:
-        a,c = params
-        S_th = a*events + c*background
+        a,b = params
+        S_th = a*(1+b*(z[0:-1]+z_0))*events
+        penalty = (1-a)**2/sigma_a**2 + b**2 / sigma_b**2 
+    elif len(params) == 1:
+        a = params
+        S_th = a*events 
         penalty = (1-a)**2/sigma_a**2
     
     chi2= np.sum((S_th - data)**2/(data + sigma_syst**2))+ penalty
     return chi2
 
-def perform_chisq(events, data,background,sigma_syst, z = np.linspace(-1,1,9), sigma_a=0.25, sigma_b=None, sigma_g =None, x0=[1,1]):
-    res = minimize(fun=chisq, x0=x0, args=(events,data, background, z,sigma_a, sigma_b, sigma_g,sigma_syst), method='Nelder-Mead',options={'maxiter': 1e5, 'maxfev':1e5})
+def perform_chisq(events, data,sigma_syst, z = np.linspace(-1,1,9), sigma_a=0.25, sigma_b=None, sigma_g =None, x0=[1,1]):
+    res = minimize(fun=chisq, x0=x0, args=(events,data, z,sigma_a, sigma_b, sigma_g,sigma_syst), method='Nelder-Mead',options={'maxiter': 1e5, 'maxfev':1e5})
     assert res.success, res
     return res.fun, res.x
 
-def get_deltachi(H1_list,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], z_range=None):
+def get_deltachi(H1_list,H0,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], z_range=None):
     sigma_a = sigma[0]
     sigma_b = sigma[1]
     sigma_g = delta_T
-    data = np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_events'),get_hist(events2018_DC().query(f'pid==1'), 'count_events')])
-    background =np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_background'),get_hist(events2018_DC().query(f'pid==1'), 'count_background')])
-    sigma_syst = f * np.array([get_hist(events2018_DC().query(f'pid==0'), 'abs_uncert'),get_hist(events2018_DC().query(f'pid==1'), 'abs_uncert')])
-    chisq_H1_list  = np.array([perform_chisq(H1, data, background,z=zbins_2018, sigma_syst=sigma_syst,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1 in H1_list])
+    data = H0
+    sigma_syst = f * H0
+    chisq_H1_list  = np.array([perform_chisq(H1, data,z=zbins_2018, sigma_syst=sigma_syst,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1 in H1_list])
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)
-
     best_fit_index = np.argmin(delta_chi)
     
     if z_range is not None:
