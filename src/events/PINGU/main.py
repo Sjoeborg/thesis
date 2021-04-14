@@ -41,13 +41,11 @@ def get_events(Ebin,zbin,params,pid,nsi):
             Pm = get_probabilities_PINGU('m', flavor_to, Ebin,zbin,params,anti=False,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
         except KeyError:
             Pm = generate_probabilities_PINGU('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=False, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
-        if not no_osc:
-            rate_weight[mask] = binned_df[mask]['weight'] * (m_flux*Pm + e_flux*Pe)
-        else:
-            if flavor_to == 'e':
-                rate_weight[mask] = binned_df[mask]['weight'] * e_flux
-            elif flavor_to == 'm':
-                rate_weight[mask] = binned_df[mask]['weight'] * m_flux
+
+        if flavor_to == 'e':
+            rate_weight[mask] = binned_df[mask]['weight'] * e_flux
+        elif flavor_to == 'm':
+            rate_weight[mask] = binned_df[mask]['weight'] * m_flux
 
     for flavor_to, mask in anti_masks.items():
         Etrue = binned_df[mask]['true_energy'].values
@@ -64,18 +62,15 @@ def get_events(Ebin,zbin,params,pid,nsi):
         except KeyError:
             Pmbar = generate_probabilities_PINGU('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=True, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
         
-        if not no_osc:
-            rate_weight[mask] = binned_df[mask]['weight'] * (mbar_flux*Pmbar + ebar_flux*Pebar)
-        else:
-            if flavor_to == 'e':
-                rate_weight[mask] = binned_df[mask]['weight'] * ebar_flux
-            elif flavor_to == 'm':
-                rate_weight[mask] = binned_df[mask]['weight'] * mbar_flux
+        if flavor_to == 'e':
+            rate_weight[mask] = binned_df[mask]['weight'] * ebar_flux
+        elif flavor_to == 'm':
+            rate_weight[mask] = binned_df[mask]['weight'] * mbar_flux
     
     binned_df["rate_weight"] = rate_weight
     return np.sum(binned_df["rate_weight"])
 
 
-def get_all_events(params, pid, nsi, no_osc=False):
-    result = [get_events(Ebin,zbin,params,pid,nsi,no_osc) for Ebin in range(8) for zbin in range(8)]
+def get_all_events(params, pid, nsi):
+    result = [get_events(Ebin,zbin,params,pid,nsi) for Ebin in range(8) for zbin in range(8)]
     return np.array(result).reshape(8,8)
