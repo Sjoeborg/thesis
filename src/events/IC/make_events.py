@@ -6,11 +6,11 @@ if __name__ == '__main__':
     sys.path.append('./src/probability')
 import numpy as np
 import pandas as pd
-from importer import *
-from processer import *
-from event_processing import *
-from events.main import sim_events
-from probability.functions import ic_params_nsi, ic_params
+from IC.importer import *
+from IC.processer import *
+from IC.event_processing import *
+from IC.main import sim_events
+from functions import ic_params_nsi, ic_params
 import pickle
 import argparse
 parser = argparse.ArgumentParser()
