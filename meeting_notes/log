@@ -462,3 +462,6 @@ Bidraget från m fortsätter upp för höga E, när det egentligen ska minska.
 Borde jag inte ha separata normeringsparametrar för tracks och cascades? Min deltachi blir ganska mycket sämre då, vilket jag tycker är konstigt.
 Just nu optimeras ju en normeringsparameter för båda pidsen.
 Att normera mot H0/noosc ger annorlunda kurva, men sämre. Normering mot H0 ger bäst resultat, men fortfarande sämre än utan normering
+
+15 Apr 
+IC behöver en prior på e' för att kunna se något där.

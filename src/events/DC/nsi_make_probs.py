@@ -21,7 +21,7 @@ parser.add_argument('-emtN', default=10, type=int)
 parser.add_argument('-s', default = 0, type=int)
 parser.add_argument('-sT', default = 1, type=int)
 parser.add_argument('-tracks', action='store_true')
-parser.add_argument('-nsi', action='store_false')
+parser.add_argument('-nonsi', action='store_false')
 parser.add_argument('-v', action='store_true')
 parser.add_argument('-Ndim', default=4, type=int)
 args = parser.parse_args()
@@ -29,8 +29,9 @@ args = parser.parse_args()
 
 def precompute_probs(args_tuple, nsi=True):
     i,j,params = args_tuple
-    get_events(Ebin=i,zbin=j,params=params,pid=1,nsi=args.nsi, no_osc=False)
-    get_events(Ebin=i,zbin=j,params=params,pid=0,nsi=args.nsi, no_osc=False)
+    res_track = get_events(Ebin=i,zbin=j,params=params,pid=1,nsi=args.nonsi, no_osc=False)
+    res_cascade =get_events(Ebin=i,zbin=j,params=params,pid=0,nsi=args.nonsi, no_osc=False)
+    return np.array([res_cascade, res_track])
 
 
 if __name__ == '__main__':
@@ -45,21 +46,27 @@ if __name__ == '__main__':
     
     if emt_range is not None:
         print(f'Precomputing DC {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]},',
-                's24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},',
-                '{emm_range.max()},{len(emm_range)}), emt({emt_range.min()},{emt_range.max()},{len(emt_range)}),',
-                'for pid {pid}. s={args.s+1}/{args.sT}')
+                f's24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},',
+                f'{emm_range.max()},{len(emm_range)}), emt({emt_range.min()},{emt_range.max()},{len(emt_range)}),',
+                f'for pid {pid}. s={args.s+1}/{args.sT}')
     else:
         print(f'Precomputing DC {args.Ndim}dim probabilities for dm_41 ={param_list[0]["dm_41"]},',
-                's24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},',
-                '{emm_range.max()},{len(emm_range)}), for pid {pid}. s={args.s+1}/{args.sT}')
+                f's24({s24_range.min()},{s24_range.max()},{len(s24_range)}), emm({emm_range.min()},',
+                f'{emm_range.max()},{len(emm_range)}), for pid {pid}. s={args.s+1}/{args.sT}')
     
     bins = [(i,j) for i in range(8) for j in range(8)]
     split_array=  np.array_split(bins,args.sT)[args.s]
     para = [(*b,p) for b in split_array.tolist() for p in param_list]
 
     start = time.time()
-    for i, _ in enumerate(map(precompute_probs, para), 1):
-        print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(para)))
-        print(np.round((time.time() - start)/3600,1))
+    result = []
+    
+    for i, res in enumerate(map(precompute_probs, para), 1):
+        #print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(para)))
+        #print(np.round((time.time() - start)/3600,1))
+        result.append(res)
+    result = np.array(result).reshape(-1,len(split_array),2)
+    result = np.swapaxes(result, 0, 1)
+    result = np.swapaxes(result, 0, 2) #(pid, params, 1)
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
     
