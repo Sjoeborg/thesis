@@ -464,4 +464,6 @@ Just nu optimeras ju en normeringsparameter för båda pidsen.
 Att normera mot H0/noosc ger annorlunda kurva, men sämre. Normering mot H0 ger bäst resultat, men fortfarande sämre än utan normering
 
 15 Apr 
-IC behöver en prior på e' för att kunna se något där.
+IC behöver en prior på e' för att kunna se något där. Kommer inte längre på IC utan prior på emm.
+Har gjort emt, emm individuellt för PINGU, och en plot med båda.
+Väntar på sims för DC för att kunna göra en ensam emm och en båda.
