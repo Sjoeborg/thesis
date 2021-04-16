@@ -7,7 +7,7 @@ import pandas as pd
 from PINGU.importer import MC_PINGU
 from PINGU.processer import get_binned_PINGU, generate_probabilities_PINGU, get_probabilities_PINGU
 from DC.processer import get_interpolators_DC, get_flux
-from functions import dc_params_nsi,dc_params, nufit_params
+from functions import dc_params_nsi,dc_params, nufit_params_nsi
 df = MC_PINGU()
 interp_flux,_ = get_interpolators_DC()
 

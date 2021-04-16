@@ -51,8 +51,10 @@ dc_params.update({'theta_12': 0.5839958715755919, 'theta_23': 0.8054035005744429
 dc_params_nsi = dc_params.copy()
 dc_params_nsi.update({'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
 
-nufit_params = param_dict.copy() #Nufit 2020 with SK
-nufit_params.update({'theta_12': 33.44*np.pi/180, 'theta_23': 49.2*np.pi/180, 'theta_13': 8.57*np.pi/180, 'dm_21': 7.42e-5, 'dm_31': 2.517e-3})
+nufit_params_nsi = param_dict.copy() #Nufit 2020 with SK
+nufit_params_nsi.update({'theta_12': 33.44*np.pi/180, 'theta_23': 49.2*np.pi/180, 'theta_13': 8.57*np.pi/180, 'dm_21': 7.42e-5, 'dm_31': 2.517e-3, 'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
+nufit_params_nsi_IO = param_dict.copy() #Nufit 2020 with SK
+nufit_params_nsi_IO.update({'theta_12': 33.45*np.pi/180, 'theta_23': 49.3*np.pi/180, 'theta_13': 8.60*np.pi/180, 'dm_21': 7.42e-5, 'dm_31': -2.498e-3 + 7.42e-5,'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
 #---- Mixing parameters and matrices -------
 def dm(first, second,params=param_dict): #dm_ij = dm_kj - dm_ki, dm_ij = -dm_ji
     if first == 1: # m_1j

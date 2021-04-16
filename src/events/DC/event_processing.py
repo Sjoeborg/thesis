@@ -118,15 +118,12 @@ def get_contour(deltachi, y_range,x_range, df):
 
     return x_range[x_cl90_index], x_range[x_cl99_index], y_range[y_cl90_index], y_range[y_cl99_index]
 
-def list_of_params_nsi(dicta,s24_range, emm_range, emt_range=None):
+def list_of_params_nsi(dicta, dm31_range, th23_range, emm_range, emt_range):
     def update_dict(dict,p):
         dict2 = dicta.copy()
         dict2.update(p)
         return dict2
-    if emt_range is None:
-        dict_list = [update_dict(dicta,{'e_mm':mm,'theta_24':np.arcsin(np.sqrt(s24))/2}) for mm in emm_range for s24 in s24_range]
-    else:
-        dict_list = [update_dict(dicta,{'e_mm':mm,'e_mt':mt,'theta_24':np.arcsin(np.sqrt(s24))/2}) for mt in emt_range for mm in emm_range for s24 in s24_range]
+    dict_list = [update_dict(dicta,{'e_mm':mm,'e_mt':mt,'theta_23':th23, 'dm_31':dm31}) for mt in emt_range for mm in emm_range for th23 in th23_range for dm31 in dm31_range]
     return dict_list
 def return_precomputed_nsi(pid,ndim,params):
     params= np.array(params)
@@ -144,7 +141,7 @@ def is_precomputed_nsi(pid,ndim, dict, check=False):
                     if check:
                         return False
                     else:
-                        raise FileNotFoundError(f'P{flavor_from}{flavor_to} {ndim}gen for pid {pid}, dm={dict["dm_41"]}, s24={np.sin(2*dict["theta_24"])**2}, e_mm={dict["e_mm"]},e_mt={dict["e_mt"]}, not found')
+                        raise FileNotFoundError(f'P{flavor_from}{flavor_to} {ndim}gen for pid {pid}, dm={dict["dm_31"]}, th23={dict["theta_23"]}, e_mm={dict["e_mm"]},e_mt={dict["e_mt"]}, not found')
                 return True
 if __name__ == '__main__':
     pass
