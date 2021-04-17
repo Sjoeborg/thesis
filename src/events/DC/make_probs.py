@@ -75,7 +75,7 @@ if __name__ == '__main__':
                 f'th23({th23_range.min()},{th23_range.max()},{len(th23_range)}), emm({emm_range.min()},',
                 f'{emm_range.max()},{len(emm_range)}), emt({emt_range.min()},{emt_range.max()},{len(emt_range)}),',
                 f' s={args.s+1}/{args.sT}')
-    '''
+                
     bins = [(i,j) for i in range(8) for j in range(8)]
     split_array=  np.array_split(bins,args.sT)[args.s]
     para = [(*b,p) for b in split_array.tolist() for p in param_list]
@@ -91,5 +91,4 @@ if __name__ == '__main__':
     #result = np.swapaxes(result, 0, 1)
     #result = np.swapaxes(result, 0, 2) #(pid, params, 1)
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
-    '''
     
