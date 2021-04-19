@@ -29,6 +29,7 @@ parser.add_argument('-s', default = 0, type=int)
 parser.add_argument('-sT', default = 1, type=int)
 parser.add_argument('-nonsi', action='store_false')
 parser.add_argument('-IO', action='store_true')
+parser.add_argument('-N', default=13, type=int)
 args = parser.parse_args()
 
 
