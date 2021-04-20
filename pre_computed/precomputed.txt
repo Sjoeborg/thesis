@@ -78,7 +78,7 @@ emt_range = np.linspace(-3e-2,3e-2,10)
 ndim=3
 dm_41=0.93
 
-H1_DC_1_1x1x10_tau_nsi.p
+H1_DC_1_1x10_tau_nsi.p
 emm_range = [0]
 s24_range = [0]
 emt_range = np.linspace(-3e-2,3e-2,10)
