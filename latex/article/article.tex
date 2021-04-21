@@ -5,6 +5,12 @@
 \newcommand{\emt}{\ensuremath{\epsilon_{\mu\tau}}}
 \newcommand{\ett}{\ensuremath{\epsilon_{\tau\tau}}}
 \newcommand{\ep}{\ensuremath{\epsilon^\prime}}
+\renewcommand{\ne}{\nu_e}
+\newcommand{\nm}{\nu_\mu}
+\newcommand{\nt}{\nu_\tau}
+\newcommand{\ane}{\bar\nu_e}
+\newcommand{\anm}{\bar\nu_\mu}
+\newcommand{\ant}{\bar\nu_\tau}
 \usepackage{physics,amsmath, amsfonts, siunitx, amssymb, graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
@@ -63,11 +69,14 @@ Given a Monte Carlo simulation with weights $w_{k\beta}$, we can construct the e
 \end{align}
 where $C_{k\beta}$ is the correction factor from the detector systematic uncertainty and $\phi_\beta^\text{det}$ is defined as Eq.~\ref{eq:propFlux}. We have now substituted the effect of the Gaussian smearing 
 by treating the reconstructed and true quantities as a migration matrix. 
+
 \subsection{PINGU}\label{ch:PINGUmethod}
 The methodology behind the PINGU simulations are the same as with our DeepCore study~\ref{ch:DCmethod}. We use the public MC~\cite{PINGUdata}, which allows us to construct the event count as in Eq.~\ref{eq:MCevents}.
+However, since no detector systematics is yet modelled for PINGU, the correction factors $C_{ijk}$ are all unity.
 As with the DeepCore data, the PINGU MC is divided into eight 
 $\log_{10}E^{reco} \in [0.75,1.75]$ bins, and eight $\zreco \in [-1,1]$ bins for both track- and cascade-like events. 
 We generate "data" by predicting the event rates at PINGU with the following best-fit parameters from~\cite{nufit}, except for the CP-violating phase which is set to zero for simplicity.
+
 \begin{align}\label{eq:PINGUparams}
     &\Delta m^2_{21} =  \SI{7.42e-5}{\electronvolt^2},\hspace{0.5em} \Delta m^2_{31} =  \SI{2.517e-3}{\electronvolt^2}, \nonumber \\
     &\theta_{12} = \SI{33.44}{\degree},\hspace{1em} \theta_{13} = \SI{8.57}{\degree},\hspace{1em} \theta_{23} = \SI{49.2}{\degree}, \hspace{1em} \delta_\text{CP} = 0\,.
@@ -143,20 +152,36 @@ number of expected events at the detector, and illustrates the expected sensitiv
     parameters for systematic error and without. The black lines show the 90\% credibility region from~\cite{demidov}.}\label{fig:DC_chisq}
  \end{figure}
 
-For the joint analysis, we follow the parameter goodness-of-fit prescription~\cite{maltoni2003} and construnt the joint $\chi^2$ as 
+For the joint analysis, we follow the parameter goodness-of-fit prescription~\cite{maltoni2003} and construct the joint $\chi^2$ as 
 \begin{align}
-    \chi^2_{joint} = \chi^2_{IC} + \chi^2_{DC} + \chi^2_{P} - \chi^2_{IC,min} + \chi^2_{DC,min} + \chi^2_{P,min}\,
+    \chi^2_{joint} = \chi^2_{IC} + \chi^2_{DC} + \chi^2_{P} - \chi^2_{IC,min} - \chi^2_{DC,min} - \chi^2_{P,min}\,
 \end{align}
 with test statistic $\chi^2_{joint,min}$.
 
 \begin{figure}[!tb]
     \begin{center}
+       \includegraphics[width=0.4\linewidth]{figures/emm_deltachi.pdf}
+    \end{center}
+    \caption{}\label{fig:emm_deltachi}
+ \end{figure}
+
+ \begin{figure}[!tb]
+    \begin{center}
+       \includegraphics[width=0.4\linewidth]{figures/emm_emp_contour.pdf}
+    \end{center}
+    \caption{}\label{fig:emm_emp_contour}
+ \end{figure}
+At $90\%$ CL:
+PINGU: $-0.046 < \emm < 0.041$
+DC: $-0.045 < \emm < 0.041$
+joint: $-0.038 < \emm < 0.033$
+\begin{figure}[!tb]
+    \begin{center}
        \includegraphics[width=0.4\linewidth]{figures/track_flux_ratio.pdf}
        \includegraphics[width=0.4\linewidth]{figures/cascade_flux_ratio.pdf}
-       Cascade-like events
     \end{center}
-    \caption{Ratio of detector level NSI to SI $\nu_\mu + \bar\nu_\mu$ fluxes. Dotted (dashed) lines show the region in which 90\% of the 
-    DeepCore/PINGU (IceCube) data are contained}\label{fig:flux_ratio}
+    \caption{Ratio of NSI to SI atmospheric fluxes at detector level. Dotted (dashed) lines show the region in which 99\% of the 
+    DeepCore (IceCube) MC events are contained.}\label{fig:flux_ratio}
  \end{figure}
 \bibliographystyle{elsarticle-num}
 \bibliography{article}

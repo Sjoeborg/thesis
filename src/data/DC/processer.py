@@ -47,9 +47,9 @@ def interpolate_flux_DC(recompute=False):
     colnames = ['m_flux', 'mbar_flux', 'e_flux', 'ebar_flux']
     if not recompute:
         try:
-            inter_df = pickle.load(open('./pre_computed/flux_interpolator_DC.p','rb'))
+            inter_df = pickle.load(open('./pre_computed/flux_interpolator.p','rb'))
         except:
-            raise FileNotFoundError('File ´flux_interpolator_DC.p´ not present in ´./pre_computed/´. Rerun with recompute = True to generate it.')
+            interpolate_flux_DC(recompute=True)
     else:
         df = get_flux_df_DC()
         E = df.GeV
@@ -66,7 +66,7 @@ def interpolate_flux_DC(recompute=False):
             interp_list.append([f_avg])
 
         inter_df = pd.DataFrame(np.transpose(interp_list), columns=colnames)
-        pickle.dump(inter_df,open('./pre_computed/flux_interpolator_DC.p','wb'))
+        pickle.dump(inter_df,open('./pre_computed/flux_interpolator.p','wb'))
     return inter_df
 
 

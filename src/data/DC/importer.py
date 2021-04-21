@@ -174,6 +174,8 @@ def get_flux_df_DC():
     new_rightmost['z_min'] = 1
     new_rightmost['z_max'] = 1.1
     df = pd.concat([new_leftmost,df,new_rightmost])
+    from IC.importer import extrapolate_flux
+    df = extrapolate_flux(df)
     return df
 
 if __name__ == '__main__':
