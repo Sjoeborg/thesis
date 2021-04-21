@@ -50,28 +50,28 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
         try:
             Pmm = get_probabilities('m', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
         except KeyError:
-            Pmm = generate_probabilitiesOLD('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
+            Pmm = generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
             #gather_specific_prob('Pmm',npoints,E_index,z_index,update=True,ndim=ndim)
             #Pmm = get_probabilities('m', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
 
         try:
             P_amam = get_probabilities('m', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
         except KeyError:
-            P_amam = generate_probabilitiesOLD('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
+            P_amam = generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
             #gather_specific_prob('Pamam',npoints,E_index,z_index,update=True,ndim=ndim)
             #P_amam = get_probabilities('m', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
         
         try:
             Pem = get_probabilities('e', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
         except KeyError:
-            Pem = generate_probabilitiesOLD('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
+            Pem = generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
             #gather_specific_prob('Pem',npoints,E_index,z_index,update=True,ndim=ndim)
             #Pem = get_probabilities('e', 'm', E_index,z_index,params,False,npoints,ndim=ndim)
 
         try:
             P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
         except KeyError:
-            P_aeam=generate_probabilitiesOLD('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
+            P_aeam=generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
             #gather_specific_prob('Paeam',npoints,E_index,z_index,update=True,ndim=ndim)
             #P_aeam = get_probabilities('e', 'm', E_index,z_index,params,True,npoints,ndim=ndim)
 
@@ -79,14 +79,14 @@ def get_events(E_index, z_index, alpha, npoints, params=ic_params, spectral_shif
             try:
                 Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints,ndim=ndim)
             except KeyError:
-                Pmt=generate_probabilitiesOLD('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
+                Pmt=generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim)
                 #gather_specific_prob('Pmt',npoints,E_index,z_index,update=True,ndim=ndim)
                 #Pmt = get_probabilities('m', 't', E_index,z_index,params,False,npoints,ndim=ndim)
 
             try:
                 P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints,ndim=ndim)
             except KeyError:
-                P_amat=generate_probabilitiesOLD('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
+                P_amat=generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim)
                 #gather_specific_prob('Pamat',npoints,E_index,z_index,update=True,ndim=ndim)
                 #P_amat = get_probabilities('m', 't', E_index,z_index,params,True,npoints,ndim=ndim)
 

@@ -84,3 +84,7 @@ s24_range = [0]
 emt_range = np.linspace(-3e-2,3e-2,10)
 ndim=3
 dm_41=0.93
+
+H1_IC_N13_10x10x1x9.p
+emm_range=[0]
+emt_range=np.linspace(-1e-2,1e-2,10)

@@ -143,6 +143,21 @@ number of expected events at the detector, and illustrates the expected sensitiv
     parameters for systematic error and without. The black lines show the 90\% credibility region from~\cite{demidov}.}\label{fig:DC_chisq}
  \end{figure}
 
+For the joint analysis, we follow the parameter goodness-of-fit prescription~\cite{maltoni2003} and construnt the joint $\chi^2$ as 
+\begin{align}
+    \chi^2_{joint} = \chi^2_{IC} + \chi^2_{DC} + \chi^2_{P} - \chi^2_{IC,min} + \chi^2_{DC,min} + \chi^2_{P,min}\,
+\end{align}
+with test statistic $\chi^2_{joint,min}$.
+
+\begin{figure}[!tb]
+    \begin{center}
+       \includegraphics[width=0.4\linewidth]{figures/track_flux_ratio.pdf}
+       \includegraphics[width=0.4\linewidth]{figures/cascade_flux_ratio.pdf}
+       Cascade-like events
+    \end{center}
+    \caption{Ratio of detector level NSI to SI $\nu_\mu + \bar\nu_\mu$ fluxes. Dotted (dashed) lines show the region in which 90\% of the 
+    DeepCore/PINGU (IceCube) data are contained}\label{fig:flux_ratio}
+ \end{figure}
 \bibliographystyle{elsarticle-num}
 \bibliography{article}
 \end{document}

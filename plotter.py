@@ -5,7 +5,7 @@ from analytical import P_an
 from functions import ic_params,r_earth, mass_dict
 import matplotlib
 from multiprocessing import Pool
-from IC.main import get_interpolators, get_flux
+from DC.main import get_interpolators_DC, get_flux
 matplotlib.rcParams['mathtext.fontset'] = 'cm'
 matplotlib.rcParams['font.family'] = 'STIXGeneral'
 matplotlib.rc('text', usetex=True)
@@ -97,9 +97,11 @@ def _oscillogram(p_list):
     '''
     p = Pool() 
     res = p.starmap(wrap, p_list)
-    Pmm = np.array(res)[:,1,:]
     p.close()
-    return Pmm
+    Pxm = np.array(res)[:,1,:]
+    Pxe = np.array(res)[:,0,:]
+    Pxt = np.array(res)[:,2,:]
+    return Pxe,Pxm,Pxt
 
 def oscillogram(E_range, z_range, params, nsi=False):
     '''
@@ -118,7 +120,7 @@ def oscillogram(E_range, z_range, params, nsi=False):
     Paeam = _oscillogram(lista_ebar)
 
     
-    interp_flux, interp_aeff, energy_resolution_models = get_interpolators()
+    interp_flux, _ = get_interpolators_DC()
     E_mesh, z_mesh = np.meshgrid(E_range, z_range)
     flux_m = get_flux('m',E_mesh,z_mesh,interp_flux)
     flux_e = get_flux('e',E_mesh,z_mesh,interp_flux)
@@ -131,7 +133,7 @@ def oscillogram(E_range, z_range, params, nsi=False):
     return 1-flux_final/flux_initial
 
 
-def nsi_oscillogram(E_range, z_range, params):
+def nsi_oscillogram(E_range, z_range, params, only_m=True):
     lista_mbar_nsi = [('m', E_range, z, 3, True, params,True) for z in z_range]
     lista_ebar_nsi = [('e', E_range, z, 3, True, params,True) for z in z_range]
     lista_m_nsi = [('m', E_range, z, 3, False, params,True) for z in z_range]
@@ -142,28 +144,36 @@ def nsi_oscillogram(E_range, z_range, params):
     lista_m = [('m', E_range, z, 3, False, params,False) for z in z_range]
     lista_e = [('e', E_range, z, 3, False, params,False) for z in z_range]
 
-    Pmm_nsi = _oscillogram(lista_m_nsi)
-    Pem_nsi = _oscillogram(lista_e_nsi)
-    Pamam_nsi = _oscillogram(lista_mbar_nsi)
-    Paeam_nsi = _oscillogram(lista_ebar_nsi)
+    Pmx_nsi = _oscillogram(lista_m_nsi)
+    Pex_nsi = _oscillogram(lista_e_nsi)
+    Pamax_nsi = _oscillogram(lista_mbar_nsi)
+    Paeax_nsi = _oscillogram(lista_ebar_nsi)
 
-    Pmm = _oscillogram(lista_m)
-    Pem = _oscillogram(lista_e)
-    Pamam = _oscillogram(lista_mbar)
-    Paeam = _oscillogram(lista_ebar)
+    Pmx = _oscillogram(lista_m)
+    Pex = _oscillogram(lista_e)
+    Pamax = _oscillogram(lista_mbar)
+    Paeax = _oscillogram(lista_ebar)
     
-    interp_flux, interp_aeff, energy_resolution_models = get_interpolators()
+    interp_flux, _ = get_interpolators_DC()
     E_mesh, z_mesh = np.meshgrid(E_range, z_range)
     flux_m = get_flux('m',E_mesh,z_mesh,interp_flux)
     flux_e = get_flux('e',E_mesh,z_mesh,interp_flux)
     flux_mbar = get_flux('mbar',E_mesh,z_mesh,interp_flux)
     flux_ebar = get_flux('ebar',E_mesh,z_mesh,interp_flux)
 
-    flux_final =  flux_m*Pmm + flux_e*Pem
-    flux_final_nsi = flux_m*Pmm_nsi + flux_e*Pem_nsi
+    if only_m:
+        flux_final =  flux_m*Pmx[1] + flux_e*Pex[1]
+        flux_final_nsi = flux_m*Pmx_nsi[1] + flux_e*Pex_nsi[1]
 
-    flux_final_bar =  flux_mbar*Pamam + flux_ebar*Paeam
-    flux_final_nsi_bar = flux_mbar*Pamam_nsi + flux_ebar*Paeam_nsi
+        flux_final_bar =  flux_mbar*Pamax[1] + flux_ebar*Paeax[1]
+        flux_final_nsi_bar = flux_mbar*Pamax_nsi[1] + flux_ebar*Paeax_nsi[1]
+    
+    else:
+        flux_final =  flux_m*(Pmx[0] + Pmx[2]) + flux_e*(Pex[0] + Pex[2])
+        flux_final_nsi = flux_m*(Pmx_nsi[0] + Pmx_nsi[2]) + flux_e*(Pex_nsi[0] + Pex_nsi[2])
+
+        flux_final_bar =  flux_mbar*(Pamax[0] + Pamax[2]) + flux_ebar*(Paeax[0] + Paeax[2])
+        flux_final_nsi_bar = flux_mbar*(Pamax_nsi[0] + Pamax_nsi[2]) + flux_ebar*(Paeax_nsi[0] + Paeax_nsi[2])
 
     return flux_final_nsi/flux_final, flux_final_nsi_bar/flux_final_bar, (flux_final_nsi + flux_final_nsi_bar)/(flux_final+ flux_final_bar)
 
