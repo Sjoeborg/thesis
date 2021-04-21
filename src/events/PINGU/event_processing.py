@@ -8,8 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import pandas as pd
-from PINGU.importer import *
-from PINGU.processer import *
+from PINGU.processer import get_probabilities_PINGU
 from PINGU.main import get_all_events
 from DC.processer import get_hist
 from functions import dc_params_nsi
@@ -89,21 +88,16 @@ def perform_chisq(events, data,sigma_syst, z = np.linspace(-1,1,9), sigma_a=0.25
     assert res.success, res
     return res.fun, res.x
 
-def get_deltachi(H1_list,H0,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], z_range=None):
+def get_deltachi(H1_list,H0, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0]):
     sigma_a = sigma[0]
     sigma_b = sigma[1]
     sigma_g = delta_T
     data = H0
     sigma_syst = f * H0
-    chisq_H1_list  = np.array([perform_chisq(H1, data,z=zbins_2018, sigma_syst=sigma_syst,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1 in H1_list])
+    chisq_H1_list  = np.array([perform_chisq(H1, data,z=zreco, sigma_syst=sigma_syst,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1 in H1_list])
     delta_chi = chisq_H1_list - np.min(chisq_H1_list)
     best_fit_index = np.argmin(delta_chi)
-    
-    if z_range is not None:
-        deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range),len(z_range))
-    else:
-        deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range))
-    return chisq_H1_list, best_fit_index, np.min(chisq_H1_list)#, chisq_H0
+    return chisq_H1_list, best_fit_index
 
 def get_contour(deltachi, y_range,x_range, df):
     cl_99_bool = np.where(deltachi < chi2.ppf(q = 0.99,df=df),True,False)
