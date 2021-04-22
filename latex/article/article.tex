@@ -183,6 +183,53 @@ joint: $-0.038 < \emm < 0.033$
     \caption{Ratio of NSI to SI atmospheric fluxes at detector level. Dotted (dashed) lines show the region in which 99\% of the 
     DeepCore (IceCube) MC events are contained.}\label{fig:flux_ratio}
  \end{figure}
+
+
+ \newpage
+\begin{tabular}{p{55mm}p{55mm}p{55mm}}
+   DeepCore (2017)
+      \begin{itemize}
+         \item[$\checkmark$] Honda atmospheric fluxes
+         \item[$\times$] Only look at tracks and $\emt$
+         \vspace{1em}  
+         \item[$\times$] DC Monte Carlo from an older dataset 
+         \item[$\times$] 8 E bins from $\SI{6.3}{\electronvolt^2}$ to $\SI{56}{\electronvolt^2}$
+         \item[$\times$] 8 z bins from -1 to 0 
+         \item[$\times$] Use "Overall" and "relative $\ne$ to $\nm$" normalization
+         \item[$\times$] Prior on spectral index
+         \item[$\times$] No zenith angle normalization
+         \item[$\checkmark$] No priors on $\Delta m_{31}^2, \theta_{23},\theta_{13}$
+      \end{itemize} &
+    Demidov (2020) DC analysis
+      \begin{itemize}
+         \item[$\checkmark$] Honda atmospheric fluxes
+         \item[$\checkmark$] Looks at tracks + cascades for $\emt$ and $\ett$
+         \item[$\checkmark$] Data and Monte Carlo from DC 2018
+         \item[$\checkmark$] 8 E bins from $\SI{5.6}{\electronvolt^2}$ to $\SI{56}{\electronvolt^2}$
+         \item[$\checkmark$] 8 z bins from -1 to 1
+         \item[$\times$] Use "Overall" and "relative $\ne$ to $\nm$" normalization
+         \item[$\times$] Prior on spectral index
+         \item[$\times$] No zenith angle normalization
+         \item[$\checkmark$] No priors on $\Delta m_{31}^2, \theta_{23}$
+         \item[$\checkmark$] Fixes $\Delta m^2_{21}, \theta_{12}, \theta_{13}$
+         \item[$\times$] Uncertainty on hadron production in atmosphere
+         \item[$\times$] Uncertainty on neutrino nucleon cross section 
+      \end{itemize} &
+    Choubey et. al. PINGU analysis
+      \begin{itemize}
+         \item[$\checkmark$] Honda atmospheric fluxes
+         \item[$\times$] Only consider $\nm$ events
+         \vspace{1em} 
+         \item[$\times$] $A_\text{eff}$ and resolution from PINGU Letter of intent
+         \item[$\times$] 27 E bins from 2 to $\SI{101}{\electronvolt^2}$
+         \item[$\times$] 10 z bins from -1 to 0
+         \item[$\checkmark$] Flux normalization uncertainty of 20\%
+         \item[$\times$] Uncertanties in cross-section and spectral index 
+         \item[$\checkmark$] Zenith angle uncertainty of 5\% 
+         \item[$\times$] Priors on $\Delta m_{31}^2, \theta_{23},\theta_{13}$
+      \end{itemize} 
+\end{tabular}
+
 \bibliographystyle{elsarticle-num}
 \bibliography{article}
 \end{document}

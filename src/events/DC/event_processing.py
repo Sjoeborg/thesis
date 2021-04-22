@@ -88,23 +88,18 @@ def perform_chisq(events, data,background,sigma_syst, z = np.linspace(-1,1,9), s
     assert res.success, res
     return res.fun, res.x
 
-def get_deltachi(H1_list,y_range,x_range, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0], z_range=None):
+def get_deltachi(H1_list, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0]):
     sigma_a = sigma[0]
     sigma_b = sigma[1]
     sigma_g = delta_T
     data = np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_events'),get_hist(events2018_DC().query(f'pid==1'), 'count_events')])
     background =np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_background'),get_hist(events2018_DC().query(f'pid==1'), 'count_background')])
     sigma_syst = f * np.array([get_hist(events2018_DC().query(f'pid==0'), 'abs_uncert'),get_hist(events2018_DC().query(f'pid==1'), 'abs_uncert')])
-    chisq_H1_list  = np.array([perform_chisq(H1, data, background,z=zbins_2018, sigma_syst=sigma_syst,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1 in H1_list])
-    delta_chi = chisq_H1_list - np.min(chisq_H1_list)
+    chisq_H1_list  = np.array([perform_chisq(H1, data, background,z=zreco, sigma_syst=sigma_syst,sigma_a=sigma_a,sigma_b=sigma_b,sigma_g=sigma_g, x0=x0)[0] for H1 in H1_list])
 
-    best_fit_index = np.argmin(delta_chi)
+    best_fit_index = np.argmin(chisq_H1_list)
     
-    if z_range is not None:
-        deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range),len(z_range))
-    else:
-        deltachi_reshaped = delta_chi.reshape(len(y_range),len(x_range))
-    return chisq_H1_list, best_fit_index, np.min(chisq_H1_list)#, chisq_H0
+    return chisq_H1_list, best_fit_index
 
 def get_contour(deltachi, y_range,x_range, df):
     cl_99_bool = np.where(deltachi < chi2.ppf(q = 0.99,df=df),True,False)

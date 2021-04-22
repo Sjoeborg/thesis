@@ -103,12 +103,43 @@ def _oscillogram(p_list):
     Pxt = np.array(res)[:,2,:]
     return Pxe,Pxm,Pxt
 
-def oscillogram(E_range, z_range, params, nsi=False):
+def oscillogram(E_range, z_range, params):
     '''
-    fig, ax = plt.subplots(1, figsize=(8,6))
-    c=ax.pcolormesh(z_range, E_range,P,cmap='jet', shading='auto')
-    ax.set_yscale('log')
-    fig.colorbar(c, ax=ax)
+    Returns (Pex, Pmx, Paeax, Pamax)
+    '''
+    lista_mbar = [('m', E_range, z, 3, True, params,False) for z in z_range]
+    lista_ebar = [('e', E_range, z, 3, True, params,False) for z in z_range]
+    lista_m = [('m', E_range, z, 3, False, params,False) for z in z_range]
+    lista_e = [('e', E_range, z, 3, False, params,False) for z in z_range]
+
+    Pmx = _oscillogram(lista_m)
+    Pex = _oscillogram(lista_e)
+    Pamax = _oscillogram(lista_mbar)
+    Paeax = _oscillogram(lista_ebar)
+
+    return Pex, Pmx, Paeax, Pamax
+def nsi_oscillogram(E_range, z_range, params):
+    '''
+    Returns (Pex_nsi, Pmx_nsi, Paeax_nsi, Pamax_nsi)
+    '''
+    lista_mbar_nsi = [('m', E_range, z, 3, True, params,True) for z in z_range]
+    lista_ebar_nsi = [('e', E_range, z, 3, True, params,True) for z in z_range]
+    lista_m_nsi = [('m', E_range, z, 3, False, params,True) for z in z_range]
+    lista_e_nsi = [('e', E_range, z, 3, False, params,True) for z in z_range]
+
+    
+
+    Pmx_nsi = _oscillogram(lista_m_nsi)
+    Pex_nsi = _oscillogram(lista_e_nsi)
+    Pamax_nsi = _oscillogram(lista_mbar_nsi)
+    Paeax_nsi = _oscillogram(lista_ebar_nsi)
+
+    return Pex_nsi, Pmx_nsi, Paeax_nsi, Pamax_nsi
+
+
+def flux_oscillogram(E_range, z_range, params, nsi=False):
+    '''
+    Returns 1-flux_final/flux_initial for Pxm
     '''
     lista_mbar = [('m', E_range, z, 3, True, params,False) for z in z_range]
     lista_ebar = [('e', E_range, z, 3, True, params,False) for z in z_range]
@@ -133,7 +164,11 @@ def oscillogram(E_range, z_range, params, nsi=False):
     return 1-flux_final/flux_initial
 
 
-def nsi_oscillogram(E_range, z_range, params, only_m=True):
+def nsi_flux_oscillogram(E_range, z_range, params, only_m=True):
+    '''
+    Returns (flux_final/flux_initial, flux_bar_final/flux_bar_initial, flux_both_final/flux_both_initial)
+    for either only Pxm flux (only_m is True), or for only Pxe+Pxt flux (only_m is False)
+    '''
     lista_mbar_nsi = [('m', E_range, z, 3, True, params,True) for z in z_range]
     lista_ebar_nsi = [('e', E_range, z, 3, True, params,True) for z in z_range]
     lista_m_nsi = [('m', E_range, z, 3, False, params,True) for z in z_range]
