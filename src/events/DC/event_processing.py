@@ -11,7 +11,7 @@ import pandas as pd
 from DC.importer import *
 from DC.processer import *
 from DC.main import get_all_events
-from functions import dc_params_nsi
+from functions import dc_params_nsi, nufit_params_nsi_IO, nufit_params_nsi
 from scipy.stats import chi2
 from scipy.optimize import minimize
 Ereco = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
@@ -101,6 +101,7 @@ def get_deltachi(H1_list, delta_T, sigma = [0.25,0.15], f=0.09, x0=[1,0,0]):
     
     return chisq_H1_list, best_fit_index
 
+
 def get_contour(deltachi, y_range,x_range, df):
     cl_99_bool = np.where(deltachi < chi2.ppf(q = 0.99,df=df),True,False)
     cl_90_bool = np.where(deltachi < chi2.ppf(q = 0.90,df=df),True,False)
@@ -110,22 +111,61 @@ def get_contour(deltachi, y_range,x_range, df):
     x_cl99_index = get_boundary(cl_99_bool)
     y_cl99_index = np.linspace(0,len(x_cl99_index)-1,len(x_cl99_index)).astype('int')
 
-
     return x_range[x_cl90_index], x_range[x_cl99_index], y_range[y_cl90_index], y_range[y_cl99_index]
 
-def list_of_params_nsi(dicta, dm31_range, th23_range, emm_range, emt_range):
+
+def list_of_params_nsi(dicta, dm31_range, th23_range, ett_range, emt_range, eem_range, eet_range):
     def update_dict(dict,p):
         dict2 = dicta.copy()
         dict2.update(p)
         return dict2
-    dict_list = [update_dict(dicta,{'e_mm':mm,'e_mt':mt,'theta_23':th23, 'dm_31':dm31}) for mt in emt_range for mm in emm_range for th23 in th23_range for dm31 in dm31_range]
+    dict_list = [update_dict(dicta,{'e_ee':-tt,'e_em':eem,'e_et':eet,'e_mm':-tt,'e_mt':mt,'theta_23':th23, 'dm_31':dm31}) for eet in eet_range for eem in eem_range for mt in emt_range for tt in ett_range for th23 in th23_range for dm31 in dm31_range]
     return dict_list
+
+def get_param_list(dm31N,th23N, ett, ettN, emt, emtN, eem, eemN, eet, eetN, IO=False):
+    if IO is False:
+        dm31_range = np.linspace(2.435e-3,2.598e-3,dm31N-1)
+        th23_range = np.linspace(40.1*np.pi/180,51.7*np.pi/180,th23N-1)
+    else: #Nufit gives dm32 for IO, so convert the values and bounds to dm31 explicitly here
+        dm31_range = np.linspace(-2.581e-3 - 8.04e-5, -2.414e-3 + 8.04e-5, dm31N-1)
+        th23_range = np.linspace(40.3*np.pi/180, 51.8*np.pi/180, th23N-1)
+    
+    ett_range = np.linspace(-ett,ett,ettN-1)
+    emt_range = np.linspace(-emt,emt,emtN-1)
+
+    eem_range = np.linspace(-eem,eem,eemN-1)
+    eet_range = np.linspace(-eet,eet,eetN-1)
+
+    
+    if IO:
+        nsi_params = nufit_params_nsi_IO.copy()
+    else:
+        nsi_params = nufit_params_nsi.copy()
+
+    # We want to marg over best-fit points too, so insert them
+    if nsi_params['dm_31'] not in dm31_range:
+        dm31_range = np.sort(np.append(dm31_range,nsi_params['dm_31']))
+    if nsi_params['theta_23'] not in th23_range:
+        th23_range = np.sort(np.append(th23_range, nsi_params['theta_23']))
+    if nsi_params['e_tt'] not in ett_range:
+        ett_range = np.sort(np.append(ett_range, nsi_params['e_tt']))
+    if nsi_params['e_mt'] not in emt_range:
+        emt_range = np.sort(np.append(emt_range, nsi_params['e_mt']))
+    if nsi_params['e_em'] not in eem_range:
+        eem_range = np.sort(np.append(eem_range, nsi_params['e_em']))
+    if nsi_params['e_et'] not in eet_range:
+        eet_range = np.sort(np.append(eet_range, nsi_params['e_et']))
+
+    return dm31_range, th23_range,ett_range, emt_range, eem_range, eet_range
+
 def return_precomputed_nsi(pid,ndim,params):
     params= np.array(params)
     precomputed_list = np.array([is_precomputed_nsi(pid,ndim, p, check=False) for p in params])
     mask = precomputed_list == True
     computed_params = params[mask]
     return computed_params
+
+
 def is_precomputed_nsi(pid,ndim, dict, check=False):
     for anti in [True,False]:
         for flavor_from in ['e','m']:

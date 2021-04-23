@@ -24,14 +24,14 @@ def H_3(A_cc,U,M, params=param_dict):
     return H
 
 def E_3(A_cc, params):
-    H_eps =np.array([[params['e_ee'], params['e_me'], params['e_et']],
-                     [params['e_me'], params['e_mm'], params['e_mt']],
+    H_eps =np.array([[params['e_ee'], params['e_em'], params['e_et']],
+                     [params['e_em'], params['e_mm'], params['e_mt']],
                      [params['e_et'], params['e_mt'], params['e_tt']]])
     return 1e18*A_cc*H_eps
 
 def E_4(A_cc, A_nc, params):
-    H_eps =np.array([[params['e_ee'], params['e_me'], params['e_et'], params['e_es']],
-                     [params['e_me'], params['e_mm'], params['e_mt'], params['e_ms']],
+    H_eps =np.array([[params['e_ee'], params['e_em'], params['e_et'], params['e_es']],
+                     [params['e_em'], params['e_mm'], params['e_mt'], params['e_ms']],
                      [params['e_et'], params['e_mt'], params['e_tt'], params['e_ts']],
                      [params['e_es'], params['e_ms'], params['e_ts'], params['e_ss']]])
     return 1e18*A_cc*H_eps

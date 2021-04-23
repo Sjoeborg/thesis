@@ -44,17 +44,17 @@ ic_params = param_dict.copy() #IC2020 companion paper cites PDG 2014
 ic_params.update({'theta_12': np.arcsin(np.sqrt(0.846))/2, 'theta_23': np.arcsin(np.sqrt(0.999))/2, 'theta_13': np.arcsin(np.sqrt(9.3e-2))/2, 'dm_21': 7.53e-5, 'dm_31': 7.53e-5 + 2.44e-3})
 ic_params.update({'theta_14': 0, 'theta_24': np.arcsin(np.sqrt(0.10))/2, 'theta_34': 0, 'dm_41': 4.5})
 ic_params_nsi = ic_params.copy()
-ic_params_nsi.update({'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
+ic_params_nsi.update({'e_ee':0,'e_em':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
 
 dc_params = param_dict.copy() #From demidov 2020
 dc_params.update({'theta_12': 0.5839958715755919, 'theta_23': 0.8054035005744429, 'theta_13': 0.14784723758432042, 'dm_21': 7.53e-5, 'dm_31': 7.53e-5 + 2.29e-3})
 dc_params_nsi = dc_params.copy()
-dc_params_nsi.update({'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
+dc_params_nsi.update({'e_ee':0,'e_em':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
 
 nufit_params_nsi = param_dict.copy() #Nufit 2020 with SK
-nufit_params_nsi.update({'theta_12': 33.44*np.pi/180, 'theta_23': 49.2*np.pi/180, 'theta_13': 8.57*np.pi/180, 'dm_21': 7.42e-5, 'dm_31': 2.517e-3, 'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
+nufit_params_nsi.update({'theta_12': 33.44*np.pi/180, 'theta_23': 49.2*np.pi/180, 'theta_13': 8.57*np.pi/180, 'dm_21': 7.42e-5, 'dm_31': 2.517e-3, 'e_ee':0,'e_em':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
 nufit_params_nsi_IO = param_dict.copy() #Nufit 2020 with SK
-nufit_params_nsi_IO.update({'theta_12': 33.45*np.pi/180, 'theta_23': 49.3*np.pi/180, 'theta_13': 8.60*np.pi/180, 'dm_21': 7.42e-5, 'dm_31': -2.498e-3 + 7.42e-5,'e_ee':0,'e_me':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
+nufit_params_nsi_IO.update({'theta_12': 33.45*np.pi/180, 'theta_23': 49.3*np.pi/180, 'theta_13': 8.60*np.pi/180, 'dm_21': 7.42e-5, 'dm_31': -2.498e-3 + 7.42e-5,'e_ee':0,'e_em':0,'e_et':0,'e_mm':0,'e_mt':0,'e_tt':0,'e_es':0,'e_ms':0,'e_ts':0,'e_ss':0})
 #---- Mixing parameters and matrices -------
 def dm(first, second,params=param_dict): #dm_ij = dm_kj - dm_ki, dm_ij = -dm_ji
     if first == 1: # m_1j
