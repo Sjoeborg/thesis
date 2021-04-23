@@ -16,9 +16,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-dm31N', default=10, type=int)
 parser.add_argument('-th23N', default=10, type=int)
 
-parser.add_argument('-ett', default=6e-2, type=float)
+parser.add_argument('-ett', default=5e-2, type=float)
 parser.add_argument('-ettN', default=10, type=int)
-parser.add_argument('-emt', default=3e-2, type=float)
+parser.add_argument('-emt', default=2e-2, type=float)
 parser.add_argument('-emtN', default=10, type=int)
 
 parser.add_argument('-eem', default=2e-1, type=float)
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     bins = [(i,j) for i in range(8) for j in range(8)]
     split_array=  np.array_split(bins,args.sT)[args.s]
     para = [(*b,p) for b in split_array.tolist() for p in param_list]
-    '''
+    
     start = time.time()
     #result = []
     
@@ -82,4 +82,3 @@ if __name__ == '__main__':
     #result = np.swapaxes(result, 0, 1)
     #result = np.swapaxes(result, 0, 2) #(pid, params, 1)
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
-    '''
