@@ -10,6 +10,7 @@ import numpy as np
 import time
 from PINGU.main import get_events as get_events_PINGU
 from DC.main import get_events as get_events_DC
+from IC.processer import generate_probabilities, get_Etrue, train_energy_resolution, get_probabilities
 from multiprocessing import Pool
 parser = argparse.ArgumentParser()
 
@@ -29,12 +30,58 @@ parser.add_argument('-eetN', default=10, type=int)
 parser.add_argument('-s', default = 0, type=int)
 parser.add_argument('-sT', default = 1, type=int)
 parser.add_argument('-IO', action='store_true')
+parser.add_argument('-IC', action='store_true')
 parser.add_argument('-DC', action='store_true')
 parser.add_argument('-PINGU', action='store_true')
 
 parser.add_argument('-nonsi', action='store_false')
 args = parser.parse_args()
 
+def probs(E_index, z_index, alpha, npoints, params=nufit_params_nsi, nsi=True, ndim=3):
+    z_buckets = np.linspace(-1,0,21)
+
+    zr = np.linspace(z_buckets[z_index], z_buckets[z_index+1], npoints)
+
+    Et, _, _ = get_Etrue(E_index=E_index,npoints=npoints, model=models, left_alpha=alpha, right_alpha=alpha) 
+    
+    try:
+        get_probabilities('m','m',E_index, z_index, params,False,npoints,ndim=ndim)
+    except:
+        generate_probabilities('m','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim, nsi=nsi)
+    try:
+        get_probabilities('m','m',E_index, z_index, params,True,npoints,ndim=ndim)
+    except:
+        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
+        generate_probabilities('m','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim, nsi=nsi)
+    try:
+        get_probabilities('e','m',E_index, z_index, params,False,npoints,ndim=ndim)
+    except:
+        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
+        generate_probabilities('e','m',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim, nsi=nsi)
+    try:
+        get_probabilities('e','m',E_index, z_index, params,True,npoints,ndim=ndim)
+    except:
+        #print(E_index, z_index, params['dm_41'], params['theta_24'], params['theta_34'])
+        generate_probabilities('e','m',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim, nsi=nsi)
+    
+    try:
+        get_probabilities('m','t',E_index, z_index, params,False,npoints,ndim=ndim)
+    except:
+        generate_probabilities('m','t',Et,zr,E_index, z_index, params,False,npoints,ndim=ndim, nsi=nsi)
+    try:
+        get_probabilities('m','t',E_index, z_index, params,True,npoints,ndim=ndim)
+    except:
+        generate_probabilities('m','t',Et,zr,E_index, z_index, params,True,npoints,ndim=ndim, nsi=nsi)
+    
+    
+
+def event_wrapper(param_list):
+    E_index,z_index, alpha, params, npoints,nsi = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4], param_list[5]
+    return probs(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha, nsi=nsi)
+
+def precompute_probs(args_tuple, nsi=True):
+    i,j,params = args_tuple
+    event_wrapper([i,j, 0.99, params,args.N, nsi])
 
 def precompute_probs(args_tuple, nsi=True):
     i,j,params = args_tuple
@@ -44,11 +91,19 @@ def precompute_probs(args_tuple, nsi=True):
     elif args.DC:
         res_track = get_events_DC(Ebin=i,zbin=j,params=params,pid=1,nsi=args.nonsi, no_osc=False)
         res_cascade =get_events_DC(Ebin=i,zbin=j,params=params,pid=0,nsi=args.nonsi, no_osc=False)
+    else:#IC
+        event_wrapper([i,j, 0.99, params,13, args.nonsi])
+        return 0
     return np.array([res_cascade, res_track])
 
-
+models= train_energy_resolution()
 if __name__ == '__main__':
-    experiment = 'PINGU' if args.PINGU else 'DC'
+    if args.PINGU:
+        experiment = 'PINGU' 
+    elif args.DC:
+       experiment = 'DC' 
+    elif args.IC:
+        experiment = 'IC' 
     mass_ordering = 'IO' if args.IO else 'NO'
     dm31_range, th23_range,ett_range, emt_range, eem_range, eet_range = get_param_list(args.dm31N, args.th23N, 
                                                                                        args.ett, args.ettN, 
@@ -72,8 +127,9 @@ if __name__ == '__main__':
     para = [(*b,p) for b in split_array.tolist() for p in param_list]
     
     start = time.time()
-    #result = []
-    
+
+
+    #p=Pool()
     for i, res in enumerate(map(precompute_probs, para), 1):
         print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(para)))
         print(np.round((time.time() - start)/3600,1))
@@ -82,3 +138,4 @@ if __name__ == '__main__':
     #result = np.swapaxes(result, 0, 1)
     #result = np.swapaxes(result, 0, 2) #(pid, params, 1)
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
+    print(time.time()-start)
