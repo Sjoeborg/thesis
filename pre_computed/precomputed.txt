@@ -84,3 +84,23 @@ s24_range = [0]
 emt_range = np.linspace(-3e-2,3e-2,10)
 ndim=3
 dm_41=0.93
+
+
+H1_PINGU_0_5x5x5x1x1x1.p
+
+
+
+tetra:
+-PINGU -dm31N 5 -th23N 5 -ettN 10 -emtN 1 -eemN 1 -eetN 1
+-DC -dm31N 5 -th23N 5 -ettN 5 -emtN 1 -eemN 1 -eetN 1
+
+keb:
+-IC -dm31N 5 -th23N 5 -ettN 1 -emtN 5 -eemN 1 -eetN 1
+
+-DC -dm31N 5 -th23N 5 -ettN 1 -emtN 5 -eemN 1 -eetN 1
+-DC -dm31N 5 -th23N 5 -ettN 1 -emtN 1 -eemN 5 -eetN 1
+-DC -dm31N 5 -th23N 5 -ettN 1 -emtN 1 -eemN 1 -eetN 5
+
+-PINGU -dm31N 5 -th23N 5 -ettN 1 -emtN 5 -eemN 1 -eetN 1
+-PINGU -dm31N 5 -th23N 5 -ettN 1 -emtN 1 -eemN 5 -eetN 1
+-PINGU -dm31N 5 -th23N 5 -ettN 1 -emtN 1 -eemN 1 -eetN 5

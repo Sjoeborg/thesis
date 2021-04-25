@@ -178,5 +178,12 @@ def is_precomputed_nsi(pid,ndim, dict, check=False):
                     else:
                         raise FileNotFoundError(f'P{flavor_from}{flavor_to} {ndim}gen for pid {pid}, dm={dict["dm_31"]}, th23={dict["theta_23"]}, e_mm={dict["e_mm"]},e_mt={dict["e_mt"]}, not found')
                 return True
+def get_best_fit(deltachi, p_range, cl):
+    from scipy import interpolate
+    deltachi = deltachi.reshape(-1)
+    half = int(len(p_range)/2)
+    left = interpolate.interp1d(deltachi[0:half],p_range[0:half])(chi2.ppf(cl,1))
+    right = interpolate.interp1d(deltachi[half:-1],p_range[half:-1])(chi2.ppf(cl,1))
+    return np.round(left,3),np.round(right,3)
 if __name__ == '__main__':
     pass
