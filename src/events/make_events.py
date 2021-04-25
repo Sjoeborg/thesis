@@ -11,9 +11,11 @@ from PINGU.processer import *
 from DC.event_processing import * # DC.event_processing has all we need. 
 from PINGU.main import get_all_events as PINGU_events
 from DC.main import get_all_events as DC_events
+from IC.main import sim_events as IC_events
 from functions import nufit_params_nsi, nufit_params_nsi_IO
 import pickle
 import argparse
+from multiprocessing import Pool
 parser = argparse.ArgumentParser()
 
 parser.add_argument('-dm31N', default=10, type=int)
@@ -37,7 +39,7 @@ parser.add_argument('-PINGU', action='store_true')
 args = parser.parse_args()
 
 if __name__ == '__main__':
-    assert args.PINGU or args.DC
+    assert args.PINGU or args.DC or args.IC
     dm31_range, th23_range,ett_range, emt_range, eem_range, eet_range = get_param_list(args.dm31N, args.th23N, 
                                                                                        args.ett, args.ettN, 
                                                                                        args.emt, args.emtN, 
@@ -56,15 +58,21 @@ if __name__ == '__main__':
     param_list = list_of_params_nsi(param_dict, dm31_range, th23_range, ett_range, emt_range, eem_range, eet_range)
     
     for pid in [1,0]:
-        from multiprocessing import Pool
-        p = Pool()
         data = [(p,pid,True) for p in param_list]
         if args.PINGU:
+            p = Pool()
             H1_events_list = p.starmap(PINGU_events, data)
             p.close()
             pickle.dump(H1_events_list,open(f'./pre_computed/H1_PINGU_{pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
         elif args.DC:
+            p = Pool()
             H1_events_list = p.starmap(DC_events, data)
             p.close()
             pickle.dump(H1_events_list,open(f'./pre_computed/H1_DC_{pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
+    if args.IC:
+        data = [(0.99, 13,p, False,False, [False, 0, 0],True, True,3) for p in param_list]
+        p = Pool()
+        H1_events_list = p.starmap(IC_events, data)
+        p.close()
+        pickle.dump(H1_events_list,open(f'./pre_computed/H1_IC_N13_{len(dm31_range)}x{len(th23_range)}x{len(emt_range)}.p','wb'))
     
