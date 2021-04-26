@@ -73,12 +73,12 @@ if __name__ == '__main__':
         H1_events_list = process_map(compute_events, param_list)
 
         #p.close()
-        pickle.dump(H1_events_list,open(f'./pre_computed/H1_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
+        pickle.dump(np.array(H1_events_list),open(f'./pre_computed/H1_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     elif args.DC:
         #p = Pool()
         H1_events_list = process_map(compute_events, param_list)
         #p.close()
-        pickle.dump(H1_events_list,open(f'./pre_computed/H1_DC_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
+        pickle.dump(np.array(H1_events_list),open(f'./pre_computed/H1_DC_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     if args.IC:
         data = [(0.99, 13,p, False,False, [False, 0, 0],True, True,3) for p in param_list]
         #p = Pool()

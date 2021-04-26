@@ -117,20 +117,13 @@ if __name__ == '__main__':
                 f'eem({eem_range.min()},{eem_range.max()},{len(eem_range)}), ',
                 f'eet({eet_range.min()},{eet_range.max()},{len(eet_range)}), ',
                 f' s={args.s+1}/{args.sT}')
-    '''
+ 
     bins = [(i,j) for i in range(8) for j in range(8)]
     split_array=  np.array_split(bins,args.sT)[args.s]
     para = [(*b,p) for b in split_array.tolist() for p in param_list]
-    '''
+ 
 
-    arg_tuples = [(i,j, p) for i in range(8) for j in range(8) for p in param_list]
-    rng = np.random.default_rng(12345)
-    rng.shuffle(arg_tuples)
-    split_arg_tuples=  np.array_split(arg_tuples,args.sT)[args.s]
-    start = time.time()
-
-    p=Pool()
-    for i, res in enumerate(p.imap(precompute_probs, split_arg_tuples), 1):
+    for i, res in enumerate(map(precompute_probs, split_arg_tuples), 1):
         if i % 100 == 1:
             print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(arg_tuples)))
             print(np.round((time.time() - start)/3600,1))

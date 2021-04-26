@@ -64,7 +64,7 @@ def get_events(Ebin,zbin,params,pid,nsi,save=True):
     return np.sum(binned_df["rate_weight"])
 
 
-def get_all_events(params, nsi, no_osc=False,save=True):
+def get_all_events(params, nsi,save=True):
     cascades = np.array([get_events(Ebin,zbin,params,0,nsi,save) for Ebin in range(8) for zbin in range(8)]).reshape(8,8)
     tracks = np.array([get_events(Ebin,zbin,params,1,nsi,save) for Ebin in range(8) for zbin in range(8)]).reshape(8,8)
     return np.array([cascades, tracks])
