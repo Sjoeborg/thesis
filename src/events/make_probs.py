@@ -122,7 +122,7 @@ if __name__ == '__main__':
     split_array=  np.array_split(bins,args.sT)[args.s]
     para = [(*b,p) for b in split_array.tolist() for p in param_list]
  
-    strat = time.time()
+    start = time.time()
     for i, res in enumerate(map(precompute_probs, para), 1):
         if i % 100 == 1:
             print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(param_list)))
