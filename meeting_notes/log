@@ -467,3 +467,7 @@ Att normera mot H0/noosc ger annorlunda kurva, men sämre. Normering mot H0 ger 
 IC behöver en prior på e' för att kunna se något där. Kommer inte längre på IC utan prior på emm.
 Har gjort emt, emm individuellt för PINGU, och en plot med båda.
 Väntar på sims för DC för att kunna göra en ensam emm och en båda.
+
+26 Apr 
+Har kört tre olika PINGU jobs med -dm31N 5 -th23N 5 och en nsi 5. Alla tog 7 dagar i coretid.
+IC med samma parametrar tog 2 dagar 15 timmar
