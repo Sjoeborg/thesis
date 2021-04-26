@@ -122,10 +122,9 @@ if __name__ == '__main__':
     split_array=  np.array_split(bins,args.sT)[args.s]
     para = [(*b,p) for b in split_array.tolist() for p in param_list]
  
-
-    for i, res in enumerate(map(precompute_probs, split_arg_tuples), 1):
+    strat = time.time()
+    for i, res in enumerate(map(precompute_probs, para), 1):
         if i % 100 == 1:
-            print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(arg_tuples)))
+            print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(param_list)))
             print(np.round((time.time() - start)/3600,1))
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
-    p.close()
