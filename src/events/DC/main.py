@@ -11,7 +11,7 @@ df = MC2018_DC()
 interp_flux,_ = get_interpolators_DC()
 systematics = systematics2018_DC()
 
-def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
+def get_events(Ebin,zbin,params,pid,nsi, no_osc=False, save=True):
     binned_df = get_binned_DC(pid,Ebin,zbin,df)
     events = 0
     
@@ -36,11 +36,11 @@ def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
         try:
             Pe = get_probabilities_DC('e', flavor_to, Ebin,zbin,params,anti=False,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
         except KeyError:
-            Pe = generate_probabilities_DC('e', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=False, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
+            Pe = generate_probabilities_DC('e', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=False, pid=pid, ndim=3, nsi=nsi, save=save).reshape(-1,)
         try:
             Pm = get_probabilities_DC('m', flavor_to, Ebin,zbin,params,anti=False,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
         except KeyError:
-            Pm = generate_probabilities_DC('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=False, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
+            Pm = generate_probabilities_DC('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=False, pid=pid, ndim=3, nsi=nsi, save=save).reshape(-1,)
         if not no_osc:
             rate_weight[mask] = binned_df[mask]['weight'] * (m_flux*Pm + e_flux*Pe)
         else:
@@ -58,11 +58,11 @@ def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
         try:
             Pebar = get_probabilities_DC('e', flavor_to, Ebin,zbin,params,anti=True,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
         except KeyError:
-            Pebar = generate_probabilities_DC('e', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=True, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
+            Pebar = generate_probabilities_DC('e', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=True, pid=pid, ndim=3, nsi=nsi, save=save).reshape(-1,)
         try:
             Pmbar = get_probabilities_DC('m', flavor_to, Ebin,zbin,params,anti=True,pid=pid,ndim=3,nsi=nsi).reshape(-1,)
         except KeyError:
-            Pmbar = generate_probabilities_DC('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=True, pid=pid, ndim=3, nsi=nsi).reshape(-1,)
+            Pmbar = generate_probabilities_DC('m', flavor_to, Etrue, ztrue, Ebin, zbin, params, anti=True, pid=pid, ndim=3, nsi=nsi, save=save).reshape(-1,)
         
         if not no_osc:
             rate_weight[mask] = binned_df[mask]['weight'] * (mbar_flux*Pmbar + ebar_flux*Pebar)
@@ -77,6 +77,6 @@ def get_events(Ebin,zbin,params,pid,nsi, no_osc=False):
     return np.sum(res) #np.sum(binned_df["rate_weight"])
 
 
-def get_all_events(params, pid, nsi, no_osc=False):
-    result = [get_events(Ebin,zbin,params,pid,nsi,no_osc) for Ebin in range(8) for zbin in range(8)]
+def get_all_events(params, pid, nsi, no_osc=False,save=True):
+    result = [get_events(Ebin,zbin,params,pid,nsi,no_osc,save) for Ebin in range(8) for zbin in range(8)]
     return np.array(result).reshape(8,8)

@@ -57,19 +57,18 @@ The detector systematics include ice absorption and scattering, and overall, lat
 They are applied as correction factors using the best-fit points from the DeepCore 2019 $\nu_\tau$ appearance 
 analysis~\cite{DC2019tauappearance}.
 
-The data include 14901 track-live events and 26001 cascade-like events, both divided into eight 
-$ \log_{10}E^{reco} \in [0.75,1.75]$ bins, and eight $\zreco \in [-1,1]$ bins.
-
-The oscillation parameters are from the
-best-fit in the global analysis in~\cite{nufit}: $\theta_{12} = \SI{33.44}{\degree},\, \theta_{13} = \SI{8.57}{\degree},\, \Delta m^2_{21} =  \SI{7.42}{\electronvolt^2}$, and we 
-marginalize over $\Delta m^2_{31}$ and $\theta_{23}$.
-
-Given a Monte Carlo simulation with weights $w_{k\beta}$, we can construct the event count as
+The data include 14901 track-like events and 26001 cascade-like events, both divided into eight 
+$ \log_{10}E^{reco} \in [0.75,1.75]$ bins, and eight $\zreco \in [-1,1]$ bins. Each event has a Monte Carlo weight $w_{k\beta}$,
+from which we can construct the event count as
 \begin{align}\label{eq:MCevents}
     N_{ijk} &= C_{ijk}\sum_{\beta}w_{ijk,\beta} \phi_\beta^\text{det}\,,
 \end{align}
 where $C_{k\beta}$ is the correction factor from the detector systematic uncertainty and $\phi_\beta^\text{det}$ is defined as Eq.~\ref{eq:propFlux}. We have now substituted the effect of the Gaussian smearing 
 by treating the reconstructed and true quantities as a migration matrix. 
+
+The oscillation parameters used on our DeepCore simulations are from the
+best-fit in the global analysis in~\cite{nufit}: $\theta_{12} = \SI{33.44}{\degree},\, \theta_{13} = \SI{8.57}{\degree},\, \Delta m^2_{21} =  \SI{7.42}{\electronvolt^2}$, and we 
+marginalize over $\Delta m^2_{31}$ and $\theta_{23}$.
 
 \subsection{PINGU}\label{ch:PINGUmethod}
 The methodology behind the PINGU simulations are the same as with our DeepCore study~\ref{ch:DCmethod}. We use the public MC~\cite{PINGUdata}, which allows us to construct the event count as in Eq.~\ref{eq:MCevents}.

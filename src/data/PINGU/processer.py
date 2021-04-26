@@ -25,13 +25,11 @@ def get_probabilities_PINGU(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,
     if anti:
         flavor_from = 'a' + flavor_from
         flavor_to = 'a' + flavor_to
-    for i in range(10):
-        try:
-            f = h5py.File(f'./pre_computed/PINGU/E{Ebin}z{zbin}.hdf5', 'r')
-        except OSError: #File busy, try again
-            time.sleep(np.random.random())
-            #f = h5py.File(f'./pre_computed/PINGU/E{Ebin}z{zbin}.hdf5', 'r')
-        #raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/PINGU/')
+
+    try:
+        f = h5py.File(f'./pre_computed/PINGU/E{Ebin}z{zbin}.hdf5', 'r')
+    except OSError:
+        raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/PINGU/')
     try:
         fh = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}']
     except KeyError:
@@ -42,37 +40,34 @@ def get_probabilities_PINGU(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,
     f.close()
     return res
 
-def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,param_dict,anti,pid, ndim=4, nsi=True, overwrite=False):
+def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,param_dict,anti,pid, ndim=4, nsi=True, save=True):
     if not nsi: #Use best fit to generate 'data'. nufit_params_nsi has all epsilon=0
         param_dict = nufit_params_nsi
     prob = np.array([P_num(flavor_from=flavor_from, E=E_range[i], ndim = ndim, anti=anti,params=param_dict,zenith=z, nsi=nsi)[mass_dict[flavor_to],-1] for i,z in enumerate(z_range)]).reshape(-1,1)
-    hashed_param_name = sha256(param_dict)
-    if anti:
-        flavor_from = 'a' + flavor_from
-        flavor_to = 'a' + flavor_to
-    
-    for i in range(10):
+    if save:
+        hashed_param_name = sha256(param_dict)
+        if anti:
+            flavor_from = 'a' + flavor_from
+            flavor_to = 'a' + flavor_to
+        
+        f = h5py.File(f'./pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5', 'a')
+
         try:
-            f = h5py.File(f'./pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5', 'a')
-        except OSError: #File busy, try again
-            time.sleep(np.random.random())
-            #f = h5py.File(f'./pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5', 'a')
-    try:
-        dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}', data=prob, chunks=True)
-        for key in param_dict.keys():
-            dset.attrs[key] = param_dict[key]
-        f.close()
-    except RuntimeError:
-        if overwrite:
-            dset = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}']
-            dset[...] = prob
-        else:
-            print(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name} already exists, skipping')
-        f.close()
-        return prob
-    if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am' and pid==1:
-        with open(f'./pre_computed/PINGU/hashed_params.csv','a') as fd:
-            fd.write(f'{param_dict};{hashed_param_name}\n')
+            dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}', data=prob, chunks=True)
+            for key in param_dict.keys():
+                dset.attrs[key] = param_dict[key]
+            f.close()
+        except RuntimeError:
+            if overwrite:
+                dset = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}']
+                dset[...] = prob
+            else:
+                print(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name} already exists, skipping')
+            f.close()
+            return prob
+        if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am' and pid==1:
+            with open(f'./pre_computed/PINGU/hashed_params.csv','a') as fd:
+                fd.write(f'{param_dict};{hashed_param_name}\n')
     
     return prob
 
