@@ -115,7 +115,7 @@ def get_contour(deltachi, y_range,x_range, df):
 
 
 def list_of_params_nsi(dicta, dm31_range, th23_range, ett_range, emt_range, eem_range, eet_range):
-    def update_dict(dict,p):
+    def update_dict(dicta,p):
         dict2 = dicta.copy()
         dict2.update(p)
         return dict2

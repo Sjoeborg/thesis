@@ -162,6 +162,9 @@ def P_num_over_E(flavor_from, E, flavor_to=None, L=2*r_earth, zenith=-1,earth_st
     return np.array(P_list)
 
 def wrapper(p):
+    '''
+    flavor,E_range,z,anti, params, ndim, nsi
+    '''
     flavor,E_range,z,anti, params, ndim, nsi = p 
     P=P_num_over_E(flavor, E=E_range, zenith=z, anti = anti, params=params, ndim=ndim, nsi=nsi)
     return P

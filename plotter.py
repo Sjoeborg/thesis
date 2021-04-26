@@ -213,6 +213,9 @@ def nsi_flux_oscillogram(E_range, z_range, params, only_m=True):
     return flux_final_nsi/flux_final, flux_final_nsi_bar/flux_final_bar, (flux_final_nsi + flux_final_nsi_bar)/(flux_final+ flux_final_bar)
 
 
-
+def save(fig, name):
+    fig.savefig(f'latex/article/figures/{name}.pdf')
+    from subprocess import call 
+    _ = call('pdfcrop latex/article/figures/{name}.pdf latex/article/figures/{name}.pdf')
 if __name__ == '__main__':
     pass

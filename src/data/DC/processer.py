@@ -10,7 +10,7 @@ from functions import mass_dict,dc_params
 from DC.importer import systematics2015_DC, get_aeff_df_DC, get_flux_df_DC, events2018_DC, no_osc2018_DC
 from dict_hash import sha256
 import pandas as pd
-from numerical import wrapper 
+from numerical import P_num 
 import h5py
 from scipy.stats import lognorm
 import pickle
@@ -107,7 +107,7 @@ def get_probabilities_DC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid
 def generate_probabilities_DC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,param_dict,anti,pid, ndim=4, nsi=True, overwrite=False):
     if not nsi:
         param_dict = dc_params
-    prob = np.array([wrapper([flavor_from, [E_range[i]],z, anti, param_dict, ndim, nsi])[mass_dict[flavor_to]] for i,z in enumerate(z_range)])
+    prob = np.array([P_num(flavor_from=flavor_from, E=E_range[i], ndim = ndim, anti=anti,params=param_dict,zenith=z, nsi=nsi)[mass_dict[flavor_to],-1] for i,z in enumerate(z_range)]).reshape(-1,1)
     hashed_param_name = sha256(param_dict)
     if anti:
         flavor_from = 'a' + flavor_from

@@ -7,7 +7,7 @@ import pandas as pd
 from functions import mass_dict,nufit_params_nsi
 from dict_hash import sha256
 import pandas as pd
-from numerical import wrapper 
+from numerical import P_num 
 import h5py
 from scipy.stats import lognorm
 import pickle
@@ -41,11 +41,12 @@ def get_probabilities_PINGU(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,
 def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,param_dict,anti,pid, ndim=4, nsi=True, overwrite=False):
     if not nsi: #Use best fit to generate 'data'. nufit_params_nsi has all epsilon=0
         param_dict = nufit_params_nsi
-    prob = np.array([wrapper([flavor_from, [E_range[i]],z, anti, param_dict, ndim, nsi])[mass_dict[flavor_to]] for i,z in enumerate(z_range)])
+    prob = np.array([P_num(flavor_from=flavor_from, E=E_range[i], ndim = ndim, anti=anti,params=param_dict,zenith=z, nsi=nsi)[mass_dict[flavor_to],-1] for i,z in enumerate(z_range)]).reshape(-1,1)
     hashed_param_name = sha256(param_dict)
     if anti:
         flavor_from = 'a' + flavor_from
         flavor_to = 'a' + flavor_to
+    
     f = h5py.File(f'./pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5', 'a')
     try:
         dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}', data=prob, chunks=True)
@@ -63,6 +64,7 @@ def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z
     if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am' and pid==1:
         with open(f'./pre_computed/PINGU/hashed_params.csv','a') as fd:
             fd.write(f'{param_dict};{hashed_param_name}\n')
+    
     return prob
 
 
