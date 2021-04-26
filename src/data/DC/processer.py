@@ -116,11 +116,12 @@ def generate_probabilities_DC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bi
     if anti:
         flavor_from = 'a' + flavor_from
         flavor_to = 'a' + flavor_to
-    try:
-        f = h5py.File(f'./pre_computed/DC/E{E_bin}z{z_bin}.hdf5', 'a')
-    except OSError: #File busy, try again
-        time.sleep(np.random.random())
-        f = h5py.File(f'./pre_computed/DC/E{E_bin}z{z_bin}.hdf5', 'a')
+    for i in range(10):
+        try:
+            f = h5py.File(f'./pre_computed/DC/E{E_bin}z{z_bin}.hdf5', 'a')
+        except OSError: #File busy, try again
+            time.sleep(np.random.random())
+            f = h5py.File(f'./pre_computed/DC/E{E_bin}z{z_bin}.hdf5', 'a')
     try:
         dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}', data=prob, chunks=True)
         for key in param_dict.keys():

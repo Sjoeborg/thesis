@@ -11,6 +11,7 @@ from numerical import P_num
 import h5py
 from scipy.stats import lognorm
 import pickle
+import time
 pdg_dict={'e':12,'m':14,'t':16}
 Ebins_2018 = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
 zbins_2018 = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
@@ -24,10 +25,13 @@ def get_probabilities_PINGU(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,
     if anti:
         flavor_from = 'a' + flavor_from
         flavor_to = 'a' + flavor_to
-    try:
-        f = h5py.File(f'./pre_computed/PINGU/E{Ebin}z{zbin}.hdf5', 'r')
-    except OSError:
-        raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/PINGU/')
+    for i in range(10):
+        try:
+            f = h5py.File(f'./pre_computed/PINGU/E{Ebin}z{zbin}.hdf5', 'r')
+        except OSError: #File busy, try again
+            time.sleep(np.random.random())
+            f = h5py.File(f'./pre_computed/PINGU/E{Ebin}z{zbin}.hdf5', 'r')
+        #raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/PINGU/')
     try:
         fh = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}']
     except KeyError:
@@ -47,7 +51,12 @@ def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z
         flavor_from = 'a' + flavor_from
         flavor_to = 'a' + flavor_to
     
-    f = h5py.File(f'./pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5', 'a')
+    for i in range(10):
+        try:
+            f = h5py.File(f'./pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5', 'a')
+        except OSError: #File busy, try again
+            time.sleep(np.random.random())
+            f = h5py.File(f'./pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5', 'a')
     try:
         dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}', data=prob, chunks=True)
         for key in param_dict.keys():
