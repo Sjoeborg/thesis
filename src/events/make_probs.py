@@ -130,10 +130,10 @@ if __name__ == '__main__':
     start = time.time()
 
 
-    #p=Pool()
-    for i, res in enumerate(map(precompute_probs, split_arg_tuples), 1):
+    p=Pool()
+    for i, res in enumerate(p.imap(precompute_probs, split_arg_tuples), 1):
         if i % 100 == 1:
             print(f'{args.s+1}/{args.sT}: ','{0:%}'.format(i/len(arg_tuples)))
             print(np.round((time.time() - start)/3600,1))
     print(f'Finished part {args.s+1}/{args.sT} in {(np.round((time.time() - start)/3600,1))} h')
-    #p.close()
+    p.close()
