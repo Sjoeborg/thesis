@@ -30,7 +30,7 @@ def get_probabilities_PINGU(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,
             f = h5py.File(f'./pre_computed/PINGU/E{Ebin}z{zbin}.hdf5', 'r')
         except OSError: #File busy, try again
             time.sleep(np.random.random())
-            f = h5py.File(f'./pre_computed/PINGU/E{Ebin}z{zbin}.hdf5', 'r')
+            #f = h5py.File(f'./pre_computed/PINGU/E{Ebin}z{zbin}.hdf5', 'r')
         #raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/PINGU/')
     try:
         fh = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}']
@@ -56,7 +56,7 @@ def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z
             f = h5py.File(f'./pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5', 'a')
         except OSError: #File busy, try again
             time.sleep(np.random.random())
-            f = h5py.File(f'./pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5', 'a')
+            #f = h5py.File(f'./pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5', 'a')
     try:
         dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}', data=prob, chunks=True)
         for key in param_dict.keys():
