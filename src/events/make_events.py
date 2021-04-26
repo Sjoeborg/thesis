@@ -13,8 +13,6 @@ from PINGU.main import get_all_events as PINGU_events
 from DC.main import get_all_events as DC_events
 from IC.main import sim_events as IC_events
 from functions import nufit_params_nsi, nufit_params_nsi_IO
-from PINGU.main import get_events as get_events_PINGU
-from DC.main import get_events as get_events_DC
 from tqdm import tqdm
 import pickle
 import argparse
@@ -41,17 +39,14 @@ parser.add_argument('-IC', action='store_true')
 parser.add_argument('-DC', action='store_true')
 parser.add_argument('-PINGU', action='store_true')
 args = parser.parse_args()
-i = 0
 
-def compute_events(arg_tuple):
-    Ebin, zbin, params = arg_tuple
+
+def compute_events(params):
     if args.PINGU:
-        track = get_events_PINGU(Ebin,zbin,params,pid=1,nsi=True,save=False)
-        cascade = get_events_PINGU(Ebin,zbin,params,pid=0,nsi=True,save=False)
+        result = PINGU_events(params,snsi=True,save=False)
     elif args.DC:
-        track = get_events_DC(Ebin,zbin,params,pid=1,nsi=True,save=False)
-        cascade = get_events_DC(Ebin,zbin,params,pid=0,nsi=True,save=False)
-    return np.array([cascade, track])
+        result = DC_events(params,nsi=True,save=False)
+    return result
 
 if __name__ == '__main__':
     assert args.PINGU or args.DC or args.IC
@@ -71,20 +66,17 @@ if __name__ == '__main__':
     param_dict = nufit_params_nsi_IO if args.IO else nufit_params_nsi
 
     param_list = list_of_params_nsi(param_dict, dm31_range, th23_range, ett_range, emt_range, eem_range, eet_range)
-    arg_tuples = [(i,j, p) for i in range(8) for j in range(8) for p in param_list]
     
     #data = [(p) for p in param_list]
     if args.PINGU:
         #p = Pool()
-        H1_events_list = process_map(compute_events, arg_tuples)
+        H1_events_list = process_map(compute_events, param_list)
 
-        H1_events_list = np.array(H1_events_list).reshape(len(param_list),2,8,8)
         #p.close()
         pickle.dump(H1_events_list,open(f'./pre_computed/H1_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     elif args.DC:
         #p = Pool()
-        H1_events_list = process_map(compute_events, arg_tuples)
-        H1_events_list = np.array(H1_events_list).reshape(len(param_list),2,8,8)
+        H1_events_list = process_map(compute_events, param_list)
         #p.close()
         pickle.dump(H1_events_list,open(f'./pre_computed/H1_DC_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     if args.IC:
@@ -93,4 +85,3 @@ if __name__ == '__main__':
         H1_events_list = process_map(IC_events, data)
         #p.close()
         pickle.dump(H1_events_list,open(f'./pre_computed/H1_IC_N13_{len(dm31_range)}x{len(th23_range)}x{len(emt_range)}.p','wb'))
-    
