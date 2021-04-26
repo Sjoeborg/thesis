@@ -12,7 +12,7 @@
 *.cb2
 .*.lb
 energy_resolution_models.p
-pre_computed/*/
+pre_computed/*
 old/4gen
 *.code-workspace
 *.err
