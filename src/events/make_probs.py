@@ -18,14 +18,14 @@ parser.add_argument('-dm31N', default=10, type=int)
 parser.add_argument('-th23N', default=10, type=int)
 
 parser.add_argument('-ett', default=5e-2, type=float)
-parser.add_argument('-ettN', default=10, type=int)
+parser.add_argument('-ettN', default=1, type=int)
 parser.add_argument('-emt', default=2e-2, type=float)
-parser.add_argument('-emtN', default=10, type=int)
+parser.add_argument('-emtN', default=1, type=int)
 
 parser.add_argument('-eem', default=2e-1, type=float)
-parser.add_argument('-eemN', default=10, type=int)
+parser.add_argument('-eemN', default=1, type=int)
 parser.add_argument('-eet', default=2e-1, type=float)
-parser.add_argument('-eetN', default=10, type=int)
+parser.add_argument('-eetN', default=1, type=int)
 
 parser.add_argument('-s', default = 0, type=int)
 parser.add_argument('-sT', default = 1, type=int)
@@ -79,7 +79,7 @@ def event_wrapper(param_list):
     E_index,z_index, alpha, params, npoints,nsi = param_list[0], param_list[1], param_list[2], param_list[3], param_list[4], param_list[5]
     return probs(E_index=E_index, z_index=z_index, params=params, npoints=npoints, alpha=alpha, nsi=nsi)
 
-def precompute_probs(args_tuple, nsi=True):
+def precompute_probs(args_tuple):
     i,j,params = args_tuple
     if args.PINGU:
         res_track = get_events_PINGU(Ebin=i,zbin=j,params=params,pid=1,nsi=args.nonsi)
@@ -128,7 +128,6 @@ if __name__ == '__main__':
     rng.shuffle(arg_tuples)
     split_arg_tuples=  np.array_split(arg_tuples,args.sT)[args.s]
     start = time.time()
-
 
     p=Pool()
     for i, res in enumerate(p.imap(precompute_probs, split_arg_tuples), 1):

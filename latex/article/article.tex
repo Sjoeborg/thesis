@@ -17,10 +17,11 @@
 \begin{document}
 \section{Methodology}
 The neutrino flux at the detector is calculated by propagating the atmospheric neutrino flux~\cite{hondapaper} through the Earth by solving the 
-Schrödinger equation for varying density. The Earth density profile is taken from the PREM~\cite{PREM}. 
+Schrödinger equation for varying density. The Earth density profile is taken from the PREM~\cite{PREM}. The baseline for a given trajectory is determined using an average neutrino
+production height of 15 km and an Earth radius of 6371 km. 
 The oscillation probability $P_{\alpha \beta}$ then acts as a weight, yielding the propagated flux at detector level for flavor $\beta$ as 
 \begin{align}\label{eq:propFlux}
-    \phi_\beta^\text{det} = \sum_\alpha \frac{\dd^2 \phi_\alpha^\text{atm}}{\dd E^t \dd \cos{\theta^t_z}} P_{\alpha\beta}\,,
+    \phi_\beta^\text{det} = \sum_\alpha P_{\alpha\beta} \phi_\alpha^\text{atm} \,,
 \end{align}
 where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$.
 \subsection{IceCube}\label{ch:ICmethod}

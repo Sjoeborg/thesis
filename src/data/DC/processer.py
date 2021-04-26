@@ -14,6 +14,7 @@ from numerical import P_num
 import h5py
 from scipy.stats import lognorm
 import pickle
+import time
 
 pdg_dict={'e':12,'m':14,'t':16}
 Ebins_2018 = [5.623413,  7.498942, 10. , 13.335215, 17.782795, 23.713737, 31.622776, 42.16965 , 56.23413]
@@ -112,7 +113,11 @@ def generate_probabilities_DC(flavor_from, flavor_to, E_range,z_range,E_bin,z_bi
     if anti:
         flavor_from = 'a' + flavor_from
         flavor_to = 'a' + flavor_to
-    f = h5py.File(f'./pre_computed/DC/E{E_bin}z{z_bin}.hdf5', 'a')
+    try:
+        f = h5py.File(f'./pre_computed/DC/E{E_bin}z{z_bin}.hdf5', 'a')
+    except OSError: #File busy, try again
+        time.sleep(np.random.random())
+        f = h5py.File(f'./pre_computed/DC/E{E_bin}z{z_bin}.hdf5', 'a')
     try:
         dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}', data=prob, chunks=True)
         for key in param_dict.keys():
