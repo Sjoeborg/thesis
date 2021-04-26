@@ -43,7 +43,7 @@ args = parser.parse_args()
 
 def compute_events(params):
     if args.PINGU:
-        result = PINGU_events(params,snsi=True,save=False)
+        result = PINGU_events(params,nsi=True,save=False)
     elif args.DC:
         result = DC_events(params,nsi=True,save=False)
     return result
