@@ -26,23 +26,32 @@ Schrödinger equation for varying density. The Earth density profile is taken fr
 production height of 15 km and an Earth radius of 6371 km. %TODO: add more here?
 
 
-The oscillation probability $P_{\alpha \beta}$ acts as a weight, yielding the propagated flux at detector level for flavor $\beta$ as 
+The oscillation probability $P_{\alpha \beta}$ acts as a weight to the atmospheric flux, yielding the propagated flux at detector level for flavor $\beta$ as 
 \begin{align}\label{eq:propFlux}
     \phi_\beta^\text{det} = \sum_\alpha P_{\alpha\beta} \phi_\alpha^\text{atm} \,,
 \end{align}
-where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$. To illustrate the impact of NSI on both probability
-and flux level, we plot the oscillograms in Fig.~\ref{fig:flux_ratio}. In the left panel, we have marked the region in which 99\% of the 
+where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$. To illustrate the impact of $\emt$ on both probability
+and flux level, we plot the oscillograms resulting from Eq.\ref{eq:propFlux} in Fig.~\ref{fig:flux_ratio}. In the left panel, we have marked the region in which 99\% of the 
 DeepCore cascade events originating from $\ne$ and $\nt$ fluxes are contained. In the right panel, we show the two regions in which 99\% of the IceCube 
-and DeepCore track events originating from $\nm$ fluxes are contained. 
+and DeepCore track events originating from $\nm$ fluxes are contained. Starting with the $\nm$ flux ratio, we see that the only clear signal discernible to the IceCube detector
+is a flux deficiency of a factor of $\sim 10^2$ from core-crossing neutrinos within a zenith range of $\ztrue > -0.87$. DeepCore, on the other hand, 
+observes multiple fringes of flux surpluses with a factor $\sim 10^1$. The strongest surplus at \SI{20}{\GeV} is very weakly zenith dependent, a stark contrast to the
+energy-independent but zenith-sensetive IceCube deficiency.
+
+For the fluxes which drives cascades, we have to resort to the DeepCore detector alone. %TODO: fill more
+Here we see a somewhat weaker signal, this time a zenith-independent deficiency. 
+%TODO: fill with conclusion
 
 \begin{figure}[!tb]
    \begin{center}
       \includegraphics[width=0.4\linewidth]{figures/cascade_flux_ratio.pdf}
+      \hspace{1.5cm}
       \includegraphics[width=0.4\linewidth]{figures/track_flux_ratio.pdf}
    \end{center}
-   \caption{Ratio of propagated NSI to SI atmospheric fluxes at detector level. Dotted (dashed) lines show the region in which 99\% of the 
+   \caption{Ratio of propagated NSI to SI atmospheric fluxes at detector level. We set $\emt = -0.05$, and all other NSI parameters to zero. 
+   Dotted (dashed) lines show the regions in which 99\% of the 
    DeepCore (IceCube) MC events are contained. \emph{Left panel:} Propagated fluxes of $\ne$ and $\nt$ neutrinos and anti-neutrinos. 
-   \emph{Right panel:} Propagated fluxes of $\nm$ neutrinos and anti-neutrinos}\label{fig:flux_ratio}%TODO: normalize color scale
+   \emph{Right panel:} Propagated fluxes of $\nm$ neutrinos and anti-neutrinos}\label{fig:flux_ratio}%TODO: normalize color scale and fix limits
 \end{figure}
 
 \subsection{IceCube}\label{ch:ICmethod}
@@ -56,14 +65,13 @@ which is responsible for the smearing between the reconstructed and true paramet
 \begin{align}
     R(x^r, x^t) = \frac{1}{\sqrt{2\pi} \sigma_{x^r}x^r} \exp\left[-\frac{(\log x^r-\mu(x^t))^2}{2\sigma_{x^r}^2}\right]\,.
 \end{align}
-Assuming no bias in the reconstruction, the mean of the Gaussian can be taken as $\mu(x^t) = x^t$. As seen in Fig.~\ref{fig:IC_MC_counts}, the distribution of 
-simulated events is skewed in energy. To model this bias between $E^{true}$ and $E^{reco}$, we train a Gaussian process regressor on the dataset~\cite{IC2016}, from which
+As seen in Fig.~\ref{fig:IC_MC_counts}, the energy reconstruction is biased. To model this relationship between $E^{true}$ and $E^{reco}$, we train a Gaussian process regressor on the dataset~\cite{IC2016}, from which
 we can extract a predicted mean and standard deviation for a given $E^{reco}$. We then take the $E^\text{true}$ points of the 99th percentile of each distribution to obtain
 the limits of $E^\text{true}$ at which to integrate over. We have no angular resolution function since the angle resolution in Icecube for track-like events is less than $\SI{2}{\degree}$, making $\ztrue$ coincide with $\zreco$ for our study~\cite{IC2020}. 
 The data is from the IC86 sterile analysis~\cite{IC2020}.
 \begin{figure}[!tb]
     \begin{center}
-       \includegraphics[width=0.4\linewidth]{figures/IC_MC_gpr.pdf}
+       \includegraphics[width=0.4\linewidth]{figures/IC_MC_gpr.pdf} %TODO: another fig here? Aeff?
     \end{center}
     \caption{Relationship between the true and reconstructed muon energy in the IceCube MC sample~\cite{IC2016}}\label{fig:IC_MC_counts}. Shaded area shows the $99.9$th percentile limits predicted by the regressor trained on this set.
  \end{figure}
@@ -225,7 +233,7 @@ with test statistic $\chi^2_\text{joint,min}$.
          \item[$\times$] Uncertainty on hadron production in atmosphere
          \item[$\times$] Uncertainty on neutrino nucleon cross section 
       \end{itemize} &
-    Our DC+PINGU analysis
+    This DC+PINGU analysis
       \begin{itemize}
          \item[$\checkmark$] Honda atmospheric fluxes
          \item[$\checkmark$] Tracks and cascades for all flavors
