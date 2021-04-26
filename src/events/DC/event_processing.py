@@ -119,7 +119,7 @@ def list_of_params_nsi(dicta, dm31_range, th23_range, ett_range, emt_range, eem_
         dict2 = dicta.copy()
         dict2.update(p)
         return dict2
-    dict_list = [update_dict(dicta,{'e_ee':-tt,'e_em':eem,'e_et':eet,'e_mm':-tt,'e_mt':mt,'theta_23':th23, 'dm_31':dm31}) for eet in eet_range for eem in eem_range for mt in emt_range for tt in ett_range for th23 in th23_range for dm31 in dm31_range]
+    dict_list = [update_dict(dicta,{'e_em':eem,'e_et':eet,'e_tt':tt,'e_mt':mt,'theta_23':th23, 'dm_31':dm31}) for eet in eet_range for eem in eem_range for mt in emt_range for tt in ett_range for th23 in th23_range for dm31 in dm31_range]
     return dict_list
 
 def get_param_list(dm31N,th23N, ett, ettN, emt, emtN, eem, eemN, eet, eetN, IO=False):
