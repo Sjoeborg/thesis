@@ -92,10 +92,13 @@ def get_probabilities_DC(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid
     if anti:
         flavor_from = 'a' + flavor_from
         flavor_to = 'a' + flavor_to
-    try:
-        f = h5py.File(f'./pre_computed/DC/E{Ebin}z{zbin}.hdf5', 'r')
-    except OSError:
-        raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/DC/')
+    for i in range(10):
+        try:
+            f = h5py.File(f'./pre_computed/DC/E{Ebin}z{zbin}.hdf5', 'r')
+        except OSError: #File busy, try again
+            time.sleep(np.random.random())
+            f = h5py.File(f'./pre_computed/DC/E{Ebin}z{zbin}.hdf5', 'r')
+        #raise KeyError(f'E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/DC/')
     try:
         fh = f[f'{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}']
     except KeyError:
