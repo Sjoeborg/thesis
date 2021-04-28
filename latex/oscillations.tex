@@ -1,12 +1,13 @@
-\documentclass[twocolumn]{article}
+\documentclass[draft=True]{revtex4-2}
 \input{commands.tex}
-\usepackage{physics,amsmath, amsfonts, siunitx, amssymb,cite}
+\usepackage{physics,amsmath, amsfonts, siunitx, amssymb, graphicx, slashed}
 \usepackage[utf8]{inputenc}
-\usepackage{xr-hyper}
 %\usepackage{hyperref}
+\usepackage{xr-hyper}
 \externaldocument{SM}
 
 \begin{document}
+
 \section{Neutrino Masses and Oscillations}\label{ch:oscillation}
 As we saw in Eq.~\ref{eq:j_CC}
 , the neutrino fields $\nu_\alpha$ only couple to the associated lepton fields $\ell_\alpha$, conserving the lepton number $L_\alpha$. We will now introduce two separate extensions to this part of the Standard Model.
@@ -76,11 +77,184 @@ Call $V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} = U^\dagg
 Now, the current in Eq.~\ref{eq:j_CC2} conserves lepton number, since the neutrino field with flavor $\alpha$ only couples to the lepton field with flavor $\alpha$. However, the Higgs-lepton Yukawa Lagrangian 
 in Eq.~\ref{eq:L_H} violates lepton number conservation since it couples the charged lepton flavor $\alpha$ to the neutrino mass eigenstate $k$, which is a superposition of flavors. There is no transformation that leaves both the interaction and kinetic Lagrangian invariant.
 We now have 
+\begin{align}\label{eq:j_CC3} %TODO: put sums on all above?
+    j^\rho_L &= 2 \sum_\alpha \sum_k U^*_{\alpha k} \bar{\nu}_{k L} \gamma^\rho  \ell_{\alpha L}
+\end{align}
+Now, the Fourier expansion of the field operator $\bar{\nu}_{k L}$ in Eq.~\ref{eq:j_CC3} contains creation operators $a^\dagger_{\nu_k}$
+of massive neutrinos with mass $m_k$. This means that the summation over the mass index $k$ constructs a flavor neutrino, which interacts with the charged lepton field $\ell_{\a L}$.
+In other words, the charged current generates a flavor neutrino $\na$, which is a superposition of the mass eigenstates 
+$\nu_k$ with weights $U_{\a k}^*$. In the ket-formalism, we express this as
+\begin{align}\label{eq:osc_1}
+    \ket{\na} = \sum_k U^*_{\a k} \ket{\nu_k}\,.
+\end{align}
+It is the mass eigenstates $\ket{\nu_k}$ that are eigenstates of the Hamiltonian, with eigenvalues
+\begin{align}\label{eq:disp}
+    E_k = \sqrt{\vec{p}^2 + m_k^2}\,.
+\end{align}
+The solution to the time-dependent Schrödinger equation 
 \begin{align}
-    j^\rho_L &= 2 U^*_{\alpha k} \bar{\nu}_{k L} \gamma^\rho  \ell_{\alpha L}
+    i \dv{}{t} \ket{\nu_k(t)} = H\ket{\nu_k(t)}\,,
+\end{align}
+gives us a plane wave evolution to the mass states as 
+\begin{align}
+    \ket{\nu_k(t)} = e^{-iE_kt}\ket{\nu_k}\,.
+\end{align}
+Inserting the plane wave solution into Eq.~\ref{eq:osc_1}, we get 
+\begin{align}\label{eq:nat}
+    \ket{\na(t)} = \sum_k U^*_{\a k} e^{-iE_kt}\ket{\nu_k}\,.
+\end{align}
+Now we know how to evolve and combine the mass eigenstates to form a flavor eigenstate, but how about the reverse? We swap the index $k\to j$ in Eq.~\ref{eq:osc_1} and multiply by $U_{\a k}$:
+\begin{align}\label{eq:osc_k}
+    \sum_\a U_{\a k}\ket{\na} &= \sum_{\alpha, j} U_{\a k} U_{\a j}^* \ket{\nu_j} \nonumber \\
+    \sum_\a U_{\a k}\ket{\na} &= \sum_{j} \delta_{kj} \ket{\nu_j} \nonumber \\
+    \sum_\a U_{\a k}\ket{\na} &= \ket{\nu_k}\,,
+\end{align}
+where we have used the unitarity of the leptonic mixing matrix. Eqs.~\ref{eq:osc_1} and \ref{eq:nat} yield 
+\begin{align}
+    \ket{\na(t)} &= \sum_k U^*_{\a k} e^{-iE_kt}\ket{\nu_k} \nonumber \\
+    \ket{\na(t)} &= \sum_k U^*_{\a k} e^{-iE_kt}\left(\sum_\b U_{\b k}\ket{\nb}\right) \nonumber \\
+    \ket{\na(t)} &= \sum_{k,\b} U^*_{\a k}U_{\b k} e^{-iE_kt} \ket{\nb}\,.
+\end{align}
+The probability of the flavor transition $\na \to \nb$ at time $t$ is $\abs{\bra{\nb}\ket{\na (t)}}^2$:
+\begin{align}
+    P_{\na \to \nb}(t) = \sum_{k,j} U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} e^{-i(E_k-E_j)t}\,.
 \end{align}
 
-Derivation of neutrino oscillation formula
+We assume the neutrino masses $m_k$ to be extremely small compared to their associated energies $E_k$. Thus, $v\approx 1$, and $\abs{\vec{p}} \approx E$ making the energy-dispersion relation of Eq.~\ref{eq:disp} to first order:
+\begin{align}
+    E_k &= \sqrt{\vec{p}^2 + m_k^2} \nonumber \\
+        &= \vec{p}^2\sqrt{1 + \frac{m_k^2}{\vec{p}^2}} \nonumber \\
+        &\approx E + \frac{m_k^2}{2E}
+\end{align}
+Hence, the exponential can be simplified, and simplifying the notation $P_{\na \to \nb}(t) \to P_{\ab}(t)$ we get 
+\begin{align}
+    P_{\ab}(t) = \sum_{k,j} U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} e^{-i(m_k^2-m_j^2)t/2E}\,.
+\end{align}
+
+Now, our approximation $v\approx 1$ implies $x\approx t $, thus
+\begin{align}
+    P_{\ab}(x) &= \sum_{k,j} U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} e^{-i(m_k^2-m_j^2)x/2E} \nonumber \\
+                       &= \sum_{k,j} U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E})\,,
+\end{align}
+where we in the last step have defined the \emph{mass squared-difference} $\dm_{kj} = m_k^2 - m_j^2$. Thus, it is impossible
+to measure the mass states $m_k$ through neutrino oscillations, since they depend on the difference between the two squared mass states instead of the
+masses themselves. 
+Squaring the unitarity condition $\sum_k U_{\a k}U_{\b k}^* = \delta_{\a \b}$ yields 
+\begin{align}
+    \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 = \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^* U_{\b k} U_{\a j} U_{\b j}^*]
+\end{align}
+In this work, we will always assume the mixing matrix $U$ to be real. 
+We thus write 
+\begin{align}\label{eq:Pab}
+    P_{\ab} &= \sum_{k,j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+            &=  \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 + \nonumber \\
+            &\hspace{2em}+ \sum_{k \neq j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+            &= \delta_{\a \b} - 2 \sum_{k>j}U_{\a k} U_{\b k} U_{\b j} U_{\a j} \nonumber \\
+            & \hspace{3em}+\sum_{k \neq j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+            &= \delta_{\a \b} - 2 \sum_{k>j}U_{\a k} U_{\b k} U_{\b j} U_{\a j} \nonumber \\
+            &\hspace{3em}+ 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+            &= \delta_{\a \b} - 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \left[1-\exp(-i\frac{\dm_{kj}x}{2E})\right] \nonumber \\
+            &= \delta_{\a \b} - 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \left[1-\cos(\frac{\dm_{kj}x}{2E})\right] \nonumber \\
+            &= \delta_{\a \b} - 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \sin^2{\left(\frac{\dm_{kj}x}{4E}\right)}\,,
+\end{align}
+which is the probability of neutrino vacuum oscillations. %TODO: maybe plot?
+The calculation for antineutrinos yield the same result if one assumes the realness of the mixing matrix. 
+
+\subsection{Matter effects}
+\begin{figure}\label{fig:w_and_z}
+    \includegraphics[width=0.1\textwidth]{figures/w-boson.pdf}
+    \hspace{2cm}
+    \includegraphics[width=0.1\textwidth]{figures/z-boson.pdf}
+\end{figure}
+In this work, we are concerned about the interactions with the neutrino and Earth-like matter, i.e. electrons, protons, and neutrons. 
+The possible interactions are shown in Fig. ~\ref{fig:w_and_z}. The left panel shows that the only flavor that can go through charged current (CC) 
+interactions is the electron flavor. This is because the Earth doesn't consist of any muons or tau particles. 
+The right panel shows any neutrino flavor interaction via the neutral current (NC) with Earth-like matter, mediated by the neutral $Z$ boson
+ we see weak forward CC and NC scattering. 
+The interaction mediated by the $W$ boson will give rise to a effective matter potential $V_{CC}$, while
+the $Z$ boson is responsible for $V_{NC}$. Our task is now to find expressions for these.
+
+\subsection{Effective matter potentials}
+
+We start with the effective Hamiltonian for the CC process. The Feynman rules for the left panel give us 
+\begin{align}
+    H = \frac{G_F}{\sqrt{2}}\left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, e \right] \left[\bar e \,\gamma_\rho\, (1- \gamma^5)\, \ne \right]
+\end{align}
+By using the Fierz transformation 
+\begin{align}
+    \mathcal{L}^{V-A}(\psi_1,\psi_2,\psi_3,\psi_4) = \mathcal{L}^{V-A}(\psi_1,\psi_4,\psi_3,\psi_2)\,,
+\end{align}
+we can permute the terms inside the brackets, yielding
+\begin{align}\label{eq:H_fierz}
+    H = \frac{G_F}{\sqrt{2}}\left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, \ne \right] \left[\bar e \,\gamma_\rho\, (1- \gamma^5)\, e \right]\,.
+\end{align}
+Now, lets consider a finite volume $V$ with electron states defined as 
+\begin{align}\label{eq:e_states}
+    \ket{e(p_e,h_e)} = \frac{1}{2E_eV}a_e^{(h_e)\dagger}(p_e)\ket{0}\,,
+\end{align}
+i.e. using the creation operator $a_e^{(h_e)\dagger}(p_e)$ to create electron states from vacuum with momenta $p_e$, energy $E_e$, and helicity $h_e$.
+The density distribution of electrons in $V$ is $f(E_e,T)$, which we normalize to the total number of electrons as we integrate out the momenta $p_e$:
+\begin{align}\label{eq:e_density}
+    \int \dd p_e^3 f(E_e,T) = N_e V = n_e
+\end{align}
+Here, the electron density $N_e$ will ultimately determine the strength of the effective matter potential. 
+To obtain the average effective Hamiltonian, project it on the electron states in Eq.~\ref{eq:e_states} and integrate over the density and sum over the helicities:
+
+\begin{align}\label{eq:avg_H1}
+    \bar H &= \int \dd p_e^3 \bra{e(p_e,h_e)} \times \frac{1}{2} \sum_{h_e} H   f(E_e,T) \ket{e(p_e,h_e)} \nonumber \\
+           &= \frac{G_F}{\sqrt{2}} \int \dd p_e^3 \bra{e(p_e,h_e)} \left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, \ne \right]  f(E_e,T) \times \frac{1}{2} \sum_{h_e} \left[\bar e(x) \,\gamma_\rho\, (1- \gamma^5)\, e(x) \right] \ket{e(p_e,h_e)} \nonumber \\
+           &= \frac{G_F}{\sqrt{2}} \bar\ne \gamma^\rho\, (1- \gamma^5)\, \ne \int \dd p_e^3  f(E_e,T) \times \frac{1}{2} \sum_{h_e} \bra{e(p_e,h_e)} \bar e(x) \,\gamma_\rho\, (1- \gamma^5)\, e(x)   \ket{e(p_e,h_e)}\,.
+\end{align}
+First, calculate the sum using trace technology %TODO: explain this more
+\begin{align}\label{eq:helicity_sum}
+    \frac{1}{2} \sum_{h_e} \bra{e(p_e,h_e)} \bar e(x) \,\gamma_\rho\, (1- \gamma^5)\, e(x)   \ket{e(p_e,h_e)} &= \frac{1}{4E_e V} \sum_{h_e} \bar{u}_e^{h_e}(p_e) \,\gamma_\rho\, (1- \gamma^5)\, u_e^{h_e}(p_e) \nonumber \\
+    &= \frac{1}{4 E_e V} \Trace{\left[ \sum_{h_e} \bar{u}_e^{h_e}(p_e) u_e^{h_e}(p_e) \,\gamma_\rho\, (1- \gamma^5)\, \right]} \nonumber \\
+    &= \frac{1}{4 E_e V} \Trace{\left[ (\slashed{p}_e + m_e ) \,\gamma_\rho\, (1- \gamma^5)\, \right]} \nonumber \\
+    &= \frac{(p_e)_\rho}{E_e V}
+\end{align}
+Eq.~\ref{eq:avg_H1} now becomes 
+\begin{align}\label{eq:avg_H2}
+    \avg{H} &= \frac{G_F}{\sqrt{2}E_e V} \bar\ne \, (1- \gamma^5)\, \ne \int \dd p_e^3\, \slashed{p}_e\, f(E_e,T)\,.
+\end{align}
+Expand the integral, and use the fact that $\vec{p}_e$ is odd:
+\begin{align}
+    \int \dd p_e^3\, \slashed{p}_e\, f(E_e,T) &= \int \dd p_e^3\, f(E_e,T) (\gamma^0 E_e - \vec{p}_e \cdot \vec{gamma}) \nonumber \\
+                                              &= \int \dd p_e^3\, f(E_e,T) \gamma^0 E_e \nonumber \\
+                                              &= \gamma_0 E_e N_e V\,.
+\end{align}
+Inserting this into Eq.~\ref{eq:avg_H2}, we have
+\begin{align}
+    \avg{H} &= \frac{G_F N_e}{\sqrt{2}} \bar{\nu}_e \, (1- \gamma^5)\, \ne \gamma_0 \nonumber \\
+            &= \sqrt{2}G_F N_e \bar{\nu}_{Le} \gamma^0 \nu_{Le}\,,
+\end{align}
+where the projection operator $(1- \gamma^5)$ ensures that only the left-hand compontent of the neutrino fields interact weakly. Thus 
+\begin{align}\label{V_CC1}
+    V_{CC} = \sqrt{2}G_F N_e
+\end{align}
+
+For neutral current, we replace the electron field $e(x)$ in Eq.~\ref{eq:H_fierz} by the fermion field $f(x)$, and the projection operator 
+$(1-\gamma^5)$ with $(g_V^f - g_A^f\gamma^5)$. Again, the $\gamma^5$ will cause the spacial component of $p_f$ to disappear after integration, and the 
+only difference between the average effective Hamiltonian for the neutral current is then the factor $g_V^f$:
+\begin{align}
+    V^f_{NC} = \sqrt{2}G_F N_A g_V^f\,.
+\end{align}
+Summing over the fermions, and assuming electrical neutrality and equal abundance of protons and neutrons, we have
+\begin{align}
+    V_{NC} &= \sum_{f \in {e,p,n}} V^f_{NC} \nonumber \\
+           &= \sqrt{2}G_F N_A \sum_{f \in {e,p,n}} g_V^f \nonumber \\
+           &= \sqrt{2}G_F N_A\left[ -\frac{1}{2}+2\sin^2{(\theta_W)} + \frac{1}{2}-2\sin^2{(\theta_W)} -\frac{1}{2} \right] \nonumber \\
+           &= -\frac{1}  {\sqrt{2}} G_F N_e\,,
+\end{align}
+where the electrical neutrality condition allows us to simply sum the vectorial couplings together, cancelling the electron and proton contributions (and hence, also the mixing angle dependence).
+\subsection{Matter oscillations}
+Since only $\ne$ undergo CC interactions, the $V_{CC}$ potential is zero for all other flavors. However, since all flavors, undergo NC interactions the total matter potential in matrix form is:
+\begin{align}
+    V = \begin{bmatrix}
+        V_{CC} + V_{NC} & 0 & 0 \\
+        0 & V_{NC} & 0 \\
+        0 & 0 & V_{NC} \\
+    \end{bmatrix}
+\end{align}
 %\bibliographystyle{apalike}
 %\bibliography{ref}
 \end{document}

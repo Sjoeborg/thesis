@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{tikz-feynman,amsmath,physics}
+\begin{document}
+\pagestyle{empty}
+\feynmandiagram [vertical=a to b] {% t
+i1 [particle = \(\nu_e\)] -- [fermion] a [dot] -- [ fermion] f1 [particle = \(e^-\)],
+a  -- [boson, edge label = \(W\)] b [dot],
+f2 [particle = \(\nu_e\)] -- [anti fermion] b -- [anti fermion] i2 [particle = \(e^-\)]
+};
+\end{document}
