@@ -92,10 +92,13 @@ It is the mass eigenstates $\ket{\nu_k}$ that are eigenstates of the Hamiltonian
     E_k = \sqrt{\vec{p}^2 + m_k^2}\,.
 \end{align}
 The solution to the time-dependent Schrödinger equation 
-\begin{align}
-    i \dv{}{t} \ket{\nu_k(t)} = H\ket{\nu_k(t)}\,,
+\begin{align}\label{eq:TDSE}
+    i \dv{}{t} \ket{\nu_k(t)} = H_0\ket{\nu_k(t)}\,,
 \end{align}
-gives us a plane wave evolution to the mass states as 
+where $H_0$ is the Hamiltonian and the subscript signifies that we are in vacuum. 
+
+The solution to Eq.~\ref{eq:TDSE} gives ut the time evolution
+in the form of plane wave solutions: 
 \begin{align}
     \ket{\nu_k(t)} = e^{-iE_kt}\ket{\nu_k}\,.
 \end{align}
@@ -121,7 +124,7 @@ The probability of the flavor transition $\na \to \nb$ at time $t$ is $\abs{\bra
 \end{align}
 
 We assume the neutrino masses $m_k$ to be extremely small compared to their associated energies $E_k$. Thus, $v\approx 1$, and $\abs{\vec{p}} \approx E$ making the energy-dispersion relation of Eq.~\ref{eq:disp} to first order:
-\begin{align}
+\begin{align}\label{eq:ultra_rel}
     E_k &= \sqrt{\vec{p}^2 + m_k^2} \nonumber \\
         &= \vec{p}^2\sqrt{1 + \frac{m_k^2}{\vec{p}^2}} \nonumber \\
         &\approx E + \frac{m_k^2}{2E}
@@ -136,9 +139,9 @@ Now, our approximation $v\approx 1$ implies $x\approx t $, thus
     P_{\ab}(x) &= \sum_{k,j} U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} e^{-i(m_k^2-m_j^2)x/2E} \nonumber \\
                        &= \sum_{k,j} U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E})\,,
 \end{align}
-where we in the last step have defined the \emph{mass squared-difference} $\dm_{kj} = m_k^2 - m_j^2$. Thus, it is impossible
-to measure the mass states $m_k$ through neutrino oscillations, since they depend on the difference between the two squared mass states instead of the
-masses themselves. 
+where we in the last step have defined the \emph{mass squared-difference} $\dm_{kj} = m_k^2 - m_j^2$. Since the oscillation probability depends on this quantity
+rather than the individual masses, it is impossible
+to measure the mass states $m_k$ through neutrino oscillations.
 Squaring the unitarity condition $\sum_k U_{\a k}U_{\b k}^* = \delta_{\a \b}$ yields 
 \begin{align}
     \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 = \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^* U_{\b k} U_{\a j} U_{\b j}^*]
@@ -178,7 +181,7 @@ the $Z$ boson is responsible for $V_{NC}$. Our task is now to find expressions f
 
 We start with the effective Hamiltonian for the CC process. The Feynman rules for the left panel give us 
 \begin{align}
-    H = \frac{G_F}{\sqrt{2}}\left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, e \right] \left[\bar e \,\gamma_\rho\, (1- \gamma^5)\, \ne \right]
+    H^{CC} = \frac{G_F}{\sqrt{2}}\left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, e \right] \left[\bar e \,\gamma_\rho\, (1- \gamma^5)\, \ne \right]
 \end{align}
 By using the Fierz transformation 
 \begin{align}
@@ -186,7 +189,7 @@ By using the Fierz transformation
 \end{align}
 we can permute the terms inside the brackets, yielding
 \begin{align}\label{eq:H_fierz}
-    H = \frac{G_F}{\sqrt{2}}\left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, \ne \right] \left[\bar e \,\gamma_\rho\, (1- \gamma^5)\, e \right]\,.
+    H^{CC} = \frac{G_F}{\sqrt{2}}\left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, \ne \right] \left[\bar e \,\gamma_\rho\, (1- \gamma^5)\, e \right]\,.
 \end{align}
 Now, lets consider a finite volume $V$ with electron states defined as 
 \begin{align}\label{eq:e_states}
@@ -201,7 +204,7 @@ Here, the electron density $N_e$ will ultimately determine the strength of the e
 To obtain the average effective Hamiltonian, project it on the electron states in Eq.~\ref{eq:e_states} and integrate over the density and sum over the helicities:
 
 \begin{align}\label{eq:avg_H1}
-    \bar H &= \int \dd p_e^3 \bra{e(p_e,h_e)} \times \frac{1}{2} \sum_{h_e} H   f(E_e,T) \ket{e(p_e,h_e)} \nonumber \\
+    \bar{H}^{CC} &= \int \dd p_e^3 \bra{e(p_e,h_e)} \times \frac{1}{2} \sum_{h_e} H   f(E_e,T) \ket{e(p_e,h_e)} \nonumber \\
            &= \frac{G_F}{\sqrt{2}} \int \dd p_e^3 \bra{e(p_e,h_e)} \left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, \ne \right]  f(E_e,T) \times \frac{1}{2} \sum_{h_e} \left[\bar e(x) \,\gamma_\rho\, (1- \gamma^5)\, e(x) \right] \ket{e(p_e,h_e)} \nonumber \\
            &= \frac{G_F}{\sqrt{2}} \bar\ne \gamma^\rho\, (1- \gamma^5)\, \ne \int \dd p_e^3  f(E_e,T) \times \frac{1}{2} \sum_{h_e} \bra{e(p_e,h_e)} \bar e(x) \,\gamma_\rho\, (1- \gamma^5)\, e(x)   \ket{e(p_e,h_e)}\,.
 \end{align}
@@ -210,11 +213,11 @@ First, calculate the sum using trace technology %TODO: explain this more
     \frac{1}{2} \sum_{h_e} \bra{e(p_e,h_e)} \bar e(x) \,\gamma_\rho\, (1- \gamma^5)\, e(x)   \ket{e(p_e,h_e)} &= \frac{1}{4E_e V} \sum_{h_e} \bar{u}_e^{h_e}(p_e) \,\gamma_\rho\, (1- \gamma^5)\, u_e^{h_e}(p_e) \nonumber \\
     &= \frac{1}{4 E_e V} \Trace{\left[ \sum_{h_e} \bar{u}_e^{h_e}(p_e) u_e^{h_e}(p_e) \,\gamma_\rho\, (1- \gamma^5)\, \right]} \nonumber \\
     &= \frac{1}{4 E_e V} \Trace{\left[ (\slashed{p}_e + m_e ) \,\gamma_\rho\, (1- \gamma^5)\, \right]} \nonumber \\
-    &= \frac{(p_e)_\rho}{E_e V}
+    &= \frac{(p_e)_\rho}{E_e V}\,.
 \end{align}
 Eq.~\ref{eq:avg_H1} now becomes 
 \begin{align}\label{eq:avg_H2}
-    \avg{H} &= \frac{G_F}{\sqrt{2}E_e V} \bar\ne \, (1- \gamma^5)\, \ne \int \dd p_e^3\, \slashed{p}_e\, f(E_e,T)\,.
+    \avg{H^{CC}} &= \frac{G_F}{\sqrt{2}E_e V} \bar\ne \, (1- \gamma^5)\, \ne \int \dd p_e^3\, \slashed{p}_e\, f(E_e,T)\,.
 \end{align}
 Expand the integral, and use the fact that $\vec{p}_e$ is odd:
 \begin{align}
@@ -224,13 +227,18 @@ Expand the integral, and use the fact that $\vec{p}_e$ is odd:
 \end{align}
 Inserting this into Eq.~\ref{eq:avg_H2}, we have
 \begin{align}
-    \avg{H} &= \frac{G_F N_e}{\sqrt{2}} \bar{\nu}_e \, (1- \gamma^5)\, \ne \gamma_0 \nonumber \\
+    \avg{H^{CC}} &= \frac{G_F N_e}{\sqrt{2}} \bar{\nu}_e \, (1- \gamma^5)\, \ne \gamma_0 \nonumber \\
             &= \sqrt{2}G_F N_e \bar{\nu}_{Le} \gamma^0 \nu_{Le}\,,
 \end{align}
-where the projection operator $(1- \gamma^5)$ ensures that only the left-hand compontent of the neutrino fields interact weakly. Thus 
-\begin{align}\label{V_CC1}
-    V_{CC} = \sqrt{2}G_F N_e
+where the projection operator $(1- \gamma^5)$ ensures that only the left-hand compontent of the neutrino fields interact weakly. Thus,
+\begin{align}\label{eq:V_CC1}
+    V_{CC} = \sqrt{2}G_F N_e\,, \quad H^{CC}\ket{\nu_k} = V_{CC}\ket{\nu_k}\,.
 \end{align}
+Here we see a crucial difference between the eigenvectors between the vacuum Hamiltonian defined in Eq.~\ref{eq:osc_1} and $H^{CC}$, namely
+that the CC (and NC) interactions happen in the flavor basis rather than in the mass basis. In other words,
+neutrinos propagate in their mass eigenstates, but interact in their flavor eigenstate. The mixing of mass eigenstates during propagation
+determines if the flavor eigenstate has oscillated or not. Thus, the expressions involving the 
+matter potential does not need to be transformed by the PMNS matrix.
 
 For neutral current, we replace the electron field $e(x)$ in Eq.~\ref{eq:H_fierz} by the fermion field $f(x)$, and the projection operator 
 $(1-\gamma^5)$ with $(g_V^f - g_A^f\gamma^5)$. Again, the $\gamma^5$ will cause the spacial component of $p_f$ to disappear after integration, and the 
@@ -247,14 +255,65 @@ Summing over the fermions, and assuming electrical neutrality and equal abundanc
 \end{align}
 where the electrical neutrality condition allows us to simply sum the vectorial couplings together, cancelling the electron and proton contributions (and hence, also the mixing angle dependence).
 \subsection{Matter oscillations}
-Since only $\ne$ undergo CC interactions, the $V_{CC}$ potential is zero for all other flavors. However, since all flavors, undergo NC interactions the total matter potential in matrix form is:
-\begin{align}
+Since only $\ne$ undergo CC interactions in Earth-like matter, the $V_{CC}$ potential is zero for all other flavors. However, since all flavors undergo NC interactions the total matter potential in matrix form is:
+\begin{align}\label{V_matrix}
     V = \begin{bmatrix}
         V_{CC} + V_{NC} & 0 & 0 \\
         0 & V_{NC} & 0 \\
         0 & 0 & V_{NC} \\
-    \end{bmatrix}
+    \end{bmatrix} = V_{CC}\, \delta_{\alpha e} + V_{NC}\,.
 \end{align}
+
+Just as in Eq.~\ref{eq:TDSE}, we start with a Hamiltonian that solves the time-dependent Schrödinger equation. This time, let the Hamiltonian be 
+\begin{align}
+    H = H_0 + H_{I}\,,
+\end{align}
+where $H_0$ is the Hamiltonian in vacuum, and $H_{I}$ is our interaction Hamiltonian associated with our matter potentials.
+Let the wavefunction that describes the $\nu_\a \to \nu_\b$ transition be 
+\begin{align}
+    \bra{\nu_\b}\ket{\nu_\a (t)}\,,
+\end{align}
+i.e.~the evolution of the state of a neutrino emitted at $t =0$ with flavor $\alpha$ to flavor $\beta$ at time $t$.
+
+Now using Eq.~\ref{eq:osc_1} and Eq.~\ref{eq:V_CC1}, we are ready to see what form our Hamiltonians take.
+Let us start with the vaccum Hamiltonian $H_0$, and act on its Schrödinger equation with $\bra{\nu_\b}\,$:
+\begin{align}
+    i \dv{}{t}\ket{\nu_\a (t)} = H_0\ket{\nu_\a (t)} \implies i \dv{}{t}\psi_{\a\b} = \bra{\nu_\b}H_0\ket{\nu_\a (t)}\,.
+\end{align}
+Reminding ourselves that the vacuum Hamiltonian $H_0$ has eigenstates in the mass basis, we write the following expression where 
+use the relations ~\ref{eq:osc_1} and ~\ref{eq:osc_k} to switch between the flavor and mass basis with the PMNS elements:
+\begin{align}
+    \bra{\nu_\b} H_0 &= \sum_k U_{\b k} \bra{\nu_k}H_0 \nonumber \\
+                     &= \sum_k U_{\b k} E_k \bra{\nu_k} \nonumber \\
+                     &= \sum_\eta \sum_k U_{\b k} E_k U^*_{\eta k} \bra{\nu_\eta}\,.
+\end{align}
+Thus,
+\begin{align}
+    \bra{\nu_\b}H_0\ket{\nu_\a (t)} &= \sum_\eta \sum_k U_{\b k} E_k U^*_{\eta k} \bra{\nu_\eta}\ket{\nu_\a (t)} \nonumber \\
+                                    &= \sum_\eta \sum_k U_{\b k} E_k U^*_{\eta k} \psi_{\a\eta}(t)\,.
+\end{align}
+Using the ultrarelativistic approximation from Eq.~\ref{eq:ultra_rel}:
+\begin{align}
+    \sum_\eta \sum_k U_{\b k} E_k U^*_{\eta k} \psi_{\a\eta}(t) &= \sum_\eta \sum_k U_{\b k} \left(p + \frac{m^2_k}{2E}\right) U^*_{\eta k} \psi_{\a\eta}(x) \nonumber \\
+    &= \sum_\eta \sum_k U_{\b k} \left(p + \frac{m^2_k}{2E}\right) U^*_{\eta k} \psi_{\a\eta}(x)\,.
+\end{align}
+Use the fact that $\sum_k m_k^2 = \sum_k m_1^2 + m^2_k - m^2_1 = m_1^2 + \sum_k \dm_{k1}$ to pull out common terms out of the summation:
+\begin{align}\label{eq:t1}
+    \sum_\eta \sum_k U_{\b k} \left(p + \frac{m^2_k}{2E}\right) U^*_{\eta k} \psi_{\a\eta}(x) &= \sum_\eta \sum_k U_{\b k} \left(p + \frac{m^2_1}{2E} + \frac{\dm_{k1}}{2E}\right) U^*_{\eta k} \psi_{\a\eta}(x) \nonumber \\
+    &= \sum_\eta\sum_k \left(p + \frac{m^2_1}{2E}\right) U_{\b k} U^*_{\eta k} \psi_{\a\eta}(x) + \sum_\eta\sum_k U_{\b k} \frac{\dm_{k1}}{2E} U^*_{\eta k} \psi_{\a\eta}(x)\,.
+\end{align}
+Unitarity gives $ \sum_k U_{\b k} U^*_{\eta k} = \delta_{\eta\b}$, and the first term in the last step of Eq.~\ref{t1} becomes
+\begin{align}
+    \sum_\eta \left(p + \frac{m^2_1}{2E}\right) \delta_{\beta \eta} \psi_{\a\eta}(x)
+    =& \left(p + \frac{m^2_1}{2E}\right) \psi_{\a\b}(x)\,.
+\end{align}
+This is a phase common to all states, which does not affect the probability since it can be rotated away.
+Our treatment of the interaction Hamiltonian is similar except for the fact that its eigenstates lie in the flavor basis, conviniently allowing us
+to letting it act directly on the flavor eigenstates:
+\begin{align}
+    \bra{\nu_\b}H_I &= V_\beta \bra{\nu_\b} \nonumber\\
+                    &= \delta_{\b\eta} V_\beta \bra{\nu_\eta}\,.
+\end{align}  
 %\bibliographystyle{apalike}
 %\bibliography{ref}
 \end{document}
