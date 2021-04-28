@@ -70,7 +70,7 @@ if __name__ == '__main__':
     #data = [(p) for p in param_list]
     if args.PINGU:
         #p = Pool()
-        H1_events_list = process_map(compute_events, param_list)
+        H1_events_list = process_map(compute_events, param_list, chunksize=5)
 
         #p.close()
         pickle.dump(np.array(H1_events_list),open(f'./pre_computed/H1_{ordering}_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
