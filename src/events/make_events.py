@@ -64,7 +64,7 @@ if __name__ == '__main__':
     print('eem:', eem_range)
     print('eet:', eet_range)
     param_dict = nufit_params_nsi_IO if args.IO else nufit_params_nsi
-
+    ordering = 'IO' if args.IO else 'NO'
     param_list = list_of_params_nsi(param_dict, dm31_range, th23_range, ett_range, emt_range, eem_range, eet_range)
     
     #data = [(p) for p in param_list]
@@ -73,15 +73,15 @@ if __name__ == '__main__':
         H1_events_list = process_map(compute_events, param_list)
 
         #p.close()
-        pickle.dump(np.array(H1_events_list),open(f'./pre_computed/H1_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
+        pickle.dump(np.array(H1_events_list),open(f'./pre_computed/H1_{ordering}_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     elif args.DC:
         #p = Pool()
         H1_events_list = process_map(compute_events, param_list)
         #p.close()
-        pickle.dump(np.array(H1_events_list),open(f'./pre_computed/H1_DC_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
+        pickle.dump(np.array(H1_events_list),open(f'./pre_computed/H1_{ordering}_DC_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     if args.IC:
         data = [(0.99, 13,p, False,False, [False, 0, 0],True, True,3) for p in param_list]
         #p = Pool()
         H1_events_list = process_map(IC_events, data)
         #p.close()
-        pickle.dump(H1_events_list,open(f'./pre_computed/H1_IC_N13_{len(dm31_range)}x{len(th23_range)}x{len(emt_range)}.p','wb'))
+        pickle.dump(H1_events_list,open(f'./pre_computed/H1_{ordering}_IC_N13_{len(dm31_range)}x{len(th23_range)}x{len(emt_range)}.p','wb'))
