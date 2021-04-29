@@ -1,14 +1,14 @@
-\documentclass[draft=True]{revtex4-2}
-\input{commands.tex}
-\usepackage{physics,amsmath, amsfonts, siunitx, amssymb, graphicx, slashed}
+\documentclass[draft=True]{thesis}
+\usepackage{graphicx, slashed}
 \usepackage[utf8]{inputenc}
 %\usepackage{hyperref}
 \usepackage{xr-hyper}
 \externaldocument{SM}
-
+\input{commands}
 \begin{document}
 
 \section{Neutrino Masses and Oscillations}\label{ch:oscillation}
+\subsection{Neutrino mixing and the PMNS matrix}
 As we saw in Eq.~\ref{eq:j_CC}
 , the neutrino fields $\nu_\alpha$ only couple to the associated lepton fields $\ell_\alpha$, conserving the lepton number $L_\alpha$. We will now introduce two separate extensions to this part of the Standard Model.
 
@@ -73,13 +73,19 @@ Substituting the new transformation from Eq.~\ref{eq:nu_rotation} into the weak 
     j^\rho_L &= 2\bar{\nu}^\prime_{\alpha L} \gamma^\rho \ell_{\alpha L}^\prime \nonumber \\
              &= 2\bar{\nu}_{k L} V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} \gamma^\rho  \ell_{\alpha L}
 \end{align}
-Call $V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} = U^\dagger_{k \alpha}$
+Call $V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} = U^\dagger_{k \alpha}$. We will refer to the matrix $U$ built by the components $U{k \alpha}$ as the
+Pontecorvo-Maki-Nakagawa-Sakata (PMNS) matrix.%TODO: source
 Now, the current in Eq.~\ref{eq:j_CC2} conserves lepton number, since the neutrino field with flavor $\alpha$ only couples to the lepton field with flavor $\alpha$. However, the Higgs-lepton Yukawa Lagrangian 
 in Eq.~\ref{eq:L_H} violates lepton number conservation since it couples the charged lepton flavor $\alpha$ to the neutrino mass eigenstate $k$, which is a superposition of flavors. There is no transformation that leaves both the interaction and kinetic Lagrangian invariant.
 We now have 
 \begin{align}\label{eq:j_CC3} %TODO: put sums on all above?
-    j^\rho_L &= 2 \sum_\alpha \sum_k U^*_{\alpha k} \bar{\nu}_{k L} \gamma^\rho  \ell_{\alpha L}
+    j^\rho_L &= 2 \sum_\alpha \sum_k U^*_{\alpha k} \bar{\nu}_{k L} \gamma^\rho  \ell_{\alpha L}\,.
 \end{align}
+%TODO: add segue
+\subsection{Neutrino oscillations}
+Since we now know how the neutrino mass and flavor eigenstates combine (namely, through the PMNS matrix $U$), and have an expression for the flavor interaction with 
+the neutrinos charged lepton partner, we are now ready to study the flavor oscillations themselves.
+
 Now, the Fourier expansion of the field operator $\bar{\nu}_{k L}$ in Eq.~\ref{eq:j_CC3} contains creation operators $a^\dagger_{\nu_k}$
 of massive neutrinos with mass $m_k$. This means that the summation over the mass index $k$ constructs a flavor neutrino, which interacts with the charged lepton field $\ell_{\a L}$.
 In other words, the charged current generates a flavor neutrino $\na$, which is a superposition of the mass eigenstates 
@@ -164,16 +170,20 @@ which is the probability of neutrino vacuum oscillations. %TODO: maybe plot?
 The calculation for antineutrinos yield the same result if one assumes the realness of the mixing matrix. 
 
 \subsection{Matter effects}
-\begin{figure}\label{fig:w_and_z}
-    \includegraphics[width=0.1\textwidth]{figures/w-boson.pdf}
+\begin{figure}
+    \includegraphics[width=0.2\textwidth]{figures/w-boson.pdf} 
     \hspace{2cm}
-    \includegraphics[width=0.1\textwidth]{figures/z-boson.pdf}
+    \includegraphics[width=0.23\textwidth]{figures/z-boson.pdf}
+    \caption{\emph{Left panel:} Charged current weak interaction between an electron neutrino and an electron,
+    mediated by either a $W^+$ or $W^-$ boson. \emph{Right panel:} Neutral current weak interaction between a neutrino of any flavor and a Earth-like fermion,
+    mediated by a neutral $Z$ boson.}
+    \label{fig:w_and_z}
 \end{figure}
-In this work, we are concerned about the interactions with the neutrino and Earth-like matter, i.e. electrons, protons, and neutrons. 
-The possible interactions are shown in Fig. ~\ref{fig:w_and_z}. The left panel shows that the only flavor that can go through charged current (CC) 
+In this work, we are concerned about the interactions with the neutrino and Earth-like matter, i.e.~electrons, protons, and neutrons. 
+The possible interactions are shown in Fig.~\ref{fig:w_and_z}. The left panel shows that the only flavor that can go through charged current (CC) 
 interactions is the electron flavor. This is because the Earth doesn't consist of any muons or tau particles. 
-The right panel shows any neutrino flavor interaction via the neutral current (NC) with Earth-like matter, mediated by the neutral $Z$ boson
- we see weak forward CC and NC scattering. 
+The right panel shows any neutrino flavor interaction via the neutral current (NC) with Earth-like matter\footnote{The Earth is entirely composed
+of electrons, protons, and neutrons. Thus, the fundamental particles composing Earth are electrons, and up and down quarks. We refer to this as \emph{Earth-like matter}.}, mediated by the neutral $Z$ boson
 The interaction mediated by the $W$ boson will give rise to a effective matter potential $V_{CC}$, while
 the $Z$ boson is responsible for $V_{NC}$. Our task is now to find expressions for these.
 
@@ -256,7 +266,7 @@ Summing over the fermions, and assuming electrical neutrality and equal abundanc
 where the electrical neutrality condition allows us to simply sum the vectorial couplings together, cancelling the electron and proton contributions (and hence, also the mixing angle dependence).
 \subsection{Matter oscillations}
 Since only $\ne$ undergo CC interactions in Earth-like matter, the $V_{CC}$ potential is zero for all other flavors. However, since all flavors undergo NC interactions the total matter potential in matrix form is:
-\begin{align}\label{V_matrix}
+\begin{align}\label{eq:V_matrix}
     V = \begin{bmatrix}
         V_{CC} + V_{NC} & 0 & 0 \\
         0 & V_{NC} & 0 \\
@@ -297,7 +307,7 @@ Using the ultrarelativistic approximation from Eq.~\ref{eq:ultra_rel}:
     \sum_\eta \sum_k U_{\b k} E_k U^*_{\eta k} \psi_{\a\eta}(t) &= \sum_\eta \sum_k U_{\b k} \left(p + \frac{m^2_k}{2E}\right) U^*_{\eta k} \psi_{\a\eta}(x) \nonumber \\
     &= \sum_\eta \sum_k U_{\b k} \left(p + \frac{m^2_k}{2E}\right) U^*_{\eta k} \psi_{\a\eta}(x)\,.
 \end{align}
-Use the fact that $\sum_k m_k^2 = \sum_k m_1^2 + m^2_k - m^2_1 = m_1^2 + \sum_k \dm_{k1}$ to pull out common terms out of the summation:
+Use the fact that $\sum_k m_k^2 =  \sum m_1^2 +_k m^2_k - m^2_1 =\sum_k m_1^2 +  \dm_{k1}$ to pull out common terms out of the summation:
 \begin{align}\label{eq:t1}
     \sum_\eta \sum_k U_{\b k} \left(p + \frac{m^2_k}{2E}\right) U^*_{\eta k} \psi_{\a\eta}(x) &= \sum_\eta \sum_k U_{\b k} \left(p + \frac{m^2_1}{2E} + \frac{\dm_{k1}}{2E}\right) U^*_{\eta k} \psi_{\a\eta}(x) \nonumber \\
     &= \sum_\eta\sum_k \left(p + \frac{m^2_1}{2E}\right) U_{\b k} U^*_{\eta k} \psi_{\a\eta}(x) + \sum_\eta\sum_k U_{\b k} \frac{\dm_{k1}}{2E} U^*_{\eta k} \psi_{\a\eta}(x)\,.
@@ -307,13 +317,64 @@ Unitarity gives $ \sum_k U_{\b k} U^*_{\eta k} = \delta_{\eta\b}$, and the first
     \sum_\eta \left(p + \frac{m^2_1}{2E}\right) \delta_{\beta \eta} \psi_{\a\eta}(x)
     =& \left(p + \frac{m^2_1}{2E}\right) \psi_{\a\b}(x)\,.
 \end{align}
-This is a phase common to all states, which does not affect the probability since it can be rotated away.
+
 Our treatment of the interaction Hamiltonian is similar except for the fact that its eigenstates lie in the flavor basis, conviniently allowing us
 to letting it act directly on the flavor eigenstates:
 \begin{align}
-    \bra{\nu_\b}H_I &= V_\beta \bra{\nu_\b} \nonumber\\
+    \bra{\nu_\b}H_I &= V_\beta \bra{\nu_\b} \nonumber \\
                     &= \delta_{\b\eta} V_\beta \bra{\nu_\eta}\,.
-\end{align}  
-%\bibliographystyle{apalike}
-%\bibliography{ref}
+\end{align}
+Using Eq.~\ref{eq:V_matrix}, we rewrite this as
+\begin{align}\label{eq:V_rewrite}
+    \delta_{\b\eta} V_\beta \bra{\nu_\eta} &= \delta_{\b\eta} (V_{CC}\delta_{\beta e} + V_{NC}) \bra{\nu_\eta} \nonumber \\
+                                           &= V_{CC}\delta_{\b\eta}\delta_{\beta e} \bra{\nu_\eta} + V_{NC}\bra{\nu_\beta} \nonumber \\
+    \implies \bra{\nu_\b}H_I\ket{\nu_\a}   &= V_{CC}\delta_{\b\eta}\delta_{\beta e} \bra{\nu_\eta}\ket{\nu_\a} + V_{NC}\bra{\nu_\beta}\ket{\nu_\a} \nonumber \\
+                                           &= V_{CC}\delta_{\b\eta}\delta_{\beta e} \psi_{\a\eta} + V_{NC}\psi_{\a\b}
+\end{align}
+Now, combining Eq.~\ref{eq:t1} and Eq.~\ref{eq:V_rewrite}, we have for the full Hamiltonian
+\begin{align}
+    \bra{\nu_\b}H\ket{\nu_\a (x)} &= \left(p + \frac{m^2_1}{2E} + V_{NC}\right) \psi_{\a\b}(x) + \sum_\eta\sum_k \left(U_{\b k} \frac{\dm_{k1}}{2E} U^*_{\eta k} + V_{CC}\delta_{\b\eta}\delta_{\eta e} \right) \psi_{\a\eta}(x)
+\end{align}
+In this form, we see that the term $p + \frac{m^2_1}{2E} + V_{NC}$  which does not affect the probability since it is a common termt to all flavor states. It can be rotated away.
+Thus
+\begin{align}\label{eq:components}
+    \bra{\nu_\b}H\ket{\nu_\a (x)} &= \sum_\eta\sum_k \left(U_{\b k} \frac{\dm_{k1}}{2E} U^*_{\eta k} + V_{CC}\delta_{\b\eta}\delta_{\eta e}\right) \psi_{\a\eta}(x) \nonumber \\
+                                  &= i \dv{}{x}\psi_{\a\b}(x)\,.
+\end{align}
+If we form the vector 
+\begin{align}
+    \Psi_\a = \begin{pmatrix}
+        \psi_{\a e} \\
+        \psi_{\a \mu} \\
+        \psi_{\a \tau}
+    \end{pmatrix}\,,
+\end{align}
+we can write the Schrödinger equation on matrix form ($i\dv{}{x}\Psi_\a = H_F \Psi_\a$) and compare it with Eq.~\ref{eq:components} to see that the flavor Hamiltonian takes the form 
+\begin{align}\label{eq:H_3gen}
+    H_F &= \frac{1}{2E}(U M^2 U^\dagger + A) \nonumber \\
+        &= \frac{1}{2E}\left[U \begin{pmatrix}
+            0 & 0 & 0 \\
+            0 & \dm_{21} & 0 \\
+            0 & 0 & \dm_{31}
+        \end{pmatrix} U^\dagger\right] + \sqrt{2}G_F N_e \begin{pmatrix}
+            1 & 0 & 0 \\
+            0 & 0 & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}\,. 
+\end{align}
+This is the three-flavor neutrino oscillation Hamiltonian that we will solve numerically to obtain the evolution of $\Psi_\a$, whose squared components
+are the probabilities
+\begin{align}
+    P_\alpha = \abs{\Psi_a}^2 &=\begin{pmatrix}
+        \abs{\psi_{\a e}}^2 \\
+        \abs{\psi_{\a \mu}}^{2} \\
+        \abs{\psi_{\a \tau}}^{2}
+    \end{pmatrix} \nonumber \\
+    &=\begin{pmatrix}
+        P_{\a e} \\
+        P_{\a \mu} \\
+        P_{\a \tau}
+    \end{pmatrix} 
+\end{align}
+
 \end{document}
