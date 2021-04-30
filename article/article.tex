@@ -8,6 +8,8 @@
 \newcommand{\ett}{\ensuremath{\epsilon_{\tau\tau}}}
 \newcommand{\ep}{\ensuremath{\epsilon^\prime}}
 \renewcommand{\ne}{\nu_e}
+\newcommand{\Ereco}{E^{reco}}
+\newcommand{\Etrue}{E^{true}}
 \newcommand{\nm}{\nu_\mu}
 \newcommand{\nt}{\nu_\tau}
 \newcommand{\ane}{\bar\nu_e}
@@ -65,9 +67,9 @@ which is responsible for the smearing between the reconstructed and true paramet
 \begin{align}
     R(x^r, x^t) = \frac{1}{\sqrt{2\pi} \sigma_{x^r}x^r} \exp\left[-\frac{(\log x^r-\mu(x^t))^2}{2\sigma_{x^r}^2}\right]\,.
 \end{align}
-As seen in Fig.~\ref{fig:IC_MC_counts}, the energy reconstruction is biased. To model this relationship between $E^{true}$ and $E^{reco}$, we train a Gaussian process regressor on the dataset~\cite{IC2016}, from which
-we can extract a predicted mean and standard deviation for a given $E^{reco}$. We then take the $E^\text{true}$ points of the 99th percentile of each distribution to obtain
-the limits of $E^\text{true}$ at which to integrate over. We have no angular resolution function since the angle resolution in Icecube for track-like events is less than $\SI{2}{\degree}$, making $\ztrue$ coincide with $\zreco$ for our study~\cite{IC2020}. 
+As seen in Fig.~\ref{fig:IC_MC_counts}, the energy reconstruction is biased. To model this relationship between $\Etrue$ and $\Ereco$, we train a Gaussian process regressor on the dataset~\cite{IC2016}, from which
+we can extract a predicted mean and standard deviation for a given $E^{reco}$. We then take the $\Etrue$ points of the 99th percentile of each distribution to obtain
+the limits of $\Etrue$ at which to integrate over. We have no angular resolution function since the angle resolution in Icecube for track-like events is less than $\SI{2}{\degree}$, making $\ztrue$ coincide with $\zreco$ for our study~\cite{IC2020}. 
 The data is from the IC86 sterile analysis~\cite{IC2020}.
 \begin{figure}[!tb]
     \begin{center}
