@@ -9,8 +9,10 @@ import pandas as pd
 from PINGU.importer import *
 from PINGU.processer import *
 from DC.event_processing import * # DC.event_processing has all we need. 
-from PINGU.main import get_all_events as PINGU_events
-from DC.main import get_all_events as DC_events
+from PINGU.main import get_all_events as PINGU_all_events
+from DC.main import get_all_events as DC_all_events
+from PINGU.main import get_events as PINGU_events
+from DC.main import get_events as DC_events
 from IC.main import sim_events as IC_events
 from functions import nufit_params_nsi, nufit_params_nsi_IO
 from tqdm import tqdm
@@ -41,12 +43,23 @@ parser.add_argument('-PINGU', action='store_true')
 args = parser.parse_args()
 
 
-def compute_events(params):
+def compute_events(arg_tuple):
+    i,j,params = arg_tuple
     if args.PINGU:
         result = PINGU_events(params,nsi=True,save=False)
     elif args.DC:
         result = DC_events(params,nsi=True,save=False)
     return result
+
+def precompute_probs(args_tuple):
+    i,j,params = args_tuple
+    if args.PINGU:
+        res_track = PINGU_events(Ebin=i,zbin=j,params=params,pid=1,nsi=True, save=False)
+        res_cascade =PINGU_events(Ebin=i,zbin=j,params=params,pid=0,nsi=True, save=False)
+    elif args.DC:
+        res_track = DC_events(Ebin=i,zbin=j,params=params,pid=1,nsi=True, no_osc=False, save=False)
+        res_cascade =DC_events(Ebin=i,zbin=j,params=params,pid=0,nsi=True, no_osc=False, save=False)
+    return np.array([res_cascade, res_track])
 
 if __name__ == '__main__':
     assert args.PINGU or args.DC or args.IC
@@ -66,17 +79,19 @@ if __name__ == '__main__':
     param_dict = nufit_params_nsi_IO if args.IO else nufit_params_nsi
     ordering = 'IO' if args.IO else 'NO'
     param_list = list_of_params_nsi(param_dict, dm31_range, th23_range, ett_range, emt_range, eem_range, eet_range)
+    param_tuple = [(i,j,p) for p in param_list for i in range(8) for j in range(8)]
     
     #data = [(p) for p in param_list]
     if args.PINGU:
         #p = Pool()
-        H1_events_list = process_map(compute_events, param_list, chunksize=5)
-
+        #H1_events_list = process_map(compute_events, param_list, chunksize=5)
+        H1_events_list = process_map(precompute_probs, param_tuple, chunksize=4)
         #p.close()
-        pickle.dump(np.array(H1_events_list),open(f'./pre_computed/H1_{ordering}_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
+        pickle.dump(np.array(H1_events_list),open(f'./pre_computed/TEST_H1_{ordering}_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     elif args.DC:
         #p = Pool()
-        H1_events_list = process_map(compute_events, param_list)
+        #H1_events_list = process_map(compute_events, param_list)
+        H1_events_list = process_map(precompute_probs, param_tuple, chunksize=1)
         #p.close()
         pickle.dump(np.array(H1_events_list),open(f'./pre_computed/H1_{ordering}_DC_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     if args.IC:
