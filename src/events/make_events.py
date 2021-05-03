@@ -67,27 +67,17 @@ if __name__ == '__main__':
     if args.PINGU:
         H1_events_list = process_map(precompute_probs, param_tuple)
         H1 = np.array(H1_events_list)
-        H1 = H1.reshape(8,8,2)
-        #H1 = H1.reshape(len(param_list),8,8,2)
-        H1 = np.swapaxes(H1,0,2) #Put pid on second index
-        H1 = np.swapaxes(H1,1,2) #Swap e and z bins
-        #H1 = np.swapaxes(H1,1,3) #Put pid on second index
-        #H1 = np.swapaxes(H1,2,3) #Swap e and z bins
-        pickle.dump(H1_events_list,open(f'./pre_computed/H0_{ordering}_PINGU.p','wb'))
-        #pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
-    elif args.DC:
-        H1_events_list = process_map(precompute_probs, param_tuple)
-        H1 = np.array(H1_events_list)
-        H1 = H1.reshape(8,8,2)
-        H1 = np.swapaxes(H1,0,2) #Put pid on second index
-        H1 = np.swapaxes(H1,1,2) #Swap e and z bins
-        '''
         H1 = H1.reshape(len(param_list),8,8,2)
         H1 = np.swapaxes(H1,1,3) #Put pid on second index
         H1 = np.swapaxes(H1,2,3) #Swap e and z bins
-        '''
-        pickle.dump(H1,open(f'./pre_computed/H0_{ordering}_DC.p','wb'))
-        #pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_DC_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
+        pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
+    elif args.DC:
+        H1_events_list = process_map(precompute_probs, param_tuple)
+        H1 = np.array(H1_events_list)
+        H1 = H1.reshape(len(param_list),8,8,2)
+        H1 = np.swapaxes(H1,1,3) #Put pid on second index
+        H1 = np.swapaxes(H1,2,3) #Swap e and z bins
+        pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_DC_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     if args.IC:
         data = [(0.99, 13,p, False,False, [False, 0, 0],True, True,3) for p in param_list]
         H1_events_list = process_map(IC_events, data)
