@@ -377,4 +377,26 @@ are the probabilities
     \end{pmatrix} 
 \end{align}
 
+In this work, we will be using the best-fit values from~\cite{nufit},
+\begin{align}\label{eq:nufitparams}
+    &\Delta m^2_{21} =  \SI{7.42e-5}{\electronvolt^2},\hspace{0.5em} \Delta m^2_{31} =  \SI{2.517e-3}{\electronvolt^2}, \nonumber \\
+    &\theta_{12} = \SI{33.44}{\degree},\hspace{1em} \theta_{13} = \SI{8.57}{\degree},\hspace{1em} \theta_{23} = \SI{49.2}{\degree}, \hspace{1em} \delta_\text{CP} = 0\,.
+\end{align}
+with the exception of the CP-violating phase $\delta_\text{CP}$ which we always set to zero for simplicity. The PMNS matrix then has the numerical values 
+\begin{align}\label{eq:Uvalues}
+    U = \begin{pmatrix}
+        U_{e e} & U_{e\mu} & U_{e\tau} \\
+        U_{\mu e} & U_{\mu \mu} & U_{\mu \tau} \\
+        U_{\tau e} & U_{\tau \mu} & U_{\tau \tau}
+    \end{pmatrix} 
+    = \begin{pmatrix}
+        0.825 & 0.545 & 0.149 \\
+        -0.455 & 0.485 & 0.746 \\
+        0.334 & -0.684 & 0.649
+    \end{pmatrix} \,.
+\end{align}
+In our study, we will only use atmospheric neutrinos, of which $\nm$ are the most abundant. We see that $U_{\mu\tau}$ is the largest $U_{\mu\beta}$ term,
+suggesting that $\nm$ primarily oscillates into $\nt$, at least in vacuum. We will see that matter effects indeed preserves this ordering, making the $\nm \to \nt$ transition
+the most abundant. This means we will be able to constrain any parameters relating to $\nm \to \nt$ oscillations stringently. 
+
 \end{document}

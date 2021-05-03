@@ -1,28 +1,19 @@
-import sys,os
+import sys, pickle, argparse
+from tqdm.contrib.concurrent import process_map
+import numpy as np
 if __name__ == '__main__':
-    #os.chdir('../')
     sys.path.append('./src/data')
     sys.path.append('./src/events')
     sys.path.append('./src/probability')
-import numpy as np
-import pandas as pd
-from PINGU.importer import *
-from PINGU.processer import *
-from DC.event_processing import * # DC.event_processing has all we need. 
-from PINGU.main import get_all_events as PINGU_all_events
-from DC.main import get_all_events as DC_all_events
+from DC.event_processing import get_param_list, list_of_params_nsi
 from PINGU.main import get_events as PINGU_events
 from DC.main import get_events as DC_events
 from IC.main import sim_events as IC_events
 from functions import nufit_params_nsi, nufit_params_nsi_IO
-from tqdm import tqdm
-import pickle
-import argparse
-from tqdm.contrib.concurrent import process_map
-parser = argparse.ArgumentParser()
 
-parser.add_argument('-dm31N', default=10, type=int)
-parser.add_argument('-th23N', default=10, type=int)
+parser = argparse.ArgumentParser()
+parser.add_argument('-dm31N', default=1, type=int)
+parser.add_argument('-th23N', default=1, type=int)
 
 parser.add_argument('-ett', default=5e-2, type=float)
 parser.add_argument('-ettN', default=1, type=int)
@@ -43,19 +34,11 @@ parser.add_argument('-PINGU', action='store_true')
 args = parser.parse_args()
 
 
-def compute_events(arg_tuple):
-    i,j,params = arg_tuple
-    if args.PINGU:
-        result = PINGU_events(params,nsi=True,save=False)
-    elif args.DC:
-        result = DC_events(params,nsi=True,save=False)
-    return result
-
 def precompute_probs(args_tuple):
     i,j,params = args_tuple
     if args.PINGU:
-        res_track = PINGU_events(Ebin=i,zbin=j,params=params,pid=1,nsi=True, save=False)
-        res_cascade =PINGU_events(Ebin=i,zbin=j,params=params,pid=0,nsi=True, save=False)
+        res_track = PINGU_events(Ebin=i,zbin=j,params=params,pid=1,nsi=False, save=False)
+        res_cascade =PINGU_events(Ebin=i,zbin=j,params=params,pid=0,nsi=False, save=False)
     elif args.DC:
         res_track = DC_events(Ebin=i,zbin=j,params=params,pid=1,nsi=True, no_osc=False, save=False)
         res_cascade =DC_events(Ebin=i,zbin=j,params=params,pid=0,nsi=True, no_osc=False, save=False)
@@ -81,22 +64,31 @@ if __name__ == '__main__':
     param_list = list_of_params_nsi(param_dict, dm31_range, th23_range, ett_range, emt_range, eem_range, eet_range)
     param_tuple = [(i,j,p) for p in param_list for i in range(8) for j in range(8)]
     
-    #data = [(p) for p in param_list]
     if args.PINGU:
-        #p = Pool()
-        #H1_events_list = process_map(compute_events, param_list, chunksize=5)
-        H1_events_list = process_map(precompute_probs, param_tuple, chunksize=4)
-        #p.close()
-        pickle.dump(np.array(H1_events_list),open(f'./pre_computed/TEST_H1_{ordering}_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
+        H1_events_list = process_map(precompute_probs, param_tuple)
+        H1 = np.array(H1_events_list)
+        H1 = H1.reshape(8,8,2)
+        #H1 = H1.reshape(len(param_list),8,8,2)
+        H1 = np.swapaxes(H1,0,2) #Put pid on second index
+        H1 = np.swapaxes(H1,1,2) #Swap e and z bins
+        #H1 = np.swapaxes(H1,1,3) #Put pid on second index
+        #H1 = np.swapaxes(H1,2,3) #Swap e and z bins
+        pickle.dump(H1_events_list,open(f'./pre_computed/H0_{ordering}_PINGU.p','wb'))
+        #pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_PINGU_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     elif args.DC:
-        #p = Pool()
-        #H1_events_list = process_map(compute_events, param_list)
-        H1_events_list = process_map(precompute_probs, param_tuple, chunksize=1)
-        #p.close()
-        pickle.dump(np.array(H1_events_list),open(f'./pre_computed/H1_{ordering}_DC_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
+        H1_events_list = process_map(precompute_probs, param_tuple)
+        H1 = np.array(H1_events_list)
+        H1 = H1.reshape(8,8,2)
+        H1 = np.swapaxes(H1,0,2) #Put pid on second index
+        H1 = np.swapaxes(H1,1,2) #Swap e and z bins
+        '''
+        H1 = H1.reshape(len(param_list),8,8,2)
+        H1 = np.swapaxes(H1,1,3) #Put pid on second index
+        H1 = np.swapaxes(H1,2,3) #Swap e and z bins
+        '''
+        pickle.dump(H1,open(f'./pre_computed/H0_{ordering}_DC.p','wb'))
+        #pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_DC_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     if args.IC:
         data = [(0.99, 13,p, False,False, [False, 0, 0],True, True,3) for p in param_list]
-        #p = Pool()
         H1_events_list = process_map(IC_events, data)
-        #p.close()
         pickle.dump(H1_events_list,open(f'./pre_computed/H1_{ordering}_IC_N13_{len(dm31_range)}x{len(th23_range)}x{len(emt_range)}.p','wb'))

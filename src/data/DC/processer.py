@@ -227,3 +227,21 @@ def normalization_factors(no_osc_tracks, no_osc_cascades):
 
 if __name__ == '__main__':
     pass
+    '''
+no_osc = np.array([get_all_events(params=param_list[0], pid=0, nsi=True, no_osc=True),get_all_events(params=param_list[0], pid=1, nsi=True, no_osc=True)])
+no_osc_paper = np.array([no_osc2018_DC(0)[1].values,no_osc2018_DC(1)[1].values])
+H0_paper = np.array([pd.read_csv('./src/data/files/DC/2018/cascade_H0.csv', header=None)[1].values,pd.read_csv('./src/data/files/DC/2018/track_H0.csv', header=None)[1].values])
+events = np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_events'),get_hist(events2018_DC().query(f'pid==1'), 'count_events')])
+background = np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_background'), get_hist(events2018_DC().query(f'pid==1'), 'count_background')])
+best_fit_contamination = 0.055/(np.sum(background,axis=(1,2))/np.sum(events,axis=(1,2))) #table 1 DC2017
+
+data = np.sum(events,axis=2)
+
+H0_factors = H0_paper / np.sum(H0,axis=2)
+noosc_factors = (no_osc_paper - back_factor.reshape(-1,1)*np.sum(background,axis=2)) / (np.sum(no_osc,axis=2)*livetime) #can laos use best_fit_contamination here
+
+# Normalize NSI hypothesis
+H1_nonorm = H1 #No normalization
+H1_norm_H0 = H1 * H0_factors[None,:,None,:] #Norm against H0
+H1_norm_noosc = H1*noosc_factors[None,:,None,:] # Norm against no oscillation
+'''

@@ -19,8 +19,6 @@ zbins_2018 = [-1., -0.75, -0.5 , -0.25,  0., 0.25, 0.5, 0.75, 1.]
 
 
 def get_probabilities_PINGU(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,pid,ndim, nsi):
-    if not nsi: #Use best fit to generate 'data'
-        param_dict = nufit_params_nsi
     hashed_param_name = sha256(param_dict)
     if anti:
         flavor_from = 'a' + flavor_from
@@ -41,8 +39,6 @@ def get_probabilities_PINGU(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,
     return res
 
 def generate_probabilities_PINGU(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,param_dict,anti,pid, ndim=4, nsi=True, save=True):
-    if not nsi: #Use best fit to generate 'data'. nufit_params_nsi has all epsilon=0
-        param_dict = nufit_params_nsi
     prob = np.array([P_num(flavor_from=flavor_from, E=E_range[i], ndim = ndim, anti=anti,params=param_dict,zenith=z, nsi=nsi)[mass_dict[flavor_to],-1] for i,z in enumerate(z_range)]).reshape(-1,1)
     if save:
         hashed_param_name = sha256(param_dict)

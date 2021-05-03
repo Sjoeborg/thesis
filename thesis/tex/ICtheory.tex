@@ -5,16 +5,7 @@
 \input{commands}
 \begin{document}
 
-\section{Event reconstruction}
-After an event has occurred, the IceCube algorithms process the data coming from the detector to \emph{reconstruct} the event. This means that, given the parameters recorded by the detector, what are their "true" values?
-We are interested in two variables: the energy and the direction. Each event is tagged with a probable energy and zenith angle, called the recostructed parameters $\Ereco$ and $\zreco$, which are the parameters according to the DOMs.
-The collaboration then uses numerous sophisticated methods to backtrack the reconstructed parameters to the true parameters. So a charged lepton hits the DOMs, and we ultimately end up with the associated neutrino's true and reconstructed energy and zenith angle. The reconstructed parameters are what we are using to analyze the data (because this is what the detector actually sees), while the true parameters are used in the determination of that neutrino's "actual" flux and cross-section (because this is what nature sees).
-
-How do we then translate between the reconstructed and true parameters? In this work, we are using two different methods, which are based on the form of data available to us. 
-
-\section{IceCube event count}\label{ch:ICmethod}
-%TODO: show IC MC data
-
+\section{Atmospheric neutrino flux}
 The flux comes from \cite{hondapaper} %TODO: talk about flux
 The flux data is binned in $\ztrue$ and has the following form
 
@@ -36,6 +27,17 @@ $P_{\tau \beta}$, since we have no incoming $\nu_\tau$.
 
 After interpolating this data, we can plot the raw data together with its interpolated values.
 %TODO: flux interpolated figure.
+
+
+\section{Event reconstruction}
+After an event has occurred, the IceCube algorithms process the data coming from the detector to \emph{reconstruct} the event. This means that, given the parameters recorded by the detector, what are their "true" values?
+We are interested in two variables: the energy and the direction. Each event is tagged with a probable energy and zenith angle, called the recostructed parameters $\Ereco$ and $\zreco$, which are the parameters according to the DOMs.
+The collaboration then uses numerous sophisticated methods to backtrack the reconstructed parameters to the true parameters. So a charged lepton hits the DOMs, and we ultimately end up with the associated neutrino's true and reconstructed energy and zenith angle. The reconstructed parameters are what we are using to analyze the data (because this is what the detector actually sees), while the true parameters are used in the determination of that neutrino's "actual" flux and cross-section (because this is what nature sees).
+
+How do we then translate between the reconstructed and true parameters? In this work, we are using two different methods, which are based on the form of data available to us. 
+
+\section{IceCube event count}\label{ch:ICmethod}
+%TODO: show IC MC data
 
 As the neutrinos have propagated the Earth, they arrive at the South Pole, where they interact in the ice to form their charged leptons. We now are interested in the effective area, i.e.~the detector area that the lepton "sees".
 The effective area, $\Aeff$, depends on several parameters, some of them being detector physical volume, $\Etrue$,$\ztrue$ and the neutrino cross-section. Fortunately, the binned $\Aeff$ is provided to us by the ICeCube collaboration~\cite{ICaeff}.
