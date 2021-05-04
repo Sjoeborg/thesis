@@ -37,8 +37,8 @@ args = parser.parse_args()
 def precompute_probs(args_tuple):
     i,j,params = args_tuple
     if args.PINGU:
-        res_track = PINGU_events(Ebin=i,zbin=j,params=params,pid=1,nsi=False, save=False)
-        res_cascade =PINGU_events(Ebin=i,zbin=j,params=params,pid=0,nsi=False, save=False)
+        res_track = PINGU_events(Ebin=i,zbin=j,params=params,pid=1,nsi=True, save=False)
+        res_cascade =PINGU_events(Ebin=i,zbin=j,params=params,pid=0,nsi=True, save=False)
     elif args.DC:
         res_track = DC_events(Ebin=i,zbin=j,params=params,pid=1,nsi=True, no_osc=False, save=False)
         res_cascade =DC_events(Ebin=i,zbin=j,params=params,pid=0,nsi=True, no_osc=False, save=False)

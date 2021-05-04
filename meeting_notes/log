@@ -479,4 +479,8 @@ En dc med totalg 1*1*1*5*1 tra 2 timmar blankt = 144 min/param/core = 2 hr/param
 => pingu på 28 cpu tar 90 minuter för 5*5*5 och 714 m = 12h för 10*10*10
                        446 minuter=7.5 h för 5*5*5*5 och 7142m =120 h = 5 d för 10*10*10*10
 dc på 28 cpu tar 9 h för 5*5*5, 44h för 5*5*5*5
-                71 h för 10*10*10, 710 h = 30 d för 10*10*10*10
+                71 h för 10*10*10, 710 h = 30 d för 10*10*10*10~
+
+4 Apr 
+Att simulera över osc params kan ta längre tid. 5x5x5 dc på 28 cpu tar 13-15 h.
+dc 1x1x19 tar 2 h.
