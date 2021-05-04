@@ -1,32 +1,42 @@
-\documentclass[draft=True]{thesis}
-\usepackage{graphicx, slashed, siunitx}
-\usepackage[utf8]{inputenc}
-\usepackage{xr-hyper}
+\documentclass{thesis}
+\usepackage[margin=0.5in]{geometry}
 \input{commands}
 \begin{document}
+\begin{figure}[t]\label{fig:flux_aeff}
+    \includegraphics[width=0.5\textwidth]{figures/flux.pdf}\hspace{-1cm}
+    \includegraphics[width=0.5\textwidth]{figures/aeff.pdf}
+    \vspace{-2.5cm}\caption{\emph{Left panel:} Interpolated South Pole atmospheric flux with data from~\cite{hondaArticle}.
+    \emph{Right panel:} Interpolated IceCube effective area with data from~\cite{ICaeff}.}
+\end{figure}
 
 \section{Atmospheric neutrino flux}
-The flux comes from \cite{hondapaper} %TODO: talk about flux
-The flux data is binned in $\ztrue$ and has the following form
+The flux comes from \cite{hondaArticle} %TODO: talk about flux
+The flux data is binned in $\ztrue$ and a selection is shown in Table~\ref{table:flux}. The fluxes are averaged over azimuthal direction and over solar minimum/maximum. 
+The units of the fluxes are given as \si{\per\GeV \per\metre\squared \per\second \per\steradian} and are omitted
+from the table for clarity. 
+We note that the fluxes for $\nt$ and $\nu_{\bar{\tau}}$ are missing. This is due to the rapid decay (and hence, low flux) of the $\tau$. 
+Thus, we never have to use probabilities on the form 
+$P_{\tau \beta}$, since we have no incoming atmospheric $\nu_\tau$ flux. 
 
-\begin{tabular}{lrrrrrrr}
-    %\toprule
-           $\Etrue$ [\si{\GeV}] &        $\phi_\mu$ &     $\phi_\bar{\mu}$ &        $\phi_e$ &     $\phi_{\bar{e}}$ &  $\ztrue_{min}$ &  $\ztrue_{max}$\\
-    %\midrule
-       27825.594022 &  6.060061e-12 &  3.167883e-12 &  1.558607e-13 &  1.038747e-13 &   -0.2 &   -0.1 \\
-      247707.635599 &  5.940855e-16 &  2.923931e-16 &  1.364937e-17 &  8.115912e-18 &   -0.7 &   -0.6 \\
-         22.387000 &  3.328100e-02 &  2.781700e-02 &  9.565800e-03 &  7.149400e-03 &   -0.3 &   -0.2 \\
-      432876.128108 &  5.185841e-17 &  2.320702e-17 &  1.456761e-18 &  9.828299e-19 &   -1.1 &   -1.0 \\
-       64280.731173 &  1.582403e-13 &  8.095293e-14 &  3.480179e-15 &  2.211758e-15 &   -0.4 &   -0.3 \\
-    %\bottomrule
-\end{tabular}
+Interpolating the data yields makes us capable of returning all four necessary fluxes for a given true energy and true zenith.
+The result is shown in Fig.~\ref{fig:flux_aeff}.
 
-The fluxes are averaged over azimuthal direction and over solar minimun/maximum. The units of the fluxes are given as \si{\GeV^-1 \metre^-2 \second^-1 \steradian^-1}. 
-We note that the fluxes for $\nt$ and $\nu_\bar{\tau}$ are missing. This is due to the rapid decay (and hence, low flux) of the $\tau$. Thus, we never have to use probabilities on the form 
-$P_{\tau \beta}$, since we have no incoming $\nu_\tau$. 
-
-After interpolating this data, we can plot the raw data together with its interpolated values.
-%TODO: flux interpolated figure.
+\begin{table}[h]\label{table:flux}
+    \begin{center}
+        \begin{tabular}{lcccccc}
+            \hline \hline
+            $\Etrue$ [\si{\GeV}] &$\phi_\mu$ &$\phi_{\bar{\mu}}$ &$\phi_e$ &$\phi_{\bar{e}}$ & $\ztrue_{min}$ &$\ztrue_{max}$\\
+            \hline
+            27825 &  \SI{6.06e-12}{} &  \SI{3.17e-12}{} &  \SI{1.56e-13}{} &  \SI{1.04e-13}{} &   -0.2 &   -0.1 \\
+            247707 &  \SI{5.94e-16}{} &  \SI{2.92e-16}{} &  \SI{1.36e-17}{} &  \SI{8.12e-18}{} &   -0.7 &   -0.6 \\
+                22 &  \SI{3.33e-02}{} &  \SI{2.78e-02}{} &  \SI{9.57e-03}{} & \SI{7.15e-03}{} &   -0.3 &   -0.2 \\
+            432876 &  \SI{5.19e-17}{} &  \SI{2.32e-17}{} &  \SI{1.46e-18}{} & \SI{9.83e-19}{} &   -1.1 &   -1.0 \\
+            64280 &  \SI{1.58e-13}{} &  \SI{8.10e-14}{} &  \SI{3.49e-15}{} &  \SI{2.21e-15}{} &   -0.4 &   -0.3 \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{A selection of processed atmospheric South Pole fluxes from~\cite{hondaData} by Honda et al.~\cite{hondaArticle}.}
+\end{table}
 
 
 \section{Event reconstruction}
@@ -37,24 +47,26 @@ The collaboration then uses numerous sophisticated methods to backtrack the reco
 How do we then translate between the reconstructed and true parameters? In this work, we are using two different methods, which are based on the form of data available to us. 
 
 \section{IceCube event count}\label{ch:ICmethod}
-%TODO: show IC MC data
-
 As the neutrinos have propagated the Earth, they arrive at the South Pole, where they interact in the ice to form their charged leptons. We now are interested in the effective area, i.e.~the detector area that the lepton "sees".
-The effective area, $\Aeff$, depends on several parameters, some of them being detector physical volume, $\Etrue$,$\ztrue$ and the neutrino cross-section. Fortunately, the binned $\Aeff$ is provided to us by the ICeCube collaboration~\cite{ICaeff}.
+The effective area, $\Aeff$, depends on several parameters, some of them being detector physical volume, $\Etrue$,$\ztrue$ and the neutrino cross-section. Fortunately, the binned $\Aeff$ is provided to us by the collaboration~\cite{ICaeff}.
 The data file has the following form
 
-\begin{tabular}{lrrrrr}
-    %\toprule
-    $\Etrue_{min}$ [\si{\GeV}] &     $\Etrue_{max}$ [\si{\GeV}]&   $\ztrue_{min}$ &   $\ztrue_{max}$ &     $\Aeff$ [\si{\metre\squared}] \\
-    %\midrule
-         251.2 &      316.2 &  -0.92 &  -0.91 &   0.0174 \\
-      794300.0 &  1000000.0 &  -0.80 &  -0.79 &  69.3600 \\
-        3981.0 &     5012.0 &  -0.78 &  -0.77 &   3.1490 \\
-        1585.0 &     1995.0 &  -0.07 &  -0.06 &   0.4659 \\
-        398.1 &      501.2 &  -0.73 &  -0.72 &   0.0555 \\
-    %\bottomrule
-    \end{tabular}
-Here, $\Aeff$ has been averaged over $\Aeff_\mu$ and $\Aeff_\bar{\mu}$. Thus, it is not flavor dependent.
+\begin{table}\label{table:aeff}
+    \begin{tabular}{lrrrrr}
+        \hline \hline
+        $\Etrue_{min}$ [\si{\GeV}] &     $\Etrue_{max}$ [\si{\GeV}]&   $\ztrue_{min}$ &   $\ztrue_{max}$ &     $\Aeff$ [\si{\metre\squared}] \\
+        \hline
+             251 &      316 &  -0.92 &  -0.91 &   0.0174 \\
+          794300 &  1000000 &  -0.80 &  -0.79 &  69.3600 \\
+            3981 &     5012 &  -0.78 &  -0.77 &   3.1490 \\
+            1585 &     1995 &  -0.07 &  -0.06 &   0.4659 \\
+            398 &      501 &  -0.73 &  -0.72 &   0.0555 \\
+        \hline
+        \end{tabular}
+    \caption{IceCube effective area from~\cite{ICaeff}}
+\end{table}
+
+Here, $\Aeff$ has been averaged over $\Aeff_\mu$ and $\Aeff_{\bar{\mu}}$. Thus, it is not flavor dependent.
 Just as with the fluxes, we interpolate this in $\Etrue,\ztrue$ and show the result %TODO aeff interpolation
 
 So now we have the physical quantities in the true parameters. But as we discussed, we need a way to translate this into the reconstructed parameters that the detector gives us. We will call the relationship between 
@@ -66,9 +78,25 @@ The parameters of the Gaussian are $\sigma_{x^r}(x^t)$ and $\mu(x^t)$, which are
 probability density of that point. This process is also called \emph{smearing} because it effectively spreads out the data around a certain point. 
 
 So how do we then obtain $\sigma_{x^r}(x^t)$ and $\mu(x^t)$ needed to construct the Gaussian? A Monte Carlo sample publically released by the 
-collaboration has all the ingredients that we need. %TODO: source.
-In Table %TODO: add
-we see a snippet of how it looks like. 
+collaboration has all the ingredients that we need~\cite{IC2016}. In Table.~\ref{table:IC_MC} we show a selection of the data.
+The "pdg" column refers to the Monte Carlo particle classification, where 13 is the tag for $\nm$, while -13 refers
+to an $\anm$. Here we note a crucial property of the IceCube dataset that will impact our analysis: the MC released by the collaboration
+only includes simulated muon events.
+
+\begin{table}\label{table:IC_MC}
+    \begin{tabular}{lrrrrr}
+        \hline \hline
+        pdg &      $\Ereco$ [\si{\GeV}] &     $\zreco$ &       $\Etrue$ [\si{\GeV}] &     $\ztrue$ \\
+        \hline
+         13 &  1665 & -0.645884 &    592 & -0.653421 \\
+         13 &   587 & -0.373241 &    342 & -0.424979 \\
+        -13 &  1431 & -0.177786 &   1169 & -0.189949 \\
+        -13 &   831 & -0.807226 &   1071 & -0.805559 \\
+         13 &   988 & -0.370746 &   1861 & -0.367922 \\
+         \hline
+  \end{tabular}
+  \caption{A selection of the data found in~\ref{IC2016}}
+\end{table}
 
 First, we let $\zreco = \ztrue$ for all values. The angular resolution in IceCube for track-like events is less than $\SI{2}{\degree}$, making $\ztrue$ coincide with $\zreco$ for our study~\cite{IC2020}.
 Thus, we only need to concern ourselves with the energy resolution.
@@ -89,11 +117,6 @@ where $T$ is the live time of the detector.
     \end{center}
     \caption{Relationship between the true and reconstructed muon energy in the IceCube MC sample~\cite{IC2016}}\label{fig:IC_MC_counts}. Shaded area shows the $99.9$th percentile limits predicted by the regressor trained on this set.
  \end{figure}
-
-
-
-    
-
-
-
+\bibliographystyle{nature}
+\bibliography{ref.bib}
 \end{document}

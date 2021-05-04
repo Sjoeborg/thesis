@@ -1,6 +1,7 @@
-\documentclass[draft=True]{thesis}
+\documentclass{thesis}
+\usepackage[margin=0.5in]{geometry}
 \input{commands}
-\usepackage{physics,amsmath, amsfonts, siunitx, amssymb, graphicx}
+\usepackage{siunitx, graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage{xr-hyper}
 
@@ -93,31 +94,112 @@ Our NSI potential matrix now takes the form
 where $\ep = \ett - \emm$.
 
 \section{Non-standard interactions in IceCube}
-In our analysis of IceCube, we are constrained to muon track events. Thus, we are not able to test any theory which does not modify $P_{\a \mu}$ directly or 
-indirectly. Since all standard matter potentials are diagonal, the elements $\epsilon_{\a\b}, \a = \b$ will directly adjust the matter potential felt 
+In our analysis of IceCube, we are constrained to muon track events. Thus, we are not able to test any theory which does not modify $P_{\a \mu}$. Moreover,
+the IceCube data is avaibable in the range \SI{500}{\GeV} to \SI{10}{\TeV} range, where any rapid oscillations have settled down.
+
+Since all standard matter potentials are diagonal, 
+the elements $\epsilon_{\a\b}, \a = \b$ will directly adjust the matter potential felt 
 by flavor $\a$. The off-diagonal terms have a more interesting theoretical implication as the open up matter interactions across flavors. Remember, in the Standard model,
 we are restriced to weak interactions that conserve lepton number. However, a off-diagonal NSI parameter allows flavor transitions during matter interactions.
 Moreover, $\epsilon_{\a\b}$ modifies the $\nu_\a \to \nu_\b$ transition independently
-of the mixing matrix. Thus, we can in theory boost a flavor transition which is supressed by the mixing matrix. Moreover, since the NSI parameters are 6, and the PMNS
-matrix is parametrized with only 3 parameters, we have more degrees of freedom when adjusting the probabilities using the NSI matrix.
+of the mixing matrix. Thus, we can in theory boost a flavor transition which is supressed by the mixing matrix. Moreover, since we have 6 NSI parameters, and the PMNS
+matrix is parametrized with only 3 parameters, we have more degrees of freedom when adjusting the probabilities using the NSI matrix. Each term in the PMNS matrix consists of at least
+two of the three mixing angles, making them much more dependent on each other.
 
-As discussed in Eq.~\ref{eq:Uvalues}, the atmospheric $\nm \to \nt$ transition will be the most abundant, making $\emt$ and $\emm$ or $\ett$ the most suitable
-NSI parameters to constrain. 
+As discussed in Eq.~\ref{eq:Uvalues}, the atmospheric $\nm \to \nt$ transition will be the most abundant, making $\emt$, $\emm$, $\ett$ the most suitable
+NSI parameters to constrain from muon events. As we will see, $\eem$ is also a candidate, alebit a weaker one. 
 
-In Fig.~\ref{fig:IC_NSI_probs}, we plot $\Pmm$ and $\Pamam$ for 3 cases of $\ep$ and $\emt$ each. As is clear from the 
-left panels, the value of $\ett$ does not affect neither $\Pmm$ nor $\Pamam$, as we expected. Hence, we will not be able
-to say anything about $\ett$ in our study. The right panels show an interesting relationship between the sign of the NSI parameter 
-and the neutrino type. $\Pmm$ with positive $\ett$ is the same as $\Pamam$ with negative $\ett$. Looking at the form of the matter potential, 
-this is something that we should expect. In the standard interaction framework, we distinguish between neutrinos and antineutrinos by flipping the sign 
-of the CC potential. Since the NSI potential has the same form, any sign flipping of the NSI potential will have the same effect as 
-having an antineutrino.
+In Fig.~\ref{fig:emt_ett_probs}, we see how the introduction of $\emt = 0.02$ alters the $\nm$ and $\anm$ survival probabilities
+for neutrinos that traverse the entire Earth diameter (i.e. $\ztrue = -1$). $\emt$ does not dramatically change neither
+amplitude nor frequency of the probabilities. Instead, it seems to strech or compress the oscillations. Since the 
+only difference between the way neutrinos and antineutrinos interact with matter is the sign of the potential, the probability for
+$\nm$ with positive $\epsilon_{\a\b}$ is identical to the probability for $\anm$ with negative $\epsilon_{\a\b}$. Thus, the dashed line 
+in the right panel not only shows the survival probability for $\anm$ with $\emt=0.02$, but also the survival probability for $\nm$ with $\emt=-0.02$.
+Hence, we note that $\emt > 0$ stretches (compresses) $\Pmm$ for neutrinos (antineutrinos), while $\emt < 0$ compresses (stretches) $\Pmm$ for neutrinos (antineutrinos).
 
-\begin{figure}\label{fig:IC_NSI_probs}
-    \begin{center}
-    \includegraphics[width=1\textwidth, height=0.3\textheight]{figures/IC_NSI_probs.pdf}
-    \caption{\emph{Top panels: }$\nm$ survival probability for different cases of the two NSI parameters $\ett$ and $\emt$
-    \emph{Bottom panels: }$\anm$ survival probability for different cases of the two NSI parameters $\ett$ and $\emt$.
-    In all plots, \ztrue = -1.}
+The value of $\ett$ does not affect neither $\Pmm$ nor $\Pamam$, in the IceCube region above \SI{500}{\GeV}. Hence, we will not be able
+to say anything about $\ett$ in our IceCube study.  Comparing the probabilities in Fig.~\ref{fig:emt_ett_probs} with $\ett = 0.05$ with the ones for $\emt = 0.02$ in Fig.~\ref{fig:emt_ett_probs},
+we see that even though we let $\ett$ take 2.5 times the value of $\emt$, its effect on $\Pmm$ is smaller. The weakening of the $\Pamam$ resonance will be visible in DeepCore, but we should expect a less stringent 
+constraint due to the weakness of the effect compared to $\emt$. 
+
+Thus, we will use IceCube to constrain $\emt$ only.
+
+
+Moving on to $\eem$ and Fig.~\ref{fig:eem_eet_probs}, we see that both probabilities has shifted downwards for $\Etrue > \SI{500}{\GeV}$.
+In ~\ref{fig:eem_eet_probs}, we see that the muon channel remains largely unaffected of the value of $\eet$ as we expected. The expection of this lies 
+in the DeepCore region of rapid oscillations, where mixing is more violent. 
+\begin{figure}\label{fig:emt_ett_probs}
+    \begin{center}%TODO subplots and fix labels in parahgraph aboveto match them
+        \includegraphics[width=0.45\textwidth]{figures/emt_probs.pdf}
+        \includegraphics[width=0.45\textwidth]{figures/ett_probs.pdf}
+        \caption{\emph{Left panel:} Muon neutrino and antineutrino survival probabilities for
+        $\ztrue = -1$ when $\emt = 0.02$. All other NSI parameters are fixed to zero.
+        \emph{Right panel:} Muon neutrino and antineutrino survival probabilities for
+        $\ztrue = -1$ when $\ett = 0.05$. All other NSI parameters are fixed to zero.}
     \end{center}
 \end{figure}
+
+
+\begin{figure}\label{fig:eem_eet_probs}
+    \begin{center}
+        \includegraphics[width=0.45\textwidth]{figures/eem_probs.pdf}
+        \includegraphics[width=0.45\textwidth]{figures/eet_probs.pdf}
+        \caption{Muon neutrino and antineutrino survival probabilities for
+        $\ztrue = -1$\emph{Left panel:} $\eem = 0.2$. All other NSI parameters are fixed to zero.
+        \emph{Right panel:} $\eet = 0.2$. All other NSI parameters are fixed to zero.}
+    \end{center}
+\end{figure}
+
+
+\section{Non-standard interactions in DeepCore and PINGU}
+Now we repeat our proability analysis but for the DeepCore/PINGU region of \SIrange{5.6}{56}{\GeV}. As we previously saw,
+we have rapid oscillations, which means that "indirect" modifications (i.e. $\eet$ will affect the $\Pmm$ channel)
+will be more apparent, since all flavors are involved to a greater degree compared with the more stable region above \SI{500}{\GeV}, where 
+many oscillations have settled down.
+
+Another feature of our DeepCore study includes the fact that we now have access to cascade events, in which $\ne$ and $\nt$ are more abundant. %TODO:show this?
+Thus, we are no longer constrained to the $\mu$ channel alone, but we can now find interesting features in the other channels too. However, we 
+remember that the $\nm$ flux is still the most abundant. %TODO: link to plot comparison of m and e flux.
+
+Fig.~\ref{fig:emt_ett_probs} shows that $\emt$ affects both $\Pmm$ and $\Pamam$ over the whole energy range. Since 
+IceCube also sees this, we hope to be able to boost the constraining of $\emt$ by combining the two experiments.
+
+Regarding $\ett$ in Fig.~\ref{fig:eem_eet_probs}, the signal mainly shows in the $\Pamam$ channel as
+a weaker resonance dip in the \SI{20}{\GeV} region. Thus, DeepCore/PINGU alone will be used to constrain this parameter.
+
+$\eem$ in Fig.~\ref{fig:eem_eet_probs} shows weak resonance dampening for both $\nm$ and $\anm$. 
+
+For $\eet$, we see a similar resonance dampening in $\Pmm$ as we did with $\ett$ for $\Pamam$. Hence, we should be able to 
+see the $\eet$ effect in DeepCore/PINGU, but remember that we now have the option to look at the other flavor channels.
+
+Fig.~\ref{fig:Pee_eet_probs} shows the electron neutrino and antineutrino survival probabilities, and here we see
+a clear difference when turning on $\eet$.
+%TODO: clean up above and expand a bit.
+\begin{figure}\label{fig:Pee_eet_probs}
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{figures/Pee_eet_probs.pdf}
+        \caption{Electron neutrino and antineutrino survival probabilities for
+        $\ztrue = -1$ when $\eet = 0.2$. All other NSI parameters are fixed to zero.}
+    \end{center}
+\end{figure}
+
+We summarize our findings in Table~\ref{table:nsi}
+\begin{table}
+    \begin{center}
+    \begin{tabular}{lccc}
+            \hline \hline & & \multicolumn{2}{c} {\text { Visibility }} \\
+            \cline { 3 - 4 } \text {Parameter} & Range & \text { IC } & \text {DC } \\
+            \hline
+            $\ett$ &$\pm 0.05 $ & $\times$ & \checkmark \\
+            $\emt$ &$\pm 0.02 $& \checkmark & \checkmark \\
+            $\eem$ &$\pm 0.2 $& \checkmark & \checkmark \\
+            $\eet$ &$\pm 0.2 $& $\times$ & \checkmark \\
+            \hline
+        \label{table:nsi}
+    \end{tabular}
+    \end{center}
+    \caption{Table of NSI parameters and their ranges considered in this study, along with visibility off
+    their signal in IceCube (IC) and DeepCore/PINGU (DC).}
+\end{table}
+
 \end{document}
