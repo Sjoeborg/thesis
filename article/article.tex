@@ -172,11 +172,12 @@ which we marginalize over their $3\sigma$ ranges of \SI{2.435e-3} to \SI{2.598e-
 
  \begin{figure}[!tb]
     \begin{center}
-       \includegraphics[width=0.4\linewidth]{figures/DC_emm.pdf}
-       \includegraphics[width=0.4\linewidth]{figures/DC_emt.pdf}
+      \includegraphics[width=0.6\linewidth]{figures/DC_3D_NO.pdf}
+      %\includegraphics[width=0.4\linewidth]{figures/DC_emm.pdf}
+      %\includegraphics[width=0.4\linewidth]{figures/DC_emt.pdf}
     \end{center}
-    \caption{The expected values of $\Delta \chi^2$ after three years of PINGU data. $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
-    parameters are set to zero. The black lines show the 90\% credibility region from~\cite{demidov}}\label{fig:DC_3D_et}
+    \caption{The expected values of $\Delta \chi^2$ after three years of DC data. $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
+    parameters other than the one displayed in each panel are set to zero. The black lines show the 90\% credibility region from~\cite{demidov}}\label{fig:DC_3D}
  \end{figure}
 
 For the joint analysis, we follow the parameter goodness-of-fit prescription~\cite{maltoni2003} and construct the joint $\chi^2$ as 
@@ -253,35 +254,55 @@ with test statistic $\chi^2_\text{joint,min}$.
 \begin{table}
    \begin{center}
    \begin{tabular}{lcccc}
-           \hline \hline & \multicolumn{3}{c} {\text {Best fit}}& \\
-           \cline { 2 - 4 } Parameter & $\dm$ & $\theta_{23}$  & $\epsilon$ & 90\% CL of $\epsilon$ \\
+           \hline \hline && \multicolumn{3}{c} {\text {Best fit}} \\
+           \cline { 3 - 5 } Parameter & 90\% CL & $\dm$ & $\theta_{23}$  & $\epsilon$  \\
            \hline
-           $\ett$ &-& - & - & -\\
-           $\emt$ &0.002435& 0.76736 & -0.005 & -0.015, 0.005\\
-           $\eem$ &-& - & - & -\\
-           $\eet$ &0.002435 & 0.7673630944601736 & 0.05 & -0.072, 0.138\\
+           $\ett$ & -0.028, 0.044 & 2.435 & 47.84 & 0.0125 \\
+           $\emt$ & -0.015, 0.0050 & 2.435 & 43.97 & -0.005 \\
+           $\eem$ & -0.068, 0.070 & 2.435 & 43.97 & 0 \\
+           $\eet$ & -0.072, 0.14 & 2.435 & 43.97  & 0.05 \\
            \hline
-       \label{table:results}
+       \label{table:DC_results}
    \end{tabular}
    \end{center}
-   \caption{DeepCore results}
+   \caption{DeepCore results. Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
+   $\si{\degree}$, respectively.}
+\end{table}
+
+\begin{table}
+   \begin{center}
+      \begin{tabular}{lcccc}
+         \hline \hline && \multicolumn{3}{c} {\text {Best fit}} \\
+         \cline { 3 - 5 } Parameter & 90\% CL & $\dm$ & $\theta_{23}$  & $\epsilon$  \\
+         \hline
+         $\ett$ &-& - & - & -\\
+         $\emt$ &-& - & - & -\\
+         $\eem$ & -0.060, 0.055 & 2.517 & 49.2 & 0 \\
+         $\eet$ & -0.065, 0.072 & 2.517 & 49.2 & 0 \\
+         \hline
+      \label{table:PINGU_results}
+      \end{tabular}
+   \end{center}
+   \caption{PINGU results. Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
+   $\si{\degree}$, respectively.}
 \end{table}
 
 \begin{table}
    \begin{center}
    \begin{tabular}{lcccc}
-           \hline \hline & \multicolumn{3}{c} {\text {Best fit}}& \\
-           \cline { 2 - 4 } Parameter & $\dm$ & $\theta_{23}$  & $\epsilon$ & 90\% CL of $\epsilon$ \\
+           \hline \hline && \multicolumn{3}{c} {\text {Best fit}} \\
+           \cline { 3 - 5 } Parameter & 90\% CL & $\dm$ & $\theta_{23}$  & $\epsilon$  \\
            \hline
            $\ett$ &-& - & - & -\\
            $\emt$ &-& - & - & -\\
-           $\eem$ &-& - & - & -\\
-           $\eet$ &0.002517 & 0.8587019919812102 & 0.05 & -0.105, 0.101\\
+           $\eem$ & -0.046, 0.046 \hspace{1cm}& 2.489 & 47.84 & 0 \\
+           $\eet$ & -0.057, 0.028 \hspace{1cm}& 2.489 & 47.84 & 0 \\
            \hline
-       \label{table:results}
+       \label{table:PINGU_results}
    \end{tabular}
    \end{center}
-   \caption{DeepCore results}
+   \caption{Joint results. Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
+   $\si{\degree}$, respectively.}
 \end{table}
 
 \bibliographystyle{elsarticle-num}

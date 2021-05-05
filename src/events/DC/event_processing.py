@@ -187,5 +187,49 @@ def get_best_fit(deltachi, p_range, cl):
     left = interpolate.interp1d(deltachi[0:half],p_range[0:half])(chi2.ppf(cl,1))
     right = interpolate.interp1d(deltachi[half:-1],p_range[half:-1])(chi2.ppf(cl,1))
     return np.round(left,3),np.round(right,3)
+
+def get_marginalized_array(H1,dm31_range,th23_range,ett_range,emt_range,eem_range,eet_range, param_list, nsi_param, sigma_a,sigma_b, f):
+    chisq,  best_fit_index = get_deltachi([H for H in H1],0,[sigma_a,sigma_b],f,x0=[1,0])
+
+    reshaped_chisq = chisq.reshape(len(eet_range),
+                                len(eem_range),
+                                len(emt_range), 
+                                len(ett_range), 
+                                len(th23_range), 
+                                len(dm31_range)) #reshaped_chisq[eet,eem,emt,emm,th23,dm31]
+    minimum_oscillation = np.min(reshaped_chisq,axis=(0,1,2,3)).reshape(1,1,1,1,len(th23_range),len(dm31_range)) #Marginalize osc params
+    deltachi = reshaped_chisq - minimum_oscillation
+
+
+    best_eet_index,best_eem_index,best_emt_index,best_ett_index,best_th23_index, best_dm31_index = np.unravel_index(best_fit_index,deltachi.shape)
+    best_dm31, best_th23, best_ett, best_emt, best_eem, best_eet = (dm31_range[best_dm31_index], 
+                                                                    th23_range[best_th23_index],
+                                                                    ett_range[best_ett_index],
+                                                                    emt_range[best_emt_index],
+                                                                    eem_range[best_eem_index],
+                                                                    eet_range[best_eet_index])
+    best_fit_params = param_list[best_fit_index]
+    assert best_fit_params['dm_31'] == best_dm31 
+    assert best_fit_params['theta_23'] == best_th23
+    assert best_fit_params['e_tt'] == best_ett
+    assert best_fit_params['e_mt'] == best_emt
+    assert best_fit_params['e_em'] == best_eem
+    assert best_fit_params['e_et'] == best_eet
+
+    marginalized_deltachi = deltachi[:,:,:,:,best_th23_index,best_dm31_index].T # marginalized_deltachi[ett,emt,eem,eet]
+    deltachi_ett = marginalized_deltachi[:,best_emt_index, best_eem_index, best_eet_index]
+    deltachi_emt = marginalized_deltachi[best_ett_index,:, best_eem_index, best_eet_index]
+    deltachi_eem = marginalized_deltachi[best_ett_index,best_emt_index, :, best_eet_index]
+    deltachi_eet = marginalized_deltachi[best_ett_index,best_emt_index, best_eem_index, :]
+    if nsi_param == 'ett':
+        return deltachi_ett
+    elif nsi_param == 'emt':
+        return deltachi_emt
+    elif nsi_param == 'eem':
+        return deltachi_eem
+    elif nsi_param == 'eet':
+        return deltachi_eet
+    else: #If no nsi_param is given, return whole array. Used in joint analysis
+        return reshaped_chisq.T
 if __name__ == '__main__':
     pass
