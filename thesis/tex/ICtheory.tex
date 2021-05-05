@@ -10,12 +10,24 @@
 \end{figure}
 
 \section{Atmospheric neutrino flux}
-The flux comes from \cite{hondaArticle} %TODO: talk about flux
-The flux data is binned in $\ztrue$ and a selection is shown in Table~\ref{table:flux}. The fluxes are averaged over azimuthal direction and over solar minimum/maximum. 
+Atmospheric neutrinos originates from cosmic rays composed of protons interacting with nuclei in the atmosphere.
+These interactions ultimately produces pions, which decay as 
+\begin{align}\label{eq:pion}
+    \pi^+ &\to \mu^+ + \nm\,, \quad \pi^- \ to \mu^- + \anm \nonumber \\
+    \pi^+ &\to e^+ + \ne\,, \quad \pi^- \ to e^- + \ane\,.
+\end{align}
+In the muonic decay channel, muons are emitted which will be detected by the IceCube detector. A part of the 
+uncorrelated systematic error comes from this \emph{muon background}, i.e. events misclassified as muons from 
+$\nm$ interactions rather than from pion decay. Moreover, the atmospheric flux is often associated with a large error.
+In this work, we will use a flux normalization error of 24\%, and a zenith slope error of 4\%. In more sophisticated 
+models, one can also include the pion to kaon flux uncertainty.
+
+The flux is provided in \cite{hondaData,hondaArticle}, and a selection is shown in Table~\ref{table:flux}
+The flux data is binned in $\ztrue$. The fluxes are averaged over azimuthal direction and over solar minimum/maximum. 
 The units of the fluxes are given as \si{\per\GeV \per\metre\squared \per\second \per\steradian} and are omitted
 from the table for clarity. 
-We note that the fluxes for $\nt$ and $\nu_{\bar{\tau}}$ are missing. This is due to the rapid decay (and hence, low flux) of the $\tau$. 
-Thus, we never have to use probabilities on the form 
+We note that the fluxes for $\nt$ and $\nu_{\bar{\tau}}$ are missing. Kaons can decay into neutral pions, which in turn 
+can produce $\nt$, but this branching ratio is extremely small. Thus, we never have to use probabilities on the form 
 $P_{\tau \beta}$, since we have no incoming atmospheric $\nu_\tau$ flux. 
 
 Interpolating the data yields makes us capable of returning all four necessary fluxes for a given true energy and true zenith.
@@ -113,7 +125,7 @@ where $T$ is the live time of the detector.
 
 \begin{figure}[!tb]\label{fig:IC_MC_gpr}
     \begin{center}
-       \includegraphics[width=0.4\linewidth]{figures/IC_MC_gpr.pdf} %TODO: another fig here? Aeff?
+       \includegraphics[width=0.4\linewidth]{figures/IC_MC_gpr.pdf}
     \end{center}
     \caption{Relationship between the true and reconstructed muon energy in the IceCube MC sample~\cite{IC2016}}\label{fig:IC_MC_counts}. Shaded area shows the $99.9$th percentile limits predicted by the regressor trained on this set.
  \end{figure}

@@ -1,0 +1,34 @@
+\documentclass[draft=True]{thesis}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{graphicx, slashed, siunitx}
+\usepackage[utf8]{inputenc}
+\usepackage{xr-hyper}
+\input{commands}
+\begin{document}
+\section{$\chi^2$ minimization}
+For our analyses, we define our $\chi^2$ as
+\begin{align} \label{eq:ICchisq}
+    \chi^{2}(\hat{\theta},\alpha,\beta, \kappa)=\sum_{ijk} \frac{\left(N^\text{th}-N^\text{data}\right)_{ijk}^{2}}
+    {\left(\sigma^\text{data}_{ijk}\right)^{2} + \left(\sigma^\text{syst}_{ijk}\right)^{2}}+ 
+    \frac{(1-\alpha)^2}{\sigma_\alpha^2} + \frac{\beta^2}{\sigma_\beta^2}\,
+\end{align}
+where we minimize over the model parameters $\hat{\theta} \in \{\dm, \theta_{23}, \ep, \emt\}$, the penalty terms $\alpha$ and $\beta$, and the free parameter $\kappa$.
+$N_{ijk}^\text{th}$ is the expected number of events from theory, and $N_{ijk}^\text{data}$ is the observed number of events in that bin. We set $\sigma_\alpha = 0.25$ as the atmospheric flux normalization error, and $\sigma_\beta = 0.04$ as the zenith angle slope error~\cite{hondapaper}. 
+The observed event number has an associated Poissonian uncertainty $\sigma_{ijk}^\text{data} = \sqrt{N_{ijk}^\text{data}}$.
+
+For IceCube, the event count takes the form
+\begin{align}
+    N^\text{th}_{ijk} = \alpha\left[1+\beta (0.5 + \zreco_i )\right] N_{ijk}(\hat{\theta})\,,
+\end{align}
+with $N_{ijk}(\hat{\theta})$ from Eq.~\ref{eq:ICevents} Here, we allow the event distribution to rotate around the median zenith of $-0.5$.
+
+For DeepCore and PINGU, the event count takes the form
+\begin{align}
+    N^\text{th}_{ijk} = \alpha\left[1+\beta \zreco_i \right] N_{ijk}(\hat{\theta}) + \kappa N_{ijk}^{\mu_{atm}}\,,
+\end{align}
+with $N_{ijk}(\hat{\theta})$ from Eq.~\ref{eq:MCevents}. $N_{ijk}^{\mu_{atm}}$ is the muon background, which is left to float freely in the DeepCore analysis.
+The background at PINGU can be considered neglible to first order~\cite{PINGUdata}, and we thus put $\kappa=0$ when calculating the PINGU $\chi^2$\,.
+For IceCube, we set $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$.
+For DeepCore, we use the provided systematic error distribution which accounts for both uncertanties in the finite MC statistics and in the data-driven 
+muon background estimate~\cite{DC2019data}.
+\end{document}

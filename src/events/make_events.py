@@ -68,14 +68,14 @@ if __name__ == '__main__':
         H1 = np.array(H1_events_list)
         H1 = H1.reshape(len(param_list),1,8,8) #second axis is pid
         #H1 = np.swapaxes(H1,1,3) #Put pid on second index
-        H1 = np.swapaxes(H1,2,3) #Swap e and z bins
+        #H1 = np.swapaxes(H1,2,3) #Swap e and z bins
         pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_PINGU_{args.pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     elif args.DC:
         H1_events_list = process_map(precompute_probs, param_tuple,chunksize=4)
         H1 = np.array(H1_events_list)
         H1 = H1.reshape(len(param_list),1,8,8) #second axis is pid
         #H1 = np.swapaxes(H1,1,3) #Put pid on second index
-        H1 = np.swapaxes(H1,2,3) #Swap e and z bins
+        #H1 = np.swapaxes(H1,2,3) #Swap e and z bins
         pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_DC_{args.pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     if args.IC:
         data = [(0.99, 13,p, False,False, [False, 0, 0],True, True,3) for p in param_list]
