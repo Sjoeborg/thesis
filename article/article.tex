@@ -25,7 +25,7 @@
 \section{Methodology}
 The neutrino flux at the detector is calculated by propagating the atmospheric neutrino flux~\cite{hondapaper} through the Earth by solving the 
 Schrödinger equation for varying density. The Earth density profile is taken from the PREM~\cite{PREM}. The baseline for a given trajectory is determined using an average neutrino
-production height of 15 km and an Earth radius of 6371 km. %TODO: add more here?
+production height of 15 km and an Earth radius of 6371 km. %TODO: add more here? no neutrino absorption
 
 
 The oscillation probability $P_{\alpha \beta}$ acts as a weight to the atmospheric flux, yielding the propagated flux at detector level for flavor $\beta$ as 
@@ -188,23 +188,20 @@ with test statistic $\chi^2_\text{joint,min}$.
 
 \begin{figure}[!tb]
     \begin{center}
-       \includegraphics[width=0.4\linewidth]{figures/emm_deltachi.pdf}
+       \includegraphics[width=0.4\linewidth]{figures/joint_3D_eem.pdf}
+       \includegraphics[width=0.4\linewidth]{figures/joint_3D_eet.pdf}
     \end{center}
-    \caption{}\label{fig:emm_deltachi}
+    \caption{}\label{fig:joint_3D}
  \end{figure}
 
- \begin{figure}[!tb]
-    \begin{center}
-       \includegraphics[width=0.4\linewidth]{figures/emm_emp_contour.pdf}
-    \end{center}
-    \caption{}\label{fig:emm_emp_contour}
- \end{figure}
-%At $90\%$ CL:
-%PINGU: $-0.046 < \emm < 0.041$
-%DC: $-0.045 < \emm < 0.041$
-%joint: $-0.038 < \emm < 0.033$
+%  \begin{figure}[!tb]
+%     \begin{center}
+%        \includegraphics[width=0.4\linewidth]{figures/emm_emp_contour.pdf}
+%     \end{center}
+%     \caption{}\label{fig:emm_emp_contour}
+%  \end{figure}
 
-%TODO: table with individual and combined chisq values. Discussion on impact of IC on chisq.
+%TODO:  Discussion on impact of IC on chisq.
 
  \newpage
 \begin{tabular}{p{55mm}p{55mm}p{55mm}}
@@ -298,7 +295,7 @@ with test statistic $\chi^2_\text{joint,min}$.
            $\eem$ & -0.046, 0.046 \hspace{1cm}& 2.489 & 47.84 & 0 \\
            $\eet$ & -0.057, 0.028 \hspace{1cm}& 2.489 & 47.84 & 0 \\
            \hline
-       \label{table:PINGU_results}
+       \label{table:joint_results}
    \end{tabular}
    \end{center}
    \caption{Joint results. Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
