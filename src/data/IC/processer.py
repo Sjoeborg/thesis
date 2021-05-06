@@ -176,25 +176,26 @@ def get_probabilities(flavor_from, flavor_to, Ebin, zbin, param_dict,anti,N,ndim
     f.close()
     return res
 
-def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,N, ndim=4, nsi=False):
+def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,N, ndim=4, nsi=False, save=True):
     prob = np.array([wrapper([flavor_from, E_range,z, anti, params, ndim, nsi])[mass_dict[flavor_to]] for z in z_range])
-    hashed_param_name = sha256(params)
-    if anti:
-        flavor_from = 'a' + flavor_from
-        flavor_to = 'a' + flavor_to
-    f = h5py.File(f'./pre_computed/IC/E{E_bin}z{z_bin}.hdf5', 'a')
-    try:
-        dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}', data=prob, chunks=True)
-        for key in params.keys():
-            dset.attrs[key] = params[key]
-        f.close()
-    except RuntimeError:
-        print(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} already exists, skipping')
-        f.close()
-        return prob
-    if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am':
-        with open(f'./pre_computed/IC/hashed_params.csv','a') as fd:
-            fd.write(f'{params};{hashed_param_name}\n')
+    if save:
+        hashed_param_name = sha256(params)
+        if anti:
+            flavor_from = 'a' + flavor_from
+            flavor_to = 'a' + flavor_to
+        f = h5py.File(f'./pre_computed/IC/E{E_bin}z{z_bin}.hdf5', 'a')
+        try:
+            dset = f.create_dataset(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}', data=prob, chunks=True)
+            for key in params.keys():
+                dset.attrs[key] = params[key]
+            f.close()
+        except RuntimeError:
+            print(f'{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name} already exists, skipping')
+            f.close()
+            return prob
+        if E_bin == 5 and z_bin == 5 and flavor_from == 'am' and flavor_to == 'am':
+            with open(f'./pre_computed/IC/hashed_params.csv','a') as fd:
+                fd.write(f'{params};{hashed_param_name}\n')
     return prob
 
 
