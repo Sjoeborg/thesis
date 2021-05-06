@@ -8,7 +8,7 @@ if __name__ == '__main__':
 from DC.event_processing import get_param_list, list_of_params_nsi
 from PINGU.main import get_events as PINGU_events
 from DC.main import get_events as DC_events
-from IC.main import sim_events as IC_events
+from IC.main import get_events as IC_events
 from functions import nufit_params_nsi, nufit_params_nsi_IO
 
 parser = argparse.ArgumentParser()
@@ -36,12 +36,17 @@ args = parser.parse_args()
 
 
 def precompute_probs(args_tuple):
-    i,j,params,pid = args_tuple
     if args.PINGU:
+        i,j,params,pid = args_tuple
         res = PINGU_events(Ebin=i,zbin=j,params=params,pid=pid,nsi=True, save=False)
     elif args.DC:
+        i,j,params,pid = args_tuple
         res = DC_events(Ebin=i,zbin=j,params=params,pid=pid,nsi=True, no_osc=False, save=False)
+    elif args.IC:
+        i,j,a, N,p, spectral,null, tau,ndim = args_tuple
+        res = IC_events(E_index=i, z_index=j, alpha=a, npoints=N, params=p, spectral_shift_parameters=spectral, null=null, tau=tau, ndim=ndim)
     return np.array(res)
+
 
 if __name__ == '__main__':
     assert args.PINGU or args.DC or args.IC
@@ -78,6 +83,7 @@ if __name__ == '__main__':
         #H1 = np.swapaxes(H1,2,3) #Swap e and z bins
         pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_DC_{args.pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     if args.IC:
-        data = [(0.99, 13,p, False,False, [False, 0, 0],True, True,3) for p in param_list]
-        H1_events_list = process_map(IC_events, data)
+        data = [(i,j,0.99, 13,p, [False, 0, 0],False, True,3) for p in param_list for i in range(13) for j in range(20)]
+        H1_events_list = process_map(precompute_probs, data,chunksize=4)
+        H1_events_list = H1_events_list.reshape(len(param_list),13,20)
         pickle.dump(H1_events_list,open(f'./pre_computed/H1_{ordering}_IC_N13_{len(dm31_range)}x{len(th23_range)}x{len(emt_range)}.p','wb'))

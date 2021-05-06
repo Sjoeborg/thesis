@@ -180,13 +180,13 @@ def is_precomputed_nsi(pid,ndim, dict, check=False):
                 return True
 
                 
-def get_best_fit(deltachi, p_range, cl):
+def get_best_fit(deltachi, p_range, cl):#TODO: make better
     from scipy import interpolate
     deltachi = deltachi.reshape(-1)
     half = int(len(p_range)/2)
     left = interpolate.interp1d(deltachi[0:half],p_range[0:half])(chi2.ppf(cl,1))
     right = interpolate.interp1d(deltachi[half:-1],p_range[half:-1])(chi2.ppf(cl,1))
-    return np.round(left,3),np.round(right,3)
+    return np.round(left,4),np.round(right,4)
 
 def get_marginalized_array(H1,dm31_range,th23_range,ett_range,emt_range,eem_range,eet_range, param_list, nsi_param, sigma_a,sigma_b, f):
     chisq,  best_fit_index = get_deltachi([H for H in H1],0,[sigma_a,sigma_b],f,x0=[1,0])

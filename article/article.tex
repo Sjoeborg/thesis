@@ -18,7 +18,7 @@
 \newcommand{\dm}{\Delta m^2_{31}}
 \newcommand{\sth}{\sin^2(2\theta_{23})}
 
-\usepackage{physics,amsmath, amsfonts, siunitx, amssymb, graphicx}
+\usepackage{physics,amsmath, amsfonts, siunitx, amssymb, graphicx, subcaption}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \begin{document}
@@ -99,8 +99,8 @@ The oscillation parameters used on our DeepCore simulations are from the
 best-fit in the global analysis in~\cite{nufit}: $\theta_{12} = \SI{33.44}{\degree},\, \theta_{13} = \SI{8.57}{\degree},\, \Delta m^2_{21} =  \SI{7.42}{\electronvolt^2}$, and we 
 marginalize over $\dm$ and $\theta_{23}$.
 
-We plot the event pull $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ where $N_{(N)SI}$ are the numbers of expected events
-assuming (non-)standard interactions in Fig.~\ref{fig:event_pulls}. This gives the normalized difference in the
+We plot the event pull $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ where $N_{SI}$ $(N_{NSI})$ are the numbers of expected events
+assuming standard (non-standard) interactions in Fig.~\ref{fig:event_pulls}. This gives the normalized difference in the
 number of expected events at the detector, and illustrates the expected sensitivity of DeepCore for the NSI parameters.
 
 \begin{figure}[!tb]
@@ -128,12 +128,12 @@ We generate "data" by predicting the event rates at PINGU with the following bes
 
 \section{Results}
 For our analyses, we define our $\chi^2$ as
-\begin{align} \label{eq:ICchisq}
+\begin{align} \label{eq:chisq}
     \chi^{2}(\hat{\theta},\alpha,\beta, \kappa)=\sum_{ijk} \frac{\left(N^\text{th}-N^\text{data}\right)_{ijk}^{2}}
     {\left(\sigma^\text{data}_{ijk}\right)^{2} + \left(\sigma^\text{syst}_{ijk}\right)^{2}}+ 
     \frac{(1-\alpha)^2}{\sigma_\alpha^2} + \frac{\beta^2}{\sigma_\beta^2}\,
 \end{align}
-where we minimize over the model parameters $\hat{\theta} \in \{\dm, \theta_{23}, \ep, \emt\}$, the penalty terms $\alpha$ and $\beta$, and the free parameter $\kappa$.
+where we minimize over the model parameters $\hat{\theta} \in \{\dm, \theta_{23}, \epsilon\}$, the penalty terms $\alpha$ and $\beta$, and the free parameter $\kappa$.
 $N_{ijk}^\text{th}$ is the expected number of events from theory, and $N_{ijk}^\text{data}$ is the observed number of events in that bin. We set $\sigma_\alpha = 0.25$ as the atmospheric flux normalization error, and $\sigma_\beta = 0.04$ as the zenith angle slope error~\cite{hondapaper}. 
 The observed event number has an associated Poissonian uncertainty $\sigma_{ijk}^\text{data} = \sqrt{N_{ijk}^\text{data}}$.
 
@@ -159,51 +159,83 @@ muon background estimate~\cite{DC2019data}.
 First, we set all standard oscillation parameters to their current best-fit values of Eq.~\ref{eq:PINGUparams}, except for $\dm$ and $\theta_{23}$, 
 which we marginalize over their $3\sigma$ ranges of \SI{2.435e-3} to \SI{2.598e-3}{\electronvolt^2} and \SI{40.1} to \SI{51.7}{\degree} respectively. %TODO: make unit ranges nicer.
 
- \begin{figure}[!tb]
-    \begin{center}
-       \includegraphics[width=0.45\linewidth]{figures/PINGU_3D_ett.pdf}
-       \includegraphics[width=0.45\linewidth]{figures/PINGU_3D_emt.pdf}
-       \includegraphics[width=0.45\linewidth]{figures/PINGU_3D_eem.pdf}
-       \includegraphics[width=0.45\linewidth]{figures/PINGU_3D_eet.pdf}
+\begin{figure}[!tb]
+   \begin{center}
+      \begin{subfigure}{0.4\textwidth}
+         \includegraphics[width=1\linewidth]{figures/PINGU_3D_NO.pdf}
+         \label{fig:PINGU_3D_NO}
+         \caption{PINGU}
+      \end{subfigure}
+      \begin{subfigure}{0.4\textwidth}
+         \includegraphics[width=1\linewidth]{figures/DC_3D_NO.pdf}
+         \label{fig:PINGU_3D_NO}
+         \caption{DeepCore}
+      \end{subfigure}
     \end{center}
-    \caption{The expected values of $\Delta \chi^2$ after three years of PINGU data. $\dm$ and $\theta_{23}$ and have been marginalized out, and all NSI 
-    parameters not shown in each plot are set to zero.}\label{fig:PINGU_3D}
+    \caption{Minimization of the $\Delta \chi^2$ defined in Eq.~\ref{eq:chisq} after three years of data.
+    $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
+    parameters other than the one displayed in each panel are set to zero.}\label{fig:3D_NO}
  \end{figure}
 
- \begin{figure}[!tb]
-    \begin{center}
-      \includegraphics[width=0.6\linewidth]{figures/DC_3D_NO.pdf}
-      %\includegraphics[width=0.4\linewidth]{figures/DC_emm.pdf}
-      %\includegraphics[width=0.4\linewidth]{figures/DC_emt.pdf}
-    \end{center}
-    \caption{The expected values of $\Delta \chi^2$ after three years of DC data. $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
-    parameters other than the one displayed in each panel are set to zero. The black lines show the 90\% credibility region from~\cite{demidov}}\label{fig:DC_3D}
- \end{figure}
+ \begin{table}
+   \begin{center}
+   \begin{tabular}{lcccc}
+           \hline \hline && \multicolumn{3}{c} {\text {Best fit}} \\
+           \cline { 3 - 5 } Parameter & 90\% CL\hspace{1cm} & $\dm$ & $\theta_{23}$  & $\epsilon$  \\
+           \hline \multicolumn{3}{c} {\hspace{2.5cm} DeepCore }  \\[0.1em]
+           $\ett$ & -0.028, 0.044\hspace{1cm} & 2.435 & 47.84 & 0.0125 \\
+           $\emt$ & -0.015, 0.0050\hspace{1cm} & 2.435 & 43.97 & -0.005 \\
+           $\eem$ & -0.068, 0.070\hspace{1cm} & 2.435 & 43.97 & 0 \\
+           $\eet$ & -0.072, 0.14\hspace{1cm} & 2.435 & 43.97  & 0.05 \\\\
+           \multicolumn{3}{c} {\hspace{2.5cm} PINGU } \\
+           $\ett$ & -0.036, -\hspace{1cm} & 2.517 & 49.2 & 0 \\
+           $\emt$ & -0.0076, 0.0085\hspace{1cm} & 2.517 & 49.2 & 0\\
+           $\eem$ & -0.060, 0.055\hspace{1cm} & 2.517 & 49.2 & 0 \\
+           $\eet$ & -0.065, 0.072\hspace{1cm} & 2.517 & 49.2 & 0 \\
+           \hline
+           \hline
+       \label{table:DC_PINGU_results}
+   \end{tabular}
+   \end{center}
+   \caption{DeepCore and PINGU results from the $\Delta \chi^2$ in Fig.~\ref{fig:3D_NO}. Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
+   degrees, respectively.}
+\end{table}
 
 For the joint analysis, we follow the parameter goodness-of-fit prescription~\cite{maltoni2003} and construct the joint $\chi^2$ as 
-\begin{align}
+\begin{align}\label{eq:joint_chisq}
     \chi^2_\text{joint} = \chi^2_\text{IC} + \chi^2_\text{DC} + \chi^2_\text{P} - \chi^2_{IC,min} - \chi^2_\text{DC,min} - \chi^2_\text{P,min}\,
 \end{align}
 with test statistic $\chi^2_\text{joint,min}$.
 
 \begin{figure}[!tb]
     \begin{center}
-       \includegraphics[width=0.4\linewidth]{figures/joint_3D_eem.pdf}
-       \includegraphics[width=0.4\linewidth]{figures/joint_3D_eet.pdf}
+       \includegraphics[width=0.4\linewidth]{figures/joint_3D_NO.pdf}
     \end{center}
-    \caption{}\label{fig:joint_3D}
+    \caption{Minimization of the joint $\chi^2$ from Eq.~\ref{fig:joint_chisq} using the $\Delta \chi^2$ shown in Fig.~\ref{fig:3D_NO}}
+    \label{fig:joint_3D}
  \end{figure}
 
-%  \begin{figure}[!tb]
-%     \begin{center}
-%        \includegraphics[width=0.4\linewidth]{figures/emm_emp_contour.pdf}
-%     \end{center}
-%     \caption{}\label{fig:emm_emp_contour}
-%  \end{figure}
+ \begin{table}
+   \begin{center}
+   \begin{tabular}{lcccc}
+           \hline \hline && \multicolumn{3}{c} {\text {Best fit}} \\
+           \cline { 3 - 5 } Parameter & 90\% CL\hspace{1cm} & $\dm$ & $\theta_{23}$  & $\epsilon$  \\
+           \hline
+           $\ett$ & -0.029, 0.0473\hspace{1cm} & 2.489 & 47.84 & 0.0125\\
+           $\emt$ & -0.0063, 0.0050\hspace{1cm} & 2.489 & 47.84 & 0\\
+           $\eem$ & -0.046, 0.046 \hspace{1cm} & 2.489 & 47.84 & 0 \\
+           $\eet$ & -0.057, 0.028 \hspace{1cm} & 2.489 & 47.84 & 0 \\
+           \hline
+       \label{table:joint_results}
+   \end{tabular}
+   \end{center}
+   \caption{Joint results from $\chi^2_\{text}$ defined in Eq.~\ref{eq:joint_chisq}. Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
+   degrees, respectively.}
+\end{table}
 
-%TODO:  Discussion on impact of IC on chisq.
+%TODO:  Discussion on impact of IC on chisq.?
 
- \newpage
+\newpage
 \begin{tabular}{p{55mm}p{55mm}p{55mm}}
    DeepCore (2017)
       \begin{itemize}
@@ -248,59 +280,6 @@ with test statistic $\chi^2_\text{joint,min}$.
       \end{itemize} 
 \end{tabular}
 
-\begin{table}
-   \begin{center}
-   \begin{tabular}{lcccc}
-           \hline \hline && \multicolumn{3}{c} {\text {Best fit}} \\
-           \cline { 3 - 5 } Parameter & 90\% CL & $\dm$ & $\theta_{23}$  & $\epsilon$  \\
-           \hline
-           $\ett$ & -0.028, 0.044 & 2.435 & 47.84 & 0.0125 \\
-           $\emt$ & -0.015, 0.0050 & 2.435 & 43.97 & -0.005 \\
-           $\eem$ & -0.068, 0.070 & 2.435 & 43.97 & 0 \\
-           $\eet$ & -0.072, 0.14 & 2.435 & 43.97  & 0.05 \\
-           \hline
-       \label{table:DC_results}
-   \end{tabular}
-   \end{center}
-   \caption{DeepCore results. Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
-   $\si{\degree}$, respectively.}
-\end{table}
-
-\begin{table}
-   \begin{center}
-      \begin{tabular}{lcccc}
-         \hline \hline && \multicolumn{3}{c} {\text {Best fit}} \\
-         \cline { 3 - 5 } Parameter & 90\% CL & $\dm$ & $\theta_{23}$  & $\epsilon$  \\
-         \hline
-         $\ett$ &-& - & - & -\\
-         $\emt$ &-& - & - & -\\
-         $\eem$ & -0.060, 0.055 & 2.517 & 49.2 & 0 \\
-         $\eet$ & -0.065, 0.072 & 2.517 & 49.2 & 0 \\
-         \hline
-      \label{table:PINGU_results}
-      \end{tabular}
-   \end{center}
-   \caption{PINGU results. Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
-   $\si{\degree}$, respectively.}
-\end{table}
-
-\begin{table}
-   \begin{center}
-   \begin{tabular}{lcccc}
-           \hline \hline && \multicolumn{3}{c} {\text {Best fit}} \\
-           \cline { 3 - 5 } Parameter & 90\% CL & $\dm$ & $\theta_{23}$  & $\epsilon$  \\
-           \hline
-           $\ett$ &-& - & - & -\\
-           $\emt$ &-& - & - & -\\
-           $\eem$ & -0.046, 0.046 \hspace{1cm}& 2.489 & 47.84 & 0 \\
-           $\eet$ & -0.057, 0.028 \hspace{1cm}& 2.489 & 47.84 & 0 \\
-           \hline
-       \label{table:joint_results}
-   \end{tabular}
-   \end{center}
-   \caption{Joint results. Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
-   $\si{\degree}$, respectively.}
-\end{table}
 
 \bibliographystyle{elsarticle-num}
 \bibliography{article}
