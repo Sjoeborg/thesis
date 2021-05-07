@@ -22,6 +22,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \begin{document}
+%TODO: nsi intro, clear about factor 3
 \section{Detector formalism}
 The neutrino flux at the detector is calculated by propagating the atmospheric neutrino flux~\cite{hondapaper} through the Earth by solving the 
 Schrödinger equation for varying density. The Earth density profile is taken from the PREM~\cite{PREM}. The baseline for a given trajectory is determined using an average neutrino
@@ -54,7 +55,8 @@ Here we see a somewhat weaker signal, this time a zenith-independent deficiency.
    Dotted (dashed) lines show the regions in which 99\% of the 
    DeepCore (IceCube) MC events are contained. \emph{Left panel:} Propagated fluxes of $\ne$ and $\nt$ neutrinos and anti-neutrinos. 
    \emph{Right panel:} Propagated fluxes of $\nm$ neutrinos and anti-neutrinos}\label{fig:flux_ratio}%TODO: normalize color scale and fix limits
-\end{figure}
+\end{figure}% smaller emt and no log. clarify that IC is missing in left panel. clarify
+%that energy region within dotted line, use as few words as possible. Normalize color scale. check green-yellow cmap
 
 \subsection{IceCube}\label{ch:ICmethod}
 The event rate for each bin reads
@@ -69,14 +71,8 @@ which is responsible for the smearing between the reconstructed and true paramet
 \end{align}
 As seen in Fig.~\ref{fig:IC_MC_counts}, the energy reconstruction is biased. To model this relationship between $\Etrue$ and $\Ereco$, we train a Gaussian process regressor on the dataset~\cite{IC2016}, from which
 we can extract a predicted mean and standard deviation for a given $E^{reco}$. We then take the $\Etrue$ points of the 99th percentile of each distribution to obtain
-the limits of $\Etrue$ at which to integrate over. We have no angular resolution function since the angle resolution in Icecube for track-like events is less than $\SI{2}{\degree}$, making $\ztrue$ coincide with $\zreco$ for our study. 
+the limits of $\Etrue$ at which to integrate over. We have no angular resolution function since the angle resolution in IceCube for track-like events is less than $\SI{2}{\degree}$, making $\ztrue$ coincide with $\zreco$ for our study. 
 The data is from the 86 string sterile analysis~\cite{IC2020}.
-\begin{figure}[!tb]
-    \begin{center}
-       \includegraphics[width=0.4\linewidth]{figures/IC_MC_gpr.pdf} %TODO: another fig here? Aeff?
-    \end{center}
-    \caption{Relationship between the true and reconstructed muon energy in the IceCube MC sample~\cite{IC2016}}\label{fig:IC_MC_counts}. Shaded area shows the $99.9$th percentile limits predicted by the regressor trained on this set.
- \end{figure}
 
 \subsection{DeepCore}\label{ch:DCmethod}
 In this part, we use the publically available DeepCore data sample~\cite{DC2019data} which is an updated version of what was used by the 
@@ -114,10 +110,11 @@ number of expected events at the detector, and illustrates the expected sensitiv
          \caption{DeepCore}\label{fig:DC_event_pulls}
       \end{subfigure}
    \end{center}
-   \caption{Expected pulls of predicted event numbers for PINGU and DeepCore after 3 years. We compare the NSI event count with $\emt=-0.05$
+   \caption{Expected pulls of the form $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ for PINGU and DeepCore after 3 years. We compare the NSI event count with $\emt=-0.05$
     to the standard interaction count}\label{fig:event_pulls} 
     %TODO: remake these with clearer titles and better labels, and reduce spacing between casc/tracks
     %also, consider normalizing color scheme to one single for both.
+    %remove cos>0.
 \end{figure}
 
 
@@ -147,7 +144,7 @@ For our analyses, we define our $\chi^2$ as
 where we minimize over the model parameters $\hat{\theta} \in \{\dm, \theta_{23}, \epsilon\}$, the penalty terms $\alpha$ and $\beta$, and the free parameter $\kappa$.
 $N_{ijk}^\text{th}$ is the expected number of events from theory, and $N_{ijk}^\text{data}$ is the observed number of events in that bin. We set $\sigma_\alpha = 0.25$ as the atmospheric flux normalization error, and $\sigma_\beta = 0.04$ as the zenith angle slope error~\cite{hondapaper}. 
 The observed event number has an associated Poissonian uncertainty $\sigma_{ijk}^\text{data} = \sqrt{N_{ijk}^\text{data}}$.
-
+% Make clear distinction of different sigma syst here.
 For IceCube, the event count takes the form
 \begin{align}
     N^\text{th}_{ijk} = \alpha\left[1+\beta (0.5 + \zreco_i )\right] N_{ijk}(\hat{\theta})\,,
@@ -169,7 +166,7 @@ muon background estimate~\cite{DC2019data}. %TODO segue
 First, we set all standard oscillation parameters to their current best-fit values of Eq.~\ref{eq:PINGUparams}, except for $\dm$ and $\theta_{23}$, 
 which we marginalize over their $3\sigma$ ranges of \SI{2.435e-3} to \SI{2.598e-3}{\electronvolt^2} and \SI{40.1} to \SI{51.7}{\degree} respectively. %TODO: make unit ranges nicer.
 After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:3D_NO}. We record the 
-confidence levels and best-fit points in Table.~\ref{table:DC_PINGU_results}.
+confidence levels in Table.~\ref{table:DC_PINGU_results} and best-fit points in Table ~\ref{table:bestfit}.
 
 \begin{figure}[!tb]
    \begin{center}
@@ -187,30 +184,56 @@ confidence levels and best-fit points in Table.~\ref{table:DC_PINGU_results}.
     $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
     parameters other than the one shown in each panel are fixed to zero.}\label{fig:3D_NO}
  \end{figure}
-
+%TODO:explain emt assymetry. dont put pingu and dc side by side since pingu is generated.. include 3sigma if possible?
+%TODO: ploit contour for ett-emt
  \begin{table}
    \begin{center}
-   \begin{tabular}{lcccc}
-           \hline \hline && \multicolumn{3}{c} {\text {Best fit}} \\
-           \cline { 3 - 5 } Parameter & 90\% CL\hspace{1cm} & $\dm$ & $\theta_{23}$  & $\epsilon$  \\
+   \begin{tabular}{lcc}
+           \hline \hline \\
+           Parameter & 90\% CL\hspace{1cm} & $3\sigma$  \\
            \hline \multicolumn{3}{c} {\hspace{2.5cm} DeepCore }  \\[0.1em]
-           $\ett$ & -0.028, 0.044\hspace{1cm} & 2.435 & 47.84 & 0.0125 \\
-           $\emt$ & -0.015, 0.0050\hspace{1cm} & 2.435 & 43.97 & -0.005 \\
-           $\eem$ & -0.068, 0.070\hspace{1cm} & 2.435 & 43.97 & 0 \\
-           $\eet$ & -0.072, 0.14\hspace{1cm} & 2.435 & 43.97  & 0.05 \\\\
+           $\ett$ & [-0.028, 0.044]\hspace{1cm} & \\
+           $\emt$ & [-0.015, 0.0050]\hspace{1cm} & \\
+           $\eem$ & [-0.068, 0.070]\hspace{1cm} & \\
+           $\eet$ & [-0.072, 0.14]\hspace{1cm} & \\\\
            \multicolumn{3}{c} {\hspace{2.5cm} PINGU } \\
-           $\ett$ & -0.036, -\hspace{1cm} & 2.517 & 49.2 & 0 \\
-           $\emt$ & -0.0076, 0.0085\hspace{1cm} & 2.517 & 49.2 & 0\\
-           $\eem$ & -0.060, 0.055\hspace{1cm} & 2.517 & 49.2 & 0 \\
-           $\eet$ & -0.065, 0.072\hspace{1cm} & 2.517 & 49.2 & 0 \\
+           $\ett$ & [-0.036, -]\hspace{1cm} & \\
+           $\emt$ & [-0.0076, 0.0085]\hspace{1cm} & \\
+           $\eem$ & [-0.060, 0.055]\hspace{1cm} &  \\
+           $\eet$ & [-0.065, 0.072]\hspace{1cm} &  \\\\
+           \multicolumn{3}{c} {\hspace{2.5cm} DeepCore + PINGU } \\
+           $\ett$ & [-0.029, 0.0473]\hspace{1cm} & \\
+           $\emt$ & [-0.0063, 0.0050]\hspace{1cm} & \\
+           $\eem$ & [-0.046, 0.046] \hspace{1cm} & \\
+           $\eet$ & [-0.057, 0.028] \hspace{1cm} &  \\
            \hline
            \hline
    \end{tabular}
    \end{center}
-   \caption{DeepCore and PINGU results from the $\Delta \chi^2$ in Fig.~\ref{fig:3D_NO}. Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
-   degrees, respectively.}\label{table:DC_PINGU_results}
+   \caption{DeepCore and PINGU results from the $\Delta \chi^2$ in Fig.~\ref{fig:3D_NO}.}\label{table:DC_PINGU_results}
 \end{table}
 
+\begin{table}
+   \begin{center}
+   \begin{tabular}{lccc}
+           \hline \hline & \multicolumn{3}{c} {\text {Best fit}} \\
+           \cline { 2 - 4 } Parameter & $\dm$ & $\theta_{23}$  & $\epsilon$  \\
+           \hline \multicolumn{3}{c} {\hspace{2.5cm} DeepCore }  \\[0.1em]
+           $\ett$ &  2.435 & 47.84 & 0.0125 \\
+           $\emt$ &  2.435 & 43.97 & -0.005 \\
+           $\eem$ &  2.435 & 43.97 & 0 \\
+           $\eet$ &  2.435 & 43.97  & 0.05 \\\\
+           \multicolumn{3}{c} {\hspace{2.5cm} IceCube } \\
+           $\emt$ &  - & - & - \\
+           \hline
+           \hline
+   \end{tabular}
+   \end{center}
+   \caption{Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
+   degrees, respectively.}\label{table:bestfit}
+\end{table}
+%TODO:  include ranges for different f.
+%make log table with secyions of dc, p, ic, dc+p
 Comparing the PINGU results in Fig.~\ref{fig:PINGU_3D_NO} and the DeepCore results in Fig.~\ref{fig:DC_3D_NO}, we note that 
 the best-fit for each NSI parameter for the PINGU experiment is expected to be zero. This is because the `data' we generated during 
 the PINGU simulations assumes no NSI since they have yet to be observed in nature. This introduces a non-NSI bias in our joint analysis,
@@ -221,7 +244,7 @@ For the joint analysis, we follow the parameter goodness-of-fit prescription~\ci
 \begin{align}\label{eq:joint_chisq}
     \chi^2_\text{joint} = \chi^2_\text{IC} + \chi^2_\text{DC} + \chi^2_\text{P} - \chi^2_{IC,min} - \chi^2_\text{DC,min} - \chi^2_\text{P,min}\,
 \end{align}
-with test statistic $\chi^2_\text{joint,min}$. The results are shown in Fig.~\ref{fig:joint_3D} and summarized in Table~\ref{table:joint_results}.
+with test statistic $\chi^2_\text{joint,min}$. The results are shown in Fig.~\ref{fig:joint_3D} and summarized in Table~\ref{table:DC_PINGU_results}.
 
 \begin{figure}[t]
     \begin{center}
@@ -230,26 +253,14 @@ with test statistic $\chi^2_\text{joint,min}$. The results are shown in Fig.~\re
     \caption{Expected joint $\Delta \chi^2$ from Eq.~\ref{eq:joint_chisq} for normal ordering.}
     \label{fig:joint_3D}
  \end{figure}
+%TODO: make 2x2. lines are too hin, colors are ugly. use spline smoothing. 
 
- \begin{table}
-   \begin{center}
-   \begin{tabular}{lcccc}
-           \hline \hline && \multicolumn{3}{c} {\text {Best fit}} \\
-           \cline { 3 - 5 } Parameter & 90\% CL\hspace{1cm} & $\dm$ & $\theta_{23}$  & $\epsilon$  \\
-           \hline
-           $\ett$ & -0.029, 0.0473\hspace{1cm} & 2.489 & 47.84 & 0.0125\\
-           $\emt$ & -0.0063, 0.0050\hspace{1cm} & 2.489 & 47.84 & 0\\
-           $\eem$ & -0.046, 0.046 \hspace{1cm} & 2.489 & 47.84 & 0 \\
-           $\eet$ & -0.057, 0.028 \hspace{1cm} & 2.489 & 47.84 & 0 \\
-           \hline
-   \end{tabular}
-   \end{center}
-   \caption{Joint results from $\chi^2_\text{joint}$ defined in Eq.~\ref{eq:joint_chisq}. Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
-   degrees, respectively}
-   \label{table:joint_results}
-\end{table}
 
 %TODO:  Discussion on impact of IC on chisq.?
+
+%TODO: subsection about comparison between different papers. 
+\bibliographystyle{elsarticle-num}
+\bibliography{article}
 
 \newpage
 \begin{tabular}{p{55mm}p{55mm}p{55mm}}
@@ -295,10 +306,6 @@ with test statistic $\chi^2_\text{joint,min}$. The results are shown in Fig.~\re
          \item[$\checkmark$] Marginalize $\dm$ and $\theta_{23}$. All other oscillation parameters are fixed.
       \end{itemize} 
 \end{tabular}
-
-
-\bibliographystyle{elsarticle-num}
-\bibliography{article}
 \end{document}
 
 
