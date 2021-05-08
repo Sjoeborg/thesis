@@ -484,3 +484,5 @@ dc på 28 cpu tar 9 h för 5*5*5, 44h för 5*5*5*5
 4 Apr 
 Att simulera över osc params kan ta längre tid. 5x5x5 dc på 28 cpu tar 13-15 h.
 dc 1x1x19 tar 2 h.
+8 Apr 
+th23_range blir fel. best fit point har index 3 istället för 2. Ej fel i dm31_range
