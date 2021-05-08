@@ -56,8 +56,8 @@ if __name__ == '__main__':
                                                                                        args.eem, args.eemN, 
                                                                                        args.eet, args.eetN, 
                                                                                        args.IO)
-    dm31_range = np.array([2.435e-3])
-    th23_range = np.array([43.97, 47.84])*np.pi/180
+    #dm31_range = np.array([2.435e-3])
+    #th23_range = np.array([43.97, 47.84])*np.pi/180
     print('dm:', dm31_range)
     print('th:', th23_range)
     print('ett:', ett_range)
