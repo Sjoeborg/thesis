@@ -101,20 +101,10 @@ number of expected events at the detector, and illustrates the expected sensitiv
 
 \begin{figure}[t]
    \begin{center}
-      \begin{subfigure}{0.49\textwidth}
-         \includegraphics[width=1\textwidth]{figures/PINGU_event_pulls.pdf}
-         \caption{PINGU}\label{fig:PINGU_event_pulls}
-      \end{subfigure}
-      \begin{subfigure}{0.49\textwidth}
-         \includegraphics[width=1\textwidth]{figures/DC_event_pulls.pdf}
-         \caption{DeepCore}\label{fig:DC_event_pulls}
-      \end{subfigure}
+         \includegraphics[width=0.9\textwidth]{figures/event_pulls.pdf}
    \end{center}
-   \caption{Expected pulls of the form $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ for PINGU and DeepCore after 3 years. We compare the NSI event count with $\emt=-0.05$
+   \caption{Expected pulls of the form $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ for PINGU and DeepCore after 3 years. We compare the NSI event count with $\emt=-0.01$
     to the standard interaction count}\label{fig:event_pulls} 
-    %TODO: remake these with clearer titles and better labels, and reduce spacing between casc/tracks
-    %also, consider normalizing color scheme to one single for both.
-    %remove cos>0.
 \end{figure}
 
 
@@ -190,22 +180,22 @@ confidence levels in Table.~\ref{table:DC_PINGU_results} and best-fit points in 
    \begin{center}
    \begin{tabular}{lcc}
            \hline \hline \\
-           Parameter & 90\% CL\hspace{1cm} & $3\sigma$  \\
-           \hline \multicolumn{3}{c} {\hspace{2.5cm} DeepCore }  \\[0.1em]
-           $\ett$ & [-0.028, 0.044]\hspace{1cm} & \\
-           $\emt$ & [-0.015, 0.0050]\hspace{1cm} & \\
-           $\eem$ & [-0.068, 0.070]\hspace{1cm} & \\
-           $\eet$ & [-0.072, 0.14]\hspace{1cm} & \\\\
-           \multicolumn{3}{c} {\hspace{2.5cm} PINGU } \\
-           $\ett$ & [-0.036, -]\hspace{1cm} & \\
-           $\emt$ & [-0.0076, 0.0085]\hspace{1cm} & \\
-           $\eem$ & [-0.060, 0.055]\hspace{1cm} &  \\
-           $\eet$ & [-0.065, 0.072]\hspace{1cm} &  \\\\
-           \multicolumn{3}{c} {\hspace{2.5cm} DeepCore + PINGU } \\
-           $\ett$ & [-0.029, 0.0473]\hspace{1cm} & \\
-           $\emt$ & [-0.0063, 0.0050]\hspace{1cm} & \\
-           $\eem$ & [-0.046, 0.046] \hspace{1cm} & \\
-           $\eet$ & [-0.057, 0.028] \hspace{1cm} &  \\
+           Parameter & 90\% CL & $3\sigma$  \\
+           \hline \multicolumn{3}{c} {\hspace{1.5cm} DeepCore }  \\[0.1em]
+           $\ett$ & [-0.029, 0.044]\hspace{1cm} & [-, -] \\
+           $\emt$ & [-0.015, 0.005]\hspace{1cm} & [-, 0.015] \\
+           $\eem$ & [-0.072, 0.075]\hspace{1cm} & [-0.132, 0.127]\\
+           $\eet$ & [-0.074, 0.141]\hspace{1cm} & [-0.174, 0.2  ]\\\\
+           \multicolumn{3}{c} {\hspace{1.5cm} PINGU } \\
+           $\ett$ & [-0.033, -]\hspace{1cm} & [-0.048, -] \\
+           $\emt$ & [-0.007, 0.007]\hspace{1cm} & [-0.011, 0.013] \\
+           $\eem$ & [-0.062, 0.057]\hspace{1cm} & [-0.122, 0.103] \\
+           $\eet$ & [-0.069, 0.077]\hspace{1cm} & [-0.121, 0.133] \\\\
+           \multicolumn{3}{c} {\hspace{1.5cm} DeepCore + PINGU } \\
+           $\ett$ & [-0.028, 0.043]\hspace{1cm} & [-0.043, -]\\
+           $\emt$ & [-0.007, 0.005]\hspace{1cm} & [-0.011, 0.01] \\
+           $\eem$ & [-0.048, 0.048] \hspace{1cm} & [-0.09, 0.085]\\
+           $\eet$ & [-0.054, 0.072] \hspace{1cm} & [-0.101, 0.118] \\
            \hline
            \hline
    \end{tabular}
@@ -253,7 +243,6 @@ with test statistic $\chi^2_\text{joint,min}$. The results are shown in Fig.~\re
     \caption{Expected joint $\Delta \chi^2$ from Eq.~\ref{eq:joint_chisq} for normal ordering.}
     \label{fig:joint_3D}
  \end{figure}
-%TODO: make 2x2. lines are too hin, colors are ugly. use spline smoothing. 
 
 
 %TODO:  Discussion on impact of IC on chisq.?
