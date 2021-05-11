@@ -40,7 +40,7 @@ and DeepCore track events originating from $\nm$ fluxes are contained. Starting 
 is a flux deficiency of a factor of $\sim 10^2$ from core-crossing neutrinos within a zenith range of $\ztrue > -0.87$. DeepCore on the other hand, 
 observes multiple fringes of flux surpluses with a factor $\sim 10$. The strongest surplus at \SI{20}{\GeV} is very weakly zenith dependent, a stark contrast to the
 energy-independent but zenith-sensetive IceCube deficiency.
-
+%TODO: check values above after final plot of flux ratios
 For the fluxes which drives cascades, we have to resort to the DeepCore detector alone. %TODO: fill more
 Here we see a somewhat weaker signal, this time a zenith-independent deficiency. 
 %TODO: fill with conclusion
@@ -51,12 +51,11 @@ Here we see a somewhat weaker signal, this time a zenith-independent deficiency.
       \hspace{1.5cm}
       \includegraphics[width=0.35\linewidth]{figures/track_flux_ratio.pdf}
    \end{center}
-   \caption{Ratio of propagated NSI to SI atmospheric fluxes at detector level. We set $\emt = -0.05$, and all other NSI parameters to zero. 
-   Dotted (dashed) lines show the regions in which 99\% of the 
-   DeepCore (IceCube) MC events are contained. \emph{Left panel:} Propagated fluxes of $\ne$ and $\nt$ neutrinos and anti-neutrinos. 
-   \emph{Right panel:} Propagated fluxes of $\nm$ neutrinos and anti-neutrinos}\label{fig:flux_ratio}%TODO: normalize color scale and fix limits
-\end{figure}% smaller emt and no log. clarify that IC is missing in left panel. clarify
-%that energy region within dotted line, use as few words as possible. Normalize color scale. check green-yellow cmap
+   \caption{Ratio of detector NSI to SI atmospheric fluxes. We set $\emt = -0.05$, and all other $\epsilon_{\alpha\beta}=0$. 
+   Within the dotted (dashed) lines, 99\% of the  DeepCore (IceCube) MC events are contained. Since we limit our IceCube study to muon tracks,
+   a dashed region is omitted in the left panel.}
+\end{figure}%Done, run code in nsi.ipynb. need high emt and log to show both cascade and track features at the same time.
+%otherwise, the cascade ratio overpowers the track one.
 
 \subsection{IceCube}\label{ch:ICmethod}
 The event rate for each bin reads
@@ -69,7 +68,7 @@ which is responsible for the smearing between the reconstructed and true paramet
 \begin{align}
     R(x^r, x^t) = \frac{1}{\sqrt{2\pi} \sigma_{x^r}x^r} \exp\left[-\frac{(\log x^r-\mu(x^t))^2}{2\sigma_{x^r}^2}\right]\,.
 \end{align}
-As seen in Fig.~\ref{fig:IC_MC_counts}, the energy reconstruction is biased. To model this relationship between $\Etrue$ and $\Ereco$, we train a Gaussian process regressor on the dataset~\cite{IC2016}, from which
+However, the energy reconstruction is biased~\cite{weaverEvidenceAstrophysicalMuon}, which means that we don't make the assumption that $\mu(E^t) =E^r$. To model this relationship between $\Etrue$ and $\Ereco$, we train a Gaussian process regressor on the dataset~\cite{IC2016}, from which
 we can extract a predicted mean and standard deviation for a given $E^{reco}$. We then take the $\Etrue$ points of the 99th percentile of each distribution to obtain
 the limits of $\Etrue$ at which to integrate over. We have no angular resolution function since the angle resolution in IceCube for track-like events is less than $\SI{2}{\degree}$, making $\ztrue$ coincide with $\zreco$ for our study. 
 The data is from the 86 string sterile analysis~\cite{IC2020}.
@@ -96,16 +95,8 @@ best-fit in the global analysis in~\cite{nufit}: $\theta_{12} = \SI{33.44}{\degr
 marginalize over $\dm$ and $\theta_{23}$.
 
 We plot the event pull $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ where $N_{SI}$ $(N_{NSI})$ are the numbers of expected events
-assuming standard (non-standard) interactions in Fig.~\ref{fig:DC_event_pulls}. This gives the normalized difference in the
+assuming standard (non-standard) interactions in Fig.~\ref{fig:event_pulls}. This gives the normalized difference in the
 number of expected events at the detector, and illustrates the expected sensitivity of DeepCore for the NSI parameters.
-
-\begin{figure}[t]
-   \begin{center}
-         \includegraphics[width=0.9\textwidth]{figures/event_pulls.pdf}
-   \end{center}
-   \caption{Expected pulls of the form $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ for PINGU and DeepCore after 3 years. We compare the NSI event count with $\emt=-0.01$
-    to the standard interaction count}\label{fig:event_pulls} 
-\end{figure}
 
 
 \subsection{PINGU}\label{ch:PINGUmethod}
@@ -113,7 +104,7 @@ The methodology behind the PINGU simulations are the same as with our DeepCore s
 However, since no detector systematics is yet modelled for PINGU, the correction factors $C_{ijk}$ are all unity.
 As with the DeepCore data, the PINGU MC is divided into eight 
 $\log_{10}E^{reco} \in [0.75,1.75]$ bins, and eight $\zreco \in [-1,1]$ bins for both track- and cascade-like events. Just as with DeepCore, 
-we plot the events pulls for cascades and tracks in Fig.~\ref{fig:PINGU_event_pulls}. %TODO:talk about this
+we plot the events pulls for cascades and tracks in Fig.~\ref{fig:event_pulls}. %TODO:talk about this
 We generate `data' by predicting the event rates at PINGU with the following best-fit parameters from~\cite{nufit}, except for the CP-violating phase which is set to zero for simplicity.
 
 \begin{align}\label{eq:PINGUparams}
@@ -160,17 +151,17 @@ confidence levels in Table.~\ref{table:DC_PINGU_results} and best-fit points in 
 
 \begin{figure}[!tb]
    \begin{center}
-      \begin{subfigure}{0.4\textwidth}
-         \includegraphics[width=1\linewidth]{figures/PINGU_3D_NO.pdf}
-         \caption{PINGU}\label{fig:PINGU_3D_NO}
+      \begin{subfigure}{0.45\textwidth}
+         \includegraphics[width=1\linewidth]{figures/joint_3D_NO.pdf}
+         \caption{Normal ordering}\label{fig:joint_3D}
       \end{subfigure}
-      \hspace{1cm}
+      \hspace{0cm}
       \begin{subfigure}{0.4\textwidth}
          \includegraphics[width=1\linewidth]{figures/DC_3D_NO.pdf}
          \caption{DeepCore}\label{fig:DC_3D_NO}
       \end{subfigure}
     \end{center}
-    \caption{Minimization of the $\Delta \chi^2$ defined in Eq.~\ref{eq:chisq} after three years of data.
+    \caption{Expected $\Delta \chi^2$ after three years of data.
     $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
     parameters other than the one shown in each panel are fixed to zero.}\label{fig:3D_NO}
  \end{figure}
@@ -235,16 +226,31 @@ For the joint analysis, we follow the parameter goodness-of-fit prescription~\ci
     \chi^2_\text{joint} = \chi^2_\text{IC} + \chi^2_\text{DC} + \chi^2_\text{P} - \chi^2_{IC,min} - \chi^2_\text{DC,min} - \chi^2_\text{P,min}\,
 \end{align}
 with test statistic $\chi^2_\text{joint,min}$. The results are shown in Fig.~\ref{fig:joint_3D} and summarized in Table~\ref{table:DC_PINGU_results}.
+\newpage
 
-\begin{figure}[t]
-    \begin{center}
-       \includegraphics[width=0.9\linewidth]{figures/joint_3D_NO.pdf}
+
+ \begin{figure}[t]
+   \begin{center}
+      \begin{subfigure}{0.38\textwidth}
+         \includegraphics[width=1\linewidth]{figures/PINGU_event_pulls.pdf}
+         \caption{PINGU}\label{fig:PINGU_event_pulls}
+      \end{subfigure}
+      \begin{subfigure}{0.4\textwidth}
+         \includegraphics[width=1\linewidth]{figures/DC_event_pulls.pdf}
+         \caption{DeepCore}\label{fig:DC_event_pulls}
+      \end{subfigure}
     \end{center}
-    \caption{Expected joint $\Delta \chi^2$ from Eq.~\ref{eq:joint_chisq} for normal ordering.}
-    \label{fig:joint_3D}
- \end{figure}
+   \caption{Expected pulls of the form $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ for PINGU and DeepCore after 3 years. We compare the NSI event count with $\emt=-0.01$
+    to the standard interaction count}\label{fig:event_pulls} 
+\end{figure}%TODO: redo these with same emt as flux_ratio?
 
-
+% \begin{figure}[b]
+%    \begin{center}
+%       \includegraphics[width=0.2\linewidth]{figures/joint_3D_NO.pdf}
+%    \end{center}
+%    \caption{Expected joint $\Delta \chi^2$ from Eq.~\ref{eq:joint_chisq} for normal ordering.}
+%    \label{fig:joint_3D}
+% \end{figure}
 %TODO:  Discussion on impact of IC on chisq.?
 
 %TODO: subsection about comparison between different papers. 

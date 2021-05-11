@@ -122,7 +122,11 @@ def list_of_params_nsi(dicta, dm31_range, th23_range, ett_range, emt_range, eem_
     dict_list = [update_dict(dicta,{'e_em':eem,'e_et':eet,'e_tt':tt,'e_mt':mt,'theta_23':th23, 'dm_31':dm31}) for eet in eet_range for eem in eem_range for mt in emt_range for tt in ett_range for th23 in th23_range for dm31 in dm31_range]
     return dict_list
 
-def get_param_list(dm31N,th23N, ett, ettN, emt, emtN, eem, eemN, eet, eetN, IO=False):
+def get_param_list(dm31N,th23N, ett_tuple, emt_tuple, eem_tuple, eet_tuple, IO=False):
+    ettFrom, ettTo, ettN = ett_tuple
+    emtFrom, emtTo, emtN = emt_tuple
+    eemFrom, eemTo, eemN = eem_tuple
+    eetFrom, eetTo, eetN = eet_tuple
     if IO is False:
         dm31_range = np.linspace(2.435e-3,2.598e-3,dm31N-1)
         th23_range = np.linspace(40.1*np.pi/180,51.7*np.pi/180,th23N-1)
@@ -130,11 +134,11 @@ def get_param_list(dm31N,th23N, ett, ettN, emt, emtN, eem, eemN, eet, eetN, IO=F
         dm31_range = np.linspace(-2.581e-3 - 8.04e-5, -2.414e-3 + 8.04e-5, dm31N-1)
         th23_range = np.linspace(40.3*np.pi/180, 51.8*np.pi/180, th23N-1)
     
-    ett_range = np.linspace(-ett,ett,ettN-1)
-    emt_range = np.linspace(-emt,emt,emtN-1)
+    ett_range = np.linspace(ettFrom,ettTo,ettN-1)
+    emt_range = np.linspace(emtFrom,emtTo,emtN-1)
 
-    eem_range = np.linspace(-eem,eem,eemN-1)
-    eet_range = np.linspace(-eet,eet,eetN-1)
+    eem_range = np.linspace(eemFrom,eemTo,eemN-1)
+    eet_range = np.linspace(eetFrom,eetTo,eetN-1)
 
     
     if IO:

@@ -15,14 +15,18 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-dm31N', default=1, type=int)
 parser.add_argument('-th23N', default=1, type=int)
 
-parser.add_argument('-ett', default=5e-2, type=float)
+parser.add_argument('-ettFrom', default=-7e-2, type=float)
+parser.add_argument('-ettTo', default=7e-2, type=float)
 parser.add_argument('-ettN', default=1, type=int)
-parser.add_argument('-emt', default=2e-2, type=float)
+parser.add_argument('-emtFrom', default=-2e-2, type=float)
+parser.add_argument('-emtTo', default=2e-2, type=float)
 parser.add_argument('-emtN', default=1, type=int)
 
-parser.add_argument('-eem', default=2e-1, type=float)
+parser.add_argument('-eemFrom', default=-2.5e-1, type=float)
+parser.add_argument('-eemTo', default=2.5e-1, type=float)
 parser.add_argument('-eemN', default=1, type=int)
-parser.add_argument('-eet', default=2e-1, type=float)
+parser.add_argument('-eetFrom', default=-2.5e-1, type=float)
+parser.add_argument('-eetTo', default=2.5e-1, type=float)
 parser.add_argument('-eetN', default=1, type=int)
 
 parser.add_argument('-s', default = 0, type=int)
@@ -51,10 +55,10 @@ def precompute_probs(args_tuple):
 if __name__ == '__main__':
     assert args.PINGU or args.DC or args.IC
     dm31_range, th23_range,ett_range, emt_range, eem_range, eet_range = get_param_list(args.dm31N, args.th23N, 
-                                                                                       args.ett, args.ettN, 
-                                                                                       args.emt, args.emtN, 
-                                                                                       args.eem, args.eemN, 
-                                                                                       args.eet, args.eetN, 
+                                                                                       (args.ettFrom, args.ettTo, args.ettN), 
+                                                                                       (args.emtFrom, args.emtTo,args.emtN), 
+                                                                                       (args.eemFrom, args.eemTo,args.eemN), 
+                                                                                       (args.eetFrom, args.eetTo,args.eetN), 
                                                                                        args.IO)
     print('dm:', dm31_range)
     print('th:', th23_range)
