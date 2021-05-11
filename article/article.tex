@@ -47,14 +47,12 @@ Here we see a somewhat weaker signal, this time a zenith-independent deficiency.
 
 \begin{figure}[!tb]
    \begin{center}
-      \includegraphics[width=0.35\linewidth]{figures/cascade_flux_ratio.pdf}
-      \hspace{1.5cm}
-      \includegraphics[width=0.35\linewidth]{figures/track_flux_ratio.pdf}
+      \includegraphics[width=0.8\linewidth]{figures/flux_ratio.pdf}
    \end{center}
    \caption{Ratio of detector NSI to SI atmospheric fluxes. We set $\emt = -0.05$, and all other $\epsilon_{\alpha\beta}=0$. 
    Within the dotted (dashed) lines, 99\% of the  DeepCore (IceCube) MC events are contained. Since we limit our IceCube study to muon tracks,
    a dashed region is omitted in the left panel.}
-\end{figure}%Done, run code in nsi.ipynb. need high emt and log to show both cascade and track features at the same time.
+\end{figure}%TODO:redo with more than 100x100. need high emt and log to show both cascade and track features at the same time.
 %otherwise, the cascade ratio overpowers the track one.
 
 \subsection{IceCube}\label{ch:ICmethod}
@@ -155,17 +153,41 @@ confidence levels in Table.~\ref{table:DC_PINGU_results} and best-fit points in 
          \includegraphics[width=1\linewidth]{figures/joint_3D_NO.pdf}
          \caption{Normal ordering}\label{fig:joint_3D}
       \end{subfigure}
-      \hspace{0cm}
-      \begin{subfigure}{0.4\textwidth}
-         \includegraphics[width=1\linewidth]{figures/DC_3D_NO.pdf}
-         \caption{DeepCore}\label{fig:DC_3D_NO}
-      \end{subfigure}
     \end{center}
     \caption{Expected $\Delta \chi^2$ after three years of data.
     $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
     parameters other than the one shown in each panel are fixed to zero.}\label{fig:3D_NO}
  \end{figure}
-%TODO:explain emt assymetry. dont put pingu and dc side by side since pingu is generated.. include 3sigma if possible?
+%TODO: dont put pingu and dc side by side since pingu is generated.. include 3sigma if possible?
+
+% \begin{figure}[!tb]%TODO: redo this with P+/P-
+% \begin{center}
+%    \includegraphics[width=0.7\linewidth]{figures/Pmm_asymmetry.pdf}
+% \end{center}
+% \caption{Expected $\Delta \chi^2$ after three years of data.
+%    $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
+%    parameters other than the one shown in each panel are fixed to zero.}\label{fig:Pmm_asymmetry}
+% \end{figure}
+
+We can explain the asymmetry by looking looking at the oscillogram of the ratio $P(\emt^-)/P(\emt^+)$ in Fig.~\ref{fig:Pmm_asymmetry}, which is the $P_{\mu\mu}$ survival probability
+given $\emt =-0.05$ divided by $P_{\mu\mu}$ for $\emt=0.05$. Muon events are the most abundant in IceCube and DeepCore/PINGU, and it suffices to study
+$P_{\mu\mu}$ to explain the asymmetry. We see see that positive $\emt$ generates a slightly higher $P_{\mu\mu}$ for energies around \SI{20}{\GeV} (pink area),
+while negative $\emt$ produces higher $P_{\mu\mu}$ for almost all other combinations of ${\Etrue,\ztrue}$. As we see in the flux ratio plot, this muon survival abundance 
+is indeed preserved at flux level.
+
+\begin{figure}[!tb]
+   \begin{center}
+      \includegraphics[width=0.5\linewidth]{figures/emt_events.pdf}
+   \end{center}
+   \caption{The best-fit event count ratio at each detector for negative and positive $\emt$. PINGU shows promising 
+   of distinguishing the sign of $\emt$, but favoring $\emt < 0$ while DeepCore has higher statistics for $\emt>0$ and a poor
+   distinction for $\emt<0$}\label{fig:emt_events}%TODO: improve caption?
+ \end{figure}
+As we see in Fig.~\ref{fig:emt_events}, the binned PINGU event count for $\emt=-0.02$ outnumber the event count with $\emt =0.05$ for
+all bins except one, giving a high $\Delta \chi^2$ on both sides and slightly higher for $\emt=-0.02$. DeepCore on the other hand, 
+has no bins where the event count for $\emt=-0.02$ surpasses the event count for $\emt=+0.02$, giving weak statistics for the negative side.
+
+
 %TODO: ploit contour for ett-emt
  \begin{table}
    \begin{center}
