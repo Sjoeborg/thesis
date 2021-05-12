@@ -1,24 +1,18 @@
 import sys,os
-os.chdir('../../')
+sys.path.append('./src')
 sys.path.append('./src/data')
 sys.path.append('./src/events')
 sys.path.append('./src/probability')
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-import pandas as pd
-from subprocess import call
 from IC.importer import *
 from IC.processer import *
-from IC.main import sim_events, list_of_params
 from functions import nufit_params_nsi
-from plotter import P_over_E_parameter, nsi_oscillogram, nsi_flux_oscillogram
-from scipy.stats import chi2
+from plotter import P_over_E_parameter, nsi_oscillogram, nsi_flux_oscillogram,save, savethesis
 from IC.event_processing import *
 import pickle
 from matplotlib.colors import CenteredNorm
-from multiprocessing import Pool
-from plotter import save, savethesis
 plt.rcParams['figure.figsize'] = [8, 4]
 plt.rcParams['figure.dpi'] = 100
 matplotlib.rc('text', usetex=True)
