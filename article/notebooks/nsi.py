@@ -12,7 +12,7 @@ from functions import nufit_params_nsi
 from plotter import P_over_E_parameter, nsi_oscillogram, nsi_flux_oscillogram,save, savethesis
 from IC.event_processing import *
 import pickle
-from matplotlib.colors import CenteredNorm
+#from matplotlib.colors import CenteredNorm
 plt.rcParams['figure.figsize'] = [8, 4]
 plt.rcParams['figure.dpi'] = 100
 matplotlib.rc('text', usetex=True)
@@ -40,6 +40,7 @@ P_emt_IC_track= np.array(nsi_flux_oscillogram(all_range, z_range, emt_params[0],
 P_emt_IC_cascade= np.array(nsi_flux_oscillogram(all_range, z_range, emt_params[0], only_m=False))
 pickle.dump(P_emt_IC_track, open('P_emt_IC_track.p','wb'))
 pickle.dump(P_emt_IC_cascade, open('P_emt_IC_cascade.p','wb'))
+'''
 fig, ax = plt.subplots(1,2, figsize=(6*2,7), sharex=True, squeeze=True)
 
 c1=ax[0].pcolormesh(z_range, all_range,np.log10(P_emt_IC_cascade[2].T),cmap='RdBu',edgecolor=None, shading = 'gouraud', norm = CenteredNorm(0))# vmin=-1,vmax=3)#)
@@ -71,3 +72,4 @@ ax[1].text(-0.30,350,'99\% IC tracks',rotation=0, fontsize=11, alpha = 0.4)
 ax[1].axhline(310.745, color='black', alpha=0.3, ls='--')#from get_Etrue
 ax[1].axhline(95043.804, color='black', alpha=0.3, ls='--') #from get_Etrue
 save(fig,'flux_ratio')
+'''
