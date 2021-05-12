@@ -84,7 +84,7 @@ if __name__ == '__main__':
         H1 = H1.reshape(len(param_list),1,8,8) #second axis is pid
         pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_DC_{args.pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
     if args.IC:
-        data = [(i,j,0.99, 13,p, [False, 0, 0],False, True,True,3) for p in param_list for i in range(1) for j in range(1)]
+        data = [(i,j,0.99, 13,p, [False, 0, 0],False, True,True,3) for p in param_list for i in range(13) for j in range(20)]
         H1_events_list = process_map(precompute_probs, data,chunksize=20)
         H1_events_list = np.array(H1_events_list).reshape(len(param_list),13,20)
         pickle.dump(H1_events_list,open(f'./pre_computed/H1_{ordering}_IC_N13_{len(dm31_range)}x{len(th23_range)}x{len(emt_range)}.p','wb'))
