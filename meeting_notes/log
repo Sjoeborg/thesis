@@ -492,3 +492,8 @@ Assymetrin i formen och den låga chi2 för ett verkar inte kunna "tas bort". Ha
 Sandhya får samma form (men inverterad då hon endast tog th_23=41.9 för H0 (cf 49.2)), så den dåliga statistiken 
 borde bero på nedskalningen av projektet mellan letter of intent och MC release (kolla upp detta)?.
 Skulle jag kunna förklara varför PINGU är sämre än DC för just ett? Kolla på formler och 2-neutino approx. Kolla även på P.
+
+13 Apr
+Ska jag addera chisq och sen marginalisera, eller marginalisera individuellt, och sen addera?
+Det förstnämnda innebär att vi kan ha tre helt olika utmarginaliserade best-fits. Det sistnämnda är ologiskt.
+Det forstnämnda borde vara okej
