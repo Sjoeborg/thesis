@@ -23,10 +23,46 @@
 \usepackage{hyperref}
 \begin{document}
 %TODO: nsi intro, clear about factor 3
+\section{Formalism}
+\begin{align}
+   \mathcal{L}_{\mathrm{NC}} &= -2 \sqrt{2} G_{F} \epsilon_{\alpha \beta}^{f X}\left(\bar{\nu}_{\alpha} \gamma^{\mu} P_{L} \nu_{\beta}\right)\left(\bar{f} \gamma_{\mu} P_{X} f\right)\,,
+\end{align}
+NC denotes the neutral current interaction with 
+$f \in \{e,u,d\}$. 
+
+For chirality $X \in \{L,R\}$, the NSI Hamiltonian takes the form 
+\begin{align}
+   H &= \frac{1}{2E} UM^2U^\dagger + \sqrt{2}G_F n_e \text{diag}(1,0,0) + \sqrt{2}G_F \sum_f n_f \epsilon^{fX}
+\end{align}
+
+We have no independent sensitivity for the chirality of $\epsilon^X$, so we sum over these and normalize the fermion number density $n_f$ by
+the electron number density $n_e$. Our matter study will be wholly confined to the interior of the Earth, where we assume electrical neutrality and equal distribution of neutrons and protons, 
+so $n_u/n_e \simeq n_d/n_e \simeq 3$.
+The effective matter NSI parameters now take the form
+\begin{align} \label{eq:epsilon}
+    \epsilon_{\alpha\beta} &= \sum_X \sum_f \frac{n_f}{n_e} \epsilon^{fX}_{\alpha\beta} \nonumber \\
+                           &= \epsilon_{\alpha\beta}^{eV} + 3\epsilon_{\alpha\beta}^{uV} + 3\epsilon_{\alpha\beta}^{dV}
+\end{align}
+We note that our definition of $\epsilon_{\alpha\beta}$ differs from some texts, where the quark number density is used to normalize
+the parameters\cite{deepcoreNSI}.
+
+
+With the matter potential $V = \sqrt{2}G_F n_e$, we write
+\begin{align} \label{eq:H_NSI}
+   H &= \frac{1}{2E} UM^2U^\dagger + V\,
+   \begin{bmatrix}
+      1 + \epsilon_{ee} & \epsilon_{e\mu} & \epsilon_{e\tau}  \\
+      \epsilon_{e\mu} & \epsilon_{\mu\mu} & \epsilon_{\mu\tau}  \\
+      \epsilon_{e \tau} & \epsilon_{\mu\tau} & \epsilon_{\tau\tau}
+  \end{bmatrix}\,,
+\end{align}
+where we have assumed the components of the NSI matrix to be real.
+
 \section{Detector formalism}
 The neutrino flux at the detector is calculated by propagating the atmospheric neutrino flux~\cite{hondapaper} through the Earth by solving the 
 Schrödinger equation for varying density. The Earth density profile is taken from the PREM~\cite{PREM}. The baseline for a given trajectory is determined using an average neutrino
-production height of 15 km and an Earth radius of 6371 km. %TODO: add more here? no neutrino absorption
+production height of 15 km and an Earth radius of 6371 km. The propagation does not include neutrino absorption.
+%TODO: add more here? are there more effects than just absoption missing? justify absorption missing?
 
 
 The oscillation probability $P_{\alpha \beta}$ acts as a weight to the atmospheric flux, yielding the propagated flux at detector level for flavor $\beta$ as 
@@ -56,7 +92,7 @@ Here we see a somewhat weaker signal, this time a zenith-independent deficiency.
 %otherwise, the cascade ratio overpowers the track one.
 
 \subsection{IceCube}\label{ch:ICmethod}
-The event rate for each bin reads
+We obtain the data from the IC-86 sterile data release~\cite{IC2020}. The event rate for each bin reads
 \begin{align}\label{eq:ICevents}
    N_{ij} &= T\sum_\beta \int_{(\cos{\theta_z^r})_i}^{(\cos{\theta_z^r})_{i+1}} \dd \cos{\theta^r_z} \int_{E^r_{j}}^{E^r_{j+1}} \dd E^r \int_0^\pi R(\theta^r,\theta^t) \dd \cos{\theta^t} \int_0^\infty \phi_\beta^\text{det}  A^\text{eff} R(E^r,E^t) 
    \dd E^t\,,
@@ -68,8 +104,7 @@ which is responsible for the smearing between the reconstructed and true paramet
 \end{align}
 However, the energy reconstruction is biased~\cite{weaverEvidenceAstrophysicalMuon}, which means that we don't make the assumption that $\mu(E^t) =E^r$. To model this relationship between $\Etrue$ and $\Ereco$, we train a Gaussian process regressor on the dataset~\cite{IC2016}, from which
 we can extract a predicted mean and standard deviation for a given $E^{reco}$. We then take the $\Etrue$ points of the 99th percentile of each distribution to obtain
-the limits of $\Etrue$ at which to integrate over. We have no angular resolution function since the angle resolution in IceCube for track-like events is less than $\SI{2}{\degree}$, making $\ztrue$ coincide with $\zreco$ for our study. 
-The data is from the 86 string sterile analysis~\cite{IC2020}.
+the limits of $\Etrue$ at which to integrate over. We take the angular resolution function to be identically unity since the angle resolution in IceCube for track-like events is less than $\SI{2}{\degree}$, making $\ztrue$ coincide with $\zreco$ for our study. 
 
 \subsection{DeepCore}\label{ch:DCmethod}
 In this part, we use the publically available DeepCore data sample~\cite{DC2019data} which is an updated version of what was used by the 
@@ -92,9 +127,8 @@ The oscillation parameters used on our DeepCore simulations are from the
 best-fit in the global analysis in~\cite{nufit}: $\theta_{12} = \SI{33.44}{\degree},\, \theta_{13} = \SI{8.57}{\degree},\, \Delta m^2_{21} =  \SI{7.42}{\electronvolt^2}$, and we 
 marginalize over $\dm$ and $\theta_{23}$.
 
-We plot the event pull $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ where $N_{SI}$ $(N_{NSI})$ are the numbers of expected events
-assuming standard (non-standard) interactions in Fig.~\ref{fig:event_pulls}. This gives the normalized difference in the
-number of expected events at the detector, and illustrates the expected sensitivity of DeepCore for the NSI parameters.
+We plot the normalized event difference $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ where $N_{SI}$ $(N_{NSI})$ are the numbers of expected events
+assuming standard (non-standard) interactions in Fig.~\ref{fig:event_pulls}. This illustrates the expected sensitivity of DeepCore for the NSI parameters.
 
 
 \subsection{PINGU}\label{ch:PINGUmethod}
@@ -113,7 +147,7 @@ We generate `data' by predicting the event rates at PINGU with the following bes
 
 \section{Results}
 %Short intro
-\subsection{Methodology}
+\subsection{Methodology}\label{sec:method}
 For our analyses, we define our $\chi^2$ as
 \begin{align} \label{eq:chisq}
     \chi^{2}(\hat{\theta},\alpha,\beta, \kappa)=\sum_{ijk} \frac{\left(N^\text{th}-N^\text{data}\right)_{ijk}^{2}}
@@ -123,7 +157,6 @@ For our analyses, we define our $\chi^2$ as
 where we minimize over the model parameters $\hat{\theta} \in \{\dm, \theta_{23}, \epsilon\}$, the penalty terms $\alpha$ and $\beta$, and the free parameter $\kappa$.
 $N_{ijk}^\text{th}$ is the expected number of events from theory, and $N_{ijk}^\text{data}$ is the observed number of events in that bin. We set $\sigma_\alpha = 0.25$ as the atmospheric flux normalization error, and $\sigma_\beta = 0.04$ as the zenith angle slope error~\cite{hondapaper}. 
 The observed event number has an associated Poissonian uncertainty $\sigma_{ijk}^\text{data} = \sqrt{N_{ijk}^\text{data}}$.
-% Make clear distinction of different sigma syst here.
 For IceCube, the event count takes the form
 \begin{align}
     N^\text{th}_{ijk} = \alpha\left[1+\beta (0.5 + \zreco_i )\right] N_{ijk}(\hat{\theta})\,,
@@ -137,9 +170,11 @@ For DeepCore and PINGU, and the event count takes the form
 with $N_{ijk}(\hat{\theta})$ from Eq.~\ref{eq:MCevents}. $N_{ijk}^{\mu_{atm}}$ is the muon background, which is left to float freely in the DeepCore analysis.
 The background at PINGU can be considered neglible to first order~\cite{PINGUdata}, and we thus put $\kappa=0$ when calculating the PINGU $\chi^2$\,. 
 Since the median zenith is $\zreco = 0$ for DeepCore and PINGU, we allow the event count to rotate around zero.
-For IceCube, we set $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$. %TODO: and take ... %.
-For DeepCore, we use the provided systematic error distribution which accounts for both uncertanties in the finite MC statistics and in the data-driven 
-muon background estimate~\cite{DC2019data}. %TODO segue
+
+We treat the uncorrelated systematic uncertanties differently for each detector. For IceCube, we set $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$. We consider (best) worst-case scenarios in IceCube assuming
+$(f=5\%)$, $f=15\%$. For PINGU, we use the same form but instead assume $f=0\%$ and $f=5\%$ for the best and worst-cases respecively. %TODO: maybe source/justification for these values?
+For DeepCore, we use the provided systematic error distribution which accounts for uncertanties in the finite MC statistics and in the data-driven 
+muon background estimate~\cite{DC2019data}.  %TODO segue
 
 \subsection{Constraining the NSI parameters}
 First, we set all standard oscillation parameters to their current best-fit values of Eq.~\ref{eq:PINGUparams}, except for $\dm$ and $\theta_{23}$, 
@@ -189,31 +224,49 @@ has no bins where the event count for $\emt=-0.02$ surpasses the event count for
 
 
 %TODO: ploit contour for ett-emt
+{\renewcommand{\arraystretch}{1.3}
  \begin{table}
    \begin{center}
-   \begin{tabular}{lcc}
-           \hline \hline \\
-           Parameter & 90\% CL & $3\sigma$  \\
-           \hline \multicolumn{3}{c} {\hspace{1.5cm} DeepCore }  \\[0.1em]
-           $\ett$ & [-0.029, 0.044]\hspace{1cm} & [-, -] \\
-           $\emt$ & [-0.015, 0.005]\hspace{1cm} & [-, 0.015] \\
-           $\eem$ & [-0.072, 0.075]\hspace{1cm} & [-0.132, 0.127]\\
-           $\eet$ & [-0.074, 0.141]\hspace{1cm} & [-0.174, 0.2  ]\\\\
-           \multicolumn{3}{c} {\hspace{1.5cm} PINGU } \\
-           $\ett$ & [-0.033, -]\hspace{1cm} & [-0.048, -] \\
-           $\emt$ & [-0.007, 0.007]\hspace{1cm} & [-0.011, 0.013] \\
-           $\eem$ & [-0.062, 0.057]\hspace{1cm} & [-0.122, 0.103] \\
-           $\eet$ & [-0.069, 0.077]\hspace{1cm} & [-0.121, 0.133] \\\\
-           \multicolumn{3}{c} {\hspace{1.5cm} DeepCore + PINGU } \\
-           $\ett$ & [-0.028, 0.043]\hspace{1cm} & [-0.043, -]\\
-           $\emt$ & [-0.007, 0.005]\hspace{1cm} & [-0.011, 0.01] \\
-           $\eem$ & [-0.048, 0.048] \hspace{1cm} & [-0.09, 0.085]\\
-           $\eet$ & [-0.054, 0.072] \hspace{1cm} & [-0.101, 0.118] \\
-           \hline
-           \hline
+   \begin{tabular}{lcccc}
+      \hline \hline \\
+      Parameter & Best 90\% CL & Best $3\sigma$ & Worst 90\% CL & Worst $3\sigma$\\
+      \hline & \multicolumn{4}{c}{IceCube}  \\
+      $\emt$ & [-0.0098, 0.009 ] & [-0.0148, 0.014 ] & [-0.0152, 0.0145] & [-, -] \\\\
+      & \multicolumn{4}{c}{DeepCore}  \\[0.3em]
+      $\ett$ & [-0.029, 0.045] & [-, -]& [-0.029, 0.045] & [-, -] \\
+      $\emt$ & [-0.015, 0.0048] & [-, 0.015]& [-0.015, 0.0048] & [-, 0.015] \\
+      $\eem$ & [-0.072, 0.075] & [-0.132, 0.127]& [-0.072, 0.075] & [-0.132, 0.127]\\
+      $\eet$ & [-0.074, 0.141] & [-0.174, 0.20  ]& [-0.074, 0.141] & [-0.174, 0.20  ]\\\\
+      &\multicolumn{4}{c}{IceCube + DeepCore}  \\
+      $\emt$ & [-0.0182,  0.00030] & [-, 0.0104] & [-0.0185, 0.00030] & [-, 0.0104] \\
+      \hline
+      \hline
    \end{tabular}
    \end{center}
-   \caption{DeepCore and PINGU results from the $\Delta \chi^2$ in Fig.~\ref{fig:3D_NO}.}\label{table:DC_PINGU_results}
+   \caption{IceCube and DeepCore results from the $\Delta \chi^2$ in Fig.~\ref{fig:3D_NO}. IceCube best and worst case refers to 
+   the systematic uncertainty scenarios considered as in Sec.~\ref{sec:method}}\label{table:IC_DC_results}
+\end{table}
+\begin{table}
+   \begin{tabular}{lcccc}
+      \hline \hline \\
+      Parameter & Best 90\% CL & Best $3\sigma$ & Worst 90\% CL & Worst $3\sigma$\\
+      \hline & \multicolumn{4}{c}{PINGU} \\
+      $\ett$ & [-0.0326, -] & [-0.0482, ] & [-0.0371, -] & [-, -] \\
+      $\emt$ & [-0.0065, 0.0071] & [-0.011, 0.013] & [-0.0078, 0.0087] & [-0.0136, 0.0162] \\
+      $\eem$ & [-0.062, 0.057] & [-0.122, 0.103] & [-0.1057, 0.0799] & [-0.198, 0.141]\\
+      $\eet$ & [-0.069, 0.077] & [-0.121, 0.133] & [-0.1072, 0.1022] & [-0.1805, 0.1633]\\\\
+      & \multicolumn{4}{c}{DeepCore + PINGU} \\
+      $\ett$ & [-0.028, 0.043] & [-0.043, -] & [-0.0285,  0.0423] & [-0.0447, -]\\
+      $\emt$ & [-0.0067, 0.0049] & [-0.0109,  0.0101] & [-0.0049, 0.0086] & [-0.0098, 0.0146]\\
+      $\eem$ & [-0.048, 0.048]  & [-0.090, 0.085] & [-0.0721, 0.0503] & [-0.1262, 0.0931]\\
+      $\eet$ & [-0.053, 0.072]  & [-0.101, 0.118] & [-0.0901, 0.0624] & [-0.1491, 0.1168]\\\\
+      & \multicolumn{4}{c}{IceCube + DeepCore + PINGU}  \\
+      $\emt$ & [-0.0088,  0.003 ] & [-0.0128, 0.0081] & [-0.01, 0.0028] & [-0.0145, 0.0087]\\
+      \hline
+      \hline
+   \end{tabular}
+   \caption{PINGU and joint results from the $\Delta \chi^2$ in Fig.~\ref{fig:3D_NO}. PINGU best and worst cases refers to 
+   the systematic uncertainty scenarios considered as in Sec.~\ref{sec:method}}\label{table:PINGU_joint_results}
 \end{table}
 
 \begin{table}
@@ -227,7 +280,9 @@ has no bins where the event count for $\emt=-0.02$ surpasses the event count for
            $\eem$ &  2.435 & 43.97 & 0 \\
            $\eet$ &  2.435 & 43.97  & 0.05 \\\\
            \multicolumn{3}{c} {\hspace{2.5cm} IceCube } \\
-           $\emt$ &  - & - & - \\
+           $\emt$ &  2.435 & 51.70 & 0 \\
+           \multicolumn{3}{c} {\hspace{2.5cm} IceCube + DeepCore } \\
+           $\emt$ &  2.517 & 43.97 & -0.01 \\
            \hline
            \hline
    \end{tabular}
@@ -276,6 +331,13 @@ with test statistic $\chi^2_\text{joint,min}$. The results are shown in Fig.~\re
 %TODO:  Discussion on impact of IC on chisq.?
 
 %TODO: subsection about comparison between different papers. 
+
+\begin{figure}
+   \includegraphics[width=0.9\textwidth]{figures/PINGU_2D_all_f0.pdf}
+\end{figure}
+\begin{figure}
+   \includegraphics[width=0.9\textwidth]{figures/PINGU_2D_all_f5.pdf}
+\end{figure}
 \bibliographystyle{elsarticle-num}
 \bibliography{article}
 
