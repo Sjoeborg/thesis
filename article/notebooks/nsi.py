@@ -23,7 +23,7 @@ IC_range = np.logspace(np.log10(500),4,50)
 DC_range = np.logspace(np.log10(5.6),np.log10(56),50)
 #ett_range = [-0.1,0,0.1]#np.linspace(-1e-1,1e-1,3)
 emm_range = [-1e-1,0,1e-1]#np.linspace(-1e-1,1e-1,3)
-emt_range = [-5e-2,0,5e-2]
+emt_range = [-1e-2,0,1e-2]
 params = nufit_params_nsi.copy()
 anti=True
 s24_range = [0.032]
@@ -48,7 +48,7 @@ pickle.dump(P_emt_IC_cascade, open('P_emt_IC_cascade.p','wb'))
 '''
 
 z_range = np.linspace(-1,0,500)
-E_range = np.logspace(0,2,500)
+E_range = np.logspace(0,np.log10(60),500)
 
 Pex_neg, Pmx_neg, Paeax_neg,Pamax_neg = nsi_oscillogram(E_range=E_range, z_range=z_range, params= emt_params[0])
 Pex_pos, Pmx_pos, Paeax_pos,Pamax_pos = nsi_oscillogram(E_range=E_range, z_range=z_range, params= emt_params[2])

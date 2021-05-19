@@ -497,3 +497,6 @@ Skulle jag kunna förklara varför PINGU är sämre än DC för just ett? Kolla 
 Ska jag addera chisq och sen marginalisera, eller marginalisera individuellt, och sen addera?
 Det förstnämnda innebär att vi kan ha tre helt olika utmarginaliserade best-fits. Det sistnämnda är ologiskt.
 Det forstnämnda borde vara okej
+
+19 Apr 
+Olika systermatic errors ger olika marginaliseringar, vilket gör att en chisq med lägre fel kan hamna över en med högre.
