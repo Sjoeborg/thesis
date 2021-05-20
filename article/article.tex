@@ -58,9 +58,25 @@ With the matter potential $V = \sqrt{2}G_F n_e$, we write
       \epsilon_{e \tau} & \epsilon_{\mu\tau} & \epsilon_{\tau\tau}
   \end{bmatrix}\,,
 \end{align}
-where we have assumed the components of the NSI matrix to be real. In Fig.~\ref{fig:flux_ratio}, we study
-the flux ratio arising from the introduction of the NSI parameter $\emt$. Fig.~\ref{fig:Pmm_asymmetry} shows the difference $P_{\mu\mu}(\emt>0) - P_{\mu\mu}(\emt<0)$ in the low \si{\GeV} energy range. 
-%TODO: maybe plot P_NSI - P_SI instead.
+where we have assumed the components of the NSI matrix to be real. 
+
+In the $\mu\tau$ sector, we have a resonance in the \SI{20}{\GeV} area. Any NSI parameter involving $\mu$ or $\tau$ will dampen this resonance,
+with some also shifting the probability in the \SI{100}{\GeV} stationary region.
+This `double effect' of both resonance dampening and shifting happens in two cases: either when the parameter shares one channel with a survival probabilitywe have a survival probability
+(i.e. $P_{\mu\mu}$ and $\eem$), or when the sectors align (i.e. $\emt$ for $P_{\mu\tau}$). The only exception to this rule is for $P_{\tau\tau}$, 
+which due to its near-maximal mixing with the $\mu$ channel displays dampening for $\eem$ even though they share no channel directly. We illustrate
+the three different effects in Fig.~\ref{fig:nsi_probs}. 
+
+Due to the lightness of $\Delta m^2_{21}$, the $e$ channel has no resonance in the GeV range. Thus, the only impact that 
+the NSI parameters considered here can have on any $\nu_e$ probability is shifting, and this only occurs when the requirements for the `double effect'
+are met. So except for $P_{ee}$ where the probability is high, any NSI parameter whose sector does not match the probability sector will not drastically affect it. 
+Thus, the only off-diagonal NSI parameters that strongly affect the transition probabilities $P_{\alpha\beta}$ are $\epsilon_{\gamma\beta}$,
+while the survival probabilities $P_{\alpha\alpha}$ are only strongly affected by  $\epsilon_{\alpha\beta}$. Any probabilities $P_{e\beta}$ will
+only see a shift in the stationary region, while the two other channels undergo either resonance dampening, or the `double effect'.
+\begin{figure}
+   \includegraphics[width=0.8\textwidth]{figures/nsi_probs.pdf}
+   \caption{The three different effects that the off-diagonal NSI parameters have in the \si{\GeV} range.}\label{fig:nsi_probs}
+\end{figure}
 
 \section{Detector formalism}
 The neutrino flux at the detector is calculated by propagating the atmospheric neutrino flux from Honda et al~\cite{hondapaper} through the Earth by solving the 
