@@ -22,7 +22,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \begin{document}
-\section{Formalism}
+\section{Formalism of non-standard interactions}
 Non-standard interactions are sub-leading contributions to neutrino flavor transitions arising from neutrino interactions not considered in the Standard Model.
 We consider matter NSIs arising from the neutral current NSIs, which exclude production 
 and detection effects. An effective four-fermion Lagrangian for this type of interaction can be written as
@@ -60,27 +60,28 @@ With the matter potential $V = \sqrt{2}G_F n_e$, we write
 \end{align}
 where we have assumed the components of the NSI matrix to be real. 
 
-In the $\mu\tau$ sector, we have a resonance in the \SI{20}{\GeV} area. Any NSI parameter involving $\mu$ or $\tau$ will dampen this resonance,
-with some also shifting the probability in the \SI{100}{\GeV} stationary region.
-This `double effect' of both resonance dampening and shifting happens in two cases: either when the parameter shares one channel with a survival probabilitywe have a survival probability
-(i.e. $P_{\mu\mu}$ and $\eem$), or when the sectors align (i.e. $\emt$ for $P_{\mu\tau}$). The only exception to this rule is for $P_{\tau\tau}$, 
-which due to its near-maximal mixing with the $\mu$ channel displays dampening for $\eem$ even though they share no channel directly. We illustrate
+\subsection{Probability effects in the GeV range}
+In the $\mu\tau$ sector, we have a resonance in the \SI{20}{\GeV} region. Any NSI parameter involving the $\mu$ or $\tau$ channel will dampen this resonance,
+with some also shifting the probability in the stationary region above \SI{100}{\GeV}.
+This `double effect' of both resonance dampening and shifting happens in two cases: either when the NSI parameter shares one channel with a survival probability
+(e.g. $\eem$ and $P_{\mu\mu}$), or when the sectors align (e.g. $\emt$ and $P_{\mu\tau}$). The only exception to this is for $P_{\tau\tau}$, 
+which due to the near-maximal mixing in the $\mu\tau$ sector displays dampening for $\eem$ even though they share no channel directly. We illustrate
 the three different effects in Fig.~\ref{fig:nsi_probs}. 
 
-Due to the lightness of $\Delta m^2_{21}$, the $e$ channel has no resonance in the GeV range. Thus, the only impact that 
+Due to the lightness of $\Delta m^2_{21}$, the $e$ channel has no resonance in the \si{\GeV} range. Thus, the only impact that 
 the NSI parameters considered here can have on any $\nu_e$ probability is shifting, and this only occurs when the requirements for the `double effect'
-are met. So except for $P_{ee}$ where the probability is high, any NSI parameter whose sector does not match the probability sector will not drastically affect it. 
+are met. So except for the survival probability $P_{ee}$, any NSI parameter whose sector does not match the probability sector will not drastically affect it. 
 Thus, the only off-diagonal NSI parameters that strongly affect the transition probabilities $P_{\alpha\beta}$ are $\epsilon_{\gamma\beta}$,
-while the survival probabilities $P_{\alpha\alpha}$ are only strongly affected by  $\epsilon_{\alpha\beta}$. Any probabilities $P_{e\beta}$ will
-only see a shift in the stationary region, while the two other channels undergo either resonance dampening, or the `double effect'.
+while the survival probabilities $P_{\alpha\alpha}$ are only strongly affected by $\epsilon_{\alpha\beta}$.
+%TODO: make this clearer and give conclusion. Maybe also test for lower E around dm21 resonance. Add about realness and CP-invariance
 \begin{figure}
-   \includegraphics[width=0.8\textwidth]{figures/nsi_probs.pdf}
+   \includegraphics[width=0.95\textwidth]{figures/nsi_probs.pdf}
    \caption{The three different effects that the off-diagonal NSI parameters have in the \si{\GeV} range.}\label{fig:nsi_probs}
 \end{figure}
 
 \section{Detector formalism}
 The neutrino flux at the detector is calculated by propagating the atmospheric neutrino flux from Honda et al~\cite{hondapaper} through the Earth by solving the 
-Schrödinger equation for varying density. The Earth density profile is taken from the PREM~\cite{PREM}. The baseline for a given trajectory is determined using an average neutrino
+Schrödinger equation with the Hamiltonian from Eq.~\ref{eq:H_NSI}. The Earth density profile is taken from the PREM~\cite{PREM}. The baseline for a given trajectory is determined using an average neutrino
 production height of 15 km and an Earth radius of 6371 km. The propagation does not include neutrino absorption.
 %TODO: add more here? are there more effects than just absoption missing? justify absorption missing?
 
@@ -93,12 +94,12 @@ where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{
 and flux level, we plot the flux ratios resulting from Eq.~\ref{eq:propFlux} in Fig.~\ref{fig:flux_ratio}. In the left panel, we have marked the region in which 99\% of the 
 DeepCore cascade events originating from $\ne$ and $\nt$ fluxes are contained. In the right panel, we show the two regions in which 99\% of the IceCube 
 and DeepCore track events originating from $\nm$ fluxes are contained. Starting with the $\nm$ flux ratio, we see that the only clear signal discernible to the IceCube detector
-is a energy-independent flux deficiency with a factor of $\sim \sqrt{10}$ from core-crossing neutrinos within a zenith range of $\ztrue < -0.87$. DeepCore on the other hand, 
-is exposed to multiple fringes of flux surpluses with a factor $\sim 10$. The strongest surplus at \SI{20}{\GeV} is very weakly zenith dependent, a stark contrast to the
+is a energy-independent flux deficiency with a factor in the order of $\sim 10^{0.5}$ from core-crossing neutrinos within a zenith range of $\ztrue < -0.87$. DeepCore on the other hand, 
+is exposed to multiple fringes of flux surpluses with a factor in the order of $\sim 10$. The strongest surplus at \SI{20}{\GeV} is very weakly zenith dependent, a stark contrast to the
 energy-independent but zenith-sensitive IceCube deficiency.
 %TODO: check values above after final plot of flux ratios
 In IceCube, we will only consider muon track events. Thus, we have to resort to the DeepCore/PINGU detector alone for the $\nu_e$ and $\nu_\tau$ fluxes.
-Here we see a somewhat weaker signal, this time a zenith-independent deficiency. Where we earlier had surpluses with a factor $\sim 10$, we now have deficiencies in the order of $\sim \sqrt{10}$.
+Here we see a somewhat weaker signal, this time a zenith-independent deficiency. Where we earlier had surpluses with a factor in the order of $\sim 10$, we now have deficiencies in the order of $\sim 10^{0.5}$.
 
 The muonic flux not only carries the largest $\emt$ effect, but it is also more abundant than the $\ne$ flux. Thus, we expect to receive the highest statistics from $\mu$-related NSI parameters,
 thus constraining them the strongest. $\epsilon_{\alpha\beta}$ which are only indirectly weakly dependent on the $\mu$ channel will have the weakest bounds. This could be improved
@@ -125,10 +126,10 @@ which is responsible for the smearing between the reconstructed and true paramet
     R(x^r, x^t) = \frac{1}{\sqrt{2\pi} \sigma_{x^r}x^r} \exp\left[-\frac{(\log x^r-\mu(x^t))^2}{2\sigma_{x^r}^2}\right]\,.
 \end{align}
 However, the energy reconstruction is biased, which means that we don't assume that $\mu(E^t) =E^r$~\cite{weaverEvidenceAstrophysicalMuon}. 
-To model this relationship between $\Etrue$ and $\Ereco$, we train a Gaussian process regressor on the IC-86 Monte Carlo~\cite{IC2016}, from which
+To model this relationship between $\Etrue$ and $\Ereco$, we train a Gaussian process regressor on the IC-86 Monte Carlo dataset from~\cite{IC2016}, from which
 we can extract a predicted mean and standard deviation for a given $E^{reco}$. We then take the $\Etrue$ points of the 99th percentile of each distribution to obtain
 the limits over which to integrate. We take the angular resolution function to be identically unity since the angle resolution in IceCube for track-like 
-events is less than $\SI{2}{\degree}$, making $\ztrue$ coincide with $\zreco$ for our study~\cite{IC2020}. 
+events is less than $\SI{2}{\degree}$, making $\ztrue$ practically coincide with $\zreco$ for our study~\cite{IC2020}. 
 
 \subsection{DeepCore}\label{ch:DCmethod}
 We use the publically available DeepCore data sample~\cite{DC2019data} which is an updated version of what was used by the 
@@ -173,6 +174,7 @@ We generate `data' by predicting the event rates at PINGU with the following bes
 \section{Results}
 In this section, we present the results from the experiments alone, as well as jointly. 
 \subsection{Methodology}\label{sec:method}
+%TODO a sentence about simplicity
 For our analyses, we define our $\chi^2$ as
 \begin{align} \label{eq:chisq}
     \chi^{2}(\hat{\theta},\alpha,\beta, \kappa)=\sum_{ijk} \frac{\left(N^\text{th}-N^\text{data}\right)_{ijk}^{2}}
@@ -197,49 +199,49 @@ with $N_{ijk}(\hat{\theta})$ from Eq.~\ref{eq:MCevents}. $N_{ijk}^{\mu_{atm}}$ i
 The background at PINGU can be considered negligible to first order~\cite{PINGUdata}, and we thus put $\kappa=0$ when calculating the PINGU $\chi^2$.
 For DeepCore and PINGU, the median zenith angle is $\zreco = 0$, we allow the event count to rotate around this point.
 
-We treat the uncorrelated systematic uncertanties differently for each detector. For IceCube, we set $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$. We consider best, normal, and worst-case scenarios in IceCube assuming
-$f=5\%$, $7.5\%$, and $f=15\%$ respectively. For PINGU, we use the same form but instead assume $f=0\%$, $3\%$, and $f=5\%$. %TODO: maybe source/justification for these values?
+We treat the uncorrelated systematic uncertanties differently for each detector. For IceCube, we set $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$.
+We consider best, normal, and worst-case scenarios in IceCube using
+$f=5\%$, $7.5\%$, and $f=15\%$ respectively. For PINGU, we use the same form but instead use $f=0\%$, $3\%$, and $f=5\%$. %TODO: maybe source/justification for these values?
 For DeepCore, we use the provided systematic error distribution which accounts for uncertainties in the finite MC statistics and the data-driven 
 muon background estimate~\cite{DC2019data}. This is summarized in Table~\ref{table:syst_errors}.  %TODO segue
 {\renewcommand{\arraystretch}{1.2}
 \begin{table}
    \begin{tabular}{lccc}
       \hline \hline
-      Experiment & Worst case & Normal case & Best case \\
+      Experiment & Best case & Baseline & Worst case \\
       \hline
-      IceCube & $15\%$ & $10\%$ & $5\%$ \\
-      PINGU & $5\%$ & $3\%$ & $0\%$ \\
+      IceCube & $5\%$ & $10\%$ & $15\%$ \\
+      PINGU & $0\%$ & $3\%$ & $5\%$ \\
       \hline \hline
    \end{tabular}
-   \caption{Definition of the worst and best case scenarios considered in each experiment, modelled by $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$ with $f$ from the table.
+   \caption{Definition of the best, baseline, and worst case scenarios considered in each experiment, modelled by $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$ with $f$ from the table.
    We do not consider different DeepCore scenarios because her systematic error distribution is already provided in the data release~\cite{DC2019data}.}\label{table:syst_errors}
 \end{table}
 
 \subsection{Constraining the NSI parameters}
 First, we set all standard oscillation parameters to their current best-fit values of Eq.~\ref{eq:PINGUparams}, except for $\dm$ and $\theta_{23}$, 
 which we marginalize over their $3\sigma$ ranges of \SI{2.435e-3} to \SI{2.598e-3}{\electronvolt^2} and \SI{40.1} to \SI{51.7}{\degree} respectively. %TODO: make unit ranges nicer.
-After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:joint_3D}. We record the 
+After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:joint_3D_NO}. We record the 
 confidence levels in Table~\ref{table:IC_DC_results} and Table~\ref{table:PINGU_joint_results}, and best-fit points in Table~\ref{table:bestfit}.
 
 \begin{figure}
    \begin{center}
       \includegraphics[width=0.6\textwidth]{figures/joint_3D_NO.pdf}
       \caption{PINGU and DeepCore best-case scenario, with their joint $\Delta \chi^2$ in black. $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
-      parameters other than the one shown are fixed to zero. 
-      IceCube tracks only reveal $\emt$, and are displayed separately.}\label{fig:3D_NO}
+      parameters not shown in each panel are fixed to zero. 
+      IceCube tracks only reveal $\emt$, and are displayed separately in Fig.~\ref{fig:IC_3D}.}\label{fig:3D_NO}
    \end{center}
 \end{figure} 
 \begin{figure}
    \begin{center} 
-      \includegraphics[width=0.8\textwidth]{figures/PID_3D_emt.pdf}
+      \includegraphics[width=0.6\textwidth]{figures/PID_3D_emt.pdf}
       \caption{$\emt$ $\Delta \chi^2$ regions for scenarios as defined in Table~\ref{table:syst_errors}.
     $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
     parameters other than $\emt$ are fixed to zero.}\label{fig:IC_3D}
    \end{center}
 \end{figure}
-%TODO: dont put pingu and dc side by side since pingu is generated.. include 3sigma if possible?
 
-We see asymmetrical shapes in the $\Delta \chi^2$ plots in Fig.~\ref{fig:joint_3D}, especially in $\emt$ and $\eet$.%TODO: make better
+We see asymmetrical shapes in the $\Delta \chi^2$ plots in Fig.~\ref{fig:3D_NO}, especially in $\emt$ and $\eet$.%TODO: make better
 We investigate this for $\emt$ by plotting the muon survival probability difference $P_{\mu\mu}(\epsilon^+_{\mu\tau}) - P_{\mu\mu}(\epsilon^-_{\mu\tau})$, where 
 %TODO: check that this is what is plotted.
 $\epsilon^\pm_{\mu\tau} = \pm 0.05$ in Fig.~\ref{fig:Pmm_asymmetry}. Muon events are the most abundant, and it suffices to study $P_{\mu\mu}$ to explain the $\emt$ asymmetry. 
@@ -335,9 +337,7 @@ This is most evident below \SI{20}{\GeV}, where the DeepCore reconstruction has 
    \caption{Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
    degrees, respectively.}\label{table:bestfit}
 \end{table}
-Comparing the PINGU and the DeepCore results in Fig.~\ref{fig:3D_NO}, we note that the best-fit for each NSI parameter for the PINGU experiment is expected to be zero. This is because the `data' we generated during 
-the PINGU simulations assume no NSI since they have yet to be observed in nature. This introduces a non-NSI bias in all joint analyses which include PINGU,
-since PINGU has stronger statistics than DeepCore and will thus pull the joint $\chi^2$ towards $\epsilon =0$.
+
 
 For the joint analysis, we follow the parameter goodness-of-fit prescription~\cite{maltoni2003} and construct the joint $\chi^2$ as 
 \begin{align}\label{eq:joint_chisq}
@@ -345,6 +345,9 @@ For the joint analysis, we follow the parameter goodness-of-fit prescription~\ci
 \end{align}
 with test statistic $\chi^2_\text{joint,min}$. The $\Delta \chi^2_\text{joint}$ is then $\Delta \chi^2_\text{joint} = \chi^2_\text{joint} - \chi^2_\text{joint,min}$.
 The results are shown in Fig.~\ref{fig:joint_3D} and summarized in Tables~\ref{table:IC_DC_results} and~\ref{table:PINGU_joint_results}.
+Comparing the PINGU and the DeepCore results in Fig.~\ref{fig:3D_NO}, we note that the best-fit for each NSI parameter for the PINGU experiment is expected to be zero. This is because the `data' we generated during 
+the PINGU simulations assume no NSI since they have yet to be observed in nature. This introduces a non-NSI bias in all joint analyses which include PINGU,
+since PINGU has stronger statistics than DeepCore and will thus pull the joint $\chi^2$ towards $\epsilon =0$.
 \newpage
 
 

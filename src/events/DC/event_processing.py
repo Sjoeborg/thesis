@@ -122,6 +122,29 @@ def list_of_params_nsi(dicta, dm31_range, th23_range, ett_range, emt_range, eem_
     dict_list = [update_dict(dicta,{'e_em':eem,'e_et':eet,'e_tt':tt,'e_mt':mt,'theta_23':th23, 'dm_31':dm31}) for eet in eet_range for eem in eem_range for mt in emt_range for tt in ett_range for th23 in th23_range for dm31 in dm31_range]
     return dict_list
 
+def marginalize(chisq,dm31_range, th23_range, ett_range, emt_range, eem_range, eet_range):
+    from scipy.integrate import simps 
+    best_fit_index = chisq.argmin()
+    reshaped_chisq = chisq.reshape(len(eet_range),len(eem_range),len(emt_range),len(ett_range), len(th23_range), len(dm31_range))
+    N = len(th23_range)*len(dm31_range)
+    if len(th23_range) > 1 and len(dm31_range) > 1:
+        marginalized_chisq = simps(simps(reshaped_chisq))/N #Integrate out oscillation parameters and "normalize"
+    else:
+        marginalized_chisq = reshaped_chisq[:,:,:,:,0,0]
+    best_eet_index, best_eem_index, best_emt_index, best_ett_index, best_th23_index, best_dm31_index = np.unravel_index(best_fit_index,reshaped_chisq.shape)
+    
+    deltachi = marginalized_chisq - marginalized_chisq.min()
+    return deltachi, best_dm31_index, best_th23_index, best_ett_index, best_emt_index, best_eem_index, best_eet_index
+
+def marginalize_one(deltachi, axis):
+    '''
+    Assumes 3 axes with same length
+    '''
+    from scipy.integrate import simps 
+    N = deltachi.shape[axis]
+    marginalized_chisq = simps(deltachi, axis=axis)/N #Integrate out oscillation parameters
+    return marginalized_chisq - marginalized_chisq.min()
+
 def get_param_list(dm31N,th23N, ett_tuple, emt_tuple, eem_tuple, eet_tuple, IO=False):
     ettFrom, ettTo, ettN = ett_tuple
     emtFrom, emtTo, emtN = emt_tuple
