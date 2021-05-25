@@ -91,15 +91,12 @@ The oscillation probability $P_{\alpha \beta}$ acts as a weight to the atmospher
     \phi_\beta^\text{det} = \sum_\alpha P_{\alpha\beta} \phi_\alpha^\text{atm} \,,
 \end{align}
 where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$. To illustrate the impact of $\emt$ on both probability
-and flux level, we plot the flux ratios resulting from Eq.~\ref{eq:propFlux} in Fig.~\ref{fig:flux_ratio}. In the left panel, we have marked the region in which 99\% of the 
-DeepCore cascade events originating from $\ne$ and $\nt$ fluxes are contained. In the right panel, we show the two regions in which 99\% of the IceCube 
-and DeepCore track events originating from $\nm$ fluxes are contained. Starting with the $\nm$ flux ratio, we see that the only clear signal discernible to the IceCube detector
+and flux level, we plot the flux ratios resulting from Eq.~\ref{eq:propFlux} in Fig.~\ref{fig:flux_ratio}. In the left panel, we plot the flux in region in which 99\% of the 
+DeepCore track events originating from $\nm$ fluxes are contained. In the right panel, we show the same but with IceCube events. We see that the only clear signal discernible to the IceCube detector
 is a energy-independent flux deficiency with a factor in the order of $\sim 10^{0.5}$ from core-crossing neutrinos within a zenith range of $\ztrue < -0.87$. DeepCore on the other hand, 
 is exposed to multiple fringes of flux surpluses with a factor in the order of $\sim 10$. The strongest surplus at \SI{20}{\GeV} is very weakly zenith dependent, a stark contrast to the
 energy-independent but zenith-sensitive IceCube deficiency.
 %TODO: check values above after final plot of flux ratios
-In IceCube, we will only consider muon track events. Thus, we have to resort to the DeepCore/PINGU detector alone for the $\nu_e$ and $\nu_\tau$ fluxes.
-Here we see a somewhat weaker signal, this time a zenith-independent deficiency. Where we earlier had surpluses with a factor in the order of $\sim 10$, we now have deficiencies in the order of $\sim 10^{0.5}$.
 
 The muonic flux not only carries the largest $\emt$ effect, but it is also more abundant than the $\ne$ flux. Thus, we expect to receive the highest statistics from $\mu$-related NSI parameters,
 thus constraining them the strongest. $\epsilon_{\alpha\beta}$ which are only indirectly weakly dependent on the $\mu$ channel will have the weakest bounds. This could be improved
@@ -109,9 +106,10 @@ by considering cascade events in IceCube, thus opening up the $e$ and $\tau$ cha
    \begin{center}
       \includegraphics[width=0.8\linewidth]{figures/flux_ratio.pdf}
    \end{center}
-   \caption{Ratio of detector NSI to SI atmospheric fluxes. We set $\emt = -0.05$, and all other $\epsilon_{\alpha\beta}=0$. 
-   Within the dotted (dashed) boundaries, 99\% of the  DeepCore (IceCube) MC events are contained. Since we limit our IceCube study to muon tracks,
-   a dashed region is omitted in the left panel.}\label{fig:flux_ratio}
+   \caption{Ratio of detector NSI to SI atmospheric $\nu_\mu + \bar{\nu}_\mu$ fluxes expressed as $(\phi_{\nu_\mu}^{NSI} + \phi_{\bar\nu_\mu}^{NSI})/(\phi_{\nu_\mu}^{SI} + \phi_{\bar\nu_\mu}^{SI})$.
+   We set $\emt = -0.05$, and all other $\epsilon_{\alpha\beta}=0$. 
+   Left (right) panel shows the flux ratio in the energy range in which 99\% of the DeepCore (IceCube) events are contained.
+   }\label{fig:flux_ratio}
 \end{figure}%TODO: make prettier cmap 
 
 \subsection{IceCube}\label{ch:ICmethod}
@@ -145,7 +143,7 @@ from which we can construct the event count as
 \begin{align}\label{eq:MCevents}
     N_{ijk} &= C_{ijk}\sum_{\beta}w_{ijk,\beta}\, \phi_\beta^\text{det}\,,
 \end{align}
-where $C_{k\beta}$ is the correction factor from the detector systematic uncertainty and $\phi_\beta^\text{det}$ is defined as Eq.~\ref{eq:propFlux}. We have now substituted the effect of the Gaussian smearing 
+where $C_{ijk}$ is the correction factor from the detector systematic uncertainty and $\phi_\beta^\text{det}$ is defined as Eq.~\ref{eq:propFlux}. We have now substituted the effect of the Gaussian smearing 
 by treating the reconstructed and true quantities as a migration matrix. 
 
 The oscillation parameters used on our DeepCore simulations are from the
@@ -201,7 +199,7 @@ For DeepCore and PINGU, the median zenith angle is $\zreco = 0$, we allow the ev
 
 We treat the uncorrelated systematic uncertanties differently for each detector. For IceCube, we set $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$.
 We consider best, normal, and worst-case scenarios in IceCube using
-$f=5\%$, $7.5\%$, and $f=15\%$ respectively. For PINGU, we use the same form but instead use $f=0\%$, $3\%$, and $f=5\%$. %TODO: maybe source/justification for these values?
+$f=5\%$, $10\%$, and $15\%$ respectively. For PINGU, we use the same form but instead use $f=0\%$, $3\%$, and $5\%$. %TODO: maybe source/justification for these values?
 For DeepCore, we use the provided systematic error distribution which accounts for uncertainties in the finite MC statistics and the data-driven 
 muon background estimate~\cite{DC2019data}. This is summarized in Table~\ref{table:syst_errors}.  %TODO segue
 {\renewcommand{\arraystretch}{1.2}
@@ -221,7 +219,7 @@ muon background estimate~\cite{DC2019data}. This is summarized in Table~\ref{tab
 \subsection{Constraining the NSI parameters}
 First, we set all standard oscillation parameters to their current best-fit values of Eq.~\ref{eq:PINGUparams}, except for $\dm$ and $\theta_{23}$, 
 which we marginalize over their $3\sigma$ ranges of \SI{2.435e-3} to \SI{2.598e-3}{\electronvolt^2} and \SI{40.1} to \SI{51.7}{\degree} respectively. %TODO: make unit ranges nicer.
-After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:joint_3D_NO}. We record the 
+After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:3D_NO}. We record the 
 confidence levels in Table~\ref{table:IC_DC_results} and Table~\ref{table:PINGU_joint_results}, and best-fit points in Table~\ref{table:bestfit}.
 
 \begin{figure}
@@ -244,18 +242,20 @@ confidence levels in Table~\ref{table:IC_DC_results} and Table~\ref{table:PINGU_
 We see asymmetrical shapes in the $\Delta \chi^2$ plots in Fig.~\ref{fig:3D_NO}, especially in $\emt$ and $\eet$.%TODO: make better
 We investigate this for $\emt$ by plotting the muon survival probability difference $P_{\mu\mu}(\epsilon^+_{\mu\tau}) - P_{\mu\mu}(\epsilon^-_{\mu\tau})$, where 
 %TODO: check that this is what is plotted.
-$\epsilon^\pm_{\mu\tau} = \pm 0.05$ in Fig.~\ref{fig:Pmm_asymmetry}. Muon events are the most abundant, and it suffices to study $P_{\mu\mu}$ to explain the $\emt$ asymmetry. 
-We see see that positive $\emt$ generates a slightly higher $P_{\mu\mu}$ for energies around \SI{20}{\GeV} (blue area),
-while negative $\emt$ produces higher $P_{\mu\mu}$ for almost all other combinations of ${\Etrue,\ztrue}$. As we see in Fig.~\ref{fig:flux_ratio}, this muon survival abundance 
-is indeed preserved at flux level. So the flux for $\emt>0$ is higher than the flux for $\emt<0$. Is this still true at event level, i.e. after reconstruction? 
-As we see in Fig.~\ref{fig:emt_events}, the binned PINGU event counts display strong differences for many bins, giving a high $\Delta \chi^2$ on both sides of $\emt=0$ and slightly higher for $\emt=-0.01$. DeepCore on the other hand, 
-has fewer bins where the event count for $\emt=-0.01$ surpasses the event count for $\emt=+0.01$, giving weaker statistics for the negative side. Thus, we conclude that the DeepCore
-$\emt$ asymmetry stems from the lower statistics for $\emt< 0 $ at probability level, which is then preserved through the flux and finally the reconstruction. %TODO: fill more conclusion?
+$\epsilon^\pm_{\mu\tau} = \pm 0.01$ in Fig.~\ref{fig:Pmm_asymmetry}.
+Muon events are the most abundant, and it suffices to study $P_{\mu\mu}$ to explain the $\emt$ asymmetry. 
+Let $P^\pm$ denote $P_{\mu\mu}(\epsilon^\pm_{\mu\tau})$. 
+We see see that $\emt^+$ generates a slightly higher $P_{\mu\mu}$ for energies around \SI{20}{\GeV} (blue area),
+while $\emt^-$ produces higher $P_{\mu\mu}$ for almost all other combinations of ${\Etrue,\ztrue}$. As we see in Fig.~\ref{fig:flux_ratio}, this muon survival abundance 
+is indeed preserved at flux level. So the flux for $\emt^+$ is higher than the flux for $\emt^-$. Is this still true at event level, i.e. after reconstruction? 
+As we see in Fig.~\ref{fig:emt_events}, the binned PINGU event counts display strong differences for many bins, giving a high $\Delta \chi^2$ on both sides of $\emt=0$ and slightly higher for $\emt^-$. DeepCore on the other hand, 
+has fewer bins where the event count for $\emt^-$ surpasses the event count for $\emt^+$, giving weaker statistics for the negative side. Thus, we conclude that the DeepCore
+$\emt$ asymmetry stems from the lower statistics for negative $\emt$ at probability level, which is then propagated through the flux and finally affects the reconstruction. %TODO: fill more conclusion?
 
 \begin{figure}
-   \begin{subfigure}{0.25\textwidth}
-      \includegraphics[width=1\linewidth]{figures/Pmm_asymmetry.pdf}%TODO: redo for emt=0.01
-      \caption{$P_{\mu\mu}(\epsilon^+_{\mu\tau}) - P_{\mu\mu}(\epsilon^-_{\mu\tau})$ using  $\epsilon^\pm_{\mu\tau} = \pm 0.05$ in the DeepCore/PINGU energy range.}\label{fig:Pmm_asymmetry}
+   \begin{subfigure}{0.25\textwidth}   
+      \includegraphics[width=1\linewidth]{figures/Pmm_asymmetry.pdf}%TODO: redo for emt=0.01x
+      \caption{$P_{\mu\mu}(\epsilon^+_{\mu\tau}) - P_{\mu\mu}(\epsilon^-_{\mu\tau})$ using  $\epsilon^\pm_{\mu\tau} = \pm 0.01$}\label{fig:Pmm_asymmetry}
    \end{subfigure}
    \begin{subfigure}{0.6\textwidth}
       \includegraphics[width=1\linewidth]{figures/emt_events.pdf}
@@ -263,7 +263,7 @@ $\emt$ asymmetry stems from the lower statistics for $\emt< 0 $ at probability l
    DeepCore and PINGU due to the weak NSI effect at high \si{\GeV} energies.}\label{fig:emt_events}%TODO: improve caption?
    \end{subfigure}
    \caption{Probability difference and best-fit event count. Negative $\emt$ has the strongest signal, as the thin blue 
-   region stemming from $\emt = 0.05$ is less prominent than the red regions from $\emt=-0.05$.}
+   region stemming from $\emt = 0.01$ is less prominent than the red regions from $\emt=-0.01$.}
 \end{figure}
 
 

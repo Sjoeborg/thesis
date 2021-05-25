@@ -37,8 +37,8 @@ zenith = -1
 
 
 z_range = np.linspace(-1,0,500)
-IC_range = np.logspace(np.log10(284),np.log10(103821),500)
-DC_range = np.logspace(np.log10(1.9),np.log10(210),500)
+IC_range = np.logspace(np.log10(284),np.log10(103821),500) #get_Etrue(model, 3,0.995,0.995,E_index=0)[0][0] #get_Etrue(model, 3,0.995,0.995,E_index=12)[0][2]
+DC_range = np.logspace(np.log10(1.9),np.log10(210),500) # MC2018_DC().query('pid==1').query('abs(pdg) == 14').query('reco_energy == reco_energy.min()')['true_energy'].quantile(0.005)
 
 flux_emt_IC_track= np.array(nsi_flux_oscillogram(IC_range, z_range, emt_strong_params[0]))
 flux_emt_DC_track= np.array(nsi_flux_oscillogram(DC_range, z_range, emt_strong_params[0]))
