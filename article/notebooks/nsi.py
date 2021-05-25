@@ -34,19 +34,17 @@ both_params = list_of_params_nsi(params, s24_range, emm_range,emt_range)
 zenith = -1
 
 
-'''
+
 z_range = np.linspace(-1,0,500)
 IC_range = np.logspace(np.log10(500),4,5)
 all_range = np.logspace(np.log10(1),5.1,500)
 #P_emm_IC = np.array(nsi_oscillogram(IC_range, z_range, emm_params[0]))
-#P_emt_IC_track= np.array(nsi_flux_oscillogram(all_range, z_range, emt_params[0], only_m=True))
+P_emt_IC_track= np.array(nsi_flux_oscillogram(all_range, z_range, emt_params[0]))
 #P_emt_IC_cascade= np.array(nsi_flux_oscillogram(all_range, z_range, emt_params[0], only_m=False))
-P_emt_IC_track = pickle.load(open('./pre_computed/P_emt_IC_track.p','rb'))
-P_emt_IC_cascade = pickle.load(open('./pre_computed/P_emt_IC_cascade.p','rb'))
 pickle.dump(P_emt_IC_track, open('P_emt_IC_track.p','wb'))
-pickle.dump(P_emt_IC_cascade, open('P_emt_IC_cascade.p','wb'))
-'''
+#pickle.dump(P_emt_IC_cascade, open('P_emt_IC_cascade.p','wb'))
 
+'''
 z_range = np.linspace(-1,0,500)
 E_range = np.logspace(0,np.log10(60),500)
 
@@ -56,3 +54,4 @@ Pex_pos, Pmx_pos, Paeax_pos,Pamax_pos = nsi_oscillogram(E_range=E_range, z_range
 
 pickle.dump(Pmx_neg, open('Pmx_neg.p','wb'))
 pickle.dump(Pmx_pos, open('Pmx_pos.p','wb'))
+'''

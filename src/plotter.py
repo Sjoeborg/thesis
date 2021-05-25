@@ -164,7 +164,7 @@ def flux_oscillogram(E_range, z_range, params, nsi=False):
     return 1-flux_final/flux_initial
 
 
-def nsi_flux_oscillogram(E_range, z_range, params, only_m=True):
+def nsi_flux_oscillogram(E_range, z_range, params):
     '''
     Returns (flux_final/flux_initial, flux_bar_final/flux_bar_initial, flux_both_final/flux_both_initial)
     for either only Pxm flux (only_m is True), or for only Pxe+Pxt flux (only_m is False)
@@ -196,21 +196,26 @@ def nsi_flux_oscillogram(E_range, z_range, params, only_m=True):
     flux_mbar = get_flux('mbar',E_mesh,z_mesh,interp_flux)
     flux_ebar = get_flux('ebar',E_mesh,z_mesh,interp_flux)
 
-    if only_m:
-        flux_final =  flux_m*Pmx[1] + flux_e*Pex[1]
-        flux_final_nsi = flux_m*Pmx_nsi[1] + flux_e*Pex_nsi[1]
+    #maybe clean up
+    flux_final_m =  flux_m*Pmx[1] + flux_e*Pex[1]
+    flux_final_m_nsi = flux_m*Pmx_nsi[1] + flux_e*Pex_nsi[1]
 
-        flux_final_bar =  flux_mbar*Pamax[1] + flux_ebar*Paeax[1]
-        flux_final_nsi_bar = flux_mbar*Pamax_nsi[1] + flux_ebar*Paeax_nsi[1]
+    flux_final_m_bar =  flux_mbar*Pamax[1] + flux_ebar*Paeax[1]
+    flux_final_m_nsi_bar = flux_mbar*Pamax_nsi[1] + flux_ebar*Paeax_nsi[1]
     
-    else:
-        flux_final =  flux_m*(Pmx[0] + Pmx[2]) + flux_e*(Pex[0] + Pex[2])
-        flux_final_nsi = flux_m*(Pmx_nsi[0] + Pmx_nsi[2]) + flux_e*(Pex_nsi[0] + Pex_nsi[2])
+    flux_final_e =  flux_m*(Pmx[0] ) + flux_e*(Pex[0])
+    flux_final_e_nsi = flux_m*(Pmx_nsi[0]) + flux_e*(Pex_nsi[0])
 
-        flux_final_bar =  flux_mbar*(Pamax[0] + Pamax[2]) + flux_ebar*(Paeax[0] + Paeax[2])
-        flux_final_nsi_bar = flux_mbar*(Pamax_nsi[0] + Pamax_nsi[2]) + flux_ebar*(Paeax_nsi[0] + Paeax_nsi[2])
+    flux_final_e_bar =  flux_mbar*(Pamax[0]) + flux_ebar*(Paeax[0])
+    flux_final_e_nsi_bar = flux_mbar*(Pamax_nsi[0] ) + flux_ebar*(Paeax_nsi[0])
 
-    return flux_final_nsi/flux_final, flux_final_nsi_bar/flux_final_bar, (flux_final_nsi + flux_final_nsi_bar)/(flux_final+ flux_final_bar)
+    flux_final_t =  flux_m*(Pmx[2]) + flux_e*(Pex[2])
+    flux_final_t_nsi = flux_m*(Pmx_nsi[2]) + flux_e*(Pex_nsi[2])
+
+    flux_final_t_bar =  flux_mbar*(Pamax[2]) + flux_ebar*(Paeax[2])
+    flux_final_t_nsi_bar = flux_mbar*(Pamax_nsi[2]) + flux_ebar*(Paeax_nsi[2])
+
+    return (flux_final_e_nsi + flux_final_e_nsi_bar)/(flux_final_e+ flux_final_e_bar), (flux_final_m_nsi + flux_final_m_nsi_bar)/(flux_final_m+ flux_final_m_bar),(flux_final_t_nsi + flux_final_t_nsi_bar)/(flux_final_t+ flux_final_t_bar)
 
 
 def save(fig, name):
