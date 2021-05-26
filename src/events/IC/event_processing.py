@@ -237,6 +237,14 @@ def list_of_params_nsi(dicta,s24_range, emm_range, emt_range=None):
     else:
         dict_list = [update_dict(dicta,{'e_mm':mm,'e_mt':mt,'theta_24':np.arcsin(np.sqrt(s24))/2}) for mt in emt_range for mm in emm_range for s24 in s24_range]
     return dict_list
+
+def list_of_params(dicta,dm41_range, s24_range):
+    def update_dict(dict,p):
+        dict2 = dict.copy()
+        dict2.update(p)
+        return dict2
+    dict_list = [update_dict(dicta,{'dm_41':dm,'theta_24':np.arcsin(np.sqrt(s24))/2}) for dm in dm41_range for s24 in s24_range]
+    return dict_list
 def return_precomputed_nsi(N,ndim,params, nsi=False):
     params= np.array(params)
     precomputed_list = np.array([is_precomputed_nsi(N,ndim, p, check=False) for p in params])

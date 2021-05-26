@@ -1,0 +1,133 @@
+\documentclass{article}
+\input{commands}
+\usepackage{physics,amsmath, amsfonts, siunitx, amssymb, subcaption}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{xr-hyper}
+%\externaldocument{sterile}
+
+\begin{document}
+\section{The Sterile State}\label{sec:anomalies}
+In 1996, the LSND experiment reported an excess of $\ane$ events from an $\anm$ beam~\cite{lsnd}. The anomaly was consistent with a fourth
+neutrino state with $\dm[41] > \SI{0.03}{\eV \squared}$. Nine years later, MiniBooNE not only reproduced the $\ane$ anomaly, but saw the excess in The
+$\ne$ events too. Together with the so-called reactor and gallium analomalies, there were indications that both appearance and disappearance
+anomalies might be remedied by a fourth mass state.
+
+However, we know from the decay width of the $Z$ boson that it only can interact with three flavor species, so this fourth mass state can't be interacting weakly.
+We now distinguish between the three original neutrino flavors ($e$, $\mu$, and $\tau$) and the new fourth flavor ($s$) by calling the former \emph{active} neutrinos
+and the latter \emph{sterile}. The experiments listed above indicate that the mass-squared difference of the sterile neutrino is in the \si{\eV} scale, while the two others
+are three and five magnitudes smaller. To remind us of this difference, we write $3+1$, since the sterile state proposed is a lot more massive than the active states. Models
+with different hierachies might be written as $1+2+1$ or $1+3$, but many of them are ruled out by cosmological constraints and will not be considered here. %TODO:source
+
+The inclusion of the sterile neutrino in the Hamiltonian is straightforward. We extend the PMNS matrix to incorporate the new flavor and mass eigenstates: 
+\begin{align}
+    U_{4gen} =
+    \begin{pmatrix}
+    U_{e1} & U_{e2} & U_{e3} & U_{e4} \\
+    U_{\mu1} & U_{\mu2} & U_{\mu3} & U_{\mu4} \\
+    U_{\tau1} & U_{\tau2} & U_{\tau3} & U_{\tau4} \\
+    U_{s1} & U_{s2} & U_{s3} & U_{s4}
+    \end{pmatrix}\,,
+\end{align}
+where a common parametrization of the PMNS matrix is 
+\begin{align}\label{eq:U4gen_param}
+    U_{4gen} = R_{34}R_{24}R_{14}U_{3gen}\,.
+\end{align}
+The mass matrix extends analogously:
+\begin{align}\label{eq:dm4gen}
+    M^2_{4gen} =
+    \begin{pmatrix}
+        0 & 0 & 0 & 0\\
+        0 & \dm_{21} & 0  & 0 \\
+        0 & 0 & \dm_{31} & 0 \\
+        0 & 0 & 0 & \dm_{41} \\
+    \end{pmatrix}\,.
+\end{align}
+
+Now,the interaction with matter requires a careful reconsideration of the matter potential. We start of with the unaltered potential matrix. 
+Just as with the PMNS matrix, we extend this to $4\times4$:
+\begin{align}\label{eq:Vsterile1}
+    \begin{pmatrix}
+        V_{CC} + V_{NC} & 0 & 0 & 0 \\
+        0 &V_{NC} & 0 & 0 \\
+        0 & 0 & V_{NC} & 0 \\
+        0 & 0 & 0 & 0 
+    \end{pmatrix}\,.
+\end{align}
+Now we need to include the terms that describes the matter potential felt by the sterile flavor state. Recalling our discussion above, we remind ourselves that the sterile neutrino by definition
+does not participate in any interaction\footnote{The exception to this is of course gravity. The sterile neutrino is not massless.}. Thus, all potential terms involving the sterile state are zero. 
+In other words, the potential matrix in Eq.~\ref{eq:Vsterile1} is complete, save for the usual subtraction by a constant identity matrix:
+
+\begin{align}\label{eq:Vsterile}
+    V_{4gen} &=
+    \begin{pmatrix}
+        V_{CC} + V_{NC} & 0 & 0 & 0 \\
+        0 &V_{NC} & 0 & 0 \\
+        0 & 0 & V_{NC} & 0 \\
+        0 & 0 & 0 & 0 
+    \end{pmatrix} - V_{NC}\begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 &1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1 
+    \end{pmatrix}
+    = \begin{pmatrix}
+        V_{CC} & 0 & 0 & 0 \\
+        0 &0 & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & -V_{NC}
+    \end{pmatrix} \nonumber \\
+    &=\sqrt{2}G_F N_e\begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 &0 & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & -1/2
+    \end{pmatrix}\,.
+\end{align}
+where we have assumed electrical neutrality in the last step, yielding $N_e = N_n$.
+
+Thus, the final Hamiltonian with a fourth sterile neutrino is 
+\begin{align}\label{eq:H_4gen}
+    H_{4gen} &= \frac{1}{2E}\left[U \begin{pmatrix}
+            0 & 0 & 0 & 0\\
+            0 & \dm_{21} & 0  & 0 \\
+            0 & 0 & \dm_{31} & 0 \\
+            0 & 0 & 0 & \dm_{41} \\
+        \end{pmatrix} U^\dagger\right] + \sqrt{2}G_F N_e 
+        \begin{pmatrix}
+            1 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & -1/2
+        \end{pmatrix}\,. 
+\end{align}
+
+Now, looking at Eqs.~\ref{eq:U4gen_param} and~\ref{eq:dm4gen}, we see that we have introduced four new parameters: $\dm[41]$, $\theta_{14}$
+, $\theta_{24}$, $\theta_{34}$. 
+
+\section{Sterile Signals}
+Since the new neutrino does not interact weakly, how do we then detect its signal? If the sterile mixing angle $\theta_{i4}$ is non-zero, 
+we allow the sterile mass state to mix with the active state $i$. The most interesting case is when $\theta_{24} \neq 0$, 
+which for $\dm[41] \sim \si{\eV \squared}$ gives rise to a resonant disappeareance in the $\bar\mu \bar\mu$ sector, shown in Fig.~\ref{fig:sterile_resonance}.
+
+\begin{figure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=1\linewidth]{figures/sterile_resonance.pdf}
+        \caption{$\Pamam$ disappearance}\label{fig:sterile_resonance}
+    \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=1\linewidth]{figures/resonance_shift.pdf}
+        \caption{$\Pamam$ disappearance}\label{fig:resonance_shift}
+    \end{subfigure}
+\end{figure}
+
+So for a \si{\eV}-scale sterile neutrino and a non-zero $\theta_{24}$, we expect a \si{\TeV} $\anm$ disappearance.
+The resonance dip is affected by the value of $\dm[41]$ and $\theta_{24}$ as shown in Fig.~\ref{fig:resonance_shift}.
+We see how the value of $\dm[41]$ shifts the peak, while the mixing angle adjusts its strength. 
+
+
+
+\newpage
+\bibliographystyle{elsarticle-num}
+\bibliography{ref}
+\end{document}
