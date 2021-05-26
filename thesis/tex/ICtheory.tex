@@ -114,14 +114,17 @@ First, we let $\zreco = \ztrue$ for all values. The angular resolution in IceCub
 Thus, we only need to concern ourselves with the energy resolution.
 In Fig.~\ref{fig:IC_MC_gpr}, we have plotted all event counts found in the MC file, over 8 million. However, this is too much data to process efficiently, with many outliers that ultimately don't weigh in 
 that much in the final event count. To resolve this, we have opted to train a Gaussian process regressor on the dataset, from which we can extract the predicted mean and standard deviation for a point.
-When doing this over $\Ereco$, we sample $\Etrue$ in the 99\%th percentile around the predicted mean. We then obtain the shaded band shown in Fig.~\ref{fig:IC_MC_gpr}. %TODO add plot with Etrue vs prob dens
+When doing this over $\Ereco$, we sample $\Etrue$ in the 99th percentile around the predicted mean. We then obtain the shaded band shown in Fig.~\ref{fig:IC_MC_gpr}. %TODO add plot with Etrue vs prob dens
 
 The event rate for each bin reads
 \begin{align}\label{eq:ICevents}
     N_{ij} &= T \int_{(\cos{\theta_z^r})_i}^{(\cos{\theta_z^r})_{i+1}} \dd \cos{\theta^r_z} \int_{E^r_{j}}^{E^r_{j+1}} \dd E^r \int_0^\pi R(\theta^r,\theta^t) \dd \cos{\theta^t} \int_0^\infty R(E^r,E^t) \dd E^t
     \times \left[ \sum_\beta \phi_\beta^\text{det}  A^\text{eff}_\beta\right]\,,
 \end{align}
-where $T$ is the live time of the detector.
+where $T$ is the live time of the detector. Now this expression handles the Gaussian smearing, but we are not provided systematic error sources, DOM efficiencies, and many more nuisance parameters. To correct this,
+we will aim to come as close as possible to the IceCube Monte Carlo, and then normalize with it. That way, we know that our null hypotheses will align while we are free to form additional hypotheses with different 
+physics parameters. The binned Monte Carlo events that IceCube used as their null hypothesis in the 2020 sterile analysis is shown in %TODO:MC vs myMC fig.
+
 
 \begin{figure}[!tb]\label{fig:IC_MC_gpr}
     \begin{center}
@@ -129,6 +132,9 @@ where $T$ is the live time of the detector.
     \end{center}
     \caption{Relationship between the true and reconstructed muon energy in the IceCube MC sample~\cite{IC2016}}\label{fig:IC_MC_counts}. Shaded area shows the $99.9$th percentile limits predicted by the regressor trained on this set.
  \end{figure}
+
+The latest available data collected and processed by the collaboration contains 305,735 muon track events, collected over eight years~\cite{IC2020}. 
+\newpage
 \bibliographystyle{nature}
 \bibliography{ref.bib}
 \end{document}
