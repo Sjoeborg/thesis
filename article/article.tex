@@ -60,7 +60,17 @@ With the matter potential $V = \sqrt{2}G_F n_e$, we write
 \end{align}
 where we have assumed the components of the NSI matrix to be real. 
 
-\subsection{Probability effects in the GeV range}
+To propagate the neutrino states through the Earth, we solve the Schrödinger equation with the Hamiltonian from Eq.~\ref{eq:H_NSI}. 
+The Earth density profile is taken from the PREM~\cite{PREM}. The baseline for a given trajectory is determined using an average neutrino
+production height of 15 km and an Earth radius of 6371 km. The propagation does not include neutrino absorption. After this, we are
+ready to study the NSI effect on probability level.
+%TODO: add more here? are there more effects than just absoption missing? justify absorption missing?
+
+\subsection{Non-standard effects in the GeV-TeV range}\label{sec:nsiEffects}
+Since neutrinos and antineutrinos have different cross sections, they are treated separately in the detector simulations. 
+However, for the purpose of qualitatively elucidating the NSI effect in this subsection, we take the effective area of $\nm$ and $\anm$ to be equal. 
+Thus, we simply add the neutrino to the antineutrino contributions in both Fig.~\ref{fig:nsi_probs} and Fig.~\ref{fig:flux_ratio}.
+
 In the $\mu\tau$ sector, we have a resonance in the \SI{20}{\GeV} region. Any NSI parameter involving the $\mu$ or $\tau$ channel will dampen this resonance,
 with some also shifting the probability in the stationary region above \SI{100}{\GeV}.
 This `double effect' of both resonance dampening and shifting happens in two cases: either when the NSI parameter shares one channel with a survival probability
@@ -76,23 +86,21 @@ while the survival probabilities $P_{\alpha\alpha}$ are only strongly affected b
 %TODO: make this clearer and give conclusion. Maybe also test for lower E around dm21 resonance. Add about realness and CP-invariance
 \begin{figure}
    \includegraphics[width=0.95\textwidth]{figures/nsi_probs.pdf}
-   \caption{The three different effects that the off-diagonal NSI parameters have in the \si{\GeV} range.}\label{fig:nsi_probs}
-\end{figure}
+   \caption{The three different effects that the off-diagonal NSI parameters have in 
+   the \si{\GeV} range. To schematically elucidate the NSI effect, we plot the summed probabilities for both neutrinos and 
+   antineutrinos.}\label{fig:nsi_probs}
+\end{figure}%TODO: change plot ylabels
 
-\section{Detector formalism}
-The neutrino flux at the detector is calculated by propagating the atmospheric neutrino flux from Honda et al~\cite{hondapaper} through the Earth by solving the 
-Schrödinger equation with the Hamiltonian from Eq.~\ref{eq:H_NSI}. The Earth density profile is taken from the PREM~\cite{PREM}. The baseline for a given trajectory is determined using an average neutrino
-production height of 15 km and an Earth radius of 6371 km. The propagation does not include neutrino absorption.
-%TODO: add more here? are there more effects than just absoption missing? justify absorption missing?
-
-
+To study the NSI flux effect, we propagate the atmospheric neutrino flux from Honda et al~\cite{hondapaper} through the Earth.
 The oscillation probability $P_{\alpha \beta}$ acts as a weight to the atmospheric flux, yielding the propagated flux for flavor $\beta$ at detector level as 
 \begin{align}\label{eq:propFlux}
     \phi_\beta^\text{det} = \sum_\alpha P_{\alpha\beta} \phi_\alpha^\text{atm} \,,
 \end{align}
-where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$. To illustrate the impact of $\emt$ on both probability
-and flux level, we plot the flux ratios resulting from Eq.~\ref{eq:propFlux} in Fig.~\ref{fig:flux_ratio}. In the left panel, we plot the flux in region in which 99\% of the 
-DeepCore track events originating from $\nm$ fluxes are contained. In the right panel, we show the same but with IceCube events. We see that the only clear signal discernible to the IceCube detector
+where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$. To illustrate the impact of $\emt$ at flux level, 
+we plot in Fig.~\ref{fig:flux_ratio} the quantity $(\phi_{\nu_\mu}^{NSI} + \phi_{\bar\nu_\mu}^{NSI})/(\phi_{\nu_\mu}^{SI} + \phi_{\bar\nu_\mu}^{SI})$, 
+where all fluxes are propagated to detector level by Eq.~\ref{eq:propFlux}. 
+In the left panel, we plot the flux in region in which 99\% of the 
+DeepCore track events originating from $\nm + \anm$ fluxes are contained. In the right panel, we show the same but with IceCube events. We see that the only clear signal discernible to the IceCube detector
 is a energy-independent flux deficiency with a factor in the order of $\sim 10^{0.5}$ from core-crossing neutrinos within a zenith range of $\ztrue < -0.87$. DeepCore on the other hand, 
 is exposed to multiple fringes of flux surpluses with a factor in the order of $\sim 10$. The strongest surplus at \SI{20}{\GeV} is very weakly zenith dependent, a stark contrast to the
 energy-independent but zenith-sensitive IceCube deficiency.
@@ -112,6 +120,7 @@ by considering cascade events in IceCube, thus opening up the $e$ and $\tau$ cha
    }\label{fig:flux_ratio}
 \end{figure}%TODO: make prettier cmap 
 
+\section{Detector formalism}
 \subsection{IceCube}\label{ch:ICmethod}
 We obtain the data from the IC-86 sterile data release~\cite{IC2020}, which was collected over 8 years. The event rate for each bin reads
 \begin{align}\label{eq:ICevents}
@@ -150,10 +159,6 @@ The oscillation parameters used on our DeepCore simulations are from the
 best-fit in the global analysis in~\cite{nufit}: $\theta_{12} = \SI{33.44}{\degree},\, \theta_{13} = \SI{8.57}{\degree},\, \Delta m^2_{21} =  \SI{7.42}{\electronvolt^2}$, and we 
 marginalize over $\dm$ and $\theta_{23}$ between their $3\sigma$ limits \SIrange{2.435e-3}{2.598e-3}{\eV \squared} and \SIrange{40.1}{51.7}{\degree}, respectively.
 
-% We plot the normalized event difference $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ where $N_{SI}$ $(N_{NSI})$ are the numbers of expected events
-% assuming standard (non-standard) interactions in Fig.~\ref{fig:event_pulls}. This illustrates the expected sensitivity of DeepCore for the NSI parameters.
-%TODO:conclusion from this?
-
 \subsection{PINGU}\label{ch:PINGUmethod}
 The methodology behind the PINGU simulations is the same as with our DeepCore study~\ref{ch:DCmethod}. We use the public Monte Carlo~\cite{PINGUdata}, 
 which allows us to construct the event count as in Eq.~\ref{eq:MCevents}.
@@ -168,11 +173,42 @@ We generate `data' by predicting the event rates at PINGU with the following bes
     &\theta_{12} = \SI{33.44}{\degree},\hspace{1em} \theta_{13} = \SI{8.57}{\degree},\hspace{1em} \theta_{23} = \SI{49.2}{\degree}, \hspace{1em} \delta_\text{CP} = 0\,.
 \end{align}
 
-
 \section{Results}
-In this section, we present the results from the experiments alone, as well as jointly. 
-\subsection{Methodology}\label{sec:method}
-%TODO a sentence about simplicity
+At the reconstructed event level, we note that the $\emt$ features discussed in Sec.~\ref{sec:nsiEffects} display themselves differently in each detector.
+We investigate this for $\emt$ by in Fig.~\ref{fig:Pmm_asymmetry} plotting the muon survival probability difference $P_{\mu\mu}(\epsilon^+_{\mu\tau}) - P_{\mu\mu}(\epsilon^-_{\mu\tau})$, where 
+%TODO: check that this is what is plotted.
+$\epsilon^\pm_{\mu\tau} = \pm 0.01$.
+Comparing Fig.~\ref{fig:Pmm_asymmetry} with the flux ratios in Fig.~\ref{fig:emt_events}, we see that the reconstruction of PINGU is
+superior to DeepCore, since the event ratio $\log{(N^+_{NSI}/N^-_{NSI})} = \log{N^+_{NSI}} - \log{N^-_{NSI}}$ (in reconstructed quantities) 
+more closely matches the probability difference $P^+-P^-$ (in true quantities).
+This is most evident below \SI{20}{\GeV}, where the DeepCore reconstruction has washed out the fringes while PINGU preserves the $N^-_{NSI}$ surplus below \SI{10}{\GeV}.
+
+Now we turn to the effect of $\emt$. Muon events are the most abundant, and it suffices to study $P_{\mu\mu}$ in this way to explain the $\emt$ features. 
+First, let $P^\pm$ denote $P_{\mu\mu}(\epsilon^\pm_{\mu\tau})$. 
+We see see that $\emt^+$ generates a slightly higher $P_{\mu\mu}$ for energies around \SI{20}{\GeV} (blue area),
+while $\emt^-$ produces higher $P_{\mu\mu}$ for almost all other combinations of ${\Etrue,\ztrue}$. As we see in Fig.~\ref{fig:flux_ratio}, this muon survival abundance 
+is indeed preserved at flux level. So the flux for $\emt^+$ is higher than the flux for $\emt^-$. Is this still true at event level, i.e. after reconstruction? 
+As we see in Fig.~\ref{fig:emt_events}, the binned PINGU event counts display strong differences for many bins, which will give a high statistics on both sides of $\emt=0$, slightly favoring $\emt^-$. 
+DeepCore on the other hand, has fewer bins where the event count for $\emt^-$ surpasses the event count for $\emt^+$, 
+giving weaker statistics for the negative side. Thus, we conclude that we will see a $\emt$ \si{GeV}-asymmetry stemming from the lower statistics 
+for negative $\emt$ at probability level, which is then propagated through the flux and finally affects the reconstruction. %TODO: fill more conclusion?
+
+\begin{figure}
+   \begin{subfigure}{0.25\textwidth}   
+      \includegraphics[width=1\linewidth]{figures/Pmm_asymmetry.pdf}%TODO: redo for emt=0.01x
+      \caption{$P_{\mu\mu}(\epsilon^+_{\mu\tau}) - P_{\mu\mu}(\epsilon^-_{\mu\tau})$ using  $\epsilon^\pm_{\mu\tau} = \pm 0.01$}\label{fig:Pmm_asymmetry}
+   \end{subfigure}
+   \begin{subfigure}{0.6\textwidth}
+      \includegraphics[width=1\linewidth]{figures/emt_events.pdf}
+   \caption{The best-fit event count ratio from each detector for $\emt = \pm 0.01$. IceCube only observes a small surplus of events for $\emt=-0.01$ compared to 
+   DeepCore and PINGU due to the weak NSI effect at high \si{\GeV} energies.}\label{fig:emt_events}%TODO: improve caption?
+   \end{subfigure}
+   \caption{Probability difference and best-fit event count. Negative $\emt$ has the strongest signal, as the thin blue 
+   region stemming from $\emt = 0.01$ is less prominent than the red regions from $\emt=-0.01$.}
+\end{figure}
+ 
+\subsection{Constraining the NSI parameters}\label{sec:method}
+In this section, we will constrain the four NSI parameters $\ett$, $\emt$, $\eem$, and $\eet$ by considering the detectors separately as well as jointly.
 For our analyses, we define our $\chi^2$ as
 \begin{align} \label{eq:chisq}
     \chi^{2}(\hat{\theta},\alpha,\beta, \kappa)=\sum_{ijk} \frac{\left(N^\text{th}-N^\text{data}\right)_{ijk}^{2}}
@@ -216,11 +252,19 @@ muon background estimate~\cite{DC2019data}. This is summarized in Table~\ref{tab
    We do not consider different DeepCore scenarios because her systematic error distribution is already provided in the data release~\cite{DC2019data}.}\label{table:syst_errors}
 \end{table}
 
-\subsection{Constraining the NSI parameters}
-First, we set all standard oscillation parameters to their current best-fit values of Eq.~\ref{eq:PINGUparams}, except for $\dm$ and $\theta_{23}$, 
+For the joint analysis, we follow the parameter goodness-of-fit prescription~\cite{maltoni2003} and construct the joint $\chi^2$ as 
+\begin{align}\label{eq:joint_chisq}
+    \chi^2_\text{joint} = \sum_\text{exp}\chi^2_\text{exp} - \chi^2_\text{exp,min}\,
+\end{align}
+with test statistic $\chi^2_\text{joint,min}$. The $\Delta \chi^2_\text{joint}$ is then $\Delta \chi^2_\text{joint} = \chi^2_\text{joint} - \chi^2_\text{joint,min}$.
+
+Now, we set all standard oscillation parameters to their current best-fit values of Eq.~\ref{eq:PINGUparams}, except for $\dm$ and $\theta_{23}$, 
 which we marginalize over their $3\sigma$ ranges of \SI{2.435e-3} to \SI{2.598e-3}{\electronvolt^2} and \SI{40.1} to \SI{51.7}{\degree} respectively. %TODO: make unit ranges nicer.
-After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:3D_NO}. We record the 
-confidence levels in Table~\ref{table:IC_DC_results} and Table~\ref{table:PINGU_joint_results}, and best-fit points in Table~\ref{table:bestfit}.
+After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:3D_NO}. The results are shown in Fig.~\ref{fig:IC_NO} and summarized in Tables~\ref{table:IC_DC_results} and~\ref{table:PINGU_joint_results}.
+
+Comparing the PINGU and the DeepCore results in Fig.~\ref{fig:3D_NO}, we note that the best-fit for each NSI parameter for the PINGU experiment is expected to be zero. This is because the `data' we generated during 
+the PINGU simulations assume no NSI since they have yet to be observed in nature. This introduces a non-NSI bias in all joint analyses which include PINGU,
+since PINGU has stronger statistics than DeepCore and will thus pull the joint $\chi^2$ towards $\epsilon =0$.
 
 \begin{figure}
    \begin{center}
@@ -239,37 +283,7 @@ confidence levels in Table~\ref{table:IC_DC_results} and Table~\ref{table:PINGU_
    \end{center}
 \end{figure}
 
-We see asymmetrical shapes in the $\Delta \chi^2$ plots in Fig.~\ref{fig:3D_NO}, especially in $\emt$ and $\eet$.%TODO: make better
-We investigate this for $\emt$ by plotting the muon survival probability difference $P_{\mu\mu}(\epsilon^+_{\mu\tau}) - P_{\mu\mu}(\epsilon^-_{\mu\tau})$, where 
-%TODO: check that this is what is plotted.
-$\epsilon^\pm_{\mu\tau} = \pm 0.01$ in Fig.~\ref{fig:Pmm_asymmetry}.
-Muon events are the most abundant, and it suffices to study $P_{\mu\mu}$ to explain the $\emt$ asymmetry. 
-Let $P^\pm$ denote $P_{\mu\mu}(\epsilon^\pm_{\mu\tau})$. 
-We see see that $\emt^+$ generates a slightly higher $P_{\mu\mu}$ for energies around \SI{20}{\GeV} (blue area),
-while $\emt^-$ produces higher $P_{\mu\mu}$ for almost all other combinations of ${\Etrue,\ztrue}$. As we see in Fig.~\ref{fig:flux_ratio}, this muon survival abundance 
-is indeed preserved at flux level. So the flux for $\emt^+$ is higher than the flux for $\emt^-$. Is this still true at event level, i.e. after reconstruction? 
-As we see in Fig.~\ref{fig:emt_events}, the binned PINGU event counts display strong differences for many bins, giving a high $\Delta \chi^2$ on both sides of $\emt=0$ and slightly higher for $\emt^-$. DeepCore on the other hand, 
-has fewer bins where the event count for $\emt^-$ surpasses the event count for $\emt^+$, giving weaker statistics for the negative side. Thus, we conclude that the DeepCore
-$\emt$ asymmetry stems from the lower statistics for negative $\emt$ at probability level, which is then propagated through the flux and finally affects the reconstruction. %TODO: fill more conclusion?
 
-\begin{figure}
-   \begin{subfigure}{0.25\textwidth}   
-      \includegraphics[width=1\linewidth]{figures/Pmm_asymmetry.pdf}%TODO: redo for emt=0.01x
-      \caption{$P_{\mu\mu}(\epsilon^+_{\mu\tau}) - P_{\mu\mu}(\epsilon^-_{\mu\tau})$ using  $\epsilon^\pm_{\mu\tau} = \pm 0.01$}\label{fig:Pmm_asymmetry}
-   \end{subfigure}
-   \begin{subfigure}{0.6\textwidth}
-      \includegraphics[width=1\linewidth]{figures/emt_events.pdf}
-   \caption{The best-fit event count ratio from each detector for $\emt = \pm 0.01$. IceCube only observes a small surplus of events for $\emt=-0.01$ compared to 
-   DeepCore and PINGU due to the weak NSI effect at high \si{\GeV} energies.}\label{fig:emt_events}%TODO: improve caption?
-   \end{subfigure}
-   \caption{Probability difference and best-fit event count. Negative $\emt$ has the strongest signal, as the thin blue 
-   region stemming from $\emt = 0.01$ is less prominent than the red regions from $\emt=-0.01$.}
-\end{figure}
-
-
-Comparing Fig.~\ref{fig:emt_events} with the flux ratios in Fig.~\ref{fig:flux_ratio}, we see that the reconstruction of PINGU is
-superior to DeepCore, since the event ratio $\log{(N^+_{NSI}/N^-_{NSI})}$ (which is in reconstructed quantities) more closely matches the flux ratio $\log{(\phi_{NSI}/\phi_{SI})}$ (which is in true quantities).
-This is most evident below \SI{20}{\GeV}, where the DeepCore reconstruction has washed out the fringes while PINGU still has the $N^-_{NSI}$ surplus below \SI{10}{\GeV}.
 
 {\renewcommand{\arraystretch}{1.3}
  \begin{table}
@@ -337,17 +351,6 @@ This is most evident below \SI{20}{\GeV}, where the DeepCore reconstruction has 
    \caption{Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
    degrees, respectively.}\label{table:bestfit}
 \end{table}
-
-
-For the joint analysis, we follow the parameter goodness-of-fit prescription~\cite{maltoni2003} and construct the joint $\chi^2$ as 
-\begin{align}\label{eq:joint_chisq}
-    \chi^2_\text{joint} = \sum_\text{exp}\chi^2_\text{exp} - \chi^2_\text{exp,min}\,
-\end{align}
-with test statistic $\chi^2_\text{joint,min}$. The $\Delta \chi^2_\text{joint}$ is then $\Delta \chi^2_\text{joint} = \chi^2_\text{joint} - \chi^2_\text{joint,min}$.
-The results are shown in Fig.~\ref{fig:IC_NO} and summarized in Tables~\ref{table:IC_DC_results} and~\ref{table:PINGU_joint_results}.
-Comparing the PINGU and the DeepCore results in Fig.~\ref{fig:3D_NO}, we note that the best-fit for each NSI parameter for the PINGU experiment is expected to be zero. This is because the `data' we generated during 
-the PINGU simulations assume no NSI since they have yet to be observed in nature. This introduces a non-NSI bias in all joint analyses which include PINGU,
-since PINGU has stronger statistics than DeepCore and will thus pull the joint $\chi^2$ towards $\epsilon =0$.
 \newpage
 
 

@@ -60,6 +60,7 @@ if __name__ == '__main__':
                                                                                        (args.eemFrom, args.eemTo,args.eemN), 
                                                                                        (args.eetFrom, args.eetTo,args.eetN), 
                                                                                        args.IO)
+    dm31_range =  np.array_split(dm31_range,args.sT)[args.s]
     print('dm:', dm31_range)
     print('th:', th23_range)
     print('ett:', ett_range)
@@ -76,7 +77,8 @@ if __name__ == '__main__':
         H1 = np.array(H1_events_list)
         H1 = H1.reshape(len(param_list),1,8,8) #second axis is pid
 
-        pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_PINGU_{args.pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))  
+        #pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_PINGU_{args.pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))
+        pickle.dump(H1,open(f'./pre_computed/H1_{ordering}_PINGU_{args.pid}_{args.s}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p','wb'))  
     elif args.DC:
         H1_events_list = process_map(precompute_probs, param_tuple,chunksize=4)
         H1 = np.array(H1_events_list)
