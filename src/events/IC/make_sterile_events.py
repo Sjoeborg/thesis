@@ -1,17 +1,15 @@
-import sys,os
-if __name__ == '__main__':
-    #os.chdir('../')
-    sys.path.append('./src/data')
-    sys.path.append('./src/events')
-    sys.path.append('./src/probability')
+import sys
+sys.path.append('./src/events')
+sys.path.append('./src/probability')
+sys.path.append('./src/data')
 import numpy as np
-from IC.importer import *
-from IC.processer import *
-from IC.event_processing import *
-from IC.main import sim_events
-from functions import ic_params
 import pickle
 import argparse
+
+from IC.main import get_events
+from IC.event_processing import list_of_params
+from functions import ic_params
+
 parser = argparse.ArgumentParser()
 parser.add_argument('-dm41From', default=0.01, type=float)
 parser.add_argument('-dm41To', default=10, type=float)
@@ -45,7 +43,7 @@ if __name__ == '__main__':
 
     from multiprocessing import Pool
     p = Pool()
-    data = [(alpha, args.N,p, False,False, [False, np.median(1), gamma],False, False,4) for p in param_list]
-    H1_events_list = p.starmap(sim_events, data)
+    data = [(i,j,0.99, args.N,p, [False, 0, 0],False, False,False,4) for p in param_list for i in range(13) for j in range(20)]
+    H1_events_list = p.starmap(get_events, data)
     p.close()
     pickle.dump(H1_events_list,open(f'./pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s42_range)}.p','wb'))
