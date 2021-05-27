@@ -91,6 +91,18 @@ def plot_P_E_params(x,P, ax,flavor_to='m',colors=None,legend_name='', legend_val
 def wrap(flavor_from, E, zenith, ndim, anti,params,nsi):
     return P_num_over_E(flavor_from=flavor_from, E=E, zenith=zenith, ndim = ndim,anti=anti,params=params, nsi=nsi)
 
+def wrap_param(p_list):
+    flavor_from, E, zenith, ndim, anti,params,nsi = p_list
+    return P_over_E_parameter(flavor_from, params, E, zenith=zenith, ndim = ndim,anti=anti, nsi=nsi)
+
+def _oscillogram_no_pool(p_list):
+    '''
+    p = [flavor_from, E, zenith, ndim, anti, params]
+    '''
+    res = list(map(wrap_param, p_list))
+    Pxm = np.array(res)[:,:,1,:]
+    return np.swapaxes(Pxm, 1,2)
+
 def _oscillogram(p_list):
     '''
     p = [flavor_from, E, zenith, ndim, anti, params]
@@ -141,22 +153,22 @@ def flux_oscillogram(E_range, z_range, params, nsi=False):
     '''
     Returns 1-flux_final/flux_initial for Pxm
     '''
-    lista_mbar = [('m', E_range, z, 3, True, params,False) for z in z_range]
-    lista_ebar = [('e', E_range, z, 3, True, params,False) for z in z_range]
-    lista_m = [('m', E_range, z, 3, False, params,False) for z in z_range]
-    lista_e = [('e', E_range, z, 3, False, params,False) for z in z_range]
-    Pmm = _oscillogram(lista_m)
-    Pem = _oscillogram(lista_e)
-    Pamam = _oscillogram(lista_mbar)
-    Paeam = _oscillogram(lista_ebar)
+    lista_mbar = [('m', E_range, z, 4, True, params,nsi) for z in z_range]
+    lista_ebar = [('e', E_range, z, 4, True, params,nsi) for z in z_range]
+    lista_m = [('m', E_range, z, 4, False, params,nsi) for z in z_range]
+    lista_e = [('e', E_range, z, 4, False, params,nsi) for z in z_range]
+    Pmm = _oscillogram_no_pool(lista_m)
+    Pem = _oscillogram_no_pool(lista_e)
+    Pamam = _oscillogram_no_pool(lista_mbar)
+    Paeam = _oscillogram_no_pool(lista_ebar)
 
     
     interp_flux, _ = get_interpolators_DC()
     E_mesh, z_mesh = np.meshgrid(E_range, z_range)
-    flux_m = get_flux('m',E_mesh,z_mesh,interp_flux)
-    flux_e = get_flux('e',E_mesh,z_mesh,interp_flux)
-    flux_mbar = get_flux('mbar',E_mesh,z_mesh,interp_flux)
-    flux_ebar = get_flux('ebar',E_mesh,z_mesh,interp_flux)
+    flux_m = get_flux('m',E_mesh,z_mesh,interp_flux).reshape(len(E_range), len(z_range), 1)
+    flux_e = get_flux('e',E_mesh,z_mesh,interp_flux).reshape(len(E_range), len(z_range), 1)
+    flux_mbar = get_flux('mbar',E_mesh,z_mesh,interp_flux).reshape(len(E_range), len(z_range), 1)
+    flux_ebar = get_flux('ebar',E_mesh,z_mesh,interp_flux).reshape(len(E_range), len(z_range), 1)
 
     flux_initial = flux_mbar + flux_ebar + flux_m + flux_e
     flux_final = flux_mbar*Pamam + flux_ebar*Paeam + flux_m*Pmm + flux_e*Pem

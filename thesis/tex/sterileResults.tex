@@ -49,7 +49,7 @@ Fig.~\ref{fig:sterile_resonance}, we see that we have a similar deficiency found
 sterile hypothesis to include a $\dm[41]$ that places the resonant disappearance in the same region. From Fig.~\ref{fig:resonance_shift}, we see
 that a mass of $\dm[41] = \SI{1.5}{\eV \squared}$ achieves this. 
 
-\section{$\chi^2$}
+\section{$\chi^2$ minimization}
 For our analyses, we define our $\chi^2$ as
 \begin{align} \label{eq:chisq}
     \chi^{2}(\hat{\theta},\alpha,\beta)=\sum_{ij} \frac{\left(N^\text{th}-N^\text{data}\right)_{ij}^{2}}
@@ -64,6 +64,15 @@ For IceCube, the event count takes the form
 \begin{align}
     N^\text{th}_{ij} = \alpha\left[1+\beta (0.5 + \zreco_i )\right] N_{ij}(\hat{\theta})\,,
 \end{align}
-with $N_{ij}(\hat{\theta})$ from Eq.~\ref{eq:Nth}. Here, the term $ \beta (0.5 + \zreco_i )$ allows the event distribution to rotate around the median zenith angle of $\zreco = -0.5$.
+with $N_{ij}(\hat{\theta})$ from Eq.~\ref{eq:Nth}. Here, the term $ \beta (0.5 + \zreco_i )$ allows the event distribution to rotate with angle $\beta$ around the median zenith angle of $\zreco = -0.5$.
+We also have an uncorrelated systematic error $\sigma_{ijk}^\text{syst}$. We set $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$, where $f$ is a percentage of our own choosing,
+typically a value between 0 and 20 \%.
 
+The minimization of Eq.~\ref{eq:chisq} simply returns a value for each set of model parameters. We use this value to quantify to what extent
+our theoretical simulations $N^\text{th}_{ij}$ agree with the data $N^\text{data}_{ij}$ within the error bounds provided by $\sigma_a,\sigma_b,$ and $f$.
+We then select the set of $\chi^2$ values which are the smallest and our allowed parameters are then their associated $\hat{\theta}$.
+From the $\chi^2$-distribution, one can show that the $90\%$ confidence level has a value of $2.71$ for two degrees of freedom. When slicing through the 
+two-dimensional grid of $\chi^2$ at this level, we then obtain a contour plot that tells us what regions are within our $90 \%$ and what regions are not.
+
+Let us start with looking at the best-fit event distribution resulting from the $\chi^2$ minimization.
 \end{document}
