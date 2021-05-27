@@ -46,4 +46,4 @@ if __name__ == '__main__':
     data = [(i,j,0.99, args.N,p, [False, 0, 0],False, False,False,4) for p in param_list for i in range(13) for j in range(20)]
     H1_events_list = p.starmap(get_events, data)
     p.close()
-    pickle.dump(H1_events_list,open(f'./pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s42_range)}.p','wb'))
+    pickle.dump(H1_events_list,open(f'./pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s24_range)}.p','wb'))
