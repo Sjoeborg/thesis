@@ -1,19 +1,13 @@
-\documentclass[draft=True]{thesis}
-\usepackage[margin=0.5in]{geometry}
-\usepackage{graphicx, slashed}
-\usepackage[utf8]{inputenc}
-%\usepackage{hyperref}
-\usepackage{xr-hyper}
-\externaldocument{SM}
-\input{commands}
-\begin{document}
+%\input{commands}
+%\begin{document}
 
-\section{Neutrino Masses and Oscillations}\label{ch:oscillation}
-\subsection{Neutrino mixing and the PMNS matrix}
+\section{Neutrino Mixing}\label{ch:oscillation}
+%TODO: small intro about PMNS and justification of oscillations
+\subsection{Mass Generation}
 As we saw in Eq.~\ref{eq:j_CC}
 , the neutrino fields $\nu_\alpha$ only couple to the associated lepton fields $\ell_\alpha$, conserving the lepton number $L_\alpha$. We will now introduce two separate extensions to this part of the Standard Model.
 
-We introduce a right-handed neutrino field, $\nu_R$. It has the usual properties of the conventional left-handed neutrino such as hypercharge and color zero. Moreover, since the electroweak gauge group $\t{SU}(2)_L$ only couple to left-handed particles and right-handed antiparticles, it transforms as a singlet under the SM symmetry group $\mathrm{SU}(3)_{\mathrm{C}} \times \mathrm{SU}(2)_{L} \times \mathrm{U}(1)_{Y}$. This neutrino is \emph{sterile} since it doesn't participate any of the SM interactions. 
+We introduce a right-handed neutrino field, $\nu_R$. It has the usual properties of the conventional left-handed neutrino such as hypercharge and color zero. Moreover, since the electroweak gauge group $\text{SU}(2)_L$ only couple to left-handed particles and right-handed antiparticles, it transforms as a singlet under the SM symmetry group $\mathrm{SU}(3)_{\mathrm{C}} \times \mathrm{SU}(2)_{L} \times \mathrm{U}(1)_{Y}$. This neutrino is \emph{sterile} since it doesn't participate any of the SM interactions. 
 
 We extend the SM by adding a right-handed component to the Higgs-lepton Yukawa Lagrangian from Eq.~\ref{eq:YukawaLagrangian} with neutrino Yukawa couplings $Y_{\alpha \beta}^{\prime \nu}$ ,
 
@@ -74,20 +68,26 @@ Substituting the new transformation from Eq.~\ref{eq:nu_rotation} into the weak 
     j^\rho_L &= 2\bar{\nu}^\prime_{\alpha L} \gamma^\rho \ell_{\alpha L}^\prime \nonumber \\
              &= 2\bar{\nu}_{k L} V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} \gamma^\rho  \ell_{\alpha L}
 \end{align}
-Call $V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} = U^\dagger_{k \alpha}$. We will refer to the matrix $U$ built by the components $U{k \alpha}$ as the
-Pontecorvo-Maki-Nakagawa-Sakata (PMNS) matrix.%TODO: source
-Now, the current in Eq.~\ref{eq:j_CC2} conserves lepton number, since the neutrino field with flavor $\alpha$ only couples to the lepton field with flavor $\alpha$. However, the Higgs-lepton Yukawa Lagrangian 
-in Eq.~\ref{eq:L_H} violates lepton number conservation since it couples the charged lepton flavor $\alpha$ to the neutrino mass eigenstate $k$, which is a superposition of flavors. There is no transformation that leaves both the interaction and kinetic Lagrangian invariant.
+
+Now, the current in Eq.~\ref{eq:j_CC2} conserves lepton number, since the neutrino field with flavor $\alpha$ only couples to the lepton field with flavor $\alpha$. 
+Thus, neutrino interactions still conserve lepton number.
+However, the Higgs-lepton Yukawa Lagrangian 
+in Eq.~\ref{eq:L_H} violates lepton number conservation since it couples the charged lepton flavor $\alpha$ to the neutrino mass eigenstate $k$, which is a superposition of flavors. 
+There is no transformation that leaves both the interaction and kinetic Lagrangian invariant.
+
+
+Call $V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} = U^\dagger_{k \alpha}$. We will refer to the matrix $U$ built by the components $U_{k \alpha}$ as the
+Pontecorvo-Maki-Nakagawa-Sakata (PMNS) matrix. %TODO: source
 We now have 
 \begin{align}\label{eq:j_CC3} %TODO: put sums on all above?
     j^\rho_L &= 2 \sum_\alpha \sum_k U^*_{\alpha k} \bar{\nu}_{k L} \gamma^\rho  \ell_{\alpha L}\,.
 \end{align}
 %TODO: add segue
-\subsection{Neutrino oscillations}
-Since we now know how the neutrino mass and flavor eigenstates combine (namely, through the PMNS matrix $U$), and have an expression for the flavor interaction with 
-the neutrinos charged lepton partner, we are now ready to study the flavor oscillations themselves.
+\subsection{Neutrino Propagation}
+Since we now know how the neutrino mass and flavor eigenstates combine, and have an expression for the flavor interaction with 
+the neutrino's charged lepton partner, we are now ready to study the flavor oscillations themselves.
 
-Now, the Fourier expansion of the field operator $\bar{\nu}_{k L}$ in Eq.~\ref{eq:j_CC3} contains creation operators $a^\dagger_{\nu_k}$
+Now, the Fourier expansion of the field operator $\bar{\nu}_{k L}$ in the current of Eq.~\ref{eq:j_CC3} contains creation operators $a^\dagger_{\nu_k}$
 of massive neutrinos with mass $m_k$. This means that the summation over the mass index $k$ constructs a flavor neutrino, which interacts with the charged lepton field $\ell_{\a L}$.
 In other words, the charged current generates a flavor neutrino $\na$, which is a superposition of the mass eigenstates 
 $\nu_k$ with weights $U_{\a k}^*$. In the ket-formalism, we express this as
@@ -113,7 +113,8 @@ Inserting the plane wave solution into Eq.~\ref{eq:osc_1}, we get
 \begin{align}\label{eq:nat}
     \ket{\na(t)} = \sum_k U^*_{\a k} e^{-iE_kt}\ket{\nu_k}\,.
 \end{align}
-Now we know how to evolve and combine the mass eigenstates to form a flavor eigenstate, but how about the reverse? We swap the index $k\to j$ in Eq.~\ref{eq:osc_1} and multiply by $U_{\a k}$:
+Now we know how to evolve and combine the mass eigenstates to form a flavor eigenstate, but how about the reverse?
+ We swap the index $k\to j$ in Eq.~\ref{eq:osc_1} and multiply by $U_{\a k}$:
 \begin{align}\label{eq:osc_k}
     \sum_\a U_{\a k}\ket{\na} &= \sum_{\alpha, j} U_{\a k} U_{\a j}^* \ket{\nu_j} \nonumber \\
     \sum_\a U_{\a k}\ket{\na} &= \sum_{j} \delta_{kj} \ket{\nu_j} \nonumber \\
@@ -130,7 +131,8 @@ The probability of the flavor transition $\na \to \nb$ at time $t$ is $\abs{\bra
     P_{\na \to \nb}(t) = \sum_{k,j} U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} e^{-i(E_k-E_j)t}\,.
 \end{align}
 
-We assume the neutrino masses $m_k$ to be extremely small compared to their associated energies $E_k$. Thus, $v\approx 1$, and $\abs{\vec{p}} \approx E$ making the energy-dispersion relation of Eq.~\ref{eq:disp} to first order:
+We assume the neutrino masses $m_k$ to be extremely small compared to their associated energies $E_k$. 
+Thus, $v\sim 1$, and $\abs{\vec{p}} \sim E$ making the energy-dispersion relation of Eq.~\ref{eq:disp} to first order:
 \begin{align}\label{eq:ultra_rel}
     E_k &= \sqrt{\vec{p}^2 + m_k^2} \nonumber \\
         &= \vec{p}^2\sqrt{1 + \frac{m_k^2}{\vec{p}^2}} \nonumber \\
@@ -155,7 +157,7 @@ Squaring the unitarity condition $\sum_k U_{\a k}U_{\b k}^* = \delta_{\a \b}$ yi
 \end{align}
 In this work, we will always assume the mixing matrix $U$ to be real. 
 We thus write 
-\begin{align}\label{eq:Pab}
+\begin{align}\label{eq:Pab}%TODO: shorten?
     P_{\ab} &= \sum_{k,j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
             &=  \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 + \nonumber \\
             &\hspace{2em}+ \sum_{k \neq j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
@@ -170,15 +172,23 @@ We thus write
 which is the probability of neutrino vacuum oscillations. %TODO: maybe plot?
 The calculation for antineutrinos yield the same result if one assumes the realness of the mixing matrix. 
 
-\subsection{Matter effects}
+
+\subsection{Effective Matter Potentials}
+
 \begin{figure}
-    \includegraphics[width=0.2\textwidth]{figures/w-boson.pdf} 
-    \hspace{2cm}
-    \includegraphics[width=0.23\textwidth]{figures/z-boson.pdf}
-    \caption{\emph{Left panel:} Charged current weak interaction between an electron neutrino and an electron,
-    mediated by either a $W^+$ or $W^-$ boson. \emph{Right panel:} Neutral current weak interaction between a neutrino of any flavor and a Earth-like fermion,
-    mediated by a neutral $Z$ boson.}
-    \label{fig:w_and_z}
+    \centering
+    \begin{subfigure}{0.3\textwidth}
+        \includegraphics[width=1\textwidth]{figures/w-boson.pdf} 
+        \caption{Charged current weak interaction between an electron neutrino and an electron,
+        mediated by either a $W^+$ or $W^-$ boson.}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}{0.3\textwidth}
+        \includegraphics[width=1\textwidth]{figures/z-boson.pdf} 
+        \caption{Neutral current weak interaction between a neutrino of any flavor and a Earth-like fermion,
+        mediated by a neutral $Z$ boson.}
+    \end{subfigure}%TODO: they are different sizes
+    \caption{Feyman diagrams showing the two interactions that neutrinos participate in according to the Standard Model.}\label{fig:w_and_z}
 \end{figure}
 In this work, we are concerned about the interactions with the neutrino and Earth-like matter, i.e.~electrons, protons, and neutrons. 
 The possible interactions are shown in Fig.~\ref{fig:w_and_z}. The left panel shows that the only flavor that can go through charged current (CC) 
@@ -187,8 +197,6 @@ The right panel shows any neutrino flavor interaction via the neutral current (N
 of electrons, protons, and neutrons. Thus, the fundamental particles composing Earth are electrons, and up and down quarks. We refer to this as \emph{Earth-like matter}.}, mediated by the neutral $Z$ boson
 The interaction mediated by the $W$ boson will give rise to a effective matter potential $V_{CC}$, while
 the $Z$ boson is responsible for $V_{NC}$. Our task is now to find expressions for these.
-
-\subsection{Effective matter potentials}
 
 We start with the effective Hamiltonian for the CC process. The Feynman rules for the left panel give us 
 \begin{align}
@@ -232,7 +240,7 @@ Eq.~\ref{eq:avg_H1} now becomes
 \end{align}
 Expand the integral, and use the fact that $\vec{p}_e$ is odd:
 \begin{align}
-    \int \dd p_e^3\, \slashed{p}_e\, f(E_e,T) &= \int \dd p_e^3\, f(E_e,T) (\gamma^0 E_e - \vec{p}_e \cdot \vec{gamma}) \nonumber \\
+    \int \dd p_e^3\, \slashed{p}_e\, f(E_e,T) &= \int \dd p_e^3\, f(E_e,T) (\gamma^0 E_e - \vec{p}_e \cdot \vec{\gamma}) \nonumber \\
                                               &= \int \dd p_e^3\, f(E_e,T) \gamma^0 E_e \nonumber \\
                                               &= \gamma_0 E_e N_e V\,.
 \end{align}
@@ -244,7 +252,7 @@ Inserting this into Eq.~\ref{eq:avg_H2}, we have
 where the projection operator $(1- \gamma^5)$ ensures that only the left-hand compontent of the neutrino fields interact weakly. Thus,
 \begin{align}\label{eq:V_CC1}
     V_{CC} = \sqrt{2}G_F N_e\,, \quad H^{CC}\ket{\nu_k} = V_{CC}\ket{\nu_k}\,.
-\end{align}
+\end{align}%TODO: write H_{CC} instead
 Here we see a crucial difference between the eigenvectors between the vacuum Hamiltonian defined in Eq.~\ref{eq:osc_1} and $H^{CC}$, namely
 that the CC (and NC) interactions happen in the flavor basis rather than in the mass basis. In other words,
 neutrinos propagate in their mass eigenstates, but interact in their flavor eigenstate. The mixing of mass eigenstates during propagation
@@ -264,8 +272,9 @@ Summing over the fermions, and assuming electrical neutrality and equal abundanc
            &= \sqrt{2}G_F N_A\left[ -\frac{1}{2}+2\sin^2{(\theta_W)} + \frac{1}{2}-2\sin^2{(\theta_W)} -\frac{1}{2} \right] \nonumber \\
            &= -\frac{1}  {\sqrt{2}} G_F N_e\,,
 \end{align}
-where the electrical neutrality condition allows us to simply sum the vectorial couplings together, cancelling the electron and proton contributions (and hence, also the mixing angle dependence).
-\subsection{Matter oscillations}
+where the electrical neutrality condition allows us to simply sum the vectorial couplings together, cancelling the electron and proton contributions (and hence, also the Weinberg angle dependence).
+
+\subsection*{Matter oscillations}
 Since only $\ne$ undergo CC interactions in Earth-like matter, the $V_{CC}$ potential is zero for all other flavors. However, since all flavors undergo NC interactions the total matter potential in matrix form is:
 \begin{align}\label{eq:V_matrix}
     V = \begin{bmatrix}
@@ -313,7 +322,7 @@ Use the fact that $\sum_k m_k^2 =  \sum m_1^2 +_k m^2_k - m^2_1 =\sum_k m_1^2 + 
     \sum_\eta \sum_k U_{\b k} \left(p + \frac{m^2_k}{2E}\right) U^*_{\eta k} \psi_{\a\eta}(x) &= \sum_\eta \sum_k U_{\b k} \left(p + \frac{m^2_1}{2E} + \frac{\dm_{k1}}{2E}\right) U^*_{\eta k} \psi_{\a\eta}(x) \nonumber \\
     &= \sum_\eta\sum_k \left(p + \frac{m^2_1}{2E}\right) U_{\b k} U^*_{\eta k} \psi_{\a\eta}(x) + \sum_\eta\sum_k U_{\b k} \frac{\dm_{k1}}{2E} U^*_{\eta k} \psi_{\a\eta}(x)\,.
 \end{align}
-Unitarity gives $ \sum_k U_{\b k} U^*_{\eta k} = \delta_{\eta\b}$, and the first term in the last step of Eq.~\ref{t1} becomes
+Unitarity gives $ \sum_k U_{\b k} U^*_{\eta k} = \delta_{\eta\b}$, and the first term in the last step of Eq.~\ref{eq:t1} becomes
 \begin{align}
     \sum_\eta \left(p + \frac{m^2_1}{2E}\right) \delta_{\beta \eta} \psi_{\a\eta}(x)
     =& \left(p + \frac{m^2_1}{2E}\right) \psi_{\a\b}(x)\,.
@@ -350,7 +359,7 @@ If we form the vector
         \psi_{\a \tau}
     \end{pmatrix}\,,
 \end{align}
-we can write the Schrödinger equation on matrix form ($i\dv{}{x}\Psi_\a = H_F \Psi_\a$) and compare it with Eq.~\ref{eq:components} to see that the flavor Hamiltonian takes the form 
+we can write the Schrödinger equation on matrix form ($i \dv{}{x}\Psi_\a = H_F \Psi_\a$) and compare it with Eq.~\ref{eq:components} to see that the flavor Hamiltonian takes the form 
 \begin{align}\label{eq:H_3gen}
     H_F &= \frac{1}{2E}(U M^2 U^\dagger + A) \nonumber \\
         &= \frac{1}{2E}\left[U \begin{pmatrix}
@@ -362,7 +371,7 @@ we can write the Schrödinger equation on matrix form ($i\dv{}{x}\Psi_\a = H_F \
             0 & 0 & 0 \\
             0 & 0 & 0
         \end{pmatrix}\,. 
-\end{align}
+\end{align}%TODO: this is equal to the analytic expression for n_e=0
 This is the three-flavor neutrino oscillation Hamiltonian that we will solve numerically to obtain the evolution of $\Psi_\a$, whose squared components
 are the probabilities
 \begin{align}
@@ -386,9 +395,9 @@ In this work, we will be using the best-fit values from~\cite{nufit},
 with the exception of the CP-violating phase $\delta_\text{CP}$ which we always set to zero for simplicity. The PMNS matrix then has the numerical values 
 \begin{align}\label{eq:Uvalues}
     U = \begin{pmatrix}
-        U_{e e} & U_{e\mu} & U_{e\tau} \\
-        U_{\mu e} & U_{\mu \mu} & U_{\mu \tau} \\
-        U_{\tau e} & U_{\tau \mu} & U_{\tau \tau}
+        U_{e 1} & U_{e2} & U_{e3} \\
+        U_{\mu 1} & U_{\mu 2} & U_{\mu 3} \\
+        U_{\tau 1} & U_{\tau 2} & U_{\tau 3}
     \end{pmatrix} 
     = \begin{pmatrix}
         0.825 & 0.545 & 0.149 \\
@@ -399,7 +408,7 @@ with the exception of the CP-violating phase $\delta_\text{CP}$ which we always 
 In our study, we will only use atmospheric neutrinos, of which $\nm$ are the most abundant. We see that $U_{\mu\tau}$ is the largest $U_{\mu\beta}$ term,
 suggesting that $\nm$ primarily oscillates into $\nt$, at least in vacuum. It turns out that matter effects indeed preserves this ordering, making the $\nm \to \nt$ transition
 the most abundant. This means we will be able to stringently constrain parameters relating to $\nm \to \nt$ oscillations. 
+%TODO: write more about smallness of Ue3 and write about parametrization of U. maybe about su2
 
 
-
-\end{document}
+%\end{document}
