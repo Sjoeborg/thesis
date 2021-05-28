@@ -1,10 +1,10 @@
-\documentclass{thesis}
-\usepackage[margin=0.5in]{geometry}
-\usepackage{graphicx, slashed, siunitx, subcaption}
-\usepackage[utf8]{inputenc}
-\usepackage{xr-hyper}
-\input{commands}
-\begin{document}
+% \documentclass{thesis}
+% \usepackage[margin=0.5in]{geometry}
+% \usepackage{graphicx, slashed, siunitx, subcaption}
+% \usepackage[utf8]{inputenc}
+% \usepackage{xr-hyper}
+% \input{commands}
+% \begin{document}
 \section{Neutrino detection}
 We always observe neutrinos indirectly through their associated charged lepton. Regardless of the type of interaction (charged current via the $W$ boson, or neutral current
 via the $Z$), a charged lepton exits with altered properties. The lepton is then detected, and the properties of the neutrino involved in the 
@@ -49,14 +49,74 @@ The strings and DOMs are not spaced evenly, making some parts of the detector mo
 this part being situated deep within the ice, it is referred to DeepCore. DeepCore will be treated as a separate and independent detector from the rest, which
 retains the name IceCube. A view of the current setup can be seen in Fig.~\ref{fig:array}. In this work, we consider DeepCore data between \SIrange{5.6}{56}{\GeV} and IceCube data in the range \SIrange{0.5}{10}{\TeV}.
 \begin{figure}\label{fig:array}
-    \includegraphics[width=0.5\textwidth]{figures/icecube2.png}\caption{View of the full IceCube array}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/icecube2.png}
+    \caption{View of the full IceCube array}
 \end{figure}
 
-In 2017, the PINGU Letter of Intent was published~\cite{PINGUletter}. The "Precision IceCube Next Generation Upgrade" is an upgrade that will 
+In 2017, the PINGU Letter of Intent was published~\cite{PINGUletter}. The `Precision IceCube Next Generation Upgrade' is an upgrade that will 
 supplement DeepCore, i.e. boosing the capabilites of neutrino detection at the \si{\GeV} scale. As the PINGU upgrade is not yet financed nor built, we are
 not able to use any data from it. However, the collaboration has released preliminary simulations which we will use to see how the upgrade might improve
 IceCube and DeepCore bounds. The PINGU simulations have the same structure as the DeepCore data, so any analysis referring to DeepCore will
 also apply to PINGU except where noted. However, we treat the PINGU detector as independent of the DeepCore experiment.
-\bibliographystyle{nature}
-\bibliography{ref.bib}
-\end{document}
+
+\begin{figure}[t]\label{fig:flux_aeff}
+    \includegraphics[width=0.5\textwidth]{figures/flux.pdf}\hspace{-1cm}
+    \includegraphics[width=0.5\textwidth]{figures/aeff.pdf}
+    \vspace{-2.5cm}\caption{\emph{Left panel:} Interpolated South Pole atmospheric flux with data from~\cite{hondaArticle}.
+    \emph{Right panel:} Interpolated IceCube effective area with data from~\cite{ICaeff}.}
+\end{figure}
+
+\subsection{Atmospheric neutrino flux}
+Atmospheric neutrinos originates from cosmic rays composed of protons interacting with nuclei in the atmosphere.
+These interactions ultimately produces pions, which decay as 
+\begin{align}\label{eq:pion}
+    &\pi^+ \to \mu^+ + \nm\,, \quad \pi^- \to \mu^- + \anm \nonumber \\
+    &\pi^+ \to e^+ + \ne\,,\,\, \quad \pi^- \to e^- + \ane\,.
+\end{align}
+In the muonic decay channel, muons are emitted which will be detected by the IceCube detector. A part of the 
+uncorrelated systematic error comes from this \emph{muon background}, i.e. events misclassified as muons from 
+$\nm$ interactions rather than from pion decay. Moreover, the atmospheric flux is often associated with a large error.
+In this work, we will use a flux normalization error of 24\%, and a zenith slope error of 4\%~\cite{hondapaper}.
+
+The flux is provided in \cite{hondaData,hondaArticle}, and a selection is shown in Table~\ref{table:flux}
+The flux data is binned in $\ztrue$. The fluxes are averaged over azimuthal direction and over solar minimum/maximum. 
+The units of the fluxes are given as \si{\per\GeV \per\metre\squared \per\second \per\steradian} and are omitted
+from the table for clarity. 
+We note that the fluxes for $\nt$ and $\nu_{\bar{\tau}}$ are missing. Kaons can decay into neutral pions, which in turn 
+can produce $\nt$, but this branching ratio is extremely small. Thus, we never have to use probabilities on the form 
+$P_{\tau \beta}$, since we have no incoming atmospheric $\nu_\tau$ flux. 
+
+Interpolating the data yields makes us capable of returning all four necessary fluxes for a given true energy and true zenith.
+The result is shown in Fig.~\ref{fig:flux_aeff}.
+
+\begin{table}[h]\label{table:flux}
+    \begin{center}
+        \begin{tabular}{lcccccc}
+            \hline \hline
+            $\Etrue$ [\si{\GeV}] &$\phi_\mu$ &$\phi_{\bar{\mu}}$ &$\phi_e$ &$\phi_{\bar{e}}$ & $\ztrue$\\\\
+            \hline
+            27825 &  \SI{6.06e-12}{} &  \SI{3.17e-12}{} &  \SI{1.56e-13}{} &  \SI{1.04e-13}{} &   [-0.2, -0.1] \\
+            247707 &  \SI{5.94e-16}{} &  \SI{2.92e-16}{} &  \SI{1.36e-17}{} &  \SI{8.12e-18}{} &   [-0.7, -0.6] \\
+                22 &  \SI{3.33e-02}{} &  \SI{2.78e-02}{} &  \SI{9.57e-03}{} & \SI{7.15e-03}{} &   [-0.3, -0.2] \\
+            432876 &  \SI{5.19e-17}{} &  \SI{2.32e-17}{} &  \SI{1.46e-18}{} & \SI{9.83e-19}{} &   [-1.1, -1.0] \\
+            64280 &  \SI{1.58e-13}{} &  \SI{8.10e-14}{} &  \SI{3.49e-15}{} &  \SI{2.21e-15}{} &   [-0.4, -0.3] \\
+            \hline \hline
+        \end{tabular}
+    \end{center}
+    \caption{A selection of processed atmospheric South Pole fluxes from~\cite{hondaData} by Honda et al.~\cite{hondaArticle}.}
+\end{table}
+
+
+\subsection{Event reconstruction}
+After an event has occurred, the IceCube algorithms process the data coming from the detector to \emph{reconstruct} the event. This means that, given the parameters recorded by the detector, what are their "true" values?
+We are interested in two variables: the energy and the direction. Each event is tagged with a probable energy and zenith angle, called the recostructed parameters $\Ereco$ and $\zreco$, which are the parameters according to the DOMs.
+The collaboration then uses numerous sophisticated methods to backtrack the reconstructed parameters to the true parameters. So a charged lepton hits the DOMs, and we ultimately end up with the associated neutrino's true and reconstructed energy and zenith angle. The reconstructed parameters are what we are using to analyze the data (because this is what the detector actually sees), while the true parameters are used in the determination of that neutrino's "actual" flux and cross-section (because this is what nature sees).
+
+How do we then translate between the reconstructed and true parameters? In this work, we are using two different methods, which are based on the form of data available to us. They will be outlined in Sec.\ref{ch:ICmethod} and Sec.~\ref{ch:DCmethod}.
+
+
+
+% \bibliographystyle{nature}
+% \bibliography{ref.bib}
+% \end{document}

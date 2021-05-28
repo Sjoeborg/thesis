@@ -1,13 +1,23 @@
-\documentclass{thesis}
-\usepackage[margin=0.5in]{geometry}
-\input{commands}
-\usepackage{siunitx, graphicx}
-\usepackage[utf8]{inputenc}
-\usepackage{xr-hyper}
+% \documentclass{thesis}
+% \usepackage[margin=0.5in]{geometry}
+% \input{commands}
+% \usepackage{siunitx, graphicx}
+% \usepackage[utf8]{inputenc}
+% \usepackage{xr-hyper}
 
 
-\begin{document}
-\section{How NSIs alter the matter potential}
+% \begin{document}
+\section{Non-standard interactions}
+%TODO: moreintro. incompleteness of SM
+Regarding the source of these new parameters, $\epsilon_{\ab}$ have the scale
+\begin{align}
+    \epsilon_{\ab} \propto \frac{m_W^2}{m_{\epsilon}^2} \sim \frac{10^{-2}}{m_\epsilon^2}\,
+\end{align} 
+in TeV, so the new interactions generated at a mass scale of $m_\epsilon = \SI{1}{TeV}$ will produce NSI parameters in the order of $10^{-2}$, 
+two magnitudes below the SM matter effect. Thus, if we assume the new interactions to arise from a higher-energy theory at or above TeV scale, 
+we then predict that the NSI parameters contribute at most $10^{-2}$ to the SM matter effect, decreasing quadratically.
+
+\subsection{Altering the Matter Potential}
 Up until now, we have only considered neutrino interactions with electrons, protons, and neutrons. Now we extend this to include we can extend this to include 
 the up and down quarks which are present in the Earth as the fundamental components of neutrons and protons. 
 Consider interactions beyond the Standard Model through the following Lagrangians,
@@ -43,13 +53,6 @@ In the limit $\epsilon_{\ab} \to 0$, we recover the standard interaction Hamilto
 We can draw several conclusions from this form of the Hamiltonian. Any nonzero off-diagonal element $\epsilon_{\ab}, \a \neq \b$ will make the NSI violate 
 lepton flavor, just as the off-diagonal elements of $U$ does in the SM. Moreover, since the SM potential has the same order in $A_{CC}$ as the NSIs, 
 any $\epsilon_{\ab} \sim 1$ will make the new matter effect be the same order as the SM effect.
-Regarding the source of these new parameters, $\epsilon_{\ab}$ have the scale
-\begin{align}
-    \epsilon_{\ab} \propto \frac{m_W^2}{m_{\epsilon}^2} \sim \frac{10^{-2}}{m_\epsilon^2}\,
-\end{align} 
-in TeV, so the new interactions generated at a mass scale of $m_\epsilon = \SI{1}{TeV}$ will produce NSI parameters in the order of $10^{-2}$, 
-two magnitudes below the SM matter effect. Thus, if we assume the new interactions to arise from a higher-energy theory at or above TeV scale, 
-we then predict that the NSI parameters contribute at most $10^{-2}$ to the SM matter effect, decreasing quadratically.
 
 We have two more modifications to the matrix $\epsilon$. First, all terms of the Hamiltonian must of course be Hermitian, thus
 \begin{align}
@@ -93,7 +96,7 @@ Our NSI potential matrix now takes the form
 \end{align}
 where $\ep = \ett - \emm$.
 
-\section{Non-standard interactions in IceCube}
+\subsection{NSIs in IceCube}
 In our analysis of IceCube, we are constrained to muon track events. Thus, we are not able to test any theory which does not modify $P_{\a \mu}$. Moreover,
 the IceCube data is avaibable in the range \SI{500}{\GeV} to \SI{10}{\TeV} range, where any rapid oscillations have settled down.
 
@@ -126,7 +129,7 @@ Thus, we will use IceCube to constrain $\emt$ only.
 
 
 Moving on to $\eem$ and Fig.~\ref{fig:eem_eet_probs}, we see that both probabilities has shifted downwards for $\Etrue > \SI{500}{\GeV}$.
-In ~\ref{fig:eem_eet_probs}, we see that the muon channel remains largely unaffected of the value of $\eet$ as we expected. The expection of this lies 
+In Fig.~\ref{fig:eem_eet_probs}, we see that the muon channel remains largely unaffected of the value of $\eet$ as we expected. The expection of this lies 
 in the DeepCore region of rapid oscillations, where mixing is more violent. 
 \begin{figure}\label{fig:emt_ett_probs}
     \begin{center}%TODO subplots and fix labels in parahgraph aboveto match them
@@ -151,7 +154,7 @@ in the DeepCore region of rapid oscillations, where mixing is more violent.
 \end{figure}
 
 
-\section{Non-standard interactions in DeepCore and PINGU}
+\subsection{NSIs in DeepCore and PINGU}
 Now we repeat our proability analysis but for the DeepCore/PINGU region of \SIrange{5.6}{56}{\GeV}. As we previously saw,
 we have rapid oscillations, which means that "indirect" modifications (i.e. $\eet$ will affect the $\Pmm$ channel)
 will be more apparent, since all flavors are involved to a greater degree compared with the more stable region above \SI{500}{\GeV}, where 
@@ -202,4 +205,4 @@ We summarize our findings in Table~\ref{table:nsi}
     their signal in IceCube (IC) and DeepCore/PINGU (DC).}
 \end{table}
 
-\end{document}
+% \end{document}

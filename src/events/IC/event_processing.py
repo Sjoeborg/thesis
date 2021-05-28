@@ -41,7 +41,7 @@ Ereco_full = 500*10**np.linspace(0.0,1.3,14)
 Ereco_full_midpoints = Ereco_full[0:-1] +np.diff(Ereco_full)/2 #For scatter plot
 
 Ereco = Ereco_full[EFrom:ETo+1]
-Ereco_midpoints= Ereco_full_midpoints[3:14]
+Ereco_midpoints= Ereco_full_midpoints[EFrom:ETo+1]
 
 zreco_full = np.linspace(-1,0,21)
 zreco_full_midpoints = zreco_full[0:-1] +np.diff(zreco_full)/2 #For scatter plot
@@ -74,6 +74,10 @@ def count_plots(H1,H0):
     fig, ax = plt.subplots(2,2, sharex='col', squeeze=True,gridspec_kw={'width_ratios': [3, 3], 'height_ratios':[3,1]}, figsize=(12,8))
     ax = ax.flatten()
 
+    label_size = 15
+    tick_size = 15
+    legend_size=13
+
     ax[0].scatter(Ereco_midpoints, IC_per_E, label='IC data', s=10, color='black', zorder=10)
     ax[0].step(Ereco, H1_per_E_hist, label='Sterile',lw=3, where='post', color='blue')
     ax[0].step(Ereco, H0_per_E_hist, label='Null',   lw=1.5, where='post', color='red')
@@ -92,23 +96,28 @@ def count_plots(H1,H0):
 
 
     ax[0].set_xlim((Ereco.min(),Ereco.max()))
-    ax[0].set_ylabel('Counts')
+    ax[0].set_ylabel('Counts', fontsize=label_size)
     ax[0].set_xscale('log')
     ax[0].set_yscale('log')
 
     ax[2].set_xscale('log')
-    ax[2].set_xlabel(r'$E_\mu^{reco}$ [GeV]')
-    ax[2].set_ylabel('Ratio to Null')
+    ax[2].set_xlabel(r'$E^{reco}$ [GeV]', fontsize=label_size)
+    ax[2].set_ylabel('Ratio to Null', fontsize=label_size)
     ax[2].grid(True,which='both', axis='both', alpha=0.3)
 
     ax[3].set_xlim((zreco.min(),zreco.max()))
     ax[3].set_ylim(ax[2].get_ylim())
     ax[3].grid(True,which='both', axis='both', alpha=0.3)
-    ax[3].set_xlabel(r'$\cos{(\theta^{reco}_z)}$')
+    ax[3].set_xlabel(r'$\cos{(\theta^{reco}_z)}$', fontsize=label_size)
     
-    handles, labels = ax[1].get_legend_handles_labels()
-    fig.legend(handles, labels, loc=(0,0.4))
+    ax[0].tick_params(axis='both', direction='in', which='both')
+    ax[1].tick_params(axis='both', direction='in', which='both')   
+    ax[1].ticklabel_format(axis="y", style="sci", scilimits=(0,0))
+    leg= ax[0].legend(fontsize=legend_size)
+    leg.get_frame().set_edgecolor('k')
     plt.subplots_adjust(hspace=0.05)
+
+    return fig
 
 
 def get_boundary(arr):

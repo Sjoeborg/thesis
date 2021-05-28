@@ -1,0 +1,76 @@
+\input{commands}
+\renewcommand{\familydefault}{\rmdefault}
+
+%% Bibliography
+% \usepackage[citestyle=authoryear,
+% bibstyle=authoryear,
+% sorting=nyt,
+% backend=bibtex,
+% natbib]{biblatex}
+% \addbibresource{ref.bib}
+% \setlength\bibitemsep{0.5\baselineskip}
+
+
+%% Document information 
+\title{Sterile Neutrinos and Non-standard Interactions in Neutrino Telescopes}
+\author{Martin Sjöborg}
+\date{June 2021}
+\shortdate{2021}
+\type{Master's Thesis in Physics}
+\division{Theoretical Particle and Astroparticle Physics}
+\department{Department of Physics}
+\address{SE-106 91 Stockholm, Sweden}
+\city{Stockholm}
+\country{Sweden}
+%\publisher{Printed by Universitetsservice US-AB}
+\copyrightline{\copyright\ Martin Sjöborg, June 2021}
+\trita{SCI-GRU 2021:042}
+\cplogo{figures/kth_logo.png}
+\cplogonblines{1} % Number of text lines below kth logo... don't ask..
+\innerlogo{\includegraphics[width=32mm]{figures/kth_logo.png}}
+
+%% MAIN DOCUMENT %%
+\begin{document}
+\maketitle
+
+\cleardoublepage
+
+%\include{abstract}
+
+%\include{sammanfattning}
+
+\tableofcontents
+
+%\include{introduction}
+
+
+% This separates the introduction from the main part of the thesis.
+\mainmatter
+
+%% Chapters
+\cleardoublepage
+\chapter{Neutrino Oscillations}\label{ch:osc}
+\include{SM}
+\include{oscillations}
+\chapter{Beyond the $3\nu$ Picture}\label{ch:theory}
+\include{sterileTheory}
+\include{nsiTheory}
+\chapter{The Antarctic Detectors}\label{ch:ic}
+\include{ICintro}
+\include{ICtheory}
+\include{DCtheory}
+\chapter{Results}\label{ch:results}
+\include{sterileResults}
+\include{nsiResults}
+%% Bibliography 
+% \cleardoublepage
+% \phantomsection
+% \addcontentsline{toc}{chapter}{Bibliography}
+% \printbibliography
+% \cleardoublepage
+\bibliographystyle{elsarticle-num}
+\bibliography{ref}
+% \includepdf[pages={1-}]{papers/file1.pdf}
+% \includepdf[pages={1-}]{papers/file2.pdf}
+
+\end{document}

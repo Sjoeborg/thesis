@@ -1,69 +1,16 @@
-\documentclass{thesis}
-\usepackage[margin=0.5in]{geometry}
-\input{commands}
-\begin{document}
-\begin{figure}[t]\label{fig:flux_aeff}
-    \includegraphics[width=0.5\textwidth]{figures/flux.pdf}\hspace{-1cm}
-    \includegraphics[width=0.5\textwidth]{figures/aeff.pdf}
-    \vspace{-2.5cm}\caption{\emph{Left panel:} Interpolated South Pole atmospheric flux with data from~\cite{hondaArticle}.
-    \emph{Right panel:} Interpolated IceCube effective area with data from~\cite{ICaeff}.}
-\end{figure}
+% \documentclass{thesis}
+% \usepackage[margin=0.5in]{geometry}
+% \input{commands}
+% \begin{document}
 
-\section{Atmospheric neutrino flux}
-Atmospheric neutrinos originates from cosmic rays composed of protons interacting with nuclei in the atmosphere.
-These interactions ultimately produces pions, which decay as 
-\begin{align}\label{eq:pion}
-    \pi^+ &\to \mu^+ + \nm\,, \quad \pi^- \ to \mu^- + \anm \nonumber \\
-    \pi^+ &\to e^+ + \ne\,, \quad \pi^- \ to e^- + \ane\,.
-\end{align}
-In the muonic decay channel, muons are emitted which will be detected by the IceCube detector. A part of the 
-uncorrelated systematic error comes from this \emph{muon background}, i.e. events misclassified as muons from 
-$\nm$ interactions rather than from pion decay. Moreover, the atmospheric flux is often associated with a large error.
-In this work, we will use a flux normalization error of 24\%, and a zenith slope error of 4\%. In more sophisticated 
-models, one can also include the pion to kaon flux uncertainty.
-
-The flux is provided in \cite{hondaData,hondaArticle}, and a selection is shown in Table~\ref{table:flux}
-The flux data is binned in $\ztrue$. The fluxes are averaged over azimuthal direction and over solar minimum/maximum. 
-The units of the fluxes are given as \si{\per\GeV \per\metre\squared \per\second \per\steradian} and are omitted
-from the table for clarity. 
-We note that the fluxes for $\nt$ and $\nu_{\bar{\tau}}$ are missing. Kaons can decay into neutral pions, which in turn 
-can produce $\nt$, but this branching ratio is extremely small. Thus, we never have to use probabilities on the form 
-$P_{\tau \beta}$, since we have no incoming atmospheric $\nu_\tau$ flux. 
-
-Interpolating the data yields makes us capable of returning all four necessary fluxes for a given true energy and true zenith.
-The result is shown in Fig.~\ref{fig:flux_aeff}.
-
-\begin{table}[h]\label{table:flux}
-    \begin{center}
-        \begin{tabular}{lcccccc}
-            \hline \hline
-            $\Etrue$ [\si{\GeV}] &$\phi_\mu$ &$\phi_{\bar{\mu}}$ &$\phi_e$ &$\phi_{\bar{e}}$ & $\ztrue_{min}$ &$\ztrue_{max}$\\
-            \hline
-            27825 &  \SI{6.06e-12}{} &  \SI{3.17e-12}{} &  \SI{1.56e-13}{} &  \SI{1.04e-13}{} &   -0.2 &   -0.1 \\
-            247707 &  \SI{5.94e-16}{} &  \SI{2.92e-16}{} &  \SI{1.36e-17}{} &  \SI{8.12e-18}{} &   -0.7 &   -0.6 \\
-                22 &  \SI{3.33e-02}{} &  \SI{2.78e-02}{} &  \SI{9.57e-03}{} & \SI{7.15e-03}{} &   -0.3 &   -0.2 \\
-            432876 &  \SI{5.19e-17}{} &  \SI{2.32e-17}{} &  \SI{1.46e-18}{} & \SI{9.83e-19}{} &   -1.1 &   -1.0 \\
-            64280 &  \SI{1.58e-13}{} &  \SI{8.10e-14}{} &  \SI{3.49e-15}{} &  \SI{2.21e-15}{} &   -0.4 &   -0.3 \\
-            \hline
-        \end{tabular}
-    \end{center}
-    \caption{A selection of processed atmospheric South Pole fluxes from~\cite{hondaData} by Honda et al.~\cite{hondaArticle}.}
-\end{table}
-
-
-\section{Event reconstruction}
-After an event has occurred, the IceCube algorithms process the data coming from the detector to \emph{reconstruct} the event. This means that, given the parameters recorded by the detector, what are their "true" values?
-We are interested in two variables: the energy and the direction. Each event is tagged with a probable energy and zenith angle, called the recostructed parameters $\Ereco$ and $\zreco$, which are the parameters according to the DOMs.
-The collaboration then uses numerous sophisticated methods to backtrack the reconstructed parameters to the true parameters. So a charged lepton hits the DOMs, and we ultimately end up with the associated neutrino's true and reconstructed energy and zenith angle. The reconstructed parameters are what we are using to analyze the data (because this is what the detector actually sees), while the true parameters are used in the determination of that neutrino's "actual" flux and cross-section (because this is what nature sees).
-
-How do we then translate between the reconstructed and true parameters? In this work, we are using two different methods, which are based on the form of data available to us. 
-
-\section{IceCube event count}\label{ch:ICmethod}
-As the neutrinos have propagated the Earth, they arrive at the South Pole, where they interact in the ice to form their charged leptons. We now are interested in the effective area, i.e.~the detector area that the lepton "sees".
-The effective area, $\Aeff$, depends on several parameters, some of them being detector physical volume, $\Etrue$,$\ztrue$ and the neutrino cross-section. Fortunately, the binned $\Aeff$ is provided to us by the collaboration~\cite{ICaeff}.
+\section{IceCube}\label{ch:ICmethod}
+As the neutrinos have propagated the Earth, they arrive at the South Pole, where they interact with charged lepton in the ice. We now are interested in the effective area $\Aeff$, 
+i.e.~the cross-section of the detector that the lepton is exposed to.
+$\Aeff$ depends on several parameters, some of them being detector physical volume, $\Etrue$,$\ztrue$ and the neutrino cross-section. Fortunately, the binned $\Aeff$ is provided to us by the collaboration~\cite{ICaeff}.
 The data file has the following form
 
-\begin{table}\label{table:aeff}
+\begin{table}[h]\label{table:aeff}
+    \centering
     \begin{tabular}{lrrrrr}
         \hline \hline
         $\Etrue_{min}$ [\si{\GeV}] &     $\Etrue_{max}$ [\si{\GeV}]&   $\ztrue_{min}$ &   $\ztrue_{max}$ &     $\Aeff$ [\si{\metre\squared}] \\
@@ -73,12 +20,12 @@ The data file has the following form
             3981 &     5012 &  -0.78 &  -0.77 &   3.1490 \\
             1585 &     1995 &  -0.07 &  -0.06 &   0.4659 \\
             398 &      501 &  -0.73 &  -0.72 &   0.0555 \\
-        \hline
+        \hline \hline
         \end{tabular}
-    \caption{IceCube effective area from~\cite{ICaeff}}
+    \caption{IceCube-86 effective area from~\cite{ICaeff}}
 \end{table}
 
-Here, $\Aeff$ has been averaged over $\Aeff_\mu$ and $\Aeff_{\bar{\mu}}$. Thus, it is not flavor dependent.
+Here, $\Aeff$ has been averaged over $\Aeff_\mu$ and $\Aeff_{\bar{\mu}}$.
 Just as with the fluxes, we interpolate this in $\Etrue,\ztrue$ and show the result %TODO aeff interpolation
 
 So now we have the physical quantities in the true parameters. But as we discussed, we need a way to translate this into the reconstructed parameters that the detector gives us. We will call the relationship between 
@@ -95,7 +42,8 @@ The "pdg" column refers to the Monte Carlo particle classification, where 13 is 
 to an $\anm$. Here we note a crucial property of the IceCube dataset that will impact our analysis: the MC released by the collaboration
 only includes simulated muon events.
 
-\begin{table}\label{table:IC_MC}
+\begin{table}[h]\label{table:IC_MC}
+    \centering
     \begin{tabular}{lrrrrr}
         \hline \hline
         pdg &      $\Ereco$ [\si{\GeV}] &     $\zreco$ &       $\Etrue$ [\si{\GeV}] &     $\ztrue$ \\
@@ -105,7 +53,7 @@ only includes simulated muon events.
         -13 &  1431 & -0.177786 &   1169 & -0.189949 \\
         -13 &   831 & -0.807226 &   1071 & -0.805559 \\
          13 &   988 & -0.370746 &   1861 & -0.367922 \\
-         \hline
+         \hline \hline
   \end{tabular}
   \caption{A selection of the data found in~\ref{IC2016}}
 \end{table}
@@ -118,30 +66,67 @@ When doing this over $\Ereco$, we sample $\Etrue$ in the 99th percentile around 
 
 The event rate for each bin reads
 \begin{align}\label{eq:ICevents}
-    N_{ij} &= T \int_{(\cos{\theta_z^r})_i}^{(\cos{\theta_z^r})_{i+1}} \dd \cos{\theta^r_z} \int_{E^r_{j}}^{E^r_{j+1}} \dd E^r \int_0^\pi R(\theta^r,\theta^t) \dd \cos{\theta^t} \int_0^\infty R(E^r,E^t) \dd E^t
-    \times \left[ \sum_\beta \phi_\beta^\text{det}  A^\text{eff}_\beta\right]\,,
+    N_{ij} &= T \sum_\beta\int_{(\cos{\theta_z^r})_i}^{(\cos{\theta_z^r})_{i+1}} \dd \cos{\theta^r_z} \int_{E^r_{j}}^{E^r_{j+1}} \dd E^r 
+    \int_0^\pi R(\theta^r,\theta^t) \dd \cos{\theta^t} \int_0^\infty R(E^r,E^t) \phi_\beta^\text{det}  A^\text{eff}_\beta \dd E^t
+    \,,
 \end{align}
 where $T$ is the live time of the detector. Now this expression handles the Gaussian smearing, but we are not provided systematic error sources, DOM efficiencies, and many more nuisance parameters. To correct this,
 we will aim to come as close as possible to the IceCube Monte Carlo, and then normalize with it. That way, we know that our null hypotheses will align while we are free to form additional hypotheses with different 
 physics parameters. The binned Monte Carlo events that IceCube used as their null hypothesis in the 2020 sterile analysis is shown in %TODO:MC vs myMC fig.
 
 
-\begin{figure}[!tb]\label{fig:IC_MC_gpr}
+\begin{figure}[!tb]
     \begin{center}
        \includegraphics[width=0.4\linewidth]{figures/IC_MC_gpr.pdf}
     \end{center}
-    \caption{Relationship between the true and reconstructed muon energy in the IceCube MC sample~\cite{IC2016}}\label{fig:IC_MC_counts}. Shaded area shows the $99.9$th percentile limits predicted by the regressor trained on this set.
+    \caption{Relationship between the true and reconstructed muon energy in the IceCube MC sample~\cite{IC2016}.
+    Shaded area shows the $99.9$th percentile limits predicted by the regressor trained on this set.}\label{fig:IC_MC_gpr}
  \end{figure}
 
 The latest available data collected and processed by the collaboration contains 305,735 muon track events, collected over eight years~\cite{IC2020}. 
-The data has 13 logarithmically spaced bins in $\Ereco \in \[500,9976\] \si{GeV}$, and 20 linear bins in $\zreco \in \[-1,0\]$. The data is shown in Fig.~\ref{fig:IC_data}.
+%The data has 13 logarithmically spaced bins in $\Ereco \in \[500,9976\] \si{GeV}$, and 20 linear bins in $\zreco \in \[-1,0\]$. The data is shown in Fig.~\ref{fig:IC_data}.
 
 \begin{figure}
+    \centering
     \includegraphics[width=0.8\linewidth]{figures/IC_data.pdf}
-    \caption{IceCube track events from~\ref{fig:IC2020}}\label{fig:IC_data}
+    \caption{IceCube track events from~\cite{IC2020}}\label{fig:IC_data}
 \end{figure}
 
-\newpage
-\bibliographystyle{nature}
-\bibliography{ref.bib}
-\end{document}
+\subsection*{Monte Carlo normalization}
+Independent researchers outside of the IceCube collaboration will not be able to more persicely
+simulate the detector. The IceCube Monte Carlo is a complex and proprietary machinery, so our goal in this 
+section is to come as close as we can to their Monte Carlo simulations. After we are confident that 
+our code displays the same overall features as the `offical', we normalize our results $N_{ij}^\text{sim}$ as 
+\begin{align}\label{eq:MC_norm}
+    N_{ij} = \frac{N_{ij}^\text{null}}{N_{ij}^\text{MC}} N_{ij}^\text{sim}\,.
+\end{align}
+For each bin $i,j$, we then obtain a correction factor which contains information that we are unable
+to obtain or sufficiently incorporate. One example of such information is the systematic errors of the DOMs.
+Recent IceCube data releases do not include such information. Since the systematic errors are affecting the 
+event count on a bin-by-bin basis, they can in theory drastically modify the binned results. Another example of
+an error source what will be remedied by this method is the flux. We are using a fairly simple model of the atmospheric 
+flux that excludes prompt flux. The IceCube collaboration use several different flux models which are initialized 
+by a parametrization of the cosmic ray flux.\footnote{Included in the cosmic ray models are e.g. the pion to kaon 
+ratio, which are often used as a nuisance parameter. By not being able to include this in our error analysis, our method will 
+be limited to only consider the overall flux normalization, rather than the components that produce the flux in the first place.}
+%TODO: maybe rambling?
+
+In Fig.~\ref{fig:IC_MC_norm}, we present the Icecube Monte Carlo obtained from their 2020 sterile analysis~\cite{IC2020}, along
+with our null hypothesis times a constant factor.  We deemed these shapes to be satisfactory, thus allowing us to multiply Eq.~\ref{eq:ICevents} by the 
+correction factors of Eq.~\ref{eq:MC_norm}. We now arrive to our final event count
+\begin{align}\label{eq:Nth}
+    N_{ij} &= \frac{N_{ij}^\text{null}}{N_{ij}^\text{MC}} T \sum_\beta \int_{(\cos{\theta_z^r})_i}^{(\cos{\theta_z^r})_{i+1}} \dd \cos{\theta^r_z} \int_{E^r_{j}}^{E^r_{j+1}} \dd E^r 
+    \int_{E^t_{min}}^{E^t_{max}} R(E^r,E^t) \phi_\beta^\text{det}  A^\text{eff}_\beta\, \dd E^t
+    \,,
+\end{align}
+with $E^t_{min}$, $E^t_{max}$, and $R(E^r,E^t)$ taken from the Gaussian process regressor.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/IC_MC_norm.pdf}
+    \caption{IceCube Monte Carlo, binned in $\Ereco$ and $\zreco$. We compare this with our simulations shown as ´Null' in the plots.}\label{fig:IC_MC_norm}
+\end{figure} 
+%TODO:fill more
+% \newpage
+% \bibliographystyle{nature}
+% \bibliography{ref.bib}
+% \end{document}
