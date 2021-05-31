@@ -287,8 +287,8 @@ def rho_earth(r):# lä 1306.2903 och 0612285 ocg kuo
     Calculates the density in g/cm-3 of the point at a distance r in km from the Earth's center using data from PREM https://www.cfa.harvard.edu/~lzeng/papers/PREM.pdf
     Returns the density in gm/cm-3
     '''
-    if r == -1: #Neutrino doesn't traverse Earth
-        return 0
+    if r == r_earth + 1: #Neutrino doesn't traverse Earth
+        return 0.0
     if not np.isscalar(r): #If r is array, return list of densities.
         return [rho_earth(item) for item in r]
     
@@ -346,11 +346,11 @@ def get_radial_distance(x,theta_i):
     '''
     Returns the distance to the Earth core in [km] for a baseline x [km] and an angle theta_i
     '''
-    if theta_i <= np.pi/2:
+    if np.abs(theta_i) <= np.pi/2:
         L = baseline(theta_i)
         r = np.sqrt((L-x)**2 + r_earth**2 - 2*(L-x)*r_earth*np.cos(theta_i))
     else: # Neutrino doesn't traverse Earth
-        r = -1 
+        r = r_earth +1
     return r
 
 def get_electron_density(r):
@@ -359,9 +359,9 @@ def get_electron_density(r):
     '''
     if r >= r_core:
         return 0.4957
-    elif r < r_core and r > 0:
+    elif r < r_core and r >= 0:
         return 0.4656
-    elif r == -1: #Neutrino doesn't traverse Earth
+    else: #Neutrino doesn't traverse Earth
         return 0
 
 def chisq(params,events, data,z,sigma_a, sigma_b, sigma_g, sigma_syst):
