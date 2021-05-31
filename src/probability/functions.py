@@ -287,11 +287,13 @@ def rho_earth(r):# lä 1306.2903 och 0612285 ocg kuo
     Calculates the density in g/cm-3 of the point at a distance r in km from the Earth's center using data from PREM https://www.cfa.harvard.edu/~lzeng/papers/PREM.pdf
     Returns the density in gm/cm-3
     '''
-    if r == r_earth + 1: #Neutrino doesn't traverse Earth
-        return 0.0
+    
     if not np.isscalar(r): #If r is array, return list of densities.
         return [rho_earth(item) for item in r]
     
+    if r == r_earth + 1: #Neutrino doesn't traverse Earth
+        return 0.0
+
     x = r / r_earth #Normalized Earth radius in km
     if 0 <= r < 1221.5:
         return 13.0885 - 8.8381*x**2
@@ -408,7 +410,4 @@ def integrate(array,method='simps',*args):
     elif np.ndim(array) == 4:
         return simps(simps(simps(simps(array,args[0]),args[1]),args[2]),args[3])
 if __name__ == '__main__':
-    import matplotlib.pyplot as plt
-    z = 1
-    print(baseline(np.pi - np.arccos(z)))
-    print(get_radial_distance(500, np.pi - np.arccos(z)))
+    print(np.sqrt(2) * GF * 0.5 * N_A * 1 * (1/GeVtocm1)**3)

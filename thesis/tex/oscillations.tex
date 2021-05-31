@@ -1,20 +1,15 @@
-%\input{commands}
-%\begin{document}
+% \input{commands}\begin{document}
 
 \section{Neutrino Mixing}\label{ch:oscillation}
 %TODO: small intro about PMNS and justification of oscillations
 \subsection{Mass Generation}
-As we saw in Eq.~\ref{eq:j_CC}
-, the neutrino fields $\nu_\alpha$ only couple to the associated lepton fields $\ell_\alpha$, conserving the lepton number $L_\alpha$. We will now introduce two separate extensions to this part of the Standard Model.
+We consider a right-handed neutrino field, $\nu_R$. It has the usual properties of the conventional left-handed neutrino such as hypercharge and color zero. Moreover, since the electroweak gauge group $\text{SU}(2)_L$ only couple to left-handed particles and right-handed antiparticles, $\nu_R$ transforms as a singlet under the SM symmetry group $\mathrm{SU}(3)_{\mathrm{C}} \times \mathrm{SU}(2)_{L} \times \mathrm{U}(1)_{Y}$. This neutrino field is \emph{sterile} since it doesn't participate any of the SM interactions. 
 
-We introduce a right-handed neutrino field, $\nu_R$. It has the usual properties of the conventional left-handed neutrino such as hypercharge and color zero. Moreover, since the electroweak gauge group $\text{SU}(2)_L$ only couple to left-handed particles and right-handed antiparticles, it transforms as a singlet under the SM symmetry group $\mathrm{SU}(3)_{\mathrm{C}} \times \mathrm{SU}(2)_{L} \times \mathrm{U}(1)_{Y}$. This neutrino is \emph{sterile} since it doesn't participate any of the SM interactions. 
-
-We extend the SM by adding a right-handed component to the Higgs-lepton Yukawa Lagrangian from Eq.~\ref{eq:YukawaLagrangian} with neutrino Yukawa couplings $Y_{\alpha \beta}^{\prime \nu}$ ,
-
+We extend the Standard Model by adding a right-handed component of this field with neutrino Yukawa couplings $Y_{\alpha \beta}^{\prime \nu}$ to the Higgs-lepton Yukawa Lagrangian from Eq.~\ref{eq:YukawaLagrangian} 
 \begin{align}
     \mathcal{L}_{H}=-\left( \frac{v + H}{\sqrt{2}} \right) \left[\ell_{\alpha L}^{\prime} Y_{\alpha \beta}^{\prime \ell} \ell_{\beta R}^{\prime} + \nu_{\alpha L}^{\prime} Y_{\alpha \beta}^{\prime \nu} \nu_{\beta R}^{\prime}\right]
 \end{align}
-Similar to how we diagonalized the lepton Yukawa couplings $Y_{\alpha \beta}^{\prime \ell}$ in Eq.~~\ref{eq:leptonYukawaDiag}, we diagonalize $Y_{\alpha \beta}^{\prime \nu}$ as
+Similar to how we diagonalized the lepton Yukawa couplings $Y_{\alpha \beta}^{\prime \ell}$ in Eq.~\ref{eq:leptonYukawaDiag}, we diagonalize $Y_{\alpha \beta}^{\prime \nu}$ as
 \begin{align}
     V_{\alpha k L}^{\nu \dagger} Y^{\prime \nu}_{\alpha \beta} V_{\beta j R}^{\nu}=Y^{\nu}_{kj} \,.
 \end{align}
@@ -52,7 +47,7 @@ Multiplying $\nu_k$ with its conjugate $\bar{\nu}_k$, we get
     & = \bar{\nu}_{k L}\nu_{k R} + \bar{\nu}_{k R}\nu_{k L} \nonumber \\
     & = \bar{\nu}_{k L}\nu_{k R} + \t{h.c.}
 \end{align}
-The same calculation for the charged lepton field yields the same result for $\ell_k$. Substituting this result and expanding the Higgs VEV into the fields gives us
+The same calculation for the charged lepton field yields the same result for $\ell_k$. Substituting this result and expanding the Higgs vacuum expectation value $v$ into the fields gives us
 \begin{align}
     \mathcal{L}_{H} 
     &=-\left( \frac{v + H}{\sqrt{2}} \right) \left[ y_{\alpha}^{\ell}   \bar{\ell}_\alpha \ell_\alpha  +  y_{k}^{\nu} \bar{\nu}_k \nu_k \right] \nonumber \\
@@ -80,9 +75,60 @@ Call $V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} = U^\dagg
 Pontecorvo-Maki-Nakagawa-Sakata (PMNS) matrix. %TODO: source
 We now have 
 \begin{align}\label{eq:j_CC3} %TODO: put sums on all above?
-    j^\rho_L &= 2 \sum_\alpha \sum_k U^*_{\alpha k} \bar{\nu}_{k L} \gamma^\rho  \ell_{\alpha L}\,.
+    j^\rho_L &= 2 \sum_\alpha \sum_k U^\dagger_{\alpha k} \bar{\nu}_{k L} \gamma^\rho  \ell_{\alpha L}\,.
 \end{align}
-%TODO: add segue
+
+What form does this new matrix $U$ take? By construction, it provides the unitary transformation between the flavor and mass bases.
+Any unitary $3\times3$ matrix can be parametrized using three mixing angles and six phases. However, not all phases affect the 
+charged and weak currents and are thus not observable. Moreover, both the Lagrangian and the currents are invariant under global $U(1)$ transformations,
+leaving only one physical phase for us to measure. Thus we are down to four degrees of freedom in the three dimensional case: three mixing angles
+of the form $\sin{(\theta_{ij})}/\cos{(\theta_{ij})} = s_{ij}/c_{ij}$, and one phase of the form $e^{i\delta}$.
+
+We construct the PMNS matrix using the rotation matrixes from $SO(3)$ as
+\begin{align}
+    U &= R_{23}R_{13,\delta_{\text{CP}}}R_{12} \nonumber \\
+      & = 
+    \begin{pmatrix}{ccc}1 & 0 & 0 \\ 0 & c_{23} & s_{23} \\ 0 & -s_{23} & c_{23}\end{pmatrix}
+\begin{pmatrix}{ccc}c_{13} & 0 & s_{13} e^{-i \delta_{\mathrm{CP}}} \\ 0 & 1 & 0 \\ -s_{13} e^{i \delta_{\mathrm{CP}}} & 0 & c_{13}\end{pmatrix}
+\begin{pmatrix}{ccc}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1\end{pmatrix}\,.
+\end{align}
+
+The term $\delta_\text{CP}$ determines the degree of charge-parity violation. In this work, we will assume CP invariance by always
+setting $\delta_{CP} = \SI{0}{\degree}$. Thus,
+
+\begin{align}
+    U &=
+    \begin{pmatrix}1 & 0 & 0 \\ 0 & c_{23} & s_{23} \\ 0 & -s_{23} & c_{23}\end{pmatrix}
+\begin{pmatrix}c_{13} & 0 & s_{13} \\ 0 & 1 & 0 \\ -s_{13}  & 0 & c_{13}\end{pmatrix}
+\begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1\end{pmatrix} \nonumber \\
+    &= 
+    \begin{pmatrix}c_{12} c_{13} & s_{12} c_{13} & s_{13} \\ 
+        -s_{12} c_{23}-c_{12} s_{23} s_{13} & c_{12} c_{23}-s_{12} s_{23} s_{13} & s_{23} c_{13} \\ 
+        s_{12} s_{23}-c_{12} c_{23} s_{13}  & -c_{12} s_{23}-s_{12} c_{23} s_{13} & c_{23} c_{13}
+    \end{pmatrix}\,.
+\end{align}
+
+In this work, we will be using the best-fit values from~\cite{nufit} with the exception of the CP-violating phase $\delta_\text{CP}$. The $90\% $ CL values are
+\begin{align}\label{eq:nufitparams}
+    \theta_{12} = \SI{33.44}{\degree},\hspace{1em} \theta_{13} = \SI{8.57}{\degree},\hspace{1em} \theta_{23} = \SI{49.2}{\degree}, \hspace{1em} \delta_\text{CP} = 0\,.
+\end{align}
+The PMNS matrix is then real, with numerical values 
+\begin{align}\label{eq:Uvalues}
+    U = \begin{pmatrix}
+        U_{e 1} & U_{e2} & U_{e3} \\
+        U_{\mu 1} & U_{\mu 2} & U_{\mu 3} \\
+        U_{\tau 1} & U_{\tau 2} & U_{\tau 3}
+    \end{pmatrix} 
+    = \begin{pmatrix}
+        0.825 & 0.545 & 0.149 \\
+        -0.455 & 0.485 & 0.746 \\
+        0.334 & -0.684 & 0.649
+    \end{pmatrix} \,.
+\end{align}
+In our study, we will only use atmospheric neutrinos, of which $\nm$ are the most abundant. We see that $U_{\mu\tau}$ is the largest $U_{\mu\beta}$ term,
+suggesting that $\nm$ primarily mixes into $\nt$, at least in vacuum. It turns out that matter effects indeed preserves this ordering, making the $\nm \to \nt$ transition
+the most abundant. This means we will be able to stringently constrain parameters relating to $\mu\tau$ mixing. 
+
 \subsection{Neutrino Propagation}
 Since we now know how the neutrino mass and flavor eigenstates combine, and have an expression for the flavor interaction with 
 the neutrino's charged lepton partner, we are now ready to study the flavor oscillations themselves.
@@ -90,9 +136,9 @@ the neutrino's charged lepton partner, we are now ready to study the flavor osci
 Now, the Fourier expansion of the field operator $\bar{\nu}_{k L}$ in the current of Eq.~\ref{eq:j_CC3} contains creation operators $a^\dagger_{\nu_k}$
 of massive neutrinos with mass $m_k$. This means that the summation over the mass index $k$ constructs a flavor neutrino, which interacts with the charged lepton field $\ell_{\a L}$.
 In other words, the charged current generates a flavor neutrino $\na$, which is a superposition of the mass eigenstates 
-$\nu_k$ with weights $U_{\a k}^*$. In the ket-formalism, we express this as
+$\nu_k$ with weights $U_{\a k}^\dagger$. In the ket-formalism, we express this as
 \begin{align}\label{eq:osc_1}
-    \ket{\na} = \sum_k U^*_{\a k} \ket{\nu_k}\,.
+    \ket{\na} = \sum_k U^\dagger_{\a k} \ket{\nu_k}\,.
 \end{align}
 It is the mass eigenstates $\ket{\nu_k}$ that are eigenstates of the Hamiltonian, with eigenvalues
 \begin{align}\label{eq:disp}
@@ -111,24 +157,24 @@ in the form of plane wave solutions:
 \end{align}
 Inserting the plane wave solution into Eq.~\ref{eq:osc_1}, we get 
 \begin{align}\label{eq:nat}
-    \ket{\na(t)} = \sum_k U^*_{\a k} e^{-iE_kt}\ket{\nu_k}\,.
+    \ket{\na(t)} = \sum_k U^\dagger_{\a k} e^{-iE_kt}\ket{\nu_k}\,.
 \end{align}
 Now we know how to evolve and combine the mass eigenstates to form a flavor eigenstate, but how about the reverse?
  We swap the index $k\to j$ in Eq.~\ref{eq:osc_1} and multiply by $U_{\a k}$:
 \begin{align}\label{eq:osc_k}
-    \sum_\a U_{\a k}\ket{\na} &= \sum_{\alpha, j} U_{\a k} U_{\a j}^* \ket{\nu_j} \nonumber \\
+    \sum_\a U_{\a k}\ket{\na} &= \sum_{\alpha, j} U_{\a k} U_{\a j}^\dagger \ket{\nu_j} \nonumber \\
     \sum_\a U_{\a k}\ket{\na} &= \sum_{j} \delta_{kj} \ket{\nu_j} \nonumber \\
     \sum_\a U_{\a k}\ket{\na} &= \ket{\nu_k}\,,
 \end{align}
 where we have used the unitarity of the leptonic mixing matrix. Eqs.~\ref{eq:osc_1} and \ref{eq:nat} yield 
 \begin{align}
-    \ket{\na(t)} &= \sum_k U^*_{\a k} e^{-iE_kt}\ket{\nu_k} \nonumber \\
-    \ket{\na(t)} &= \sum_k U^*_{\a k} e^{-iE_kt}\left(\sum_\b U_{\b k}\ket{\nb}\right) \nonumber \\
-    \ket{\na(t)} &= \sum_{k,\b} U^*_{\a k}U_{\b k} e^{-iE_kt} \ket{\nb}\,.
+    \ket{\na(t)} &= \sum_k U^\dagger_{\a k} e^{-iE_kt}\ket{\nu_k} \nonumber \\
+    \ket{\na(t)} &= \sum_k U^\dagger_{\a k} e^{-iE_kt}\left(\sum_\b U_{\b k}\ket{\nb}\right) \nonumber \\
+    \ket{\na(t)} &= \sum_{k,\b} U^\dagger_{\a k}U_{\b k} e^{-iE_kt} \ket{\nb}\,.
 \end{align}
 The probability of the flavor transition $\na \to \nb$ at time $t$ is $\abs{\bra{\nb}\ket{\na (t)}}^2$:
 \begin{align}
-    P_{\na \to \nb}(t) = \sum_{k,j} U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} e^{-i(E_k-E_j)t}\,.
+    P_{\na \to \nb}(t) = \sum_{k,j} U^\dagger_{\a k}U_{\b k}U^*_{\b j}U_{\a j} e^{-i(E_k-E_j)t}\,.
 \end{align}
 
 We assume the neutrino masses $m_k$ to be extremely small compared to their associated energies $E_k$. 
@@ -140,23 +186,23 @@ Thus, $v\sim 1$, and $\abs{\vec{p}} \sim E$ making the energy-dispersion relatio
 \end{align}
 Hence, the exponential can be simplified, and simplifying the notation $P_{\na \to \nb}(t) \to P_{\ab}(t)$ we get 
 \begin{align}
-    P_{\ab}(t) = \sum_{k,j} U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} e^{-i(m_k^2-m_j^2)t/2E}\,.
+    P_{\ab}(t) = \sum_{k,j} U^\dagger_{\a k}U_{\b k}U^\dagger_{\b j}U_{\a j} e^{-i(m_k^2-m_j^2)t/2E}\,.
 \end{align}
 
 Now, our approximation $v\approx 1$ implies $x\approx t $, thus
 \begin{align}
-    P_{\ab}(x) &= \sum_{k,j} U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} e^{-i(m_k^2-m_j^2)x/2E} \nonumber \\
-                       &= \sum_{k,j} U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E})\,,
+    P_{\ab}(x) &= \sum_{k,j} U^\dagger_{\a k}U_{\b k}U^\dagger_{\b j}U_{\a j} e^{-i(m_k^2-m_j^2)x/2E} \nonumber \\
+                       &= \sum_{k,j} U^\dagger_{\a k}U_{\b k}U^\dagger_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E})\,,
 \end{align}
 where we in the last step have defined the \emph{mass squared-difference} $\dm_{kj} = m_k^2 - m_j^2$. Since the oscillation probability depends on this quantity
 rather than the individual masses, it is impossible
-to measure the mass states $m_k$ through neutrino oscillations.
-Squaring the unitarity condition $\sum_k U_{\a k}U_{\b k}^* = \delta_{\a \b}$ yields 
+to measure the mass $m_k$ through neutrino oscillations.
+Squaring the unitarity condition $\sum_k U_{\a k}U_{\b k}^\dagger = \delta_{\a \b}$ yields 
 \begin{align}
-    \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 = \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^* U_{\b k} U_{\a j} U_{\b j}^*]
+    \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 = \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^\dagger U_{\b k} U_{\a j} U_{\b j}^\dagger]
 \end{align}
-In this work, we will always assume the mixing matrix $U$ to be real. 
-We thus write 
+
+Since we take the PMNS matrix to be real and thus Hermitian, we drop the complex transpose in the following calculation. We have
 \begin{align}\label{eq:Pab}%TODO: shorten?
     P_{\ab} &= \sum_{k,j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
             &=  \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 + \nonumber \\
@@ -170,8 +216,12 @@ We thus write
             &= \delta_{\a \b} - 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \sin^2{\left(\frac{\dm_{kj}x}{4E}\right)}\,,
 \end{align}
 which is the probability of neutrino vacuum oscillations. %TODO: maybe plot?
-The calculation for antineutrinos yield the same result if one assumes the realness of the mixing matrix. 
+The calculation for antineutrinos yield the same result if one continues to assume the Hermicity of the mixing matrix. 
 
+For our purposes, the probabilities in Eq.~\ref{eq:Pab} are rather uninteresting, since they are only valid in vacuum.
+Despite this fact, this form elucidates an important aspect of neutrino oscillations. The mixing matrix elements
+determine the amplitude of the oscillations, while the mass-squared differences together with the ratio $L/E$ determine the 
+frequency. 
 
 \subsection{Effective Matter Potentials}
 
@@ -200,7 +250,7 @@ the $Z$ boson is responsible for $V_{NC}$. Our task is now to find expressions f
 
 We start with the effective Hamiltonian for the CC process. The Feynman rules for the left panel give us 
 \begin{align}
-    H^{CC} = \frac{G_F}{\sqrt{2}}\left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, e \right] \left[\bar e \,\gamma_\rho\, (1- \gamma^5)\, \ne \right]
+    H_{CC} = \frac{G_F}{\sqrt{2}}\left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, e \right] \left[\bar e \,\gamma_\rho\, (1- \gamma^5)\, \ne \right]
 \end{align}
 By using the Fierz transformation 
 \begin{align}
@@ -208,7 +258,7 @@ By using the Fierz transformation
 \end{align}
 we can permute the terms inside the brackets, yielding
 \begin{align}\label{eq:H_fierz}
-    H^{CC} = \frac{G_F}{\sqrt{2}}\left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, \ne \right] \left[\bar e \,\gamma_\rho\, (1- \gamma^5)\, e \right]\,.
+    H_{CC} = \frac{G_F}{\sqrt{2}}\left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, \ne \right] \left[\bar e \,\gamma_\rho\, (1- \gamma^5)\, e \right]\,.
 \end{align}
 Now, lets consider a finite volume $V$ with electron states defined as 
 \begin{align}\label{eq:e_states}
@@ -223,7 +273,7 @@ Here, the electron density $N_e$ will ultimately determine the strength of the e
 To obtain the average effective Hamiltonian, project it on the electron states in Eq.~\ref{eq:e_states} and integrate over the density and sum over the helicities:
 
 \begin{align}\label{eq:avg_H1}
-    \bar{H}^{CC} &= \int \dd p_e^3 \bra{e(p_e,h_e)} \times \frac{1}{2} \sum_{h_e} H   f(E_e,T) \ket{e(p_e,h_e)} \nonumber \\
+    \avg{H_{CC}} &= \int \dd p_e^3 \bra{e(p_e,h_e)} \times \frac{1}{2} \sum_{h_e} H   f(E_e,T) \ket{e(p_e,h_e)} \nonumber \\
            &= \frac{G_F}{\sqrt{2}} \int \dd p_e^3 \bra{e(p_e,h_e)} \left[ \bar\ne \gamma^\rho\, (1- \gamma^5)\, \ne \right]  f(E_e,T) \times \frac{1}{2} \sum_{h_e} \left[\bar e(x) \,\gamma_\rho\, (1- \gamma^5)\, e(x) \right] \ket{e(p_e,h_e)} \nonumber \\
            &= \frac{G_F}{\sqrt{2}} \bar\ne \gamma^\rho\, (1- \gamma^5)\, \ne \int \dd p_e^3  f(E_e,T) \times \frac{1}{2} \sum_{h_e} \bra{e(p_e,h_e)} \bar e(x) \,\gamma_\rho\, (1- \gamma^5)\, e(x)   \ket{e(p_e,h_e)}\,.
 \end{align}
@@ -236,7 +286,7 @@ First, calculate the sum using trace technology %TODO: explain this more
 \end{align}
 Eq.~\ref{eq:avg_H1} now becomes 
 \begin{align}\label{eq:avg_H2}
-    \avg{H^{CC}} &= \frac{G_F}{\sqrt{2}E_e V} \bar\ne \, (1- \gamma^5)\, \ne \int \dd p_e^3\, \slashed{p}_e\, f(E_e,T)\,.
+    \avg{H_{CC}} &= \frac{G_F}{\sqrt{2}E_e V} \bar\ne \, (1- \gamma^5)\, \ne \int \dd p_e^3\, \slashed{p}_e\, f(E_e,T)\,.
 \end{align}
 Expand the integral, and use the fact that $\vec{p}_e$ is odd:
 \begin{align}
@@ -246,18 +296,18 @@ Expand the integral, and use the fact that $\vec{p}_e$ is odd:
 \end{align}
 Inserting this into Eq.~\ref{eq:avg_H2}, we have
 \begin{align}
-    \avg{H^{CC}} &= \frac{G_F N_e}{\sqrt{2}} \bar{\nu}_e \, (1- \gamma^5)\, \ne \gamma_0 \nonumber \\
+    \avg{H_{CC}} &= \frac{G_F N_e}{\sqrt{2}} \bar{\nu}_e \, (1- \gamma^5)\, \ne \gamma_0 \nonumber \\
             &= \sqrt{2}G_F N_e \bar{\nu}_{Le} \gamma^0 \nu_{Le}\,,
 \end{align}
-where the projection operator $(1- \gamma^5)$ ensures that only the left-hand compontent of the neutrino fields interact weakly. Thus,
+where the projection operator $(1- \gamma^5)$ in the first line ensures that only the left-hand compontent of the neutrino fields interact. Thus,
 \begin{align}\label{eq:V_CC1}
-    V_{CC} = \sqrt{2}G_F N_e\,, \quad H^{CC}\ket{\nu_k} = V_{CC}\ket{\nu_k}\,.
-\end{align}%TODO: write H_{CC} instead
-Here we see a crucial difference between the eigenvectors between the vacuum Hamiltonian defined in Eq.~\ref{eq:osc_1} and $H^{CC}$, namely
-that the CC (and NC) interactions happen in the flavor basis rather than in the mass basis. In other words,
+    V_{CC} = \sqrt{2}G_F N_e\,, \quad H_{CC}\ket{\nu_k} = V_{CC}\ket{\nu_k}\,.
+\end{align}
+Here we see a crucial difference between the eigenvectors between the vacuum Hamiltonian defined in Eq.~\ref{eq:osc_1} and $H_{CC}$, namely
+that the CC interactions happen in the flavor basis rather than in the mass basis\footnote{A similar calculation for the NC reveals the same fact:
+neutrinos interact in the flavor basis.}. In other words,
 neutrinos propagate in their mass eigenstates, but interact in their flavor eigenstate. The mixing of mass eigenstates during propagation
-determines if the flavor eigenstate has oscillated or not. Thus, the expressions involving the 
-matter potential does not need to be transformed by the PMNS matrix.
+determines if the flavor eigenstate has oscillated or not. The interactions still conserve lepton number, but the kinetic Lagrangian will not.
 
 For neutral current, we replace the electron field $e(x)$ in Eq.~\ref{eq:H_fierz} by the fermion field $f(x)$, and the projection operator 
 $(1-\gamma^5)$ with $(g_V^f - g_A^f\gamma^5)$. Again, the $\gamma^5$ will cause the spacial component of $p_f$ to disappear after integration, and the 
@@ -275,7 +325,7 @@ Summing over the fermions, and assuming electrical neutrality and equal abundanc
 where the electrical neutrality condition allows us to simply sum the vectorial couplings together, cancelling the electron and proton contributions (and hence, also the Weinberg angle dependence).
 
 \subsection*{Matter oscillations}
-Since only $\ne$ undergo CC interactions in Earth-like matter, the $V_{CC}$ potential is zero for all other flavors. However, since all flavors undergo NC interactions the total matter potential in matrix form is:
+Since only $\ne$ undergo CC interactions in Earth-like matter, the $V_{CC}$ potential is zero for all other flavors. However, since all flavors undergo NC interactions the total matter potential in matrix form is
 \begin{align}\label{eq:V_matrix}
     V = \begin{bmatrix}
         V_{CC} + V_{NC} & 0 & 0 \\
@@ -387,28 +437,53 @@ are the probabilities
     \end{pmatrix} 
 \end{align}
 
-In this work, we will be using the best-fit values from~\cite{nufit},
-\begin{align}\label{eq:nufitparams}
-    &\Delta m^2_{21} =  \SI{7.42e-5}{\electronvolt^2},\hspace{0.5em} \Delta m^2_{31} =  \SI{2.517e-3}{\electronvolt^2}, \nonumber \\
-    &\theta_{12} = \SI{33.44}{\degree},\hspace{1em} \theta_{13} = \SI{8.57}{\degree},\hspace{1em} \theta_{23} = \SI{49.2}{\degree}, \hspace{1em} \delta_\text{CP} = 0\,.
-\end{align}
-with the exception of the CP-violating phase $\delta_\text{CP}$ which we always set to zero for simplicity. The PMNS matrix then has the numerical values 
-\begin{align}\label{eq:Uvalues}
-    U = \begin{pmatrix}
-        U_{e 1} & U_{e2} & U_{e3} \\
-        U_{\mu 1} & U_{\mu 2} & U_{\mu 3} \\
-        U_{\tau 1} & U_{\tau 2} & U_{\tau 3}
-    \end{pmatrix} 
-    = \begin{pmatrix}
-        0.825 & 0.545 & 0.149 \\
-        -0.455 & 0.485 & 0.746 \\
-        0.334 & -0.684 & 0.649
-    \end{pmatrix} \,.
-\end{align}
-In our study, we will only use atmospheric neutrinos, of which $\nm$ are the most abundant. We see that $U_{\mu\tau}$ is the largest $U_{\mu\beta}$ term,
-suggesting that $\nm$ primarily oscillates into $\nt$, at least in vacuum. It turns out that matter effects indeed preserves this ordering, making the $\nm \to \nt$ transition
-the most abundant. This means we will be able to stringently constrain parameters relating to $\nm \to \nt$ oscillations. 
-%TODO: write more about smallness of Ue3 and write about parametrization of U. maybe about su2
+For $N_e = 0$, i.e. in vacuum, these probabilities are identical to the ones that we analytically derived in Eq.~\ref{eq:Pab}.
+For $N_e \neq 0$, we have closed form solutions, but they are not considered further here.
 
+We now need to know how the electrons are distributed within the Earth. The Preliminary Earth Reference Model~\cite{PREM} gives us spherically
+symmetric piecewise polynomials for the Earth density in \si{\gram \cm^3} shown in the left panel of Fig.~\ref{fig:potential}.
+We note a steep discontinuity at \SI{3480}{\km} where the density is nearly halved. This is the core-mantle boundary, and will be visible in our 
+oscillations.
 
-%\end{document}
+Using a value of $Y=0.5$ electron per nucleon, we express the matter potential as
+\begin{align}
+    V_{CC} &= \sqrt{2}G_F N_e = \sqrt{2}G_F Y N_A \,\rho \nonumber \\
+           &= \SI{3.8e-23}{\eV\, \gram \cm^{-3}}\,,
+\end{align}
+a low number due to the smallness of $G_F$. This is plotted in the right panel of Fig.~\ref{fig:potential}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/potential.pdf}
+    \caption{\emph{Left panel:} Earth density asa function of distance from the core from the PREM~\cite{PREM}.
+    \emph{Right panel:} $V_{CC}$ using the PREM density 0.5 electrons per nucleon.}\label{fig:potential}
+\end{figure}
+
+Now, solving the Schrödinger equation with the Hamiltonian from Eq.~\ref{eq:H_3gen} with the matter potential from the PREM,
+we obtain the nine combinations of probabilities through the Earth diameter. We note that due to our assumption of CP-invariance
+(and thus, T-invariance), the probabilities $P_{\a\b}$ and $P_{\b\a}$ are identically equivalent. The result for \si{\GeV} neutrinos 
+is shown in Fig.~\ref{fig:oscillations}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/oscillations.pdf}
+    \caption{}\label{fig:oscillations}
+\end{figure}
+
+Now we need to incorporate the \emph{zenith angle}, defined as the angle between the neutrino direction of travel and south.
+This way, neutrinos traveling through the entire diameter of the Earth up through the South Pole are defined as `up-going', while
+neutrinos that start at the South Pole are `down-going'. We will refer to the quantity $\cos{(\theta_z)}$ as the \emph{zenith}, while
+$\theta_z$ is the \emph{zenith angle}.
+
+Since we are interested in the matter effects, we reserve our IceCube study to up-going neutrinos, i.e. neutrinos with
+zenith $-1<= \cos{(\theta_z)}<=0$. We now supplement our probability grid from Fig.~\ref{fig:oscillations} with the zenith dimension,
+allowing us to fully see the Earth matter effect on the oscillations in full. This is shown in Fig.~\ref{fig:oscillograms}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/oscillograms.pdf}
+    \caption{Oscillograms showing neutrino oscillations for all flavors in E-$\cos(\theta_z)$ space.}\label{fig:oscillograms}%TODO: redo finer
+\end{figure}%TODO: remake with finer
+
+The core-mantle boundary from Fig.\ref{fig:potential} is clearly displayed at $\cos{(\theta_z)} = -0.83$ as a sharp discontinuity for all flavors. 
+
+% \end{document}

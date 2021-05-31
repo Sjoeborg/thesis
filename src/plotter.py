@@ -240,4 +240,4 @@ def savethesis(fig, name):
     from subprocess import call 
     _ = call('pdfcrop thesis/tex/figures/{name}.pdf thesis/tex/figures/{name}.pdf')
 if __name__ == '__main__':
-    pass
+    an_plots()
