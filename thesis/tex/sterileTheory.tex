@@ -1,18 +1,27 @@
 % \input{commands}\begin{document}
 \section{The Sterile State}\label{sec:anomalies}
-In 1996, the LSND experiment reported an excess of $\ane$ events from an $\anm$ beam~\cite{lsnd}. The anomaly was consistent with a fourth
-neutrino state with $\dm[41] > \SI{0.03}{\eV \squared}$. Nine years later, MiniBooNE not only reproduced the $\ane$ anomaly, but saw the excess in The
-$\ne$ events too. Together with the so-called reactor and gallium analomalies, there were indications that both appearance and disappearance
-anomalies might be remedied by a fourth mass state.
+In 1996, the LSND experiment reported an excess of $\ane$ events from an $\anm$ beam~\cite{lsnd}.  
+Nine years later, MiniBooNE not only reproduced the $\ane$ anomaly, but saw the excess in The
+$\ne$ events too. Together with the so-called reactor and gallium anomalies, these reports suggested 
+that the three massive neutrino framework could be amended.
+By introducing a fourth heavy mass state $\nu_4$, both appearance and disappeareance anomalies could be minimally accomodated.
 
-However, we know from the decay width of the $Z$ boson that it only can interact with three flavor species, so this fourth mass state can't be interacting weakly.
-We now distinguish between the three original neutrino flavors ($e$, $\mu$, and $\tau$) and the new fourth flavor ($s$) by calling the former \emph{active} neutrinos
-and the latter \emph{sterile}. The experiments listed above indicate that the mass-squared difference of the sterile neutrino is in the \si{\eV} scale, while the two others
-are three and five magnitudes smaller. To remind us of this difference, we write $3+1$, since the sterile state proposed is a lot more massive than the active states. Models
-with different hierachies might be written as $1+2+1$ or $1+3$, but many of them are ruled out by cosmological constraints and will not be considered here. %TODO:source
+However, we know from the decay width of the $Z$ boson that it only can interact with three flavor species, 
+so this fourth mass state cannot be interacting weakly.
+We now distinguish between the three original neutrino flavors ($e$, $\mu$, and $\tau$) and the new fourth 
+flavor ($s$) by calling the former \emph{active} neutrinos
+and the latter \emph{sterile}. The experiments listed above indicate that the mass-squared difference of the 
+sterile neutrino is in the \si{\eV} scale, while the two others
+are three and five magnitudes smaller. To remind us of this difference, we write $3+1$, since the sterile state 
+proposed is a lot more massive than the active states. Models
+with different hierachies might be written as $1+2+1$ or $1+3$, but many of them are ruled out by cosmological 
+observations and will not be considered here. %TODO:source
+
+In this chapter, we will use the matter-enhanced resonant oscillations assuming the 3+1 framework,
+and probe it the using the $\nm$ disappearance signature.
 
 \subsection{The Hamiltonian}
-The inclusion of the sterile neutrino in the Hamiltonian is straightforward. We extend the PMNS matrix to incorporate the new flavor and mass eigenstates: 
+The inclusion of the sterile state in the Hamiltonian is straightforward. We extend the PMNS matrix to incorporate the new flavor and mass eigenstates: 
 \begin{align}
     U_{4gen} =
     \begin{pmatrix}
@@ -22,7 +31,7 @@ The inclusion of the sterile neutrino in the Hamiltonian is straightforward. We 
     U_{s1} & U_{s2} & U_{s3} & U_{s4}
     \end{pmatrix}\,,
 \end{align}
-where a common parametrization of the PMNS matrix is 
+where a common parametrization of this new mixing matrix is 
 \begin{align}\label{eq:U4gen_param}
     U_{4gen} = R_{34}R_{24}R_{14}U_{3gen}\,.
 \end{align}
@@ -64,11 +73,11 @@ In other words, the potential matrix in Eq.~\ref{eq:Vsterile1} is complete, save
         0 & 0 & 1 & 0 \\
         0 & 0 & 0 & 1 
     \end{pmatrix}
-    = \begin{pmatrix}
-        V_{CC} & 0 & 0 & 0 \\
+    = \sqrt{2}G_F\begin{pmatrix}
+        N_e & 0 & 0 & 0 \\
         0 &0 & 0 & 0 \\
         0 & 0 & 0 & 0 \\
-        0 & 0 & 0 & -V_{NC}
+        0 & 0 & 0 & -N_n/2
     \end{pmatrix} \nonumber \\
     &=\sqrt{2}G_F N_e\begin{pmatrix}
         1 & 0 & 0 & 0 \\
@@ -118,7 +127,7 @@ which for $\dm[41] \sim \si{\eV \squared}$ gives rise to a resonant disappearean
 So for a \si{\eV}-scale sterile neutrino and a non-zero $\theta_{24}$, we expect a \si{\TeV} $\anm$ disappearance.
 The resonance dip is affected by the value of $\dm[41]$ and $\theta_{24}$ as shown in Fig.~\ref{fig:resonance_shift}.
 We see how the value of $\dm[41]$ shifts the peak, while the mixing angle adjusts its strength. 
-TODO: more? mention that Pmm=1 at TeV for 3+0
+%TODO: more? mention that Pmm=1 at TeV for 3+0
 
 
 % \newpage\bibliographystyle{elsarticle-num}\bibliography{ref}\end{document}

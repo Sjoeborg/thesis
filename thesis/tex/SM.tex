@@ -2,9 +2,9 @@
 \section{The Standard Model}\label{ch:SM}
 In order to describe the three forces of nature, we gather the mediators of each force -- the vector bosons -- into gauge groups. 
 Each vector boson has one corresponding generator, the set of which constitutes the group.
-The strong charge is mediated by eight gluons, which correspond to the eight generators of $\text{SU}(3)_C$. 
+The strong charge is mediated by eight massless gluons, which correspond to the eight generators of $\text{SU}(3)_C$. 
 The weak charge is mediated by the three massive gauge bosons $W^\pm$ and $Z$ and the massless boson $\gamma$, 
-which constitute the generators of $\text{SU}(2)_L$. Finally, the massless gauge boson, the photon, has a representation which is the generator of $\text{U}(1)_Y$. 
+which constitute the generators of $\text{SU}(2)_L$ and $\text{U}(1)_Y$. 
 
 The subscript of each group denotes by which mechanism that force is mediated. The gluons mediate the strong force through interactions of color, emphasized with subscript $C$. The weak force only sees left-handed particles, 
 which we distinguish with the subscript $L$. And the electroweak interaction that a particle undergoes is determined by its hypercharge, $Y$. For example, the quarks all have a nonzero color and hypercharge, 
@@ -13,31 +13,35 @@ so they participate in the strong and electromagnetic interactions. If a quark i
 Together, these groups make up the local symmetry group $\mathrm{SU}(3)_{\mathrm{C}} \times \mathrm{SU}(2)_{L} \times \mathrm{U}(1)_{Y}$. 
 This symmetry group determines the form of the three coupling constants of nature, whose numerical values must be experimentally measured. 
 Since the vector bosons are represented by the generators, they are wholly constrained by the symmetry group. However, the scalar bosons\footnote{The Standard Model only has one scalar boson: the Higgs boson.} and fermions are free as long as they
-belong to representations of the symmetry group. By this construction, the fermions have more degrees of freedom with which we can propose amendments to the model with. In this work,
-we will use this leniency to make drastic modifications to the Standard Model and examine to which extent they might be falsifiable.
+belong to representations of the symmetry group. By this construction, the fermions have more degrees of freedom with which we can propose amendments to the model with. Even the
+number of fermions must be experimentally derived. In this work,
+we will use this leniency to make drastic modifications to the Standard Model fermions and examine to which extent these theories might be falsifiable.
 
 
 \subsection{Lepton mixing}
-In this section, we will see how the neutrinos interact with the charged leptons, which is the first stepping stone in our journey.
+In this section, we will see how the neutral leptons -- the neutrinos -- interact with the charged leptons, 
+which is the first stepping stone in our journey.
 
 In the unitary gauge, the Higgs-lepton Yukawa Lagrangian 
 \begin{align}
     \label{eq:YukawaLagrangian}
     \mathcal{L}_{H}=-\left( \frac{v + H}{\sqrt{2}} \right) \ell_{\alpha L}^{\prime} Y_{\alpha \beta}^{\prime \ell} \ell_{\beta R}^{\prime}
 \end{align}
-has a non-diagonal Yukawa coupling matrix $Y^{\prime \ell}$, which results in the lepton masses being non-definite. This can be remedied by diagonalizing $Y^{\prime \ell}$ with a unitary matrix $V^\ell$
+has a non-diagonal Yukawa coupling matrix $Y^{\prime \ell}$, which results in the charged lepton masses being non-definite. This can be remedied by diagonalizing $Y^{\prime \ell}$ with a unitary matrix $V^\ell$
 \begin{align}\label{eq:leptonYukawaDiag}
     V_{L}^{\ell \dagger} Y^{\prime \ell} V_{R}^{\ell}=Y^{\ell}\,.
 \end{align}
-This procedure give the lepton fields $\ell_{X}=V_{X}^{\ell \dagger} \ell_{X}^{\prime}$ definite mass. However, this alters the form of the neutral and charged current interactions, which the neutrinos undergo. The leptonic charged weak current now takes the form
+This procedure give the charged lepton fields $\ell_{X}=V_{X}^{\ell \dagger} \ell_{X}^{\prime}$ definite mass. 
+However, this alters the form of the neutral and charged current interactions, which the neutrinos undergo. The leptonic charged weak current now takes the form
 \begin{align}
     \label{eq:j_CC}
     j^\rho_W &= 2 \bar{\nu}^\prime_\alpha \gamma^\rho \ell^\prime_\alpha \nonumber \\
              &= 2 \bar{\nu}_\alpha V^{\ell \dagger} \gamma^\rho V^\ell \ell_\alpha \nonumber \\
              &= 2 \bar{\nu}_\alpha \gamma^\rho \ell_\alpha\,,
 \end{align}
-where each fermion field and matrix have an implied $L$ subscript, which was dropped for clarity. The flavor neutrino fields $\nu_\alpha$ now only couple to the associated charged lepton field $\ell_\alpha$. However, 
-$\nu_\alpha$ is still massless, since no flavor rotation $V^{\ell \dagger}$ can make massless fields massive.
+where each lepton field and matrix have an implied $L$ subscript, which was dropped for clarity. The flavor neutrino fields $\nu_\alpha$ now only couple to the associated charged lepton field $\ell_\alpha$. However, 
+$\nu_\alpha$ remained massless, since no flavor rotation $V^{\ell \dagger}$ can make massless fields massive. In the next section,
+we shall make our first extension of the Standard Model, by introducing neutrino masses.
 %TODO:more here about SM and lepton mixing? maybe about mass/massless particles. why does SM predict massless neutrinos, and 
 %what implications does it have?
 % \bibliographystyle{apalike}

@@ -1,12 +1,12 @@
 import numpy as np
-from functions import V,dm, mass_dict,theta,param_dict,GeV2tokm1,get_radial_distance,r_earth
+from functions import V,dm, mass_dict,theta,param_dict,GeV2tokm1,U_3,r_earth, nufit_params_nsi
         
 def P_an(flavor_from, flavor_to, param, E=None, L=None,  param_min=None, param_max=None, material='vac',earth_start = 0, ndim = 3, anti=False, theta_i=0, npoints=500, params=param_dict):
     '''
     Returns the analytical probability as an array for a collection of L[m/km] and E[MeV/GeV]
     '''
     if param == 'E':
-        E = np.linspace(param_min, param_max, npoints)
+        E = np.logspace(np.log10(param_min), np.log10(param_max), npoints)
         assert(L is not None)
     elif param == 'L':
         L = np.linspace(param_min, param_max, npoints)
@@ -19,25 +19,23 @@ def P_an(flavor_from, flavor_to, param, E=None, L=None,  param_min=None, param_m
 
     if ndim == 2:
         probs = [P_two(alpha, beta, E, L =ell, theta_i=theta_i ,param=param,earth_start=earth_start, anti=anti, material=material, params=param_dict) for ell in L]
-        return L, np.array(probs)
+        return np.array(probs)
     else:
         if param == 'E':
-            probs = [P_n(alpha, beta, E=en, L =L, param='E', imag_sign=imag_sign, ndim=ndim, params=param_dict, theta_i=theta_i, material=material) for en in E]
-            return E, np.array(probs)
+            probs = [P_n(alpha, beta, E=en, L =L, ndim=ndim, params=param_dict) for en in E]
+            return np.array(probs)
         elif param == 'L':
-            probs = [P_n(alpha, beta, E=E, L =ell, param='L', imag_sign=imag_sign, ndim=ndim, params=param_dict,theta_i=theta_i,material=material) for ell in L]
-            return L, np.array(probs)
+            probs = [P_n(alpha, beta, E=E, L =ell, ndim=ndim, params=param_dict) for ell in L]
+            return np.array(probs)
 
 
-def P_n(flavor_from,  flavor_to, E, ndim, L=2*r_earth, params=param_dict): 
+def P_n(alpha,  beta, E, ndim, L=2*r_earth, params=param_dict): 
     '''
     Returns the analytical probability as a scalar for L[m/km] and E[MeV/GeV]
     '''
-    alpha=mass_dict[flavor_from]
-    beta=mass_dict[flavor_to]
     P_list = []
 
-    U = U_nu(flavor_from=flavor_from, flavor_to=flavor_to, ndim=ndim, params=params)
+    U = U_3(params=params)
     U_conj = np.conj(U)
     for i in range(0, ndim):
         for j in range(0, i): #1605.08607 eq3, giunti 7.38 and 7.51
@@ -63,4 +61,4 @@ def P_two(alpha, beta, E, L, param, material, theta_i, earth_start=0, N_n=0, ant
 
 
 if __name__ == '__main__':
-    pass
+    print(P_n('m',  'm', 1e2, 3, L=2*r_earth, params=nufit_params_nsi))
