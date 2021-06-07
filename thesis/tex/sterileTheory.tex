@@ -1,4 +1,5 @@
-% \input{commands}\begin{document}
+%\input{commands}
+%\begin{document}
 \section{The Sterile State}\label{sec:anomalies}
 In 1996, the LSND experiment reported an excess of $\ane$ events from an $\anm$ beam~\cite{lsnd}.  
 Nine years later, MiniBooNE not only reproduced the $\ane$ anomaly, but saw the excess in The
@@ -6,19 +7,35 @@ $\ne$ events too. Together with the so-called reactor and gallium anomalies, the
 that the three massive neutrino framework could be amended.
 By introducing a fourth heavy mass state $\nu_4$, both appearance and disappeareance anomalies could be minimally accomodated.
 
-However, we know from the decay width of the $Z$ boson that it only can interact with three flavor species, 
-so this fourth mass state cannot be interacting weakly.
+However, we know from the decay width of the $Z$ boson that it only can interact with three flavor species\footnote{
+    Direct measurements of the invisible $Z$ decay yields $N=2.92 \pm 0.05$\cite{pdg}.
+}, 
+so this fourth mass state cannot be interacting weakly. In other words, it needs to transform as a
+singlet under the broken gauge group $SU(2)_L \times U(1)_{EM}$.
 We now distinguish between the three original neutrino flavors ($e$, $\mu$, and $\tau$) and the new fourth 
-flavor ($s$) by calling the former \emph{active} neutrinos
-and the latter \emph{sterile}. The experiments listed above indicate that the mass-squared difference of the 
-sterile neutrino is in the \si{\eV} scale, while the two others
-are three and five magnitudes smaller. To remind us of this difference, we write $3+1$, since the sterile state 
-proposed is a lot more massive than the active states. Models
-with different hierachies might be written as $1+2+1$ or $1+3$, but many of them are ruled out by cosmological 
-observations and will not be considered here. %TODO:source
+flavor by calling the former \emph{active} neutrinos
+and the latter \emph{sterile} due to its non-interacting behavior.
 
-In this chapter, we will use the matter-enhanced resonant oscillations assuming the 3+1 framework,
-and probe it the using the $\nm$ disappearance signature.
+The experiments listed above indicate that the mass-squared difference of the 
+sterile neutrino is in the \si{\eV\squared} scale, while the two others
+are three and five magnitudes smaller. To remind us of this difference, we write $3+1$, since the sterile state 
+proposed is a lot more massive than the active states.
+
+
+Two neutrino physics parameters probed by CMB lensing observations are the effective number of neutrinos
+$N_\text{eff}$, and the sum of neutrino masses $\sum m_i$. 
+The 2018 results from the Planck Collaboration in~\cite{planck2018} constrain the parameters to 
+\begin{align}
+    N_\text{eff} = 2.96^{+0.34}_{-0.33}\,, \quad \sum m_i < \SI{0.12}{\eV} \quad (95\%)\,,
+\end{align}
+consistent with the Standard Model with oscillations\footnote{Of course, the 
+Standard Model \emph{without} neutrino masses dictates $N_\text{eff} = 3$ and $\sum m_i \equiv 0$.} prediction of $N_\text{eff} = 3.045$ degrees~\cite{desalas2016}.
+Assuming the Planck data, one thermalized sterile neutrino $(N_\text{eff} = 4)$ is excluded at $6\sigma$. 
+Thus, thermalized sterile 
+neutrinos are strongly in tension with cosmological observations if one does not consider some special mechanism.
+So if a fourth neutrino species is present in nature, it will have ramifications not only on neutrino physics itself, but on
+our understanding of the CMB aswell.
+
 
 \subsection{The Hamiltonian}
 The inclusion of the sterile state in the Hamiltonian is straightforward. We extend the PMNS matrix to incorporate the new flavor and mass eigenstates: 
@@ -130,4 +147,4 @@ We see how the value of $\dm[41]$ shifts the peak, while the mixing angle adjust
 %TODO: more? mention that Pmm=1 at TeV for 3+0
 
 
-% \newpage\bibliographystyle{elsarticle-num}\bibliography{ref}\end{document}
+%\newpage\bibliographystyle{elsarticle-num}\bibliography{ref}\end{document}
