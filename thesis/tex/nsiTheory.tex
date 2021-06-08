@@ -7,39 +7,43 @@
 
 
 % \begin{document}
-\section{Non-Standard Interactions}
-We have already seen how the failure of the Standard Model to predict neutrino masses and flavor 
-osillations forces us to amend it. We have no reason to believe that the Standard Model 
-gauge group is the complete picture. Just as the electroweak theory $SU(2)_L \times U(1)_Y$ is 
-spontaneously broken to $U(1)_{EM}$, a higher order theory at a different energy scale with ompletely different
-properties might be responsible for the Standard Model that we know. In this sense, the Standard Model might be considered 
-an effective low energy theory, which is yiels impressive results in some areas, but failing in others. In fact, 
+\section{Non-Standard Interactions}\label{sec:nsiTheory}
+We have no reason to believe that the Standard Model 
+gauge group is the complete picture. We have already seen how the failure of the Standard Model to predict neutrino masses and flavor 
+osillations forces us to amend it. 
+Just as the electroweak theory $SU(2)_L \times U(1)_Y$ is 
+spontaneously broken to $U(1)_{EM}$, a higher order theory at a different energy scale with completely different
+properties might undergo a similar spontaneous symmetry break at high energies, 
+producing at lower energies the Standard Model that we know. In fact, 
 just as the fermion masses originate from the electroweak symmetry breaking, the neutrino masses might be generated from 
 another broken symmetry resulting in the Standard Model gauge group.
+In this sense, the Standard Model might be considered 
+an effective low energy theory, which is yiels impressive results in some areas, but failing in others. 
 
-%TODO: moreintro. incompleteness of SM
-Following the discussion in~\cite{tommyNSI}, the new parameters $\epsilon$ have the scale
+Compared to other fermions, the lightness of neutrino masses along with their sparse SM interactions might 
+indicate that these particles provide the best starting point for us to probe new physics, in which 
+other neutrino interactions might occur~\cite{gavela2009}. We call these interactions non-standard interactions (NSI).
+ 
+Following the approach of the Standard Model that the group generators uniquely determine the gauge bosons, a different gauge
+theory will have different interactions than those we presently know. These new interactions can be parametrized as model-independent four-fermion effective operators \cite{salvadoNSI,nsiFarzan}.
+Following the discussion in~\cite{tommyNSI}, the six-dimensional NSI parameters $\epsilon$ have the scale
 \begin{align}
     \epsilon \propto \frac{m_W^2}{m_{\epsilon}^2} \sim \frac{10^{-2}}{m_\epsilon^2}\,
 \end{align} 
 in TeV, so the new interactions generated at a mass scale of $m_\epsilon = \SI{1}{TeV}$ will produce parameters in the order of $10^{-2}$, 
-two magnitudes below the standard matter effect. Thus, if we assume the new interactions to arise from a higher-energy theory at or above electroweak scale, 
+two magnitudes below the standard matter effect. Thus, if we assume the new interactions to arise from a higher-energy theory above electroweak scale, 
 we then predict that the parameters contribute with at most a factor of $10^{-2}$ to the standard matter effect, decreasing quadratically.
 
 \subsection{Altering the Matter Potential}
 Up until now, we have only considered weak neutrino interactions with electrons, protons, and neutrons.
-Following the approach of the Standard Model that the group generators uniquely determine the gauge bosons, a different gauge
-theory will have different interactions than those we presently know. We call these interactions non-standard interactions (NSI).
 We can phenomenologically allow these interactions to include the up and down quarks which are present 
-in the Earth as the fundamental components of neutrons and protons, 
-parametrized as model-independent four-fermion effective operators \cite{salvadoNSI,nsiFarzan}.
-We write the Lagrangians
+in the Earth as the fundamental components of neutrons and protons, as seen in the Lagrangians
 \begin{align*}
     \mathcal{L}_{\mathrm{CC}} &= -2 \sqrt{2} G_{F} \epsilon_{\alpha \beta}^{f f^{\prime} X}\left(\bar{\nu}_{\alpha} \gamma^{\mu} P_{L} \ell_{\beta}\right)\left(\bar{f}^{\prime} \gamma_{\mu} P_{X} f\right) \\
     \mathcal{L}_{\mathrm{NC}} &= -2 \sqrt{2} G_{F} \epsilon_{\alpha \beta}^{f X}\left(\bar{\nu}_{\alpha} \gamma^{\mu} P_{L} \nu_{\beta}\right)\left(\bar{f} \gamma_{\mu} P_{X} f\right)\,,
 \end{align*}
 where CC denotes the charged current interaction with the matter field $f\neq f^\prime \in \{u,d\}$, and NC denotes the neutral current interaction with 
-$f \in \{e,u,d\}$. The CC NSI effect affects neutrino production and detection, and will not be considered here. NC NSI affect the matter potential, 
+$f \in \{e,u,d\}$. The CC NSI effect affects neutrino production and detection, and will not be considered further. NC NSI affect the matter potential, 
 and is thus of interest to us.
 
 We have no independent sensitivity for the neither chirality nor flavor type of $\epsilon^X$, so we sum over these and study the effective matter NSI parameter
@@ -55,7 +59,7 @@ we get $N_u/N_e \simeq N_d/N_e \simeq 3$. Also we assume the components $\epsilo
 Now, $\epsilon_{\ab}$ enters the Hamiltonian as entries of a potential-like matrix. In Eq.~\ref{eq:NSIH}, $A_{CC}\text{diag}(1,0,0)$ is our 
 familiar matter potential from the Standard Model. There is also our new term, $A_{CC} \epsilon$, which contains the components $\epsilon_{\a\b}$:
 \begin{align}\label{eq:NSIH}
-    H &= \frac{1}{2E} \left[UM^2U^\dagger + A_{CC}\text{diag}(1,0,0) + A_{CC} \epsilon \right] \nonumber \\
+    H &= \frac{1}{2E} \left[UM^2U^\dagger + A_{CC}\,\text{diag}(1,0,0) + A_{CC}\, \epsilon \right] \nonumber \\
       &= \frac{1}{2E} \left[UM^2U^\dagger + A_{CC}
       \begin{pmatrix}
           1 + \epsilon_{ee} & \epsilon_{e\mu} & \epsilon_{e\tau}  \\
@@ -112,7 +116,7 @@ Now we have reduced the possible number of NSI parameters from 9 down to 6.
 % \end{align}
 % where $\ep = \ett - \emm$.
 
-\subsection{NSIs in IceCube}
+\subsection{IceCube Signal}
 In our analysis of IceCube, we are constrained to muon track events. Thus, we are not able to test any theory which does not modify $P_{\a \mu}$. Moreover,
 the IceCube data is avaibable in the range \SI{500}{\GeV} to \SI{10}{\TeV} range, where any rapid oscillations have settled down.
 
@@ -147,30 +151,32 @@ Thus, we will use IceCube to constrain $\emt$ only.
 Moving on to $\eem$ and Fig.~\ref{fig:eem_eet_probs}, we see that both probabilities has shifted downwards for $\Etrue > \SI{500}{\GeV}$.
 In Fig.~\ref{fig:eem_eet_probs}, we see that the muon channel remains largely unaffected of the value of $\eet$ as we expected. The expection of this lies 
 in the DeepCore region of rapid oscillations, where mixing is more violent. 
-\begin{figure}\label{fig:emt_ett_probs}
+\begin{figure}
     \begin{center}%TODO subplots and fix labels in parahgraph aboveto match them
-        \includegraphics[width=0.45\textwidth]{figures/emt_probs.pdf}
-        \includegraphics[width=0.45\textwidth]{figures/ett_probs.pdf}
+        \includegraphics[width=0.49\textwidth]{figures/emt_probs.pdf}
+        \includegraphics[width=0.49\textwidth]{figures/ett_probs.pdf}
         \caption{\emph{Left panel:} Muon neutrino and antineutrino survival probabilities for
         $\ztrue = -1$ when $\emt = 0.02$. All other NSI parameters are fixed to zero.
         \emph{Right panel:} Muon neutrino and antineutrino survival probabilities for
         $\ztrue = -1$ when $\ett = 0.05$. All other NSI parameters are fixed to zero.}
+        \label{fig:emt_ett_probs}
     \end{center}
 \end{figure}
 
 
-\begin{figure}\label{fig:eem_eet_probs}
+\begin{figure}
     \begin{center}
-        \includegraphics[width=0.45\textwidth]{figures/eem_probs.pdf}
-        \includegraphics[width=0.45\textwidth]{figures/eet_probs.pdf}
+        \includegraphics[width=0.49\textwidth]{figures/eem_probs.pdf}
+        \includegraphics[width=0.49\textwidth]{figures/eet_probs.pdf}
         \caption{Muon neutrino and antineutrino survival probabilities for
         $\ztrue = -1$\emph{Left panel:} $\eem = 0.2$. All other NSI parameters are fixed to zero.
         \emph{Right panel:} $\eet = 0.2$. All other NSI parameters are fixed to zero.}
+        \label{fig:eem_eet_probs}
     \end{center}
 \end{figure}
 
 
-\subsection{NSIs in DeepCore and PINGU}
+\subsection{DeepCore and PINGU Signals}
 Now we repeat our proability analysis but for the DeepCore/PINGU region of \SIrange{5.6}{56}{\GeV}. As we previously saw,
 we have rapid oscillations, which means that "indirect" modifications (i.e. $\eet$ will affect the $\Pmm$ channel)
 will be more apparent, since all flavors are involved to a greater degree compared with the more stable region above \SI{500}{\GeV}, where 
@@ -198,11 +204,12 @@ We plot the event pull $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ where $N_{(N)SI}$ are 
 assuming (non-)standard interactions in Fig.~\ref{fig:event_pulls}. This gives the normalized difference in the
 number of expected events at the detector, and illustrates the expected sensitivity of DeepCore for the NSI parameters.
 %TODO: clean up above and expand a bit.
-\begin{figure}\label{fig:Pee_eet_probs}
+\begin{figure}
     \begin{center}
-        \includegraphics[width=0.6\textwidth]{figures/Pee_eet_probs.pdf}
+        \includegraphics[width=0.8\textwidth]{figures/Pee_eet_probs.pdf}
         \caption{Electron neutrino and antineutrino survival probabilities for
         $\ztrue = -1$ when $\eet = 0.2$. All other NSI parameters are fixed to zero.}
+        \label{fig:Pee_eet_probs}
     \end{center}
 \end{figure}
 

@@ -710,11 +710,12 @@
       \vskip 1em%
       {\@subtitle \par}
     \fi
-    \vfill
+    %\vfill
+	\vspace{6em}
     {\large
      \lineskip .75em%
       \begin{tabular}[t]{c}%
-        \@author
+        \Large \@author
       \end{tabular}\par}%
     \vfill%
     \vfill%
@@ -935,7 +936,7 @@
 \renewcommand\thesubparagraph {\theparagraph.\@arabic\c@subparagraph}
 \newcommand\@chapapp{\chaptername}
 \newcommand\mainmatter{%
-  \cleardoublepage
+  %\cleardoublepage
   \newpage
   \@mainmattertrue
   \pagestyle{headings}
@@ -1228,7 +1229,7 @@
 \newcommand\@dotsep{4.5}
 \setcounter{tocdepth}{2}
 \newcommand\tableofcontents{%
-  \cleardoublepage\thispagestyle{plain}%
+  \thispagestyle{plain}%
   \addcontentsline{toc}{chapter}{\contentsname}
     \chapter*{\contentsname
         \@mkboth{\contentsname}{\contentsname}}%

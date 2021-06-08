@@ -65,7 +65,7 @@ also apply to PINGU except where noted. However, we treat the PINGU detector as 
     \emph{Right panel:} Interpolated IceCube effective area with data from~\cite{ICaeff}.}
 \end{figure}
 
-\subsection{Atmospheric neutrino flux}
+\subsection{Atmospheric Neutrino Flux}
 Atmospheric neutrinos originates from cosmic rays composed of protons interacting with nuclei in the atmosphere.
 These interactions ultimately produces pions, which decay as 
 \begin{align}\label{eq:pion}
@@ -105,10 +105,11 @@ The result is shown in Fig.~\ref{fig:flux_aeff}.
 \end{table}
 
 
-\subsection{Event reconstruction}
+\subsection{Event Reconstruction}
 After an event has occurred, the IceCube algorithms process the data coming from the detector to \emph{reconstruct} the event. This means that, given the parameters recorded by the detector, what are their "true" values?
 We are interested in two variables: the energy and the direction. Each event is tagged with a probable energy and zenith angle, called the recostructed parameters $\Ereco$ and $\zreco$, which are the parameters according to the DOMs.
-The collaboration then uses numerous sophisticated methods to backtrack the reconstructed parameters to the true parameters. So a charged lepton hits the DOMs, and we ultimately end up with the associated neutrino's true and reconstructed energy and zenith angle. The reconstructed parameters are what we are using to analyze the data (because this is what the detector actually sees), while the true parameters are used in the determination of that neutrino's "actual" flux and cross-section (because this is what nature sees).
+The collaboration then uses numerous sophisticated methods to backtrack the reconstructed parameters to the true parameters. So a charged lepton hits the DOMs, and we ultimately end up with the associated neutrino's true and reconstructed energy and zenith angle. The reconstructed parameters are what we are using to analyze the data (because this is what the detector actually sees), while the true parameters are used in the 
+determination of that neutrino's `actual' flux and cross-section (because this is what Nature sees).
 
 How do we then translate between the reconstructed and true parameters? In this work, we are using two different methods, which are based on the form of data available to us. They will be outlined in Sec.\ref{ch:ICmethod} and Sec.~\ref{ch:DCmethod}.
 
