@@ -37,7 +37,7 @@ if __name__ == '__main__':
     param_list = list_of_params(params, dm41_range, s24_range)
 
 
-    print(f'Precomputing IO IC events for dm41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}),',
+    print(f'Precomputing NO IC events for dm41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}),',
             f's24({s24_range.min()},{s24_range.max()},{len(s24_range)})')
 
 

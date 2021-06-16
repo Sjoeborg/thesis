@@ -105,11 +105,10 @@ to obtain or sufficiently incorporate. One example of such information is the sy
 Recent IceCube data releases do not include such information. Since the systematic errors are affecting the 
 event count on a bin-by-bin basis, they can in theory drastically modify the binned results. Another example of
 an error source what will be remedied by this method is the flux. We are using a fairly simple model of the atmospheric 
-flux that excludes prompt flux. The IceCube collaboration use several different flux models which are initialized 
+flux that excludes atmospheric prompt and astrophysical fluxes. The IceCube collaboration use several different flux models which are initialized 
 by a parametrization of the cosmic ray flux.\footnote{Included in the cosmic ray models are e.g. the pion to kaon 
 ratio, which are often used as a nuisance parameter. By not being able to include this in our error analysis, our method will 
 be limited to only consider the overall flux normalization, rather than the components that produce the flux in the first place.}
-%TODO: maybe rambling?
 
 In Fig.~\ref{fig:IC_MC_norm}, we present the Icecube Monte Carlo obtained from their 2020 sterile analysis~\cite{IC2020}, along
 with our null hypothesis times a constant factor.  We deemed these shapes to be satisfactory, thus allowing us to multiply Eq.~\ref{eq:ICevents} by the 
@@ -125,7 +124,7 @@ with $E^t_{min}$, $E^t_{max}$, and $R(E^r,E^t)$ taken from the Gaussian process 
     \includegraphics[width=0.8\linewidth]{figures/IC_MC_norm.pdf}
     \caption{IceCube Monte Carlo, binned in $\Ereco$ and $\zreco$. We compare this with our simulations shown as ´Null' in the plots.}\label{fig:IC_MC_norm}
 \end{figure} 
-%TODO:fill more
+Thus, we are now able to sufficiently approximate the IceCube Monte Carlo, which makes us able to run simulations based on different physics scenarios.
 % \newpage
 % \bibliographystyle{nature}
 % \bibliography{ref.bib}
