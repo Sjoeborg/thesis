@@ -33,8 +33,7 @@ For IceCube, the event count takes the form
     N^\text{th}_{ij} = \alpha\left[1+\beta (0.5 + \zreco_i )\right] N_{ij}(\hat{\theta})\,,
 \end{align}
 with $N_{ij}(\hat{\theta})$ from Eq.~\ref{eq:Nth}. Here, the term $ \beta (0.5 + \zreco_i )$ allows the event distribution to rotate with angle $\beta$ around the median zenith angle of $\zreco = -0.5$.
-We also have an uncorrelated systematic error $\sigma_{ijk}^\text{syst}$. We set $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$, where $f$ is a percentage of our own choosing,
-typically a value between 0 and 20 \%.
+We also have an uncorrelated systematic error $\sigma_{ijk}^\text{syst}$. We set $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$, where $f$ is a percentage of our own choosing.
 
 The minimization of Eq.~\ref{eq:chisq} simply returns a value for each set of model parameters. We use this value to quantify to what extent
 our theoretical simulations $N^\text{th}_{ij}$ agree with the data $N^\text{data}_{ij}$ within the error bounds provided by $\sigma_a,\sigma_b,$ and $f$.
@@ -51,15 +50,34 @@ $\sin(2\theta_{24})^2 = 0.67$ ($\theta_{24} = \SI{27.5}{\degree}$). %TODO:double
 The contour plot shown in Fig.~\ref{fig:s24_contour} divides the parameter space into two regions.
 To the right of the boundary, the $\Delta \chi^2$ has values above the confidence level, meaning that 
 those parameter pairs can be excluded at a certain confidence level.
+
+By tuning the scaling $f$ of the uncorrelated systematic error, we can shift the contour. We extract the contour from the 
+IceCube sterile analysis~\cite{IC2020}, and compare in Fig.~\ref{fig:error_tuning}. We see that the contour in the 
+higher $\dm[41]$ region above \SI{1}{\eV\squared} is very sensetive to the tuning, while the lower region between \SIrange[]{1e-1}{1}{\eV\squared}
+remains fixed. We put $f=35\%$ and compare our results to the Giunti et al.~\cite{gariazzoUpdatedGlobalAnalysis2017} in Fig.~\ref{fig:s24_contour}.
+Here, we see that our lower fixed region between \SIrange{1e-1}{1}{\eV\squared} is closer to the IceCube result than Giunti et al, but that 
+our contour slightly diverges above \SI{1}{\eV\squared}. 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/final_rate_plot.pdf}
-    \caption{}\label{fig:final_rate_plot}%TODO: update
+    \includegraphics[width=0.8\textwidth]{figures/s24_error_tuning.pdf}
+    \caption{The 90\% CL contour with two different systematic error scalings, compared 
+    with the official IceCube result from~\cite{IC2020}}\label{fig:error_tuning}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/s24_contour.pdf}
-    \caption{}\label{fig:s24_contour}%TODO: update
+    \caption{The 90\% CL contour using $f=35\%$, compared with the official IceCube result from~\cite{IC2020}
+    and the result from~\cite{gariazzoUpdatedGlobalAnalysis2017}}\label{fig:s24_contour}
 \end{figure}
+
+We now in Fig.~\ref{fig:final_rate_plot} plot the best-fit sterile hypothesis with the data from Fig.~\ref{fig:IC_rates}, to finally see how the best 
+sterile hypothesis compares to data.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/final_rate_plot.pdf}
+    \caption{The predicted binned event count assuming our best-fit sterile hypothesis, compared with the 
+    null and data.}\label{fig:final_rate_plot}
+\end{figure}
+
 %\end{document}
