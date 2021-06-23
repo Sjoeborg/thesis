@@ -20,7 +20,8 @@ another broken symmetry resulting in the Standard Model gauge group.
 In this sense, the Standard Model might be considered 
 an effective low energy theory, which is yiels impressive results in some areas, but failing in others. 
 
-Compared to other fermions, the lightness of neutrino masses along with their sparse SM interactions might 
+Compared to other fermions, the lightness of neutrino masses\footnote{The extreme lightness might be explained 
+by a mass generation at a higher order theory.} along with their sparse SM interactions might 
 indicate that these particles provide the best starting point for us to probe new physics, in which 
 exotic neutrino interactions might occur~\cite{gavela2009}. We call these interactions non-standard interactions (NSI) in order to 
 distinguish them from the `standard' interactions of the Standard Model.
@@ -34,6 +35,7 @@ Following the discussion in~\cite{tommyNSI}, we see that the NSI parameters $\ep
 in TeV, so the new interactions generated at a mass scale of $m_\epsilon = \SI{1}{TeV}$ will produce parameters in the order of $10^{-2}$, 
 two magnitudes below the standard matter effect. Thus, if we assume the new interactions to arise from a higher-energy theory above electroweak scale, 
 we then predict that the parameters contribute with at most a factor of $10^{-2}$ to the standard matter effect, decreasing quadratically.
+
 
 \subsection{Altering the Matter Potential}
 Up until now, we have only considered weak neutrino interactions with electrons, protons, and neutrons.
@@ -88,11 +90,21 @@ We have two more modifications to the matrix $\epsilon$. First, all terms of the
 \end{align}
 Now we have reduced the possible number of NSI parameters from 9 down to 6. 
 
-% Moreover, it is common to subtract $\emm$ from the diagonal, which
+By combining oscillation data and neutrino-nucleon scattering at the COHERENT experiment, 90 \% CL ranges of some of 
+the NSI parameters were constrained in~\cite{coherent} to
+\begin{align}\label{eq:coherentbounds}
+    -0.090 < &\ett < 0.38 \nonumber \\
+    -0.01 < &\emt < 0.009 \nonumber \\
+    -0.073 < &\eem < 0.044 \nonumber \\
+    -0.15 < &\eet < 0.13\,.
+\end{align}
+
+
 % we are free to do since any multiple added or subtracted from diagonal does not affect the eigenvectors of the Hamiltonian and thus not the
-% probabilities. So just as we subtracted away $V_{NC}$ back in Eq.~\ref{eq:components}, we can subtract $\emm$ and rotate it away.
+% probabilities. So jusb t as we subtracted away $V_{NC}$ back in Eq.~\ref{eq:components}, we can subtract $\emm$ and rotate it away.
 % Our NSI potential matrix now takes the form 
-% \begin{align}
+% {µmmb m  m mb  mb  mbb  mb bmMoreover, it is common to subtract $\emm$ from the diagonal, which
+% \begin{align} m mmb
 %     \begin{pmatrix}
 %         \epsilon_{ee} & \epsilon_{e\mu} & \epsilon_{e\tau}  \\
 %         \epsilon_{e \mu} & \epsilon_{\mu\mu} & \epsilon_{\mu\tau}  \\
@@ -122,7 +134,7 @@ In our analysis of IceCube, we are constrained to muon track events. Thus, we ar
 the IceCube data is avaibable in the range \SI{500}{\GeV} to \SI{10}{\TeV} range, where any rapid oscillations have settled down.
 
 Since all standard matter potentials are diagonal, 
-the elements $\epsilon_{\a\b}, \a = \b$ will directly adjust the matter potential felt 
+the elements $\epsilon_{\a\b},\, \a = \b$ will directly adjust the matter potential felt 
 by flavor $\a$. The off-diagonal terms have a more interesting theoretical implication as the open up matter interactions across flavors. Remember, in the Standard model,
 we are restriced to weak interactions that conserve lepton number. However, a off-diagonal NSI parameter allows flavor transitions during matter interactions.
 Moreover, $\epsilon_{\a\b}$ modifies the $\nu_\a \to \nu_\b$ transition independently
