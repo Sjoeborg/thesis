@@ -2,11 +2,10 @@
 %\begin{document}
 \section{The Sterile State}\label{sec:anomalies}
 In 1996, the LSND experiment reported an excess of $\ane$ events from an $\anm$ beam~\cite{lsnd}.  
-Nine years later, MiniBooNE not only reproduced the $\ane$ anomaly, but saw the excess in The
+Nine years later, MiniBooNE not only reproduced the $\ane$ anomaly, but observed an excess in the
 $\ne$ events too. Together with the so-called reactor and gallium anomalies, these reports suggested 
 that the three massive neutrino framework could be amended.
 By introducing a fourth heavy mass state $\nu_4$, both appearance and disappeareance anomalies could be minimally accomodated.
-
 However, we know from the decay width of the $Z$ boson that it only can interact with three flavor species\footnote{
     Direct measurements of the invisible $Z$ decay yields $N=2.92 \pm 0.05$~\cite{pdg}.
 }, 
@@ -38,7 +37,8 @@ our understanding of the CMB aswell.
 
 
 \subsection{The Hamiltonian}
-The inclusion of the sterile state in the Hamiltonian is straightforward. We extend the PMNS matrix to incorporate the new flavor and mass eigenstates: 
+The inclusion of the sterile state in the Hamiltonian is straightforward. We extend the PMNS matrix
+with terms for the mixing between the new flavor $(U_{si})$ and mass $(U_{\a 4})$ eigenstates:
 \begin{align}
     U_{4gen} =
     \begin{pmatrix}
@@ -52,6 +52,8 @@ where a common parametrization of this new mixing matrix is
 \begin{align}\label{eq:U4gen_param}
     U_{4gen} = R_{34}R_{24}R_{14}U_{3gen}\,.
 \end{align}
+This parametrization does not affect the physics, but determines the structure of the mixing angles.
+
 The mass matrix extends analogously:
 \begin{align}\label{eq:dm4gen}
     M^2_{4gen} =
@@ -63,7 +65,7 @@ The mass matrix extends analogously:
     \end{pmatrix}\,.
 \end{align}
 
-Now, the interaction with matter requires a careful reconsideration of the matter potential. We start of with the unaltered potential matrix. 
+Now, the interaction with matter requires a careful reconsideration of the matter potential. We start off with the unaltered potential matrix from Eq.~\ref{eq:V_matrix}. 
 Just as with the PMNS matrix, we extend this to $4\times4$:
 \begin{align}\label{eq:Vsterile1}
     \begin{pmatrix}
@@ -75,7 +77,7 @@ Just as with the PMNS matrix, we extend this to $4\times4$:
 \end{align}
 Now we need to include the terms that describes the matter potential felt by the sterile flavor state. Recalling our discussion above, we remind ourselves that the sterile neutrino by definition
 does not participate in any interaction\footnote{The exception to this is of course gravity. The sterile neutrino is not massless.}. Thus, all potential terms involving the sterile state are zero. 
-In other words, the potential matrix in Eq.~\ref{eq:Vsterile1} is complete, save for the usual subtraction by a constant identity matrix:
+In other words, the potential matrix in Eq.~\ref{eq:Vsterile1} is complete, save for the usual subtraction by a constant times the identity matrix:
 
 \begin{align}\label{eq:Vsterile}
     V_{4gen} &=
