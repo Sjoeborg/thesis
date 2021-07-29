@@ -14,6 +14,8 @@
 energy_resolution_models.p
 pre_computed/*
 old/4gen
+*.mp4
+*.pptx
 *.code-workspace
 *.err
 *.sh
