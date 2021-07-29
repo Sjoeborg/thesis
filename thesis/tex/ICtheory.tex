@@ -6,7 +6,7 @@
 \section{IceCube}\label{ch:ICmethod}
 As the neutrinos have propagated the Earth, they arrive at the South Pole, where they interact with charged lepton in the ice. We now are interested in the effective area $\Aeff$, 
 i.e.~the cross-section of the detector that the lepton is exposed to.
-$\Aeff$ depends on several parameters, some of them being detector physical volume, $\Etrue$,$\ztrue$ and the neutrino cross-section. Fortunately, the binned $\Aeff$ is provided to us by the collaboration~\cite{ICaeff}.
+$\Aeff$ depends on several parameters, some of them being detector physical volume, $\Etrue$, $\ztrue$ and the neutrino cross-section. Fortunately, the binned $\Aeff$ is provided to us by the collaboration~\cite{ICaeff}.
 The data file has the following form
 
 \begin{table}[h]\label{table:aeff}
@@ -26,7 +26,7 @@ The data file has the following form
 \end{table}
 
 Here, $\Aeff$ has been averaged over $\Aeff_\mu$ and $\Aeff_{\bar{\mu}}$.
-Just as with the fluxes, we interpolate this in $\Etrue,\ztrue$ and show the result %TODO aeff interpolation
+Just as with the fluxes, we interpolate this in $\Etrue$, $\ztrue$ and show the result %TODO aeff interpolation
 
 So now we have the physical quantities in the true parameters. But as we discussed, we need a way to translate this into the reconstructed parameters that the detector gives us. We will call the relationship between 
 $\Ereco$ and $\Etrue$ the energy resolution function, and the relationshop between $\zreco$ and $\ztrue$ the zenith resolution function. We assume the relationship to follow a logarithmic Gaussian distribution, giving it the form 
@@ -93,7 +93,7 @@ The latest available data collected and processed by the collaboration contains 
 \end{figure}
 
 \subsection*{Monte Carlo normalization}
-Independent researchers outside of the IceCube collaboration will not be able to more persicely
+Independent researchers outside of the IceCube collaboration will not be able to more percisely
 simulate the detector. The IceCube Monte Carlo is a complex and proprietary machinery, so our goal in this 
 section is to come as close as we can to their Monte Carlo simulations. After we are confident that 
 our code displays the same overall features as the `offical', we normalize our results $N_{ij}^\text{sim}$ as 
@@ -122,7 +122,7 @@ with $E^t_{min}$, $E^t_{max}$, and $R(E^r,E^t)$ taken from the Gaussian process 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{figures/IC_MC_norm.pdf}
-    \caption{IceCube Monte Carlo, binned in $\Ereco$ and $\zreco$. We compare this with our simulations shown as ´Null' in the plots.}\label{fig:IC_MC_norm}
+    \caption{IceCube Monte Carlo, binned in $\Ereco$ and $\zreco$. We compare this with our simulations shown as `Null' in the plots.}\label{fig:IC_MC_norm}
 \end{figure} 
 Thus, we are now able to sufficiently approximate the IceCube Monte Carlo, which makes us able to run simulations based on different physics scenarios.
 % \newpage

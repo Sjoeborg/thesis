@@ -149,7 +149,7 @@ def P_num(flavor_from, flavor_to=None,ndim = 3, E=None,L_max=None,vacuum=False,a
     return np.abs(solver.y)**2
 
 
-def P_num_over_E(flavor_from, E, flavor_to=None, L=2*r_earth, zenith=-1,earth_start = 0, ndim = 3,vacuum=False, eval_at=None,anti=False,params=param_dict, material='earth', nsi=False,tols=(1e-3,1e-6)):
+def P_num_over_E(flavor_from, E, flavor_to=None, L=2*r_earth, zenith=-1, ndim = 3,vacuum=False, eval_at=None,anti=False,params=param_dict, material='earth', nsi=False,tols=(1e-3,1e-6)):
     '''
     Returns the range of energies and the list of all flavour oscillation probabilities. Uses a single core
     '''

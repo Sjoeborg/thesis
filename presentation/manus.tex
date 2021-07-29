@@ -1,0 +1,144 @@
+\documentclass{article}
+\begin{document}
+There is no reason for us to believe that our current knowledge in particle physics is complete. The most
+successful framework – the Standard Model – has notable shortcomings. It doesn't explain dark matter.
+Neither does it explain why the universe didn't get annihilated by anti-matter at the Big Bang.
+To make matters
+even worse, three of the massless particles have been observed to have mass. In this thesis, we focus on
+the said particles – the neutrinos – and propose extensions to the Standard Model related to them. We
+then compare the effects of these extensions with collected data to see if our new theory more closely
+describes Nature or not.
+Ultimately, the purpose of this excursion is to guide future research where to uncover more accurate
+theories. Traces of this grander theory will be present as breadcrumbs scattered in Nature. We just need
+to know where and how carefully to look.
+
+In order to describe the three quantizable forces (interactions) of nature, we gather the mediators of each force – the
+vector bosons – into local symmetry groups called gauge groups. Each vector boson has one corresponding generator,
+the set of which constitutes the group. The strong charge is mediated by eight massless gluons, which
+correspond to the eight independent generators of SU(3). The weak charge is mediated by the three massive gauge
+bosons W and Z, and the massless photon γ, which constitute the generators of SU(2) and U(1).
+The subscript of each group denotes by which mechanism that force is mediated. The gluons mediate
+the strong force through interactions of color, emphasized with subscript C. The weak force only sees
+left-handed particles, which we distinguish with the subscript L. And the electroweak interaction that
+a particle undergoes is determined by its hypercharge Y. For example, the quarks all have a nonzero
+color and hypercharge, so they participate in the strong and electromagnetic interactions. If a quark is
+left-handed, it will also feel the weak interaction. The neutrinos on the other hand, have neither charge
+nor color, so they are insivible to both the strong and electromagnetic force. We express this by letting
+their fields transform as singlets under those SU(3) and U(1).
+Together, these three interactions make up the Standard Model gauge group SU(3)_C × SU(2)_L ×
+U(1)_Y.
+
+TODO: NEUTRINO OSCILLATIONS AND MATTER EFFECTS 
+
+
+We always observe neutrinos indirectly through their associated charged lepton. Regardless of the type
+of interaction (charged current via the W boson, or neutral current via the Z), a charged lepton exits
+with altered properties. The lepton is then detected, and the properties of the neutrino involved in the
+interaction is then deduced. This deduction is obviously imperfect.
+
+TODO: ABOUT ICECUBE
+In this work, we only study the detectors handeled by the IceCube collaboration.
+They are of
+Cherenkov type, which means that they detect the secondary charged lepton by its emitted Cherenkov
+light, produced from its travel through the Antarctic ice. If the charged leptons interact heavily with the
+ice, they will travel a short distance and emit a localized flash of Cherenkov light. This event is referred
+to as a cascade.
+If the charged leptons don’t interact as much in the ice, they penetrate a larger part of it,
+emitting light and tertiary particles as they go. This event is referred to as a track, and are often due to
+muon charged current interactions.
+After an event has occurred, the IceCube algorithms process the data coming from the detector to
+reconstruct the event. This means that, given the parameters recorded by the detector, what are their
+”true” values? We are interested in two variables: the energy and the direction. Each event is tagged with
+a probable energy and zenith angle, called the recostructed parameters Ereco and cos (θrecoz), which are
+the parameters according to the DOMs. The collaboration then uses numerous sophisticated methods to
+backtrack the reconstructed parameters to the true parameters. So a charged lepton hits the DOMs, and
+we ultimately end up with the associated neutrino’s true and reconstructed energy and zenith angle. The
+reconstructed parameters are what we are using to analyze the data (because this is what the detector
+actually sees), while the true parameters are used in the determination of that neutrino’s ‘actual’ flux
+and cross-section (because this is what Nature sees).
+
+As the neutrinos have propagated the Earth, they arrive at the South Pole, where they interact with
+charged lepton in the ice. We now are interested in the effective area Aeff, i.e. the cross-section of the
+detector that the lepton is exposed to. Aeff depends on several parameters, some of them being detector
+physical volume, Etrue, cos(θtruez) and the neutrino cross-section.
+
+So now we have the physical quantities in the true parameters. But as we discussed, we need a way to
+translate this into the reconstructed parameters that the detector gives us. We will call the relationship
+between Ereco and Etrue the energy resolution function, and the relationshop between cos (θrecoz) and
+cos (θtruez) the zenith resolution function. We assume the relationship to follow a logarithmic Gaussian
+distribution, giving it the form ....
+
+So how do we then obtain the parameters needed to construct the Gaussian?
+The collaboration frequently releases their own simulated data files, which we refer to the IceCube Monte Carlo.
+In the files, we can see the connection between the true and reconstructed parameters. We use this to train a Gaussian
+Process Regressor.
+TODO: ABOUT GPR
+
+Independent researchers outside of the IceCube collaboration will not be able to more persicely simulate
+the detector. The IceCube Monte Carlo is a complex and proprietary machinery, so our goal in this
+section is to come as close as we can to their Monte Carlo simulations. After we are confident that our
+code displays the same overall features as the ‘offical’, we normalize our results to it.
+For each bin i, j, we then obtain a correction factor which contains information that we are unable to
+obtain or sufficiently incorporate. One example of such information is the systematic errors of the DOMs.
+Recent IceCube data releases do not include such information. Since the systematic errors are affecting
+the event count on a bin-by-bin basis, they can in theory drastically modify the binned results. Another
+example of an error source what will be remedied by this method is the flux. We are using a fairly simple
+model of the atmospheric flux that excludes atmospheric prompt and astrophysical fluxes. The IceCube
+collaboration use several different flux models which are initialized by a parametrization of the cosmic
+ray flux. Included in the cosmic ray models are e.g. the pion to kaon ratio, which are often used as a nuisance parameter. By not
+being able to include this in our error analysis, our method will be limited to only consider the overall flux normalization,
+rather than the components that produce the flux in the first place.
+
+In 1996, the LSND experiment reported an excess of ¯νe events from an ¯νµ beam [17]. Nine years later,
+MiniBooNE not only reproduced the ¯νe anomaly, but observed an excess in the νe events too. Together
+with the so-called reactor and gallium anomalies, these reports suggested that the three massive neutrino
+framework could be amended.
+By introducing a fourth heavy mass state ν4 at eV scale, both appearance and
+disappeareance anomalies could be minimally accomodated. However, we know from the decay width
+of the Z boson that it only can interact with three flavor species1, so this fourth mass state cannot be
+interacting weakly. In other words, it needs to transform as a singlet under the broken gauge group
+SU(2)L × U(1)EM. We now distinguish between the three original neutrino flavors (e, µ, and τ) and the
+new fourth flavor by calling the former active neutrinos and the latter sterile due to its non-interacting
+behavior.
+
+Since the new neutrino does not interact weakly, how do we then detect its signal? If the sterile mixing
+angle θi4 is non-zero, we allow the sterile mass state to mix with the active state i. The most interesting
+case is when θ24 ̸= 0, which for ∆m2
+41 ∼ eV2 gives rise to a resonant disappeareance in the for P¯νµ¯νµ
+
+
+We have no reason to believe that the Standard Model gauge group is the complete picture. We have
+already seen how the failure of the Standard Model to predict neutrino masses and flavor osillations forces
+us to amend it. Just as the electroweak theory SU(2)L × U(1)Y is spontaneously broken to U(1)EM,
+a higher order theory at a different energy scale with completely different properties might undergo a
+similar spontaneous symmetry break at high energies, producing at lower energies the Standard Model
+that we know. In fact, just as the fermion masses originate from the electroweak symmetry breaking,
+the neutrino masses might be generated from another broken symmetry resulting in the Standard Model
+gauge group. In this sense, the Standard Model might be considered an effective low energy theory,
+which is yiels impressive results in some areas, but failing in others.
+
+Compared to other fermions, the lightness of neutrino masses4 along with their sparse SM interactions
+might indicate that these particles provide the best starting point for us to probe new physics, in which
+exotic neutrino interactions might occur [21]. We call these interactions non-standard interactions (NSI)
+in order to distinguish them from the ‘standard’ interactions of the Standard Model.
+Following the approach of the Standard Model that the group generators uniquely determine the gauge
+bosons, a different gauge theory will have different interactions than those we presently know. These
+new interactions can be parametrized as model-independent four-fermion effective operators [22, 23].
+Following the discussion in [24], we see that the NSI parameters ϵ resulting from six-dimensional operators
+have the scale ...
+
+Up until now, we have only considered weak neutrino interactions with electrons, protons, and neutrons.
+We can phenomenologically allow these interactions to include the up and down quarks which are present
+in the Earth as the fundamental components of neutrons and protons.
+The CC NSI effect affects neutrino production and
+detection, and will not be considered here. NC NSI affect the matter potential, and is thus of interest
+to us.
+
+Off-iagonal NSI parameters constitute new sources of flavor violation, while diagonal elements represent 
+flavor nonuniversality.
+
+In our analysis of IceCube, we are constrained to muon track events. Thus, we are not able to test any
+theory which does not modify Pαµ. Moreover, the IceCube data is avaibable in the range 500 GeV to
+10 TeV range, where any rapid oscillations have settled down.
+
+\end{document}

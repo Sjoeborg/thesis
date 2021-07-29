@@ -263,5 +263,7 @@ def fit_flux(flux_df,zmin):
     y_new_ebar = model_ebar.predict(np.log10(x_new.reshape(-1,1)))
 
     return pd.DataFrame(np.transpose([x_new, 10**y_new_m, 10**y_new_mbar, 10**y_new_e, 10**y_new_ebar, zmin*np.ones(100), (zmin + 0.1)*np.ones(100)]),columns=['GeV', 'm_flux','mbar_flux','e_flux', 'ebar_flux', 'z_min','z_max'])
+
+
 if __name__ == '__main__':
     get_flux_factor()

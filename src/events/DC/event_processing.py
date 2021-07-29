@@ -128,9 +128,9 @@ def marginalize(chisq,dm31_range, th23_range, ett_range, emt_range, eem_range, e
     reshaped_chisq = chisq.reshape(len(eet_range),len(eem_range),len(emt_range),len(ett_range), len(th23_range), len(dm31_range))
     N = len(th23_range)*len(dm31_range)
     if len(th23_range) > 1 and len(dm31_range) > 1:
-        marginalized_chisq = simps(simps(reshaped_chisq))/N #Integrate out oscillation parameters and "normalize"
+        marginalized_chisq = marginalize_one(marginalize_one(reshaped_chisq, dm31_range, 5), th23_range, 4)
     elif len(th23_range) > 1 and len(dm31_range) == 1:
-        marginalized_chisq = simps(reshaped_chisq, axis=4)/N #Integrate out oscillation parameters and "normalize"
+        marginalized_chisq = marginalize_one(reshaped_chisq, th23_range, axis=4)
     else:
         marginalized_chisq = reshaped_chisq[:,:,:,:,0,0]
     best_eet_index, best_eem_index, best_emt_index, best_ett_index, best_th23_index, best_dm31_index = np.unravel_index(best_fit_index,reshaped_chisq.shape)
@@ -138,15 +138,16 @@ def marginalize(chisq,dm31_range, th23_range, ett_range, emt_range, eem_range, e
     deltachi = marginalized_chisq - marginalized_chisq.min()
     return deltachi.T, best_dm31_index, best_th23_index, best_ett_index, best_emt_index, best_eem_index, best_eet_index
 
-def marginalize_one(deltachi, axis):
+def marginalize_one(y, x_range, axis):
     '''
     Assumes 3 axes with same length.
-    Integrates out the axis specified and returns deltachi
+    Integrates out the axis specified and returns
     '''
     from scipy.integrate import simps 
-    N = deltachi.shape[axis]
-    marginalized_chisq = simps(deltachi, axis=axis)/N #Integrate out oscillation parameters
-    return marginalized_chisq - marginalized_chisq.min()
+    N = y.shape[axis]
+    marginalized_chisq = simps(y = y, axis=axis)/N
+    #marginalized_chisq = simps(y = y, x = x_range, axis=axis)*N
+    return marginalized_chisq
 
 def get_param_list(dm31N,th23N, ett_tuple, emt_tuple, eem_tuple, eet_tuple, IO=False):
     ettFrom, ettTo, ettN = ett_tuple

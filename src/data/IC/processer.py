@@ -27,15 +27,6 @@ def get_flux(flavor,E,z,df):
         raise KeyError('NYI for tau flux')
     return np.abs(flux_avg) 
 
-
-def get_aeff_dc(E,interpolator):
-    try:
-        return interpolator(np.log10(E))
-    except ValueError: #extrapolate
-        y1 = interpolator(1.13)
-        y2 = interpolator(1.2)
-        return (y2-y1)/(1.2-1.13) * np.log10(E)
-
 def interpolate_aeff(recompute):
     if recompute:
         df = get_aeff_df()
@@ -197,46 +188,6 @@ def generate_probabilities(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,p
             with open(f'./pre_computed/IC/hashed_params.csv','a') as fd:
                 fd.write(f'{params};{hashed_param_name}\n')
     return prob
-
-
-def get_probabilitiesOLD(flavor_from, flavor_to, E_bin,z_bin,params,anti,N, ndim=4):
-    '''
-    Name of resulting .npy is the sha256 hash of the parameter dictionary used to generate the probablities.
-    '''
-
-    hashed_param_name = sha256(params) #Get hash of parm dict to be used as filename
-    if anti:
-        file_dir = f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/'
-    else:
-        file_dir = f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/'
-    df = pickle.load(open(f'{file_dir}E{E_bin}z{z_bin}.p','rb'))
-    res = df[hashed_param_name][f'E{E_bin}z{z_bin}']
-    return res
-
-def generate_probabilitiesOLD(flavor_from, flavor_to, E_range,z_range,E_bin,z_bin,params,anti,N, ndim=4, nsi=False):
-    '''
-    Name of resulting .csv is the sha256 hash of the parameter dictionary used to generate the probablities.
-    '''
-
-    filename = sha256(params) #Get hash of parm dict to be used as filename
-    if anti:
-        file_dir = f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/E{E_bin}z{z_bin}/'
-    else:
-        file_dir = f'./pre_computed/{ndim}gen/P{flavor_from}{flavor_to}/{N}/E{E_bin}z{z_bin}/'
-    res = np.array([wrapper([flavor_from, E_range,z, anti, params, ndim, nsi])[mass_dict[flavor_to]] for z in z_range])
-    try:
-        np.save(file_dir + filename,res)
-    except FileNotFoundError:
-        try:
-            os.makedirs(file_dir)
-        except FileExistsError: #Sometimes, the dir was already created by another thread
-            pass
-        pass
-    np.save(file_dir + filename,res)
-    if E_bin == 5 and z_bin == 5 and flavor_from == 'm' and flavor_to == 'm':
-        with open(f'./pre_computed/{ndim}gen/Pa{flavor_from}a{flavor_to}/{N}/hashed_params.csv','a') as fd:
-            fd.write(f'{params};{filename}\n')
-    return res
     
 
 def train_energy_resolution(recompute=False):
