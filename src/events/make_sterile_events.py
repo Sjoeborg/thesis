@@ -46,5 +46,5 @@ if __name__ == '__main__':
     data = [(i,j,alpha, args.N,p, [False, 0, 0],False, False,False,4) for p in param_list for i in range(13) for j in range(20)]
     H1_events_list = p.starmap(get_events, data)
     p.close()
-    H1_events_list = np.array(H1_events_list).reshape(len(dm41_range)*len(s24_range),13,20)
-    pickle.dump(H1_events_list,open(f'./pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s24_range)}.p','wb'))
+    H1_events = np.array(H1_events_list).reshape(len(dm41_range)*len(s24_range),13,20)
+    pickle.dump(H1_events,open(f'./pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s24_range)}.p','wb'))
