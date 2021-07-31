@@ -22,6 +22,7 @@ parser.add_argument('-s24N', default=10, type=int)
 parser.add_argument('-s', default = 0, type=int)
 parser.add_argument('-sT', default = 1, type=int)
 parser.add_argument('-N', default=13, type=int)
+parser.add_argument('-s34', action='store_true')
 args = parser.parse_args()
 
 if __name__ == '__main__':
@@ -33,12 +34,13 @@ if __name__ == '__main__':
 
     params = ic_params.copy()
 
-
-    param_list = list_of_params(params, dm41_range, s24_range)
+    param_list = list_of_params(params, dm41_range, s24_range, s24_eq_s34=args.s34)
 
 
     print(f'Precomputing NO IC events for dm41({dm41_range.min()},{dm41_range.max()},{len(dm41_range)}),',
             f's24({s24_range.min()},{s24_range.max()},{len(s24_range)})')
+    if args.s34:
+            print('Putting s24 = s34')
 
 
     from multiprocessing import Pool
@@ -47,4 +49,9 @@ if __name__ == '__main__':
     H1_events_list = p.starmap(get_events, data)
     p.close()
     H1_events = np.array(H1_events_list).reshape(len(dm41_range)*len(s24_range),13,20)
-    pickle.dump(H1_events,open(f'./pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s24_range)}.p','wb'))
+    if args.s34:
+        pickle.dump(H1_events,open(f'./pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s24_range)}_s34.p','wb'))
+    else:
+        pickle.dump(H1_events,open(f'./pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s24_range)}.p','wb'))
+
+    

@@ -56,20 +56,17 @@ def compare_an_nu(flavor_from_list, flavor_to_list, param, material,E=None, L=No
 
 def P_over_E_parameter(flavor_from, param_dict_list, E, zenith = -1, ndim = 3, anti=False, nsi=False, tols=(1e-4,1e-7)):
     '''
-    Returns the range of energies and the list of all flavour oscillation probabilities. Uses all cores locally or on techila (type='local'/'cloud')
+    Returns the range of energies and the list of all flavour oscillation probabilities.
     '''
 
-    args = [(flavor_from, E, None, 2*r_earth, zenith, 0,ndim,False, None, anti, p,'earth',nsi, tols) for p in param_dict_list]
+    args = [(flavor_from, E, None, 2*r_earth, zenith,ndim,False, None, anti, p,'earth',nsi, tols) for p in param_dict_list]
     p = Pool()
     #res = []
     #for p in param_dict_list:
     #    res.append(P_num_over_E_wrapper(p))
     res = p.starmap(P_num_over_E, args)
 
-    P_list = []
-    for i in range(len(param_dict_list)): # Splits result list into x and y
-        P_list.append(res[i])
-    return np.array(P_list)
+    return np.array(res)
 
 
 def plot_P_E_params(x,P, ax,flavor_to='m',colors=None,legend_name='', legend_values='', ylabel='', xlabel='',title=''):
