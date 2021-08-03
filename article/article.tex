@@ -61,9 +61,12 @@ With the matter potential $V = \sqrt{2}G_F n_e$, we write
 where we have assumed the components of the NSI matrix to be real. 
 
 To propagate the neutrino states through the Earth, we solve the Schrödinger equation with the Hamiltonian from Eq.~\ref{eq:H_NSI}. 
-The Earth density profile is taken from the PREM~\cite{PREM}. The baseline for a given trajectory is determined using an average neutrino
-production height of 15 km and an Earth radius of 6371 km. The propagation does not include neutrino absorption. After this, we are
-ready to study the NSI effect on probability level.
+The Earth density profile is taken from the PREM~\cite{PREM}, and we do not consider neutrino absorption.
+The baseline for a given trajectory is determined using an average neutrino production height of 15 km and an Earth radius of 6371 km.
+Thus, matter oscillations introduce a zenith angle dependence in two areas. Firstly, the matter potential depends on the matter density through the
+neutrino propagates. A neutrino with $\cos{\theta_z} < -0.87$ will traverse through the dense Earth core, whereas a mantle-crossing neutrino 
+with $\cos{\theta_z} > -0.87$ will not. Secondly, the zenith angle also alters the baseline through which a neutrino undergoes matter oscillations.
+After this, we are ready to study the NSI effect on probability level.
 %TODO: add more here? are there more effects than just absoption missing? justify absorption missing?
 
 \subsection{NSI phenomenology at probability level}\label{sec:nsiProbEffects}
@@ -97,11 +100,12 @@ The oscillation probability $P_{\alpha \beta}$ acts as a weight to the atmospher
 \begin{align}\label{eq:propFlux}
     \phi_\beta^\text{det} = \sum_\alpha P_{\alpha\beta} \phi_\alpha^\text{atm} \,,
 \end{align}
-where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$. To illustrate the impact of $\emt$ at flux level, 
+where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$.
+To illustrate the impact of $\emt$ at flux level, 
 we plot in Fig.~\ref{fig:flux_ratio} the quantity $(\phi_{\nu_\mu}^{NSI} + \phi_{\bar\nu_\mu}^{NSI})/(\phi_{\nu_\mu}^{SI} + \phi_{\bar\nu_\mu}^{SI})$, 
 where all fluxes are propagated to detector level by Eq.~\ref{eq:propFlux}. 
-In the left panel, we plot the flux in region in which 99\% of the 
-DeepCore track events originating from $\nm + \anm$ fluxes are contained. In the right panel, we show the same but with IceCube events. We see that the only clear signal discernible to the IceCube detector
+In the left (right) panel, we plot the flux in region in which 99\% of the 
+DeepCore (IceCube) track events originating from $\nm + \anm$ fluxes are contained. We see that the only clear signal discernible to the IceCube detector
 is a energy-independent flux deficiency with a factor in the order of $\sim 10^{0.5}$ from core-crossing neutrinos within a zenith range of $\ztrue < -0.87$. DeepCore on the other hand, 
 is exposed to multiple fringes of flux surpluses with a factor in the order of $\sim 10$. The strongest surplus at \SI{20}{\GeV} is very weakly zenith dependent, a stark contrast to the
 energy-independent but zenith-sensitive IceCube deficiency.
@@ -117,14 +121,25 @@ by considering cascade events in IceCube, thus opening up the $e$ and $\tau$ cha
    \end{center}
    \caption{Ratio of detector NSI to SI atmospheric $\nu_\mu + \bar{\nu}_\mu$ fluxes expressed as $(\phi_{\nu_\mu}^{NSI} + \phi_{\bar\nu_\mu}^{NSI})/(\phi_{\nu_\mu}^{SI} + \phi_{\bar\nu_\mu}^{SI})$.
    We set $\emt = -0.05$, and all other $\epsilon_{\alpha\beta}=0$. 
-   Left (right) panel shows the flux ratio in the energy range in which 99\% of the DeepCore (IceCube) events are contained.
+   Left (right) panel shows the flux ratio in the energy range in which 99\% of the simulated DeepCore (IceCube) events are contained.
    }\label{fig:flux_ratio}
 \end{figure}%TODO: make prettier cmap 
 
 \section{Detector formalism}
+The IceCube Neutrino Observatory is a gigaton Cherenkov detector located within Antarctic ice near the Geographic 
+South Pole. It consists of 5160 individual digital optical modules situated on 86 strings, which detect Cherenkov light emitted by charged leptons
+from neutrino events. We distinguish between two interaction topologies: track- and cascade-like events. Track-like events originate mainly
+from muons originating from $\nm$ CC interactions, while cascades predominantly consist of electromagnetic and hadronic showers. 
+
+DeepCore is a dense sub-array whithin the standard IceCube array, which allows us to observe neutrino interactions down to a few GeV~\cite{DC2021}.
+Due to its lower energy threshold compared with IceCube, DeepCore has previously been used to study NSI effects in this more discernible range\cite{DC2021,deepcoreNSI}.
+
+PINGU is a proposed 26 string in-fill array to IceCube, consisting of optical modules of similar nature~\cite{PINGUletter}. While porposed to mainly shed light on 
+neutrino mass ordering, PINGU will be able to probe NSI parameters aswell.  
 \subsection{IceCube}\label{ch:ICmethod}
+
 We obtain the data from the IC-86 sterile data release~\cite{IC2020}, which contain muon track events collected over 8 years. 
-The reconstructed energy $\Ereco$ is logarithmically binned between \SI{500}{\GeV} to \SI{9976}{\GeV}, totalling 13 bins (index $i$).
+In the data, the reconstructed energy $\Ereco$ is logarithmically binned between \SI{500}{\GeV} to \SI{9976}{\GeV}, totalling 13 bins (index $i$).
 The reconstructed cosine-zenith $\zreco$ is linearly binned between $-1$ and $0$ in 20 bins (index $j$). 
 
 The event count for each bin reads
@@ -138,10 +153,11 @@ which is responsible for the smearing between the reconstructed and true paramet
 \begin{align}
     R(x^R, x^T) = \frac{1}{\sqrt{2\pi} \sigma_{x^R}x^R} \exp\left[-\frac{(\log x^R-\mu(x^T))^2}{2\sigma_{x^R}^2}\right]\,.
 \end{align}
-However, the energy reconstruction is biased, which means that we don't assume that $\mu(\Etrue) =\Ereco$~\cite{weaverThesis}. 
-To model this relationship between $\Etrue$ and $\Ereco$, we train a Gaussian process regressor on the IC-86 Monte Carlo dataset from~\cite{IC2016}, from which
-we can extract a predicted mean and standard deviation for a given $\Ereco$. We then take the $\Etrue$ points of the 99th percentile of each distribution to obtain
-the limits over which to integrate. We take the angular resolution function to be identically unity since the angle resolution in IceCube for track-like 
+However, the energy reconstruction is biased, meaning that the most probable reconstructed energy for a given true energy is not the same due to 
+systematic differences~\cite{weaverThesis}. Thus, we don't assume that $\mu(\Etrue) =\Ereco$. 
+To model this relationship between $\Etrue$ and $\Ereco$, we fit a Gaussian process regressor on the IC-86 Monte Carlo dataset from~\cite{IC2016}, from which
+we can extract a predicted mean and standard deviation for a given $\Ereco$. We then take the $\Etrue$ points of the 99th percentile of each reconstructed
+distribution to obtain the $\Etrue$ limits over which to integrate. We take the angular resolution function to be identically unity since the angle resolution in IceCube for track-like 
 events is less than $\SI{2}{\degree}$, making $\ztrue$ practically coincide with $\zreco$ for our study~\cite{IC2020}. 
 
 \subsection{DeepCore}\label{ch:DCmethod}
@@ -153,20 +169,21 @@ They are applied as correction factors using the best-fit points from the DeepCo
 analysis~\cite{DC2019tauappearance}.
 
 The data include 14901 track-like events and 26001 cascade-like events, both divided into eight 
-$ \log_{10}E^{reco} \in [0.75,1.75]$ bins (index $i$), eight $\zreco \in [-1,1]$ bins (index $j$), and two bins for the event classification (index $k$). 
+$ \log_{10}\Ereco \in [0.75,1.75]$ bins (index $i$), eight $\zreco \in [-1,1]$ bins (index $j$), and two bins for the event classification (index $k$). 
 Each event has a Monte Carlo weight $w_{ijk,\beta}$ from which we can construct the event count as
 \begin{align}\label{eq:MCevents}
     N_{ijk} &= C_{ijk}\sum_{\beta}w_{ijk,\beta}\, \phi_\beta^\text{det}\,,
 \end{align}
-where $C_{ijk}$ is the correction factor from the detector systematic uncertainty and $\phi_\beta^\text{det}$ is defined as Eq.~\ref{eq:propFlux}. We have now substituted the effect of the Gaussian smearing 
-by treating the reconstructed and true quantities as a migration matrix. 
+where $C_{ijk}$ is the correction factor from the detector systematic uncertainty and $\phi_\beta^\text{det}$ is defined as Eq.~\ref{eq:propFlux}. 
+We have now substituted the effect of the Gaussian smearing by treating the reconstructed and true quantities as a migration matrix. 
 
 \subsection{PINGU}\label{ch:PINGUmethod}
 The methodology behind the PINGU simulations is the same as with our DeepCore study~\ref{ch:DCmethod}. We use the public Monte Carlo~\cite{PINGUdata}, 
 which allows us to construct the event count as in Eq.~\ref{eq:MCevents}.
-However, since no detector systematics is yet modeled for PINGU, the correction factors $C_{ijk}$ are all unity. We will remedy this by including an uncorrelated systematic error.
+However, since no detector systematics is yet modeled for PINGU, we take the correction factors $C_{ijk}$ are all unity. We will remedy this by including an uncorrelated systematic error,
+which we can scale at will.
 As with the DeepCore Monte Carlo, the PINGU Monte Carlo is divided into eight 
-$\log_{10}E^{reco} \in [0.75,1.75]$ bins, and eight $\zreco \in [-1,1]$ bins for both track- and cascade-like events. 
+$\log_{10}\Ereco \in [0.75,1.75]$ bins, and eight $\zreco \in [-1,1]$ bins for both track- and cascade-like events. 
 We plot the normalized event differences $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ for cascades and tracks in Fig.~\ref{fig:event_pulls}. %TODO:talk about this
 We generate `data' by predicting the event rates at PINGU with the following best-fit parameters from~\cite{nufit}, except for the CP-violating phase which is set to zero for simplicity.
 
@@ -176,7 +193,7 @@ We generate `data' by predicting the event rates at PINGU with the following bes
 \end{align}
 
 \section{Results}
-At the reconstructed event level, we note that the $\emt$ features discussed in Sec.~\ref{sec:nsiEffects} display themselves differently in each detector.
+At the reconstructed event level, we note that the $\emt$ features discussed in Sec.~\ref{sec:nsiFluxEffects} display themselves differently in each detector.
 We investigate this for $\emt$ by in Fig.~\ref{fig:Pmm_asymmetry} plotting the muon survival probability difference $P_{\mu\mu}(\epsilon^+_{\mu\tau}) - P_{\mu\mu}(\epsilon^-_{\mu\tau})$, where 
 %TODO: check that this is what is plotted.
 $\epsilon^\pm_{\mu\tau} = \pm 0.01$.
@@ -209,7 +226,7 @@ for negative $\emt$ at probability level, which is then propagated through the f
    region stemming from $\emt = 0.01$ is less prominent than the red regions from $\emt=-0.01$.}
 \end{figure}
  
-\subsection{Constraining the NSI parameters}\label{sec:method}
+\subsection{Constraining the NSI parameters}\label{sec:constraining}
 In this section, we will constrain the four NSI parameters $\ett$, $\emt$, $\eem$, and $\eet$ by considering the detectors separately as well as jointly.
 For our analyses, we define our $\chi^2$ as
 \begin{align} \label{eq:chisq}
@@ -222,7 +239,7 @@ $N_{ijk}^\text{th}$ is the expected number of events from theory, and $N_{ijk}^\
 
 In our simulations of $N_{ijk}^\text{th}$, we set all standard oscillation parameters to their current best-fit values of Eq.~\ref{eq:PINGUparams}, 
 except for $\dm$ and $\theta_{23}$
-which we let free over their $3\sigma$ limits \SIrange{2.435e-3}{2.598e-3}{\eV \squared} and \SIrange{40.1}{51.7}{\degree}, respectively.
+which we vary over their $3\sigma$ limits \SIrange{2.435e-3}{2.598e-3}{\eV \squared} and \SIrange{40.1}{51.7}{\degree}, respectively.
 
 We set $\sigma_\alpha = 0.25$ as the atmospheric flux normalization error, and $\sigma_\beta = 0.04$ as the zenith angle slope error~\cite{hondapaper}. 
 The observed event number has an associated Poissonian uncertainty $\sigma_{ijk}^\text{data} = \sqrt{N_{ijk}^\text{data}}$.
@@ -255,7 +272,7 @@ muon background estimate~\cite{DC2019data}. This is summarized in Table~\ref{tab
       PINGU & $0\%$ & $3\%$ & $5\%$ \\
       \hline \hline
    \end{tabular}
-   \caption{Definition of the best, baseline, and worst case scenarios considered in each experiment, modelled by $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$ with $f$ from the table.
+   \caption{Our definition of the best, baseline, and worst case scenarios considered in each experiment, modelled by $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$ with $f$ from the table.
    We do not consider different DeepCore scenarios because her systematic error distribution is already provided in the data release~\cite{DC2019data}.}\label{table:syst_errors}
 \end{table}
 
@@ -265,8 +282,8 @@ For the joint analysis, we follow the parameter goodness-of-fit prescription~\ci
 \end{align}
 with test statistic $\chi^2_\text{joint,min}$. The $\Delta \chi^2_\text{joint}$ is then $\Delta \chi^2_\text{joint} = \chi^2_\text{joint} - \chi^2_\text{joint,min}$.
 
-
-After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:3D_NO}. The results are shown in Fig.~\ref{fig:IC_3D} and summarized in Tables~\ref{table:IC_DC_results} and~\ref{table:PINGU_joint_results}.
+After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:3D_NO}. 
+The results are shown in Fig.~\ref{fig:IC_3D} and summarized in Tables~\ref{table:IC_DC_results} and~\ref{table:PINGU_joint_results}.
 
 Comparing the PINGU and the DeepCore results in Fig.~\ref{fig:3D_NO}, we note that the best-fit for each NSI parameter for the PINGU experiment is expected to be zero. This is because the `data' we generated during 
 the PINGU simulations assume no NSI since they have yet to be observed in nature. This introduces a non-NSI bias in all joint analyses which include PINGU,
