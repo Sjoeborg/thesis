@@ -104,7 +104,7 @@ leaving only one physical phase for us to measure. Thus we are down to four degr
 of the form $\sin{(\theta_{ij})}/\cos{(\theta_{ij})} = s_{ij}/c_{ij}$, and one phase of the form $e^{i\delta}$.
 
 We construct the PMNS matrix using the rotation matrixes from $SO(3)$ as
-\begin{align}
+\begin{align}\label{PMNS_def}
     U &= R_{23}R_{13,\delta_{\text{CP}}}R_{12} \nonumber \\
       & = 
     \begin{pmatrix}1 & 0 & 0 \\ 0 & c_{23} & s_{23} \\ 0 & -s_{23} & c_{23}\end{pmatrix}
@@ -193,7 +193,7 @@ where we have used the unitarity of the leptonic mixing matrix. Eqs.~\ref{eq:osc
 \end{align}
 The probability of the flavor transition $\na \to \nb$ at time $t$ is $\abs{\bra{\nb}\ket{\na (t)}}^2$:
 \begin{align}
-    P_{\na \to \nb}(t) = \sum_{k,j} U^\dagger_{\a k}U_{\b k}U^*_{\b j}U_{\a j} e^{-i(E_k-E_j)t}\,.
+    P_{\na \to \nb}(t) = \sum_{k,j} U^\dagger_{\a k}U_{\b k}U^\dagger_{\b j}U_{\a j} e^{-i(E_k-E_j)t}\,.
 \end{align}
 
 We assume the neutrino masses $m_k$ to be extremely small compared to their associated energies $E_k$. 
@@ -463,7 +463,146 @@ are the probabilities
 \end{align}
 
 For $N_e = 0$, i.e. in vacuum, these probabilities are identical to the ones that we analytically derived in Eq.~\ref{eq:Pab}.
-For matter oscillations with $N_e \neq 0$, we do have closed form solutions, but they are not considered further here.
+For matter oscillations with $N_e \neq 0$, we do have closed form solutions, but they are not considered further here. 
+
+\subsection{Two neutrino mixing}
+By working in the limit where one of the neutrino masses can be neglected, 
+we can reduce the complexity of the analytical solution of neutrino oscillation. We now only consider the mixing between two neutrino flavors, say between $\ne, \nm$, and $\nu_1, \nu_2$. In other words, we let $\dm[31] = 0$.
+
+The three-neutrino oscillation Hamiltonian from Eq.~\eqref{eq:H_3gen} %TODO: derive this
+now reduces to 
+\begin{align}
+    H_F &= \frac{1}{2E}(U M^2 U^\dagger + A) \nonumber \\
+        &= \frac{1}{2E}\left[U \begin{pmatrix}
+            0 & 0 & 0 \\
+            0 & \dm_{21} & 0 \\
+            0 & 0 & 0
+        \end{pmatrix} U^\dagger\right] + \sqrt{2}G_F N_e \begin{pmatrix}
+            1 & 0 & 0 \\
+            0 & 0 & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}\,. 
+\end{align}
+The rotation matrices $R_{ij}$ that constitute $U$ according to Eq.~\eqref{PMNS_def} can be simplified. The rotation $R_{13}$ will not affect our mass matrix, since the former acts in the $1-3$ plane, and the latter sits in the $1-2$ plane. Thus, the reduced mass matrix $\mathcal{M}_{12}$ commutes with $R_{13}$. Analogously, the  rotation matrix $R_{23}$ also commutes with $\mathcal{M}_{12}$.
+Moreover, since $SO(3)$ is abelian, its generators commute, i.e.
+\begin{align}
+    \commutator{R_{ij}}{R_{kl}} = R_{ij}R_{kl} - R_{kl}R_{ij} = 0\,.
+\end{align}
+Thus,
+\begin{align}
+    U \mathcal{M}_{12} U^\dagger &=
+    R_{23}R_{13}R_{12} \mathcal{M}_{12}  R_{12}^\dagger R_{13}^\dagger  R_{23}^\dagger \nonumber \\
+    &= R_{12}R_{23}R_{13} \mathcal{M}_{12}  R_{13}^\dagger R_{23}^\dagger R_{12}^\dagger   \nonumber \\
+    &= R_{12}\mathcal{M}_{12} R_{23} R_{13}   R_{13}^\dagger R_{23}^\dagger R_{12}^\dagger  \,.
+\end{align}
+And due to the fact that the rotation matrices are unitary,
+\begin{align}
+    R\,R^\dagger = \mathcal{I}\,,
+\end{align}
+we have that 
+\begin{align}
+    U \mathcal{M}_{12} U^\dagger &= R_{12}\mathcal{M}_{12}R_{23} R_{13}   R_{13}^\dagger R_{12}^\dagger  R_{23}^\dagger \nonumber \\
+    &= R_{12}\mathcal{M}_{12}R_{23} R_{23}^\dagger  R_{12}^\dagger \nonumber \\
+    &= R_{12}\mathcal{M}_{12}  R_{12}^\dagger\,.
+\end{align}
+We have now completely removed the dependence of the mixing angle between the $\nu_1$ and $\nu_3$ mass eigenstates, $\theta_{13}$, and the dependece of the mixing angle between the $\nu_2$ and $\nu_3$ mass eigenstates, $\theta_{23}$.
+We can see this clearly by writing our reduced mixing matrix, which is only constituted by the rotation in the $1-2$ plane, $R_{12}$.
+
+\begin{align}
+    U &= R_{12}
+\begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1 \end{pmatrix} 
+\end{align}
+
+Let us return to the Hamiltonian with our two-neutrino mixing matrix. We have 
+\begin{align}
+    H_F
+        &= \frac{1}{2E}\left[R_{12} \begin{pmatrix}
+            0 & 0 & 0 \\
+            0 & \dm_{21} & 0 \\
+            0 & 0 & 0
+        \end{pmatrix} R_{12}^\dagger\right] + \sqrt{2}G_F N_e \begin{pmatrix}
+            1 & 0 & 0 \\
+            0 & 0 & 0 \\
+            0 & 0 & 0
+        \end{pmatrix} \nonumber \\
+        &= \frac{1}{2E}\left[\begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1 \end{pmatrix}  \begin{pmatrix}
+            0 & 0 & 0 \\
+            0 & \dm_{21} & 0 \\
+            0 & 0 & 0
+        \end{pmatrix} \begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1 \end{pmatrix}^\dagger \right] + \sqrt{2}G_F N_e \begin{pmatrix}
+            1 & 0 & 0 \\
+            0 & 0 & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}\,. 
+\end{align}
+
+We can reduce this down to two dimensions by extracting the upper-left block of all matrices. We now have the final two-neutrino Hamiltonian:
+
+\begin{align}
+    H_F
+        &= \frac{1}{2E}\left[
+            \begin{pmatrix}
+                c_{12} & s_{12} \\ 
+                -s_{12} & c_{12} \\ 
+            \end{pmatrix}  
+            \begin{pmatrix}
+            0 & 0 \\
+            0 & \dm_{21}
+        \end{pmatrix} 
+        \begin{pmatrix}
+            c_{12} & s_{12}\\ 
+            -s_{12} & c_{12} \end{pmatrix}^\dagger \right] + \sqrt{2}G_F N_e 
+            \begin{pmatrix}
+            1 & 0 \\
+            0 & 0 \\
+        \end{pmatrix} \nonumber \\
+        &= 
+        \frac{1}{2E}\left[
+            \begin{pmatrix}
+                0 & \dm_{21} s_{12} \\ 
+                0 & \dm_{21} c_{12} \\ 
+            \end{pmatrix}  
+        \begin{pmatrix}
+            c_{12} & -s_{12}\\ 
+            s_{12} & c_{12} \end{pmatrix} \right] + \sqrt{2}G_F N_e 
+            \begin{pmatrix}
+            1 & 0 \\
+            0 & 0 \\
+        \end{pmatrix} \nonumber \\
+        &= 
+        \frac{1}{2E}\left[
+            \begin{pmatrix}
+                s_{12}^2 + \sqrt{2}G_F N_e & \dm_{21} s_{12}c_{12} \\ 
+                \dm_{21} s_{12}c_{12} & \dm_{21} c_{12}^2 \\ 
+            \end{pmatrix}  \right]
+\end{align}
+%TODO: complete trig simplification
+
+This matrix has eigenvalues which we identify as the effective two-neutrino squared-mass difference $(\dm[21])^M$. They are 
+
+\begin{align}\label{eq:eff_dm}
+    \pm (\dm[21])^M = \pm \sqrt{(\dm[21] \cos{(2\theta_{12}) - \sqrt{2}G_F N_e})^2 + (\dm[21]\sin{(2\theta_{12})})^2}
+\end{align}
+
+The matrix is diagonalized by the usual rotation matrix $R_{12}$, but with a different rotation angle. This now introduces the effective two-neutrino mixing angle $\theta_{12}^M$:
+
+\begin{align}
+    U^M &= R_{12}^M = R_{12}(\theta_{12}^M)\,.
+\end{align}
+$U^M$ diagonalizes $H_F$ if and only if 
+
+\begin{align}\label{eq:eff_theta}
+    \tan{(2\theta_{12}^M)} = \frac{\tan{(2\theta_{12})}}{1- \frac{\sqrt{2}G_F N_e}{\dm[21]\cos{(2\theta_{12})}}}\,.
+\end{align}
+
+Now assume that the matter density is sufficiently smooth along the trajectory $x$, that is $\dd \theta_M / \dd x \approx 0$.
+In its diagonalized form, the Schrödinger equation with two-neutrino Hamiltonian can be solved with this assuption. The solutions are the regular neutrino vacuum oscillations of Eq.~\eqref{eq:Pab} using $\theta[13] = \theta[23] =0$, but with the effective parameters of Eqs.~\eqref{eq:eff_dm,eq:eff_theta}. That is
+%TODO:maybe expand eq below or solve above explicitly?
+\begin{align}
+    P_{e\mu}^M(x) = \sin^2(2\theta_{12}^M))\sin^2(\frac{\dm[21]x}{4E})
+\end{align}
+
+\subsection{Earth propagation}
 
 We now need to know how the electrons are distributed within the Earth. The Preliminary Earth Reference Model~\cite{PREM} gives us spherically
 symmetric piecewise polynomials for the Earth density in \si{\gram \cm^3} shown in the left panel of Fig.~\ref{fig:potential}.
