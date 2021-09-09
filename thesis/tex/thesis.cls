@@ -11,7 +11,7 @@
 \typeout{               (c) 2004 S. Orsi}
 \typeout{---------------------------------------------------------------}
 \typeout{}
-\newcommand\@ptsize{10}
+\newcommand\@ptsize{12}
 \newif\if@mainmatter \@mainmatterfalse
 \newif\if@openright  \@openrighttrue
 \newif\if@foreginabstract \@foreginabstractfalse
