@@ -6,7 +6,8 @@
 \section{IceCube}\label{ch:ICmethod}
 As the neutrinos have propagated the Earth, they arrive at the South Pole, where they interact with charged lepton in the ice. We now are interested in the effective area $\Aeff$, 
 i.e.~the cross-section of the detector that the lepton is exposed to.
-$\Aeff$ depends on several parameters, some of them being detector physical volume, $\Etrue$, $\ztrue$ and the neutrino cross-section. Fortunately, the binned $\Aeff$ is provided to us by the collaboration~\cite{ICaeff}.
+$\Aeff$ depends on several parameters, some of them being detector physical volume, $\Etrue$, $\ztrue$ and the neutrino cross-section. 
+Fortunately, the binned $\Aeff$ is provided to us by the collaboration~\cite{ICaeff}.
 The data file has the following form
 
 \begin{table}[h]\label{table:aeff}
@@ -22,11 +23,20 @@ The data file has the following form
             398 &      501 &  -0.73 &  -0.72 &   0.0555 \\
         \hline \hline
         \end{tabular}
-    \caption{IceCube-86 effective area from~\cite{ICaeff}}
+    \caption{IceCube-86 effective area from~\cite{ICaeff}.}
 \end{table}
 
 Here, $\Aeff$ has been averaged over $\Aeff_\mu$ and $\Aeff_{\bar{\mu}}$.
-Just as with the fluxes, we interpolate this in $\Etrue$, $\ztrue$ and show the result %TODO aeff interpolation
+Just as with the fluxes, we interpolate this in $\Etrue$, $\ztrue$ and show the result in Fig.~\ref{fig:aeff}
+Since the IceCube array is slightly rectangular, the zenith angle affects the cross-sectional area of which the array the neutrinos are exposed to.
+While the flux was almost flat in $\ztrue$, the introduction of the zenith dependent $\Aeff$ will make the result slightly more zenith dependent than 
+the flux itself. Energy-wise, the situation here is completely reverse. Increasing with energy, the effective area of the detector
+approaches its geometrical area of \SI{1e6}{\metre^2}, but is still only in the single digit range at \si{\TeV} energies.
+
+\begin{figure}[t]\label{fig:aeff}
+    \includegraphics[width=0.7\textwidth]{figures/aeff.pdf}
+    \caption{Interpolated IceCube effective area with data from~\cite{ICaeff}.}
+\end{figure}
 
 So now we have the physical quantities in the true parameters. But as we discussed, we need a way to translate this into the reconstructed parameters that the detector gives us. We will call the relationship between 
 $\Ereco$ and $\Etrue$ the energy resolution function, and the relationshop between $\zreco$ and $\ztrue$ the zenith resolution function. We assume the relationship to follow a logarithmic Gaussian distribution, giving it the form 
