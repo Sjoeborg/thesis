@@ -10,7 +10,7 @@ $\Aeff$ depends on several parameters, some of them being detector physical volu
 Fortunately, the binned $\Aeff$ is provided to us by the collaboration~\cite{ICaeff}.
 The data file has the following form
 
-\begin{table}[h]\label{table:aeff}
+\begin{table}[ht]
     \centering
     \begin{tabular}{lrrrrr}
         \hline \hline
@@ -24,22 +24,26 @@ The data file has the following form
         \hline \hline
         \end{tabular}
     \caption{IceCube-86 effective area from~\cite{ICaeff}.}
+    \label{table:aeff}
 \end{table}
 
 Here, $\Aeff$ has been averaged over $\Aeff_\mu$ and $\Aeff_{\bar{\mu}}$.
 Just as with the fluxes, we interpolate this in $\Etrue$, $\ztrue$ and show the result in Fig.~\ref{fig:aeff}
 Since the IceCube array is slightly rectangular, the zenith angle affects the cross-sectional area of which the array the neutrinos are exposed to.
 While the flux was almost flat in $\ztrue$, the introduction of the zenith dependent $\Aeff$ will make the result slightly more zenith dependent than 
-the flux itself. Energy-wise, the situation here is completely reverse. Increasing with energy, the effective area of the detector
+the flux itself. Energy-wise, the situation here is completely reverse from the flux. Increasing with energy, the effective area of the detector
 approaches its geometrical area of \SI{1e6}{\metre^2}, but is still only in the single digit range at \si{\TeV} energies.
 
-\begin{figure}[t]\label{fig:aeff}
+\begin{figure}[ht]
     \includegraphics[width=0.7\textwidth]{figures/aeff.pdf}
     \caption{Interpolated IceCube effective area with data from~\cite{ICaeff}.}
+    \label{fig:aeff}
 \end{figure}
 
-So now we have the physical quantities in the true parameters. But as we discussed, we need a way to translate this into the reconstructed parameters that the detector gives us. We will call the relationship between 
-$\Ereco$ and $\Etrue$ the energy resolution function, and the relationshop between $\zreco$ and $\ztrue$ the zenith resolution function. We assume the relationship to follow a logarithmic Gaussian distribution, giving it the form 
+So now we have the physical quantities in the true parameters. 
+But as we discussed, we need a way to translate this into the reconstructed parameters that the detector gives us. We will call the relationship between 
+$\Ereco$ and $\Etrue$ the energy resolution function, and the relationshop between $\zreco$ and $\ztrue$ the zenith resolution function. 
+We assume the relationship to follow a logarithmic Gaussian distribution, giving it the form 
 \begin{align}\label{eq:gaussian}
     R(x^r, x^t) = \frac{1}{\sqrt{2\pi} \sigma_{x^r}x^r} \exp\left[-\frac{(\log x^r-\mu(x^t))^2}{2\sigma_{x^r}^2}\right]\,.
 \end{align}
@@ -52,7 +56,7 @@ The "pdg" column refers to the Monte Carlo particle classification, where 13 is 
 to an $\anm$. Here we note a crucial property of the IceCube dataset that will impact our analysis: the MC released by the collaboration
 only includes simulated muon events.
 
-\begin{table}[h]\label{table:IC_MC}
+\begin{table}[ht]
     \centering
     \begin{tabular}{lrrrrr}
         \hline \hline
@@ -66,6 +70,7 @@ only includes simulated muon events.
          \hline \hline
   \end{tabular}
   \caption{A selection of the data found in~\ref{IC2016}}
+  \label{table:IC_MC}
 \end{table}
 
 First, we let $\zreco = \ztrue$ for all values. The angular resolution in IceCube for track-like events is less than $\SI{2}{\degree}$, making $\ztrue$ coincide with $\zreco$ for our study~\cite{IC2020}.
@@ -80,23 +85,25 @@ The event rate for each bin reads
     \int_0^\pi R(\theta^r,\theta^t) \dd \cos{\theta^t} \int_0^\infty R(E^r,E^t) \phi_\beta^\text{det}  A^\text{eff}_\beta \dd E^t
     \,,
 \end{align}
-where $T$ is the live time of the detector. Now this expression handles the Gaussian smearing, but we are not provided systematic error sources, DOM efficiencies, and many more nuisance parameters. To correct this,
+where $T$ is the live time of the detector. Now this expression handles the Gaussian smearing, but we are not provided systematic error sources, DOM efficiencies, and other nuisance parameters. To correct this,
 we will aim to come as close as possible to the IceCube Monte Carlo, and then normalize with it. That way, we know that our null hypotheses will align while we are free to form additional hypotheses with different 
-physics parameters. The binned Monte Carlo events that IceCube used as their null hypothesis in the 2020 sterile analysis is shown in %TODO:MC vs myMC fig.
+physics parameters. %The binned Monte Carlo events that IceCube used as their null hypothesis in the 2020 sterile analysis is shown in %TODO:MC vs myMC fig.
 
 
-\begin{figure}[!tb]
+\begin{figure}[ht]
     \begin{center}
-       \includegraphics[width=0.4\linewidth]{figures/IC_MC_gpr.pdf}
+       \includegraphics[width=0.7\linewidth]{figures/IC_MC_gpr.pdf}
     \end{center}
     \caption{Relationship between the true and reconstructed muon energy in the IceCube MC sample~\cite{IC2016}.
-    Shaded area shows the $99.9$th percentile limits predicted by the regressor trained on this set.}\label{fig:IC_MC_gpr}
+    Color indicates the frequency of each simulated point.
+    Shaded area shows the 99th percentile limits predicted by the regressor trained on this set. It is within this band 
+    that then will sample the $\Etrue$ values for each $\Ereco$.}\label{fig:IC_MC_gpr}
  \end{figure}
 
 The latest available data collected and processed by the collaboration contains 305,735 muon track events, collected over eight years~\cite{IC2020}. 
-%The data has 13 logarithmically spaced bins in $\Ereco \in \[500,9976\] \si{GeV}$, and 20 linear bins in $\zreco \in \[-1,0\]$. The data is shown in Fig.~\ref{fig:IC_data}.
+The data has 13 logarithmically spaced bins in $\Ereco \in [500,9976]$ \si{\GeV}, and 20 linear bins in $\zreco \in [-1,0]$. The data is shown in Fig.~\ref{fig:IC_data}.
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/IC_data.pdf}
     \caption{IceCube track events from~\cite{IC2020}.}\label{fig:IC_data}
@@ -129,7 +136,7 @@ correction factors of Eq.~\ref{eq:MC_norm}. We now arrive to our final event cou
     \,,
 \end{align}
 with $E^t_{min}$, $E^t_{max}$, and $R(E^r,E^t)$ taken from the Gaussian process regressor.
-\begin{figure}
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/IC_MC_norm.pdf}
     \caption{IceCube Monte Carlo, binned in $\Ereco$ and $\zreco$. We compare this with our simulations shown as `Null' in the plots.}\label{fig:IC_MC_norm}
