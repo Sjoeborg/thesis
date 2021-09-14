@@ -290,3 +290,4 @@ __pycache__/constants.cpython-39.pyc
 __pycache__/dataImporter.cpython-39.pyc
 __pycache__/gaussian.cpython-39.pyc
 .vscode/
+.DS_Store

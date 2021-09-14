@@ -9,10 +9,10 @@ First, let us see how the collected data from Fig.~\ref{fig:IC_data} deviates fr
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/IC_rates.pdf}
-    \caption{}\label{fig:IC_rates}
+    \caption{How the null hypothesis compares to the IceCube data from~\cite{IC2020}.}\label{fig:IC_rates}
 \end{figure}
 Fig.~\ref{fig:IC_rates} shows an impressive agreement to the standard $3\nu$ oscillation picture, with the largest deviations of $~6\%$
-for neutrinos close to double-digit \si{\TeV} values. In zenith, the data only deviates $\pm 1\%$. Recalling the \si{\TeV} disappearance from 
+for neutrinos with high single-digit \si{\TeV} values. In zenith, the data only deviates $\pm 2\%$. Recalling the \si{\TeV} disappearance from 
 Fig.~\ref{fig:sterile_resonance}, we see that we have a similar deficiency found in the data at \SI{4}{\TeV}. Thus, we expect the best fitting 
 sterile hypothesis to include a $\dm[41]$ that places the resonant disappearance in the same region. From Fig.~\ref{fig:resonance_shift}, we see
 that a mass of $\dm[41] = \SI{1.5}{\eV \squared}$ achieves this. 
@@ -26,21 +26,21 @@ For our analyses, we define our $\chi^2$ as
 \end{align}
 where we minimize over the model parameters $\hat{\theta}$, the penalty terms $\alpha$ and $\beta$.
 $N_{ij}^\text{th}$ is the expected number of events from theory, and $N_{ij}^\text{data}$ is the observed number of events in that bin. 
-We set $\sigma_\alpha = 0.25$ as the atmospheric flux normalization error, and $\sigma_\beta = 0.04$ as the zenith angle slope error~\cite{hondapaper}. 
+We set $\sigma_\alpha = 0.25$ as the atmospheric flux normalization error, and $\sigma_\beta = 0.05$ as the zenith angle slope error~\cite{hondapaper}. 
 The observed event number has an associated Poissonian uncertainty $\sigma_{ij}^\text{data} = \sqrt{N_{ij}^\text{data}}$.
 For IceCube, the event count takes the form
 \begin{align}
     N^\text{th}_{ij} = \alpha\left[1+\beta (0.5 + \zreco_i )\right] N_{ij}(\hat{\theta})\,,
 \end{align}
 with $N_{ij}(\hat{\theta})$ from Eq.~\ref{eq:Nth}. Here, the term $ \beta (0.5 + \zreco_i )$ allows the event distribution to rotate with angle $\beta$ around the median zenith angle of $\zreco = -0.5$.
-We also have an uncorrelated systematic error $\sigma_{ijk}^\text{syst}$. We set $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$, where $f$ is a percentage of our own choosing.
+We also have an uncorrelated systematic error $\sigma_{ijk}^\text{syst}$. We set $\sigma_{ijk}^\text{syst} = f\sqrt{N_{ijk}^\text{data}}$, where $f$ is a factor of our own choosing.
 
 The minimization of Eq.~\ref{eq:chisq} simply returns a value for each set of model parameters. We use this value to quantify to what extent
 our theoretical simulations $N^\text{th}_{ij}$ agree with the data $N^\text{data}_{ij}$ within the error bounds provided by $\sigma_a,\sigma_b,$ and $f$.
 We then select the set of $\chi^2$ values which are the smallest and our allowed parameters are then their associated $\hat{\theta}$.
 We then translate the $\chi^2$ distribution by subtracting the best-fit point, and analyze $\Delta \chi^2 = \chi^2 - \chi^2_{min}$.
 From the $\chi^2$-distribution, one can show that the $90\%$ confidence level has a value of $2.71$ for two degrees of freedom. When slicing through the 
-two-dimensional grid of $\Delta \chi^2$ at this level, we then obtain a contour plot that tells us what regions are within our $90 \%$ and what regions are not.
+two-dimensional grid of $\Delta \chi^2$ at this level, we then obtain a contour plot that tells us what parameter values are within our $90 \%$ confidence level and what regions are not.
 
 \subsection{Sterile Mass and Mixing}
 Let us start with looking at the best-fit event distribution resulting from the $\chi^2$ minimization.
@@ -68,14 +68,14 @@ our contour slightly diverges above \SI{1}{\eV\squared}.
     \centering
     \includegraphics[width=0.8\textwidth]{figures/s24_contour.pdf}
     \caption{The 90\% CL contour using $f=35\%$, compared with the official IceCube result from~\cite{IC2020}
-    and the result from~\cite{gariazzoUpdatedGlobalAnalysis2017}}\label{fig:s24_contour}
+    and the result from~\cite{gariazzoUpdatedGlobalAnalysis2017}}\label{fig:s24_contour}    
 \end{figure}
 
 We now in Fig.~\ref{fig:final_rate_plot} plot the best-fit sterile hypothesis with the data from Fig.~\ref{fig:IC_rates}, to finally see how the best 
 sterile hypothesis compares to data.
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/final_rate_plot.pdf}
+    \includegraphics[width=1\textwidth]{figures/final_rate_plot.pdf}
     \caption{The predicted binned event count assuming our best-fit sterile hypothesis, compared with the 
     null and data.}\label{fig:final_rate_plot}
 \end{figure}

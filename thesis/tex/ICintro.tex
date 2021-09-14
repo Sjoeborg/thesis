@@ -46,14 +46,14 @@ The strings and DOMs are not spaced evenly, making some parts of the detector mo
 8 strings packed more tightly than the other 78, making that part of the detector sensitive to neutrino energies down to single-digit \si{\GeV}. Due to 
 this part being situated deep within the ice, it is referred to DeepCore. DeepCore will be treated as a separate and independent detector from the rest, which
 retains the name IceCube. A view of the current setup can be seen in Fig.~\ref{fig:array}. In this work, we consider DeepCore data between \SIrange{5.6}{56}{\GeV} and IceCube data in the range \SIrange{0.5}{10}{\TeV}.
-\begin{figure}\label{fig:array}
+\begin{figure}
     \centering
-    \includegraphics[width=0.5\textwidth]{figures/icecube2.png}
-    \caption{View of the full IceCube array, with the Eiffel tower for scale.}
+    \includegraphics[width=0.8\textwidth]{figures/icecube2.png}
+    \caption{View of the full IceCube array, with the Eiffel tower for scale.}\label{fig:array}
 \end{figure}
 
 In 2017, the PINGU Letter of Intent was published~\cite{PINGUletter}. The `Precision IceCube Next Generation Upgrade' is an upgrade that will 
-supplement DeepCore, i.e. boosing the capabilities of neutrino detection at the \si{\GeV} scale. As the PINGU upgrade is not yet financed nor built, we are
+supplement DeepCore, i.e. boosting the capabilities of neutrino detection at the \si{\GeV} scale. As the PINGU upgrade is not yet financed nor built, we are
 not able to use any data from it. However, the collaboration has released preliminary simulations which we will use to see how the upgrade might improve
 results from IceCube and DeepCore. The PINGU simulations have the same structure as the DeepCore data, so our analysis referring to DeepCore will
 also apply to PINGU except where noted. However, we treat the PINGU detector as independent of the other experiments.
@@ -93,7 +93,7 @@ Secondly, the zenith angle determines the baseline. Completely down-going neutri
 overhead, travel down to the icy sheet of Antarctica, and then penetrate the ice down \SI{2}{\km} to the DOMs~\cite{hondapaper}. 
 The energy dependence of the flux is approximately $E^{-2.7}$, so our expected event count at higher energies will suffer from this strong decline in flux.
 
-\begin{table}[h]\label{table:flux}
+\begin{table}[h]
     \begin{center}
         \begin{tabular}{lcccccc}
             \hline \hline
@@ -107,15 +107,15 @@ The energy dependence of the flux is approximately $E^{-2.7}$, so our expected e
             \hline \hline
         \end{tabular}
     \end{center}
-    \caption{A selection of processed atmospheric South Pole fluxes from~\cite{hondaData} by Honda et al.~\cite{hondaArticle}.}
+    \caption{A selection of processed atmospheric South Pole fluxes from~\cite{hondaData} by Honda et al.~\cite{hondaArticle}.}\label{table:flux}
 \end{table}
 
 
-\begin{figure}[t]\label{fig:flux}
+\begin{figure}[t]
     \centering
     \includegraphics[width=0.9\textwidth]{figures/flux.pdf}
     \caption{Interpolated South Pole atmospheric $\nu_\mu$ flux with data from~\cite{hondaArticle}, displaying a near-neglible 
-    zenith angle dependance, but a strong energy dependence. The energy dependence can be parametrized to be approximated by $E^{-2.7}$.}
+    zenith angle dependance, but a strong energy dependence. The energy dependence can be parametrized to be approximated by $E^{-2.7}$.}\label{fig:flux}
 \end{figure}
 
 We propagate the atmospheric neutrino flux $\phi_\alpha^\text{atm}(E,\theta_z)$ through the Earth.
