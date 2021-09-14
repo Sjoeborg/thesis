@@ -9,16 +9,16 @@
 We always observe neutrinos indirectly through their associated charged lepton. 
 Regardless of the type of interaction (charged current via the $W$ boson, or neutral current
 via the $Z$), a charged lepton exits with altered properties. The lepton is then detected, and the properties of the neutrino involved in the 
-interaction is then deduced. This deduction will be imperfect, and this introduces complexities that we will handle in Ch.~\ref{ch:ICmethod}. 
+interaction are then deduced. This deduction will be imperfect, and this introduces complexities that we will handle in Ch.~\ref{ch:ICmethod}. 
 
-In this work, we only study the detectors handeled by the IceCube collaboration. They are of Cherenkov type, which means that they detect 
+In this work, we only study the detectors handled by the IceCube collaboration. They are of Cherenkov type, which means that they detect 
 the secondary charged lepton by its emitted Cherenkov light, produced from its travel through the Antarctic ice. 
 If the charged leptons interact heavily with the ice, they will travel a short distance and emit a localized flash of 
-Cherenkov light. This event is referred to as a cascade. The neutral current interactions involves quarks, which recoils and procudes
+Cherenkov light. This event is referred to as a cascade. The neutral current interactions involve quarks, which recoils and produces
 showers of hadrons. Also, charged current $\ne$ interactions also produce cascades. A cascade event 
 is shown in Fig.~\ref{fig:events_cascade}.
 If the charged leptons don't interact as much in the ice, they penetrate a larger part of it, emitting light and tertiary particles
-as they go. This event is referred to as a track, and are often due to muon charged current interactions. A track event 
+as they go. This event is referred to as a track and is often due to charged current muon interactions. A track event 
 is shown in Fig.~\ref{fig:events_track}.
 
 \begin{figure}\label{fig:events}
@@ -42,8 +42,8 @@ is shown in Fig.~\ref{fig:events_track}.
 To detect the Cherenkov light, 60 Digital Optical Modules (DOMs) are placed on a long string up to \SI{17}{\metre} apart. 86 of these strings are then lowered
 into \SI{2.5}{\km} deep boreholes in the ice. The holes are then sealed by refreezing the ice, resulting in a total of 5160 DOMs in a volume of approximately \SI{1}{\km^3}~\cite{weaverThesis}.
 
-The strings and DOMs are not spaced evenly, making some parts of the detector more sensitive to certain energy ranges than other.
-8 strings packed more tightly than the other 78, making that part of the detector sensitive to neutrino energies down to single digit \si{\GeV}. Due to 
+The strings and DOMs are not spaced evenly, making some parts of the detector more sensitive to certain energy ranges than others.
+8 strings packed more tightly than the other 78, making that part of the detector sensitive to neutrino energies down to single-digit \si{\GeV}. Due to 
 this part being situated deep within the ice, it is referred to DeepCore. DeepCore will be treated as a separate and independent detector from the rest, which
 retains the name IceCube. A view of the current setup can be seen in Fig.~\ref{fig:array}. In this work, we consider DeepCore data between \SIrange{5.6}{56}{\GeV} and IceCube data in the range \SIrange{0.5}{10}{\TeV}.
 \begin{figure}\label{fig:array}
@@ -53,19 +53,14 @@ retains the name IceCube. A view of the current setup can be seen in Fig.~\ref{f
 \end{figure}
 
 In 2017, the PINGU Letter of Intent was published~\cite{PINGUletter}. The `Precision IceCube Next Generation Upgrade' is an upgrade that will 
-supplement DeepCore, i.e. boosing the capabilites of neutrino detection at the \si{\GeV} scale. As the PINGU upgrade is not yet financed nor built, we are
+supplement DeepCore, i.e. boosing the capabilities of neutrino detection at the \si{\GeV} scale. As the PINGU upgrade is not yet financed nor built, we are
 not able to use any data from it. However, the collaboration has released preliminary simulations which we will use to see how the upgrade might improve
 results from IceCube and DeepCore. The PINGU simulations have the same structure as the DeepCore data, so our analysis referring to DeepCore will
 also apply to PINGU except where noted. However, we treat the PINGU detector as independent of the other experiments.
 
-\begin{figure}[t]\label{fig:flux}
-    \includegraphics[width=0.7\textwidth]{figures/flux.pdf}
-    \caption{Interpolated South Pole atmospheric $\nu_\mu$ flux with data from~\cite{hondaArticle}, displaying a near-neglible 
-    zenith angle dependance, but a strong energy dependence. The energy dependence can be parametrized to be approximated by $E^{-2.7}$.}
-\end{figure}
 
 \subsection{Atmospheric Neutrino Flux}
-Atmospheric neutrinos originates from cosmic rays composed of high-energy protons interacting with nuclei in the atmosphere.
+Atmospheric neutrinos originate from cosmic rays composed of high-energy protons interacting with nuclei in the atmosphere.
 These interactions ultimately produces pions, which decay as 
 \begin{align}\label{eq:pion}
     &\pi^+ \to \mu^+ + \nm\,, \quad \pi^- \to \mu^- + \anm \nonumber \\
@@ -82,11 +77,11 @@ Moreover, the atmospheric flux itself is often associated with a large error.
 In this work, we will use a flux normalization error of 25\%, and a zenith slope error of 5\%~\cite{hondapaper}.
 
 The flux is provided in \cite{hondaData,hondaArticle}, and a selection is shown in Table~\ref{table:flux}.
-The flux data is binned in $\cos(\theta_z)$. The fluxes are averaged over azimuthal direction and over solar minimum/maximum. 
+The flux data is binned in $\cos(\theta_z)$. The fluxes are averaged over the azimuthal direction and solar minimum/maximum. 
 The units of the fluxes are given as \si{\per\GeV \per\metre\squared \per\second \per\steradian} and are omitted
 from the table for clarity. 
 We note that the fluxes for $\nt$ and $\nu_{\bar{\tau}}$ are missing. Kaons can decay into neutral pions, which in turn 
-can produce $\nt$, but this branching ratio is extremely small. Thus, we never have to use probabilities on the form 
+can produce $\nt$, but this branching ratio is extremely small. Thus, we never have to use probabilities in the form 
 $P_{\tau \beta}$, since we have no starting atmospheric $\nu_\tau$ flux. 
 Interpolating the data yields makes us capable of approximating all four necessary fluxes for a given true energy and true zenith.
 The result of $\phi_\mu$ is shown in Fig.~\ref{fig:flux}. We see that the flux is almost entirely zenith independent. This is due to the 
@@ -94,11 +89,9 @@ very small cross-section of the neutrinos. For particles interacting through the
 large difference between the flux of particles traversing through the whole diameter of the Earth, compared to particles that only penetrate a 
 small rim of the crust. Here, however, the flux at the South Pole is almost the same! This does not mean that the oscillation probability will be 
 equal. First, the difference in the density profiles introduces wildly different matter effects. 
-Secondly, the zenith angle determines the baseline. Completely down-going neutrinos, with $\cos(\theta_z) = 0$ will be produced at an average distance of \SI{20}{\km}
-overhead, travel down to the icy sheet of Antarctica, and then penetrate the ice down \SI{2}{\km} to the DOMs. 
+Secondly, the zenith angle determines the baseline. Completely down-going neutrinos, with $\cos(\theta_z) = 0$ will be produced at an average distance of \SI{15}{\km}
+overhead, travel down to the icy sheet of Antarctica, and then penetrate the ice down \SI{2}{\km} to the DOMs~\cite{hondapaper}. 
 The energy dependence of the flux is approximately $E^{-2.7}$, so our expected event count at higher energies will suffer from this strong decline in flux.
-
-So now we have 
 
 \begin{table}[h]\label{table:flux}
     \begin{center}
@@ -118,14 +111,28 @@ So now we have
 \end{table}
 
 
+\begin{figure}[t]\label{fig:flux}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/flux.pdf}
+    \caption{Interpolated South Pole atmospheric $\nu_\mu$ flux with data from~\cite{hondaArticle}, displaying a near-neglible 
+    zenith angle dependance, but a strong energy dependence. The energy dependence can be parametrized to be approximated by $E^{-2.7}$.}
+\end{figure}
+
+We propagate the atmospheric neutrino flux $\phi_\alpha^\text{atm}(E,\theta_z)$ through the Earth.
+The oscillation probability $P_{\alpha \beta}$ acts as a weight to the atmospheric flux, yielding the propagated flux for flavor $\beta$ at detector level as 
+\begin{align}\label{eq:propFlux}
+    \phi_\beta^\text{det} = \sum_\alpha P_{\alpha\beta} \phi_\alpha^\text{atm} \,,
+\end{align}
+where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$.
+
 \subsection{Event Reconstruction}
 After an event has occurred, the IceCube algorithms process the data coming from the detector to \emph{reconstruct} the event. 
-This means that, given the parameters recorded by the detector, what are their "true" values?
-We are interested in two variables: the energy and the direction. Each event is tagged with a probable energy and zenith angle, 
-called the recostructed parameters $\Ereco$ and $\zreco$, which are the parameters according to the DOMs.
+This means that, given the parameters recorded by the detector, what are their `true' values?
+We are interested in two variables: energy and direction. Each event is tagged with a probable energy and zenith angle, 
+called the reconstructed parameters $\Ereco$ and $\zreco$, which are the parameters according to the DOMs.
 The collaboration then uses numerous sophisticated methods to backtrack the reconstructed parameters to the true parameters. 
 So a charged lepton hits the DOMs, and we ultimately end up with the associated neutrino's true energy and zenith angle, $\Etrue$ and $\ztrue$. 
-The reconstructed parameters are what we are using to analyze the data (because this is what the detector actually sees), while the true parameters are used in the 
+The reconstructed parameters are what we are using to analyze the data (because this is what the detector sees), while the true parameters are used in the 
 determination of that neutrino's `actual' flux and cross-section (because this is what Nature sees).
 
 How do we then translate between the reconstructed and true parameters? 
