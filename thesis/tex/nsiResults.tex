@@ -1,15 +1,8 @@
-% \documentclass[draft=True]{thesis}
-% \usepackage[margin=0.5in]{geometry}
-% \usepackage{graphicx, slashed, siunitx}
-% \usepackage[utf8]{inputenc}
-% \usepackage{xr-hyper}
-% \input{commands}
-% \begin{document}
 \section{Non-Standard Interactions}\label{sec:nsiResults}
 \subsection{Constraining the NSI parameters}\label{sec:constraining}
 In this section, we will constrain the four NSI parameters $\ett$, $\emt$, $\eem$, and $\eet$ by considering the detectors separately as well as jointly.
 For our analyses, we define our $\chi^2$ as
-\begin{align} \label{eq:chisq}
+\begin{align}\label{eq:chisq_NSI}
     \chi^{2}(\hat{\theta},\alpha,\beta, \kappa)=\sum_{ijk} \frac{\left(N^\text{th}-N^\text{data}\right)_{ijk}^{2}}
     {\left(\sigma^\text{data}_{ijk}\right)^{2} + \left(\sigma^\text{syst}_{ijk}\right)^{2}}+ 
     \frac{(1-\alpha)^2}{\sigma_\alpha^2} + \frac{\beta^2}{\sigma_\beta^2}\,
@@ -19,9 +12,9 @@ $N_{ijk}^\text{th}$ is the expected number of events from theory, and $N_{ijk}^\
 
 In our simulations of $N_{ijk}^\text{th}$, we set all standard oscillation parameters to their current best-fit values of Eq.~\ref{eq:PINGUparams}, 
 except for $\dm$ and $\theta_{23}$
-which we vary over their $3\sigma$ limits \SIrange{2.435e-3}{2.598e-3}{\eV \squared} and \SIrange{40.1}{51.7}{\degree}, respectively.
+which we vary over their $3\sigma$ limits \SIrange{2.435e-3}{2.598e-3}{\eV\squared} and \SIrange{40.1}{51.7}{\degree}, respectively.
 
-We set $\sigma_\alpha = 0.25$ as the atmospheric flux normalization error, and $\sigma_\beta = 0.04$ as the zenith angle slope error~\cite{hondapaper}. 
+We set $\sigma_\alpha = 0.25$ as the atmospheric flux normalization error, and $\sigma_\beta = 0.05$ as the zenith angle slope error~\cite{hondapaper}. 
 The observed event number has an associated Poissonian uncertainty $\sigma_{ijk}^\text{data} = \sqrt{N_{ijk}^\text{data}}$.
 For IceCube, the event count takes the form
 \begin{align}
@@ -41,9 +34,10 @@ We treat the uncorrelated systematic uncertanties differently for each detector.
 We consider best, normal, and worst-case scenarios in IceCube using
 $f=5\%$, $10\%$, and $15\%$ respectively. For PINGU, we use the same form but instead use $f=0\%$, $3\%$, and $5\%$. %TODO: maybe source/justification for these values?
 For DeepCore, we use the provided systematic error distribution which accounts for uncertainties in the finite MC statistics and the data-driven 
-muon background estimate~\cite{DC2019data}. This is summarized in Table~\ref{table:syst_errors}.  %TODO segue
+muon background estimate~\cite{DC2019data}. This is summarized in Table~\ref{table:syst_errors}.
 {\renewcommand{\arraystretch}{1.2}
 \begin{table}
+   \centering
    \begin{tabular}{lccc}
       \hline \hline
       Experiment & Best case & Baseline & Worst case \\
@@ -66,72 +60,140 @@ After the oscillation parameters have been marginalized out, we plot $\Delta \ch
 The results are shown in Fig.~\ref{fig:IC_3D} and summarized in Tables~\ref{table:IC_DC_results} and~\ref{table:PINGU_joint_results}.
 
 Comparing the PINGU and the DeepCore results in Fig.~\ref{fig:3D_NO}, we note that the best-fit for each NSI parameter for the PINGU experiment is expected to be zero. This is because the `data' we generated during 
-the PINGU simulations assume no NSI since they have yet to be observed in nature. This introduces a non-NSI bias in all joint analyses which include PINGU,
+the PINGU simulations assume no NSI since they have yet to be observed in nature. This introduces a non-NSI bias in all joint analyses which include PINGU
 since PINGU has stronger statistics than DeepCore and will thus pull the joint $\chi^2$ towards $\epsilon =0$.
 
 \begin{figure}
    \begin{center}
-      \includegraphics[width=0.6\textwidth]{figures/joint_3D_NO.pdf}
-      \caption{PINGU and DeepCore best-case scenario, with their joint $\Delta \chi^2$ in black. $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
+      \includegraphics[width=0.8\textwidth]{figures/joint_3D_NO.pdf}
+      \caption{Confidence regions for PINGU and DeepCore scenarios listed in Table~\ref{table:syst_errors}, with their joint $\Delta \chi^2$ in maroon. $\dm[31]$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
       parameters not shown in each panel are fixed to zero. 
-      IceCube tracks only reveal $\emt$, and are displayed separately in Fig.~\ref{fig:IC_3D}.}\label{fig:3D_NO}
+      IceCube tracks only reveal $\emt$, and are displayed separately in Fig.~\ref{fig:IC_3D}. Dotted lines are the 90\% and $3\sigma$ CL levels.}\label{fig:3D_NO}
    \end{center}
 \end{figure} 
 \begin{figure}
    \begin{center} 
-      \includegraphics[width=0.6\textwidth]{figures/PID_3D_emt.pdf}
-      \caption{$\emt$ $\Delta \chi^2$ regions for scenarios as defined in Table~\ref{table:syst_errors}.
-    $\dm$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
-    parameters other than $\emt$ are fixed to zero.}\label{fig:IC_3D}
+      \includegraphics[width=0.8\textwidth]{figures/PID_3D_emt.pdf}
+      \caption{IceCube $\emt$ $\Delta \chi^2$ regions for scenarios as defined in Table~\ref{table:syst_errors}.
+    $\dm[31]$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
+    parameters other than $\emt$ are fixed to zero.Dotted lines are the 90\% and $3\sigma$ CL levels.}\label{fig:IC_3D}
    \end{center}
 \end{figure}
 
-
-
-{\renewcommand{\arraystretch}{1.3}
+%TODO: PINGU values are the same. Fill in empty values
+{\renewcommand{\arraystretch}{1.0}
  \begin{table}
    \begin{center}
-   \begin{tabular}{lcccccc}
-      \hline \hline
-      Parameter & Best 90\% CL & Best $3\sigma$& Baseline 90\% CL & Baseline $3\sigma$ & Worst 90\% CL & Worst $3\sigma$\\
-      \hline & \multicolumn{6}{c}{IceCube}  \\
-      $\emt$ &  [-0.008, 0.009] &  [-0.014, 0.017] &   [-0.009, 0.01] &  [-0.015, 0.018] &   [-0.01, 0.011] &   [-0.017, 0.02] \\\\
-      & \multicolumn{6}{c}{DeepCore}\\ [0.3em]
-      $\ett$ &  [-0.044, 0.051] &  [-0.062, 0.069] &  [-0.046, 0.054] &         [-0.065] &  [-0.049, 0.057] &          [-0.07] \\
-      $\emt$ &  [-0.008, 0.009] &  [-0.014, 0.017] &   [-0.009, 0.01] &  [-0.015, 0.018] &   [-0.01, 0.011] &   [-0.017, 0.02] \\
-      $\eem$ &  [-0.079, 0.081] &   [-0.16, 0.14] &  [-0.11, 0.094] &  [-0.20, 0.16] &   [-0.14, 0.11] &   [-0.23, 0.18] \\
-      $\eet$ &  [-0.079, 0.098] &  [-0.15, 0.16] &   [-0.10, 0.11] &  [-0.19, 0.18] &  [-0.13, 0.13] &  [-0.23, 0.12] \\\\
-      &\multicolumn{6}{c}{IceCube + DeepCore}\\
-      $\emt$ &  [-0.029, 0.007] &          [0.026] &  [-0.029, 0.007] &          [0.026] &  [-0.029, 0.007] &          [0.026] \\
-      \hline
-      \hline
-   \end{tabular}
+      \begin{tabular}{lcc}
+         \hline
+         Parameter & Best 90\% CL & Best $3\sigma$\\
+         \hline & \multicolumn{2}{c}{IceCube}  \\
+         $\emt$ &  [-0.008, 0.009] &  [-0.014, 0.017]  \\\\
+         & \multicolumn{2}{c}{DeepCore}\\ [0.3em]
+         $\ett$ &  [-0.044, 0.051] &  [-0.062, 0.069] \\
+         $\emt$ &  [-0.008, 0.009] &  [-0.014, 0.017] \\
+         $\eem$ &  [-0.079, 0.081] &   [-0.16, 0.14] \\
+         $\eet$ &  [-0.079, 0.098] &  [-0.15, 0.16] \\\\
+         &\multicolumn{2}{c}{IceCube + DeepCore} \\
+         $\emt$ &  [-0.029, 0.007] &          [0.026] \\
+         \hline
+         \vspace{2em}
+      \end{tabular}
+      \begin{tabular}{lcc}
+         \hline
+         Parameter & Baseline 90\% CL & Baseline $3\sigma$ \\
+         \hline & \multicolumn{2}{c}{IceCube}  \\
+         $\emt$ &  [-0.009, 0.01] &  [-0.015, 0.018]  \\\\
+         & \multicolumn{2}{c}{DeepCore}\\ [0.3em]
+         $\ett$ &    [-0.046, 0.054] &         [-0.065]  \\
+         $\emt$ &     [-0.009, 0.01] &  [-0.015, 0.018]  \\
+         $\eem$ &  [-0.11, 0.094] &  [-0.20, 0.16]    \\
+         $\eet$ &    [-0.10, 0.11] &  [-0.19, 0.18]  \\\\
+         &\multicolumn{2}{c}{IceCube + DeepCore}\\
+         $\emt$ &   [-0.029, 0.007] &          [0.026] \\
+         \hline
+         \vspace{2em}
+      \end{tabular}
+      \begin{tabular}{lcc}
+         \hline
+         Parameter & Worst 90\% CL & Worst $3\sigma$\\
+         \hline & \multicolumn{2}{c}{IceCube}  \\
+         $\emt$ &   [-0.01, 0.011] &   [-0.017, 0.02] \\\\
+         & \multicolumn{2}{c}{DeepCore}\\ [0.3em]
+         $\ett$ &    [-0.049, 0.057] &          [-0.07] \\
+         $\emt$ &     [-0.01, 0.011] &   [-0.017, 0.02] \\
+         $\eem$ &   [-0.14, 0.11] &   [-0.23, 0.18] \\
+         $\eet$ &   [-0.13, 0.13] &  [-0.23, 0.12] \\\\
+         &\multicolumn{2}{c}{IceCube + DeepCore}\\
+         $\emt$ &   [-0.029, 0.007] &          [0.026] \\
+         \hline
+      \end{tabular}
+      \caption{IceCube and DeepCore results from the $\Delta \chi^2$ in Fig.~\ref{fig:IC_3D}. $\dm[31]$ and $\theta_{23}$ have been marginalized out, and all other NSI parameters other than the one shown for each row are set to zero. Best, baseline, and worst refer to 
+      the systematic uncertainty scenarios considered as in Table~\ref{table:syst_errors}.}\label{table:IC_DC_results}
    \end{center}
-   \caption{IceCube and DeepCore results from the $\Delta \chi^2$ in Fig.~\ref{fig:IC_3D}. Best, baseline, and worst refer to 
-   the systematic uncertainty scenarios considered as in Table~\ref{table:syst_errors}.}\label{table:IC_DC_results}
 \end{table}
+
 \begin{table}
-   \begin{tabular}{lcccccc}
-      \hline \hline
-      Parameter & Best 90\% CL & Best $3\sigma$& Baseline 90\% CL & Baseline $3\sigma$ & Worst 90\% CL & Worst $3\sigma$\\
-      \hline & \multicolumn{6}{c}{PINGU} \\
-      $\ett$ &  [-0.054, 0.067] &               [] &  [-0.054, 0.067] &               [] &  [-0.054, 0.067] &               [] \\
-      $\emt$ &  [-0.029, 0.007] &          [0.026] &  [-0.029, 0.007] &          [0.026] &  [-0.029, 0.007] &          [0.026] \\
-      $\eem$ &  [-0.12, 0.15] &  [-0.23, 0.24] &  [-0.12, 0.15] &  [-0.23, 0.24] &  [-0.12, 0.15] &  [-0.23, 0.24] \\
-      $\eet$ &   [-0.084, 0.15] &  [-0.19, 0.21] &   [-0.084, 0.15] &  [-0.19, 0.21] &   [-0.084, 0.15] &  [-0.19, 0.21] \\\\
-      & \multicolumn{6}{c}{DeepCore + PINGU} \\
-      $\ett$ &  [-0.036, 0.046] &  [-0.056, 0.064] &  [-0.038, 0.048] &  [-0.058, 0.067] &   [-0.039, 0.05] &          [-0.06] \\
-      $\emt$ &  [-0.009, 0.006] &  [-0.015, 0.013] &   [-0.01, 0.006] &  [-0.016, 0.014] &  [-0.011, 0.007] &  [-0.017, 0.015] \\
-      $\eem$ &   [-0.06, 0.077] &  [-0.126, 0.127] &  [-0.071, 0.086] &  [-0.149, 0.141] &  [-0.082, 0.097] &  [-0.17, 0.16] \\
-      $\eet$ &  [-0.052, 0.095] &  [-0.112, 0.144] &  [-0.061, 0.103] &  [-0.131, 0.155] &  [-0.067, 0.11] &  [-0.15, 0.17] \\\\
-      & \multicolumn{6}{c}{IceCube + DeepCore + PINGU}  \\
-      $\emt$ &  [-0.009, 0.006] &  [-0.015, 0.013] &   [-0.01, 0.006] &  [-0.016, 0.014] &  [-0.011, 0.007] &  [-0.017, 0.015] \\
+   \centering
+   \begin{tabular}{lcc}
       \hline
+      Parameter & Best 90\% CL & Best $3\sigma$\\
+      \hline & \multicolumn{2}{c}{PINGU} \\
+      $\ett$ &  [-0.054, 0.067] &               [] \\
+      $\emt$ &  [-0.029, 0.007] &          [0.026] \\
+      $\eem$ &  [-0.12, 0.15] &  [-0.23, 0.24] \\
+      $\eet$ &   [-0.084, 0.15] &  [-0.19, 0.21] \\\\
+      & \multicolumn{2}{c}{DeepCore + PINGU} \\
+      $\ett$ &  [-0.036, 0.046] &  [-0.056, 0.064] \\
+      $\emt$ &  [-0.009, 0.006] &  [-0.015, 0.013] \\
+      $\eem$ &   [-0.06, 0.077] &  [-0.126, 0.127] \\
+      $\eet$ &  [-0.052, 0.095] &  [-0.112, 0.144] \\\\
+      & \multicolumn{2}{c}{IceCube + DeepCore + PINGU}  \\
+      $\emt$ &  [-0.009, 0.006] &  [-0.015, 0.013]  \\
+      \hline
+      \vspace{0.5em}
+   \end{tabular}
+   \begin{tabular}{lcc}
+      \hline 
+      Parameter & Baseline 90\% CL & Baseline $3\sigma$\\
+      \hline & \multicolumn{2}{c}{PINGU} \\
+      $\ett$ &   [-0.054, 0.067] &               []\\
+      $\emt$  &  [-0.029, 0.007] &          [0.026]  \\
+      $\eem$ &    [-0.12, 0.15] &  [-0.23, 0.24] \\
+      $\eet$ &    [-0.084, 0.15] &  [-0.19, 0.21] \\\\
+      & \multicolumn{2}{c}{DeepCore + PINGU} \\
+      $\ett$ &    [-0.038, 0.048] &  [-0.058, 0.067] \\
+      $\emt$ &    [-0.01, 0.006] &  [-0.016, 0.014] \\
+      $\eem$ &    [-0.071, 0.086] &  [-0.149, 0.141]  \\
+      $\eet$ &   [-0.061, 0.103] &  [-0.131, 0.155] \\\\
+      & \multicolumn{2}{c}{IceCube + DeepCore + PINGU}  \\
+      $\emt$ &   [-0.01, 0.006] &  [-0.016, 0.014] \\
+      \hline
+      \vspace{0.5em}
+   \end{tabular}
+   \begin{tabular}{lcc}
+      \hline 
+      Parameter & Worst 90\% CL & Worst $3\sigma$\\
+      \hline & \multicolumn{2}{c}{PINGU} \\
+      $\ett$ &    [-0.054, 0.067] &               [] \\
+      $\emt$ &    [-0.029, 0.007] &          [0.026] \\
+      $\eem$ &  [-0.12, 0.15] &  [-0.23, 0.24] \\
+      $\eet$ &   [-0.084, 0.15] &  [-0.19, 0.21] \\\\
+      & \multicolumn{2}{c}{DeepCore + PINGU} \\
+      $\ett$ &     [-0.039, 0.05] &          [-0.06] \\
+      $\emt$ &  [-0.011, 0.007] &  [-0.017, 0.015] \\
+      $\eem$ &   [-0.082, 0.097] &  [-0.17, 0.16] \\
+      $\eet$ &   [-0.067, 0.11] &  [-0.15, 0.17] \\\\
+      & \multicolumn{2}{c}{IceCube + DeepCore + PINGU}  \\
+      $\emt$ &   [-0.011, 0.007] &  [-0.017, 0.015] \\
       \hline
    \end{tabular}
-   \caption{PINGU and joint results from the $\Delta \chi^2$ in Fig.~\ref{fig:3D_NO}. Best, baseline, and worst refer to 
+   \caption{PINGU and joint results from the $\Delta \chi^2$ in Fig.~\ref{fig:3D_NO}. $\dm[31]$ and $\theta[23]$ have been marginalized out, and all other NSI parameters other than the one shown for each row are set to zero.
+   Best, baseline, and worst refer to 
    the systematic uncertainty scenarios considered as in Table~\ref{table:syst_errors}.}\label{table:PINGU_joint_results}
 \end{table}
+
+%TODO: compare results
 
 \begin{table}
    \begin{center}
@@ -151,7 +213,7 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
            \hline
    \end{tabular}
    \end{center}
-   \caption{Best fit points for $\dm$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
+   \caption{Best fit points for $\dm[31]$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
    degrees, respectively.}\label{table:bestfit}
 \end{table}
 \newpage
@@ -168,66 +230,13 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
          \caption{DeepCore}\label{fig:DC_event_pulls}
       \end{subfigure}
     \end{center}
-   \caption{Expected pulls of the form $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ for PINGU and DeepCore after 3 years.}\label{fig:event_pulls} 
+   \caption{Expected pulls of the form $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ for PINGU and DeepCore after 3 years.}
 \end{figure}%TODO: redo these with same emt as flux_ratio? keep this, but align them better
 
-
-
-%TODO: subsection about comparison between different papers. 
+There is no reason for us to assume that only one NSI parameter exists in Nature, unless we impose a symmetry on the gauge group which generates NSI. For example, the matter potential matrix in our Hamiltonian from Eq.~\eqref{eq:V_matrix} is diagonal since the interaction Lagrangian respects lepton number conservation. The PMNS matrix, on the other hand, has off-diagonal elements because the kinetic Lagrangian breaks this symmetry. So ideally, we would simulate a grid where all NSI parameters are allowed to vary, but this is not feasible. Thus, we take we set $\ett = 0$ and let $\emt,\eem,\eet$ vary, along with $\dm[31]$ and $\theta_{23}$. We let $\ett=0$ because we saw that it did not influence the other parameters. We then marginalize out the standard oscillation parameters and one of the NSI parameters and plot the remaining two in Fig.~\ref{fig:PINGU_2D}. We see that the pairs $\eem - \emt$ and $\eet - \emt$ are symmetrical. Hence, we can see that no relationship exists between them. With $\eet - \eem$, however, the contours are assuming a different shape. The contour allows positive values of $\eet$ and $\eem$ to a greater degree than mixed or negative values.
 
 \begin{figure}
    \includegraphics[width=0.9\textwidth]{figures/PINGU_2D_all_f0.pdf}
+   \caption{Allowed regions for some of the NSI parameters after three years of PINGU data, assuming no uncorrelated systematic error. All plots are made with $\ett = 0$. The two
+   standard oscillation parameters $\dm[31]$ and $\theta_{23}$ along with the one NSI parameter not shown have been marginalized out.}\label{fig:PINGU_2D}
 \end{figure}
-\begin{figure}
-   \includegraphics[width=0.9\textwidth]{figures/PINGU_2D_all_f5.pdf}
-\end{figure}
-\bibliographystyle{elsarticle-num}
-\bibliography{article}
-
-\newpage
-\begin{tabular}{p{55mm}p{55mm}p{55mm}}
-   DeepCore (2017)
-      \begin{itemize}
-         \item[$\checkmark$] Honda atmospheric fluxes
-         \item[$\times$] Only look at tracks and $\emt$
-         \vspace{1em}  
-         \item[$\times$] DC Monte Carlo from an older dataset 
-         \item[$\times$] 8 E bins from $\SI{6.3}{\electronvolt^2}$ to $\SI{56}{\electronvolt^2}$
-         \item[$\times$] 8 z bins from -1 to 0 
-         \item[$\times$] Use "Overall" and "relative $\ne$ to $\nm$" normalization
-         \item[$\times$] Prior on spectral index
-         \item[$\times$] No zenith angle normalization
-         \item[$\checkmark$] No priors on $\dm, \theta_{23},\theta_{13}$
-      \end{itemize} &
-    Demidov (2020) DC analysis
-      \begin{itemize}
-         \item[$\checkmark$] Honda atmospheric fluxes
-         \item[$\checkmark$] Looks at tracks + cascades for $\emt$ and $\ett$
-         \item[$\checkmark$] Data and Monte Carlo from DC 2018
-         \item[$\checkmark$] 8 E bins from $\SI{5.6}{\electronvolt^2}   $ to $\SI{56}{\electronvolt^2}$
-         \item[$\checkmark$] 8 z bins from -1 to 1
-         \item[$\times$] Use "Overall" and "relative $\ne$ to $\nm$" normalization
-         \item[$\times$] Prior on spectral index
-         \item[$\times$] No zenith angle normalization
-         \item[$\checkmark$] No priors on $\dm, \theta_{23}$
-         \item[$\checkmark$] Fixes $\Delta m^2_{21}, \theta_{12}, \theta_{13}$
-         \item[$\times$] Uncertainty on hadron production in atmosphere
-         \item[$\times$] Uncertainty on neutrino nucleon cross section 
-      \end{itemize} &
-    This DC+PINGU analysis
-      \begin{itemize}
-         \item[$\checkmark$] Honda atmospheric fluxes
-         \item[$\checkmark$] Tracks and cascades for all flavors
-         \vspace{1em} 
-         \item[$\checkmark$] Reco $\to$ true mapping from Monte Carlo migration matrix
-         \item[$\checkmark$] 8 E bins from $\SI{5.6}{\electronvolt^2}$ to $\SI{56}{\electronvolt^2}$
-         \item[$\checkmark$] 8 zenith angle bins from -1 to 1
-         \item[$\checkmark$] Flux normalization uncertainty of 25\%
-         \item[$\checkmark$] Zenith angle uncertainty of 4\% 
-         \item[$\checkmark$] No priors on oscillation parameters 
-         \item[$\checkmark$] Marginalize $\dm$ and $\theta_{23}$. All other oscillation parameters are fixed.
-      \end{itemize} 
-\end{tabular}
-\end{document}
-
-% \end{document}
