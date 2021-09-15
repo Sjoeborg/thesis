@@ -410,4 +410,4 @@ def integrate(array,method='simps',*args):
     elif np.ndim(array) == 4:
         return simps(simps(simps(simps(array,args[0]),args[1]),args[2]),args[3])
 if __name__ == '__main__':
-    print(U_4(params=ic_params))
+    print(dc_params['dm_21']*1e-18*np.cos(2*dc_params['theta_12']) /(2*np.sqrt(2) * GF * 0.5 * N_A * 1 * (1/GeVtocm1)**3))

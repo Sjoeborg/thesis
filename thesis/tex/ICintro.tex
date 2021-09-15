@@ -80,7 +80,7 @@ The flux is provided in \cite{hondaData,hondaArticle}, and a selection is shown 
 The flux data is binned in $\cos(\theta_z)$. The fluxes are averaged over the azimuthal direction and solar minimum/maximum. 
 The units of the fluxes are given as \si{\per\GeV \per\metre\squared \per\second \per\steradian} and are omitted
 from the table for clarity. 
-We note that the fluxes for $\nt$ and $\nu_{\bar{\tau}}$ are missing. Kaons can decay into neutral pions, which in turn 
+We note that the fluxes for $\nt$ and $\bar{\nu}_{\tau}$ are missing. Kaons can decay into neutral pions, which in turn 
 can produce $\nt$, but this branching ratio is extremely small. Thus, we never have to use probabilities in the form 
 $P_{\tau \beta}$, since we have no starting atmospheric $\nu_\tau$ flux. 
 Interpolating the data yields makes us capable of approximating all four necessary fluxes for a given true energy and true zenith.
@@ -97,7 +97,7 @@ The energy dependence of the flux is approximately $E^{-2.7}$, so our expected e
     \begin{center}
         \begin{tabular}{lcccccc}
             \hline \hline
-            $E$ [\si{\GeV}] &$\phi_\mu$ &$\phi_{\bar{\mu}}$ &$\phi_e$ &$\phi_{\bar{e}}$ & $\cos(\theta_z)$\\\\
+            $E$ [\si{\GeV}] &$\phi_\mu$ &$\phi_{\bar{\mu}}$ &$\phi_e$ &$\phi_{\bar{e}}$ & $\cos(\theta_z)$\\
             \hline
             27825 &  \SI{6.06e-12}{} &  \SI{3.17e-12}{} &  \SI{1.56e-13}{} &  \SI{1.04e-13}{} &   [-0.2, -0.1] \\
             247707 &  \SI{5.94e-16}{} &  \SI{2.92e-16}{} &  \SI{1.36e-17}{} &  \SI{8.12e-18}{} &   [-0.7, -0.6] \\
@@ -130,7 +130,7 @@ After an event has occurred, the IceCube algorithms process the data coming from
 This means that, given the parameters recorded by the detector, what are their `true' values?
 We are interested in two variables: energy and direction. Each event is tagged with a probable energy and zenith angle, 
 called the reconstructed parameters $\Ereco$ and $\zreco$, which are the parameters according to the DOMs.
-The collaboration then uses numerous sophisticated methods to backtrack the reconstructed parameters to the true parameters. 
+The collaboration then uses numerous methods to backtrack the reconstructed parameters to approximate the true parameters. 
 So a charged lepton hits the DOMs, and we ultimately end up with the associated neutrino's true energy and zenith angle, $\Etrue$ and $\ztrue$. 
 The reconstructed parameters are what we are using to analyze the data (because this is what the detector sees), while the true parameters are used in the 
 determination of that neutrino's `actual' flux and cross-section (because this is what Nature sees).

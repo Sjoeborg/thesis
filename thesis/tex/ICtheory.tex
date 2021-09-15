@@ -30,9 +30,8 @@ An excerpt from this data is shown in Table~\ref{table:aeff}.
 
 Here, $\Aeff$ has been averaged over $\Aeff_\mu$ and $\Aeff_{\bar{\mu}}$ by the collaboration. Thus, both $\mu$ and $\bar\mu$ will on average, experience the same $\Aeff$ in our model. 
 Just as with the fluxes, we interpolate this in $\Etrue$ and $\ztrue$, and show the result in Fig.~\ref{fig:aeff}
-Since the IceCube array is slightly rectangular, the zenith angle affects the cross-sectional area to which the array the neutrinos are exposed to.
-While the flux was almost flat in $\ztrue$, the introduction of the zenith dependent $\Aeff$ will make the result slightly more zenith dependent than the flux itself. Energy-wise, the situation here is completely reverse from the flux. Increasing with energy, the effective area of the detector
-approaches its geometrical area of \SI{1e6}{\metre^2} but is still only in the single-digit range at \si{\TeV} energies.
+Since the IceCube array is slightly rectangular, the zenith angle affects the cross-sectional area to which the array the leptons are exposed to.
+While the flux was almost flat in $\ztrue$, the introduction of the zenith dependent $\Aeff$ will make the result slightly more zenith dependent than the flux itself. Energy-wise, the situation here is completely reverse from the flux. Increasing with energy, the effective area of the detector approaches its geometrical area of \SI{1e6}{\metre^2} but is still only in the single-digit range at \si{\TeV} energies.
 
 \begin{figure}[ht]%TODO: fix whitespace
     \centering
@@ -114,7 +113,7 @@ The data has 13 logarithmically spaced bins in $\Ereco \in [500,9976]$ \si{\GeV}
 Independent researchers outside of the IceCube collaboration will not be able to more precisely
 simulate the detector. The IceCube Monte Carlo is a complex and proprietary machinery, so our goal in this 
 section is to come as close as we can to their Monte Carlo simulations. After we are confident that 
-our code displays the same overall features as the `offical', we normalize our results $N_{ij}^\text{sim}$ as 
+our code displays the same overall features as the `official', we normalize our results $N_{ij}^\text{sim}$ as 
 \begin{align}\label{eq:MC_norm}
     N_{ij} = \frac{N_{ij}^\text{null}}{N_{ij}^\text{MC}} N_{ij}^\text{sim}\,.
 \end{align}
@@ -140,8 +139,7 @@ with $E^t_{min}$, $E^t_{max}$, and $R(E^r,E^t)$ taken from the Gaussian process 
 \begin{figure}[ht]
     \begin{centering}
     \includegraphics[scale=0.8]{figures/IC_MC_norm.pdf}
-    \caption{IceCube Monte Carlo, binned in $\Ereco$ and $\zreco$. We compare this with our simulations shown as `Null' in the plots. We 
-    see a large deviation for high zenith values, but since these neutrinos have traversed less matter and have a smaller baseline, we deem this to be acceptable.}\label{fig:IC_MC_norm}
+    \caption{IceCube Monte Carlo, binned in $\Ereco$ and $\zreco$. We compare this with our simulations shown as `Null' in the plots.}\label{fig:IC_MC_norm}
     \end{centering}
 \end{figure} 
 Thus, we are now able to sufficiently approximate the IceCube Monte Carlo, which makes us able to run simulations based on different physics scenarios.
