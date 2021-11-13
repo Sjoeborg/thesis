@@ -128,7 +128,13 @@ ratio, which are often used as a nuisance parameter. By not being able to includ
 be limited to only consider the overall flux normalization, rather than the components that produce the flux in the first place.}
 
 In Fig.~\ref{fig:IC_MC_norm}, we present the Icecube Monte Carlo obtained from their 2020 sterile analysis~\cite{IC2020}, along
-with our null hypothesis times a constant factor.  We deemed these shapes to be satisfactory, thus allowing us to multiply Eq.~\ref{eq:ICevents} by the 
+with our null hypothesis times a constant factor. 
+We used the best-fit values from NuFit~\cite{nufit} with the exception of the CP-violating phase $\delta_\text{CP}$, which was set to $0$ for simplicity. The values used are
+\begin{align}\label{eq:nufitparams}
+    \theta_{12} = \SI{33.44}{\degree},\hspace{1em} \theta_{13} = \SI{8.57}{\degree},\hspace{1em} \theta_{23} = \SI{49.2}{\degree}, \hspace{1em} \delta_\text{CP} = 0\,.
+\end{align}
+
+We deemed these shapes to be satisfactory, thus allowing us to multiply Eq.~\ref{eq:ICevents} by the 
 correction factors of Eq.~\ref{eq:MC_norm}. We now arrive to our final event count
 \begin{align}\label{eq:Nth}
     N_{ij} &= \frac{N_{ij}^\text{null}}{N_{ij}^\text{MC}} T \sum_\beta \int_{(\cos{\theta_z^r})_i}^{(\cos{\theta_z^r})_{i+1}} \dd \cos{\theta^r_z} \int_{E^r_{j}}^{E^r_{j+1}} \dd E^r 
