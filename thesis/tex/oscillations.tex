@@ -158,7 +158,7 @@ $\nm$ to primarily mix into $\nt$. The mixing matrix from~\ref{PMNS_def} takes t
 \end{align}
 which use to we plot the $P_{\mu \beta}$ probabilities in Fig.~\ref{fig:vac_osc}. Here, we show the energy spectra of these oscillations in the low \si{\GeV} range for neutrinos that travel \SI{12000}{\km}\footnote{This baseline
 is approximately the Earth diameter, and will be the maximum travel distance which we will use later on.}.
-In the left-most panel, we see a supressed $\nm \to \ne$ transition. We can understand this behavior by studying Eq.~\ref{eq:Pab} and the 
+In the left-most panel, we see a suppressed $\nm \to \ne$ transition. We can understand this behavior by studying Eq.~\ref{eq:Pab} and the 
 numerical values of the mixing matrix in Eq.~\ref{eq:Uvalues}.
 The smallness of $U_{e3}$ reduces the effect of $\dm[21]$ mass-squared difference,
 allowing $\dm[31]$ to drive the oscillations. 
@@ -174,7 +174,7 @@ elements for $P_{\a\b}$ are $U_{\a3}, U_{\a1}$ and $U_{\b3}, U_{\b1}$. %TODO: wr
     \end{center}
 \end{figure}
 This form elucidates an important aspect of neutrino oscillations. The mixing matrix elements
-determine the amplitude of the oscillations, while the mass-squared differences together with the ratio $L/E$ determine the 
+determine the amplitude of the oscillations, while the mass-squared differences together with the ratio $L/E$ determine the
 frequency. So in vacuum, the mixing angles only influence the oscillation amplitude, while the energy, trajectory, and masses of
 the neutrinos only influence the oscillation frequency.
 
@@ -196,13 +196,16 @@ the neutrinos only influence the oscillation frequency.
     \end{subfigure}
     \caption{Feymann diagrams showing neutrinos participating in the two types of weak interactions according to the Standard Model.}\label{fig:w_and_z}
 \end{figure}
-So far we have discussed neutrinos travelling in vacuum. Now we will concern ourselves with neutrino oscillations in matter.
+So far we have discussed neutrinos traveling in vacuum. Now we will concern ourselves with neutrino oscillations in matter.
 The possible interactions are shown in Fig.~\ref{fig:w_and_z}. The left panel shows that the only flavor that can undergo charged current (CC) 
-interactions are the electron flavor. This is because the CC interaction requires a neutrino with flavor $\alpha$ to interact with its charged lepton 
+interactions are the electron flavor. This is because the CC interaction requires a neutrino with flavor $\alpha$ to interact with its charged lepton
 partner $\alpha$. Since the Earth doesn't consist of any muons or tau particles, the $\nu_\mu$ and $\nu_\tau$ have no charged leptons to undergo CC interactions with. 
 The right panel shows any neutrino flavor interaction via the neutral current (NC) with matter, mediated by the neutral $Z$ boson. The Earth is entirely composed
-of electrons, protons, and neutrons. Thus, the fundamental particles composing Earth are electrons, and up and down quarks. These are the 
-fermions relevant for our matter oscillations. 
+of electrons, protons, and neutrons. Thus, the fundamental particles composing Earth are electrons, and up and down quarks. These are the
+fermions relevant for our matter oscillations. In these two diagrams, we see that the CC interactions happen in the flavor basis rather than in the mass basis. In other words,
+neutrinos propagate in their mass eigenstates but interact in their flavor eigenstate. The mixing of mass eigenstates during propagation
+determines if the flavor eigenstate has oscillated or not.
+
 The interaction mediated by the $W$ boson will give rise to an effective matter potential $V_{CC}$, while
 the $Z$ boson is responsible for $V_{NC}$.
 
@@ -256,18 +259,19 @@ Expand the integral, and use the fact that $\vec{p}_e$ is odd:
 Inserting this into Eq.~\ref{eq:avg_H2}, we have
 \begin{align}
     \avg{H_{CC}} &= \frac{G_F N_e}{\sqrt{2}} \bar{\nu}_e \, (1- \gamma^5)\, \ne \gamma_0 \nonumber \\
-            &= \sqrt{2}G_F N_e \bar{\nu}_{eE} \gamma^0 \nu_{eL}\,,
+            &= \sqrt{2}G_F N_e \bar{\nu}_{eR} \gamma^0 \nu_{eL}\,,
 \end{align}
-where the projection operator $(1- \gamma^5)$ in the first line ensures that only the left-hand compontent of the neutrino fields interact. Thus,
+where the projection operator $(1- \gamma^5)$ in the first line ensures that only the left-hand compontent of the neutrino fields interact.
+Here we see a crucial difference that we expected: comparing the eigenvectors between the vacuum Hamiltonian defined in Eq.~\ref{eq:osc_1} and $H_{CC}$ shows us 
+that by this construction, CC interactions occur in the flavor basis.
+
+The effective 
+potential that the electron neutrino experiences is then
 \begin{align}\label{eq:V_CC1}
-    V_{CC} = \sqrt{2}G_F N_e\,, \quad H_{CC}\ket{\nu_k} = V_{CC}\ket{\nu_k}\,.
+    V_{CC} = \sqrt{2}G_F N_e\,.
 \end{align}
-Here we see a crucial difference between the eigenvectors between the vacuum Hamiltonian defined in Eq.~\ref{eq:osc_1} and $H_{CC}$, namely
-that the CC interactions happen in the flavor basis rather than in the mass basis\footnote{A similar calculation for the NC reveals the same fact:
-neutrinos interact in the flavor basis.}. In other words,
-neutrinos propagate in their mass eigenstates but interact in their flavor eigenstate. The mixing of mass eigenstates during propagation
-determines if the flavor eigenstate has oscillated or not. The interactions still conserve lepton number since the interaction Lagrangian does,
-but the kinetic Lagrangian will not. Hence, neutrinos violate lepton number convervation during propagation.
+
+
 
 For neutral current, we replace the electron field $e(x)$ in Eq.~\ref{eq:H_fierz} by the more general fermion field $f(x)$, and the chiral projection operator 
 $(1-\gamma^5)$ with $(g_V^f - g_A^f\gamma^5)$. Again, the $\gamma^5$ will cause the spacial component of $p_f$ to disappear after integration, and the 
@@ -287,7 +291,6 @@ where the electrical neutrality condition allows us to simply sum the vectorial 
 We now see that both matter potentials, regardless of the interaction is of type charged or neutral, are only dependent on the electron density in the medium, $N_e$ times a constant.
 So to calculate the matter oscillations in an electrically neutral medium with an equal abundance of protons and neutrons, we are only required to consider the matter density of the medium.
 
-\subsection{Matter Oscillations}
 Since only $\ne$ undergo CC interactions in Earth-like matter, the $V_{CC}$ potential is zero for all other flavors. 
 However, since all flavors undergo NC interactions the total matter potential in the flavor basis is
 \begin{align}\label{eq:V_matrix}
@@ -298,19 +301,23 @@ However, since all flavors undergo NC interactions the total matter potential in
     \end{bmatrix} = V_{CC}\, \delta_{\alpha e}\mathbb{I} + V_{NC}\mathbb{I}\,.
 \end{align}
 Just as in Eq.~\ref{eq:TDSE}, we start with a Hamiltonian that solves the time-dependent Schrödinger equation. This time, let the Hamiltonian be 
-\begin{align}
+\begin{align}\label{eq:H_full}
     H = H_0 + H_{I}\,,
 \end{align}
 where $H_0$ is the Hamiltonian in vacuum, and $H_{I}$ is our interaction Hamiltonian associated with our matter potentials.
-Let the wavefunction that describes the $\nu_\a \to \nu_\b$ transition be denoted as
+Let the amplitude for the $\nu_\a \to \nu_\b$ transition be denoted as
 \begin{align}
     \psi_{\a\b}(t) = \bra{\nu_\b}\ket{\nu_\a (t)}\,,
 \end{align}
 i.e.~the evolution of the state of a neutrino emitted at $t =0$ with flavor $\alpha$ to flavor $\beta$ at time $t$. Now using Eq.~\ref{eq:osc_1} and Eq.~\ref{eq:V_CC1}, we are ready to see what form our Hamiltonians take.
 Let us start with the vaccum Hamiltonian $H_0$, and act on its Schrödinger equation with $\bra{\nu_\b}\,$:
-\begin{align}
+\begin{align}\label{eq:TDSE_H0}
     i \dv{}{t}\ket{\nu_\a (t)} = H_0\ket{\nu_\a (t)} \implies i \dv{}{t}\psi_{\a\b} = \bra{\nu_\b}H_0\ket{\nu_\a (t)}\,.
 \end{align}
+Eq.~\ref{eq:TDSE_H0} with the full Hamiltonian from Eq.~\ref{eq:H_full} is what we will numerically solve for the three neutrino picture
+for neutrino oscillations in matter.
+
+\subsection{Three Neutrino Picture}
 Reminding ourselves that the vacuum Hamiltonian $H_0$ has eigenstates in the mass basis, we write the following expression where 
 use the relations Eq.~\ref{eq:osc_1} and Eq.~\ref{eq:osc_k} to switch between the flavor and mass basis with the PMNS elements:
 \begin{align}
@@ -402,9 +409,11 @@ are the probabilities
 For $N_e = 0$, i.e. in vacuum, these probabilities are identical to the ones that we analytically derived in Eq.~\ref{eq:Pab}.
 For matter oscillations with $N_e \neq 0$, we do have closed form solutions, but they are not considered further here. 
 
-\subsection{Two neutrino mixing}
+
+\subsection{Two Neutrino Picture Solution}
 By working in the limit where one of the neutrino masses can be neglected, 
-we can reduce the complexity of the analytical solution of neutrino oscillation. 
+we can reduce the complexity of the neutrino oscillations and obtain tractable analytical 
+expressions. 
 We now only consider the mixing between two neutrino flavors, say between $\ne, \nm$, and $\nu_1, \nu_2$. In other words, we let $\dm[31] = 0$.
 
 The three-neutrino oscillation Hamiltonian from Eq.~\eqref{eq:H_3gen} %TODO: derive this
@@ -445,7 +454,6 @@ we have that
 \end{align}
 We have now completely removed the dependence of the mixing angle between the $\nu_1$ and $\nu_3$ mass eigenstates, $\theta_{13}$, and the dependece of the mixing angle between the $\nu_2$ and $\nu_3$ mass eigenstates, $\theta_{23}$.
 We can see this clearly by writing our reduced mixing matrix, which is only constituted by the rotation in the $1-2$ plane, $R_{12}$.
-
 \begin{align}
     U &= R_{12}
 \begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1 \end{pmatrix} 
@@ -618,8 +626,8 @@ is shown in Fig.~\ref{fig:oscillations}.
 \end{figure}
 
 Now we need to incorporate the \emph{zenith angle}, here defined as the angle between the neutrino direction of travel and south.
-This way, neutrinos traveling through the entire diameter of the Earth up through the South Pole are defined as `up-going', while
-neutrinos that start at the South Pole are `down-going'. We will mostly work with the quantity $\cos{(\theta_z)}$.
+This way, neutrinos traveling through the entire diameter of the Earth are defined as `up-going', while
+neutrinos that directly over-head are `down-going'. We will mostly work with the quantity $\cos{(\theta_z)}$.
 Since we are interested in the matter effects, some studies are only looking at up-going neutrinos, i.e. neutrinos with
 zenith angle $-1 \le \cos{(\theta_z)} \le 0$. However, while down-going neutrinos don't experience matter oscillations (and hardly even vacuum
 oscillations due to the short baseline), they can be included to reduce systematic errors.

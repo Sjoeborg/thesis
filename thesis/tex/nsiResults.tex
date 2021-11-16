@@ -1,4 +1,5 @@
 \section{Non-Standard Interactions}\label{sec:nsiResults}
+%TODO: add
 \subsection{Constraining the NSI parameters}\label{sec:constraining}
 In this section, we will constrain the four NSI parameters $\ett$, $\emt$, $\eem$, and $\eet$ by considering the detectors separately as well as jointly.
 For our analyses, we define our $\chi^2$ as
@@ -22,11 +23,18 @@ For IceCube, the event count takes the form
 \end{align}
 with $N_{ij}(\hat{\theta})$ from Eq.~\ref{eq:ICevents}. Here, we allow the event distribution to rotate around the median cosine-zenith of $\zreco = -0.5$.
 
+%TODO: check that below flows
 For DeepCore and PINGU, and the event count takes the form
 \begin{align}
     N^\text{th}_{ijk} = \alpha\left[1+\beta \zreco_i \right] N_{ijk}(\hat{\theta}) + \kappa N_{ijk}^{\mu_{atm}}\,,
 \end{align}
 with $N_{ijk}(\hat{\theta})$ from Eq.~\ref{eq:MCevents}. $N_{ijk}^{\mu_{atm}}$ is the muon background, which is left to float freely in the DeepCore analysis.
+The detector's experience an uncorrelated systematic error, which comes from this \emph{muon background}, 
+i.e. events misclassified as muons from 
+$\nm$ interactions rather than from pion decay. For the DeepCore analysis, we will have to consider this background when calculating the events.
+For IceCube events, we scan a higher energy range where the muon background can be neglected. For the PINGU events, the IceCube detector is 
+expected to be able to act as a veto for this background. Thus, the error introduced from the muon background is expected by the collaboration 
+to be neglible~\cite{PINGUletter}.
 The background at PINGU can be considered negligible to first order~\cite{PINGUdata}, and we thus put $\kappa=0$ when calculating the PINGU $\chi^2$.
 For DeepCore and PINGU, the median cosine-zenith is $\zreco = 0$, and we allow the event count to rotate around this point.
 
@@ -233,7 +241,11 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
    \caption{Expected pulls of the form $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ for PINGU and DeepCore after 3 years.}
 \end{figure}%TODO: redo these with same emt as flux_ratio? keep this, but align them better
 
-There is no reason for us to assume that only one NSI parameter exists in Nature, unless we impose a symmetry on the gauge group which generates NSI. For example, the matter potential matrix in our Hamiltonian from Eq.~\eqref{eq:V_matrix} is diagonal since the interaction Lagrangian respects lepton number conservation. The PMNS matrix, on the other hand, has off-diagonal elements because the kinetic Lagrangian breaks this symmetry. So ideally, we would simulate a grid where all NSI parameters are allowed to vary, but this is not feasible. Thus, we take we set $\ett = 0$ and let $\emt,\eem,\eet$ vary, along with $\dm[31]$ and $\theta_{23}$. We let $\ett=0$ because we saw that it did not influence the other parameters. We then marginalize out the standard oscillation parameters and one of the NSI parameters and plot the remaining two in Fig.~\ref{fig:PINGU_2D}. We see that the pairs $\eem - \emt$ and $\eet - \emt$ are symmetrical. Hence, we can see that no relationship exists between them. With $\eet - \eem$, however, the contours are assuming a different shape. The contour allows positive values of $\eet$ and $\eem$ to a greater degree than mixed or negative values.
+There is no reason for us to assume that only one NSI parameter exists in Nature, unless we impose a symmetry on the gauge group which generates NSI. For example, the matter potential matrix in our Hamiltonian from Eq.~\eqref{eq:V_matrix} is diagonal since the interaction Lagrangian respects lepton number conservation. 
+The PMNS matrix, on the other hand, has off-diagonal elements because the kinetic Lagrangian breaks this symmetry. So ideally, we would simulate a grid where all NSI parameters are allowed to vary, 
+but this is not feasible. Thus, we take we set $\ett = 0$ and let $\emt,\eem,\eet$ vary, along with $\dm[31]$ and $\theta_{23}$. We let $\ett=0$ because we saw that it did not influence the other parameters. 
+We then marginalize out the standard oscillation parameters and one of the NSI parameters and plot the remaining two in Fig.~\ref{fig:PINGU_2D}. We see that the pairs $\eem - \emt$ and $\eet - \emt$ are symmetrical. 
+Hence, we can see that no relationship exists between them. With $\eet - \eem$, however, the contours are assuming a different shape. The contour allows positive values of $\eet$ and $\eem$ to a greater degree than mixed or negative values.
 
 \begin{figure}
    \includegraphics[scale=0.5]{figures/PINGU_2D_all_f0.pdf}
