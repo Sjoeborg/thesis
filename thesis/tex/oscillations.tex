@@ -28,33 +28,32 @@ We now have
     j^\rho_L &= 2 \sum_\alpha \sum_k U^\dagger_{\alpha k} \bar{\nu}_{k L} \gamma^\rho  \ell_{\alpha L}\,.
 \end{align}
 
-What form does this new matrix $U$ take? By construction, it provides the unitary transformation between the flavor and mass bases.
-Any unitary $3\times3$ matrix can be parametrized using three mixing angles and six phases. However, not all phases affect the 
-charged and weak currents and are thus not observable by us. Moreover, both the Lagrangian and the currents are invariant under global $U(1)$ transformations,
-leaving only one physical phase for us to measure. We are now down to four degrees of freedom in the three dimensional case: three mixing angles
-%TODO: Look CKM wikipedia, good explanation. Mention that it is not guaranteed that the mixing matrix that we only have one phase. We could Have three due to Dirac/majorana. Majorana phases are not relevant for oscillations because oscillations are not violating lepton number, but include them in PMNS.
-of the form $\sin{(\theta_{ij})}/\cos{(\theta_{ij})} = s_{ij}/c_{ij}$, and one phase of the form $e^{i\delta}$. The mixing angle $\theta_{ij}$ specifies the amount of rotation in the $i-j$ plane, allowing an $i$ eigenstate to mix with a $j$ eigenstate. The physical interpretation of
-a mixing angle is then the degree to which the $\nu_i$ mass eigenstate mixes with the $\nu_j$ mass eigenstate. A non-zero mixing angle will then 
-cause the flavor eigenstate $\nu_\alpha$ to be a superposition of the mass eigenstates that we allowed to mix. More on this in Section~\ref{sec:prop}.
-
-We construct the PMNS matrix using a standard parametrization as
+We construct the PMNS matrix by parametrizing it as as
 \begin{align}\label{PMNS_def}
     U &= R_{23}R_{13,\delta_{\text{CP}}}R_{12} \nonumber \\
-      & = 
-    \begin{pmatrix}1 & 0 & 0 \\ 0 & c_{23} & s_{23} \\ 0 & -s_{23} & c_{23}\end{pmatrix}
+     &= \begin{pmatrix}
+        U_{e 1} & U_{e2} & U_{e3} \\
+         U_{\mu 1} & U_{\mu 2} & U_{\mu 3} \\
+         U_{\tau 1} & U_{\tau 2} & U_{\tau 3}
+      \end{pmatrix} \nonumber \\
+      & = \begin{pmatrix}1 & 0 & 0 \\ 0 & c_{23} & s_{23} \\ 0 & -s_{23} & c_{23}\end{pmatrix}
 \begin{pmatrix}c_{13} & 0 & s_{13} e^{-i \delta_{\mathrm{CP}}} \\ 0 & 1 & 0 \\ -s_{13} e^{i \delta_{\mathrm{CP}}} & 0 & c_{13}\end{pmatrix}
 \begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1\end{pmatrix} \nonumber \\
- %TODO: add dcp
- &=\begin{pmatrix}c_{12} c_{13} & s_{12} c_{13} & s_{13} \\ 
-        -s_{12} c_{23}-c_{12} s_{23} s_{13} & c_{12} c_{23}-s_{12} s_{23} s_{13} & s_{23} c_{13} \\ 
-        s_{12} s_{23}-c_{12} c_{23} s_{13}  & -c_{12} s_{23}-s_{12} c_{23} s_{13} & c_{23} c_{13}
-    \end{pmatrix} \nonumber \\
-&= \begin{pmatrix}
-  U_{e 1} & U_{e2} & U_{e3} \\
-   U_{\mu 1} & U_{\mu 2} & U_{\mu 3} \\
-   U_{\tau 1} & U_{\tau 2} & U_{\tau 3}
-\end{pmatrix}\,.
+ &=\begin{pmatrix}c_{12} c_{13} & s_{12} c_{13} & s_{13} e^{-i \delta_{\mathrm{CP}}} \\ 
+        -s_{12} c_{23}-c_{12} s_{23} s_{13}e^{i \delta_{\mathrm{CP}}} & c_{12} c_{23}-s_{12} s_{23} s_{13}e^{i \delta_{\mathrm{CP}}} & s_{23} c_{13} \\ 
+        s_{12} s_{23}-c_{12} c_{23} s_{13}e^{i \delta_{\mathrm{CP}}}  & -c_{12} s_{23}-s_{12} c_{23} s_{13}e^{i \delta_{\mathrm{CP}}} & c_{23} c_{13}
+    \end{pmatrix}\,,
 \end{align}
+where $s_{ij} = \sin(\theta_{ij})$, $c_{ij} = \cos(\theta_{ij})$, $0 \leq \theta_{ij} \leq \pi/2$ and $ 0 \leq \delta_\mathrm{CP} \leq 2\pi$
+
+By construction, it provides the unitary transformation between the flavor and mass bases.
+Any unitary $3\times3$ matrix can be parametrized using three angles and six phases. However, not all phases affect the 
+charged and weak currents and are thus not observable by us. Moreover, both the Lagrangian and the currents are invariant under global $U(1)$ transformations,
+leaving only one physical phase for us to measure. We are now down to four degrees of freedom in the three dimensional case: three angles
+%TODO: Look CKM wikipedia, good explanation. Mention that it is not guaranteed that the mixing matrix that we only have one phase. We could Have three due to Dirac/majorana. Majorana phases are not relevant for oscillations because oscillations are not violating lepton number, but include them in PMNS.
+of the form $s_{ij}, c_{ij}$, and one phase of the form $e^{i\delta}$. The angle $\theta_{ij}$ specifies the amount of rotation in the $i-j$ plane, allowing an $i$ eigenstate to mix with a $j$ eigenstate. The physical interpretation of
+a mixing angle is then the degree to which the $\nu_i$ mass eigenstate mixes with the $\nu_j$ mass eigenstate. Thus we refer to $\theta_{ij}$ as the mixing angles. A non-zero mixing angle will then 
+cause the flavor eigenstate $\nu_\alpha$ to be a superposition of the mass eigenstates $\nu_i$ that we allowed to mix. More on this in Section~\ref{sec:prop}.
 
 
 \subsection{Neutrino Propagation}\label{sec:prop}
@@ -362,7 +361,8 @@ Using Eq.~\ref{eq:V_matrix} in component form, we rewrite this as
 \end{align}
 Now, combining Eq.~\ref{eq:t1} and Eq.~\ref{eq:V_rewrite}, we have for the full Hamiltonian
 \begin{align}
-    \bra{\nu_\b}H\ket{\nu_\a (x)} &= \left(p + \frac{m^2_1}{2E} + V_{NC}\right) \psi_{\a\b}(x) + \sum_\eta\sum_k \left(U_{\b k} \frac{\dm_{k1}}{2E} U^*_{\eta k} + V_{CC}\delta_{\b\eta}\delta_{\eta e} \right) \psi_{\a\eta}(x)
+    \bra{\nu_\b}H\ket{\nu_\a (x)} &= \left(p + \frac{m^2_1}{2E} + V_{NC}\right) \psi_{\a\b}(x) \nonumber \\
+                                  &+ \sum_\eta\sum_k \left(U_{\b k} \frac{\dm_{k1}}{2E} U^*_{\eta k} + V_{CC}\delta_{\b\eta}\delta_{\eta e} \right) \psi_{\a\eta}(x)
 \end{align}
 In this form, we see that the term $p + \frac{m^2_1}{2E} + V_{NC}$  is a common term to all flavor states, and does not affect the probability. It can be rotated away.
 Thus
@@ -414,7 +414,7 @@ For matter oscillations with $N_e \neq 0$, we do have closed form solutions, but
 By working in the limit where one of the neutrino masses can be neglected, 
 we can reduce the complexity of the neutrino oscillations and obtain tractable analytical 
 expressions. 
-We now only consider the mixing between two neutrino flavors, say between $\ne, \nm$, and $\nu_1, \nu_2$. In other words, we let $\dm[31] = 0$.
+We now only consider the mixing between two neutrino flavors, say between $\ne, \nm$, and $\nu_1, \nu_2$. In other words, we let $\dm[31] = 0$. For simplicity, let $\delta_{CP} = 0$.
 
 The three-neutrino oscillation Hamiltonian from Eq.~\eqref{eq:H_3gen} %TODO: derive this
 now reduces to 
