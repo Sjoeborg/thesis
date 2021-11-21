@@ -1,6 +1,3 @@
-% \input{commands}
-% \begin{document}
-
 \section{Neutrino Mixing}\label{ch:oscillation}
 Japan 1998. The Super-Kamiokande experiment detects a $\nm$ deficit that could not be explained by any other mechanism
 than the conversion of muon neutrinos to electron neutrinos~\cite{sk1998}. This was the first conclusive evidence of a completely new physics phenomenon: neutrino flavor
@@ -30,7 +27,7 @@ We now have
 
 We construct the PMNS matrix by parametrizing it as as
 \begin{align}\label{PMNS_def}
-    U &= R_{23}R_{13,\delta_{\text{CP}}}R_{12} \nonumber \\
+    U &= R_{23}R_{13,\delta_{\text{CP}}}R_{12}P_{Maj} \nonumber \\
      &= \begin{pmatrix}
         U_{e 1} & U_{e2} & U_{e3} \\
          U_{\mu 1} & U_{\mu 2} & U_{\mu 3} \\
@@ -38,20 +35,27 @@ We construct the PMNS matrix by parametrizing it as as
       \end{pmatrix} \nonumber \\
       & = \begin{pmatrix}1 & 0 & 0 \\ 0 & c_{23} & s_{23} \\ 0 & -s_{23} & c_{23}\end{pmatrix}
 \begin{pmatrix}c_{13} & 0 & s_{13} e^{-i \delta_{\mathrm{CP}}} \\ 0 & 1 & 0 \\ -s_{13} e^{i \delta_{\mathrm{CP}}} & 0 & c_{13}\end{pmatrix}
-\begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1\end{pmatrix} \nonumber \\
+\begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1\end{pmatrix}
+\begin{pmatrix}1 & 0 & 0 \\ 0 & e^{i \lambda{2}} & 0 \\ 0 & 0 & e^{i \lambda{3}}\end{pmatrix}
+\nonumber \\
  &=\begin{pmatrix}c_{12} c_{13} & s_{12} c_{13} & s_{13} e^{-i \delta_{\mathrm{CP}}} \\ 
         -s_{12} c_{23}-c_{12} s_{23} s_{13}e^{i \delta_{\mathrm{CP}}} & c_{12} c_{23}-s_{12} s_{23} s_{13}e^{i \delta_{\mathrm{CP}}} & s_{23} c_{13} \\ 
         s_{12} s_{23}-c_{12} c_{23} s_{13}e^{i \delta_{\mathrm{CP}}}  & -c_{12} s_{23}-s_{12} c_{23} s_{13}e^{i \delta_{\mathrm{CP}}} & c_{23} c_{13}
-    \end{pmatrix}\,,
+    \end{pmatrix}
+    \begin{pmatrix}1 & 0 & 0 \\ 0 & e^{i \lambda{2}} & 0 \\ 0 & 0 & e^{i \lambda{3}}\end{pmatrix}\,,
 \end{align}
-where $s_{ij} = \sin(\theta_{ij})$, $c_{ij} = \cos(\theta_{ij})$, $0 \leq \theta_{ij} \leq \pi/2$ and $ 0 \leq \delta_\mathrm{CP} \leq 2\pi$
+where $s_{ij} = \sin(\theta_{ij})$, $c_{ij} = \cos(\theta_{ij})$, $0 \leq \theta_{ij} \leq \pi/2$ and $ 0 \leq \lambda{i},\delta_\mathrm{CP} \leq 2\pi$. 
 
 By construction, it provides the unitary transformation between the flavor and mass bases.
 Any unitary $3\times3$ matrix can be parametrized using three angles and six phases. However, not all phases affect the 
 charged and weak currents and are thus not observable by us. Moreover, both the Lagrangian and the currents are invariant under global $U(1)$ transformations,
-leaving only one physical phase for us to measure. We are now down to four degrees of freedom in the three dimensional case: three angles
-%TODO: Look CKM wikipedia, good explanation. Mention that it is not guaranteed that the mixing matrix that we only have one phase. We could Have three due to Dirac/majorana. Majorana phases are not relevant for oscillations because oscillations are not violating lepton number, but include them in PMNS.
-of the form $s_{ij}, c_{ij}$, and one phase of the form $e^{i\delta}$. The angle $\theta_{ij}$ specifies the amount of rotation in the $i-j$ plane, allowing an $i$ eigenstate to mix with a $j$ eigenstate. The physical interpretation of
+leaving only one physical phase for us to measure: one term in the form of a Dirac CP-violating phase $\delta_\mathrm{CP}$.
+However, if the neutrinos are Majorana fermions, the rephasing of the left-handed fields would cause the neutrino masses to become complex.
+Thus, we include two Majorana phases $\lambda{2},\lambda_3$ in the PMNS matrix. These two phases are detectable in processes that violate lepton number, such as neutrinoless double $\beta$ decay.
+Majorana phases are not detectable in neutrino oscillation experiments because oscillations are not violating lepton number.
+
+We are now down to six degrees of freedom in the three dimensional case: three angles
+of the form $s_{ij}, c_{ij}$, and three phase of the form $e^{i\delta_\mathrm{CP}}$ and $e^{\lambda{i}}$. The angle $\theta_{ij}$ specifies the amount of rotation in the $i-j$ plane, allowing an $i$ eigenstate to mix with a $j$ eigenstate. The physical interpretation of
 a mixing angle is then the degree to which the $\nu_i$ mass eigenstate mixes with the $\nu_j$ mass eigenstate. Thus we refer to $\theta_{ij}$ as the mixing angles. A non-zero mixing angle will then 
 cause the flavor eigenstate $\nu_\alpha$ to be a superposition of the mass eigenstates $\nu_i$ that we allowed to mix. More on this in Section~\ref{sec:prop}.
 
@@ -98,8 +102,8 @@ where we have used the unitarity of the leptonic mixing matrix. Eqs.~\ref{eq:osc
 \end{align}
 The probability of the flavor transition $\na \to \nb$ at time $t$ is $\abs{\bra{\nb}\ket{\na (t)}}^2$:
 \begin{align}
-    P_{\na \to \nb}(t) &= \sum_{k,j} {\bra{\nb}\ket{\na (t)}}^2 \nonumber \\
-    &= \abs{U^\dagger_{\a k}U_{\b k}U^\dagger_{\b j}U_{\a j}} e^{-i(E_k-E_j)t}\,.
+    P_{\na \to \nb}(t) &= \sum_{k,j} \abs{{\bra{\nb}\ket{\na (t)}}}^2 \nonumber \\
+    &= U^\dagger_{\a k}U_{\b k}U^\dagger_{\b j}U_{\a j} e^{-i(E_k-E_j)t}\,.
 \end{align}
 
 We assume the neutrino masses $m_k$ to be extremely small compared to their associated energies $E_k$. 
@@ -111,7 +115,6 @@ Thus, $v\approx 1$, and $\abs{\vec{p}} \approx E$ making the energy-dispersion r
 \end{align}
 Hence, the exponential can be simplified, and simplifying the notation $P_{\na \to \nb}(t) \to P_{\ab}(t)$ we get 
 \begin{align}
-    %TODO: check abs
     P_{\ab}(t) = \sum_{k,j} \abs{U^\dagger_{\a k}U_{\b k}U^\dagger_{\b j}U_{\a j}} e^{-i(m_k^2-m_j^2)t/2E}\,.
 \end{align}
 Now, our approximation $v\approx 1$ implies $x\approx t $, thus
@@ -126,23 +129,28 @@ Squaring the unitarity condition $\sum_k U_{\a k}U_{\b k}^\dagger = \delta_{\a \
 \begin{align}
     \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 = \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^\dagger U_{\b k} U_{\a j} U_{\b j}^\dagger]
 \end{align}
-%TODO: include dcp
 We have
 \begin{align}\label{eq:Pab} 
-    %TODO: include dcp and don't write so many lines
-    P_{\ab} &= \sum_{k,j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
-            &=  \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 + \sum_{k \neq j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
-            &= \delta_{\a \b} - 2 \sum_{k>j}U_{\a k} U_{\b k} U_{\b j} U_{\a j} +\sum_{k \neq j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
-            &= \delta_{\a \b} - 2 \sum_{k>j}U_{\a k} U_{\b k} U_{\b j} U_{\a j} + 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
-            &= \delta_{\a \b} - 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \left[1-\exp(-i\frac{\dm_{kj}x}{2E})\right] \nonumber \\
+    P_{\ab} &= \sum_{k,j} \abs{U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+            &=  \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 + \sum_{k \neq j} \abs{U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+            &= \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^\dagger U_{\b k} U_{\a j} U_{\b j}^\dagger] +\sum_{k \neq j} \abs{U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+            %&= \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^\dagger U_{\b k} U_{\a j} U_{\b j}^\dagger] + 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+            %&= \delta_{\a \b} - 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \left[1-\exp(-i\frac{\dm_{kj}x}{2E})\right] \nonumber \\
             %&= \delta_{\a \b} - 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \left[1-\cos(\frac{\dm_{kj}x}{2E})\right] \nonumber \\
-            &= \delta_{\a \b} - 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \sin^2{\left(\frac{\dm_{kj}x}{4E}\right)}\,,
+            &= \delta_{\a \b} - 4\sum_{k > j} \Re[U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}] \sin^2{\left(\frac{\dm_{kj}x}{4E}\right)} \nonumber \\
+            &\hspace{1.2cm}+ 2\sum_{k > j} \Im[U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}] \sin{\left(\frac{\dm_{kj}x}{4E}\right)}\,,
 \end{align}
 which is the probability of neutrino vacuum oscillations.
-The calculation for antineutrinos yield the same result if one continues to assume the realness of the mixing matrix. 
+A similar calculation for antineutrinos yield  
+\begin{align}\label{eq:Pab} 
+    P_{\ab} 
+            &= \delta_{\a \b} - 4\sum_{k > j} \Re[U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}] \sin^2{\left(\frac{\dm_{kj}x}{4E}\right)} \nonumber \\
+            &\hspace{1.2cm}- 2\sum_{k > j} \Im[U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}] \sin{\left(\frac{\dm_{kj}x}{4E}\right)}\,,
+\end{align}
 
 Experimental measurements show that $\theta_{13}$ is the smallest of the mixing angles~\cite{nufit}, causing 
-$\nm$ to primarily mix into $\nt$. The mixing matrix from~\ref{PMNS_def} takes the values
+$\nm$ to primarily mix into $\nt$. Using values from~\cite{nufit}, but taking $\delta_\mathrm{CP} = 0$ for simplicity,
+the mixing matrix from~\ref{PMNS_def} takes the values
 \begin{align}\label{eq:Uvalues}
    U = \begin{pmatrix}
        U_{e 1} & U_{e2} & U_{e3} \\
@@ -416,7 +424,7 @@ we can reduce the complexity of the neutrino oscillations and obtain tractable a
 expressions. 
 We now only consider the mixing between two neutrino flavors, say between $\ne, \nm$, and $\nu_1, \nu_2$. In other words, we let $\dm[31] = 0$. For simplicity, let $\delta_{CP} = 0$.
 
-The three-neutrino oscillation Hamiltonian from Eq.~\eqref{eq:H_3gen} %TODO: derive this
+The three-neutrino oscillation Hamiltonian from Eq.~\eqref{eq:H_3gen}
 now reduces to 
 \begin{align}
     H_F &= \frac{1}{2E}(U M^2 U^\dagger + A) \nonumber \\
@@ -593,7 +601,6 @@ the fact that the mixing angle in matter depends on the squared-mass difference,
 still valid for the full three neutrino oscillations. We previously saw that the oscillation amplitudes were entirely dependant on
 the mixing angles, and the oscillation frequencies were entirely dependant on the squared-mass difference along with energy, and trajectory. After 
 introducing the matter potentials, we now see that the matter effect mixes the mixing matrix elements with the masses and the energy. 
-%TODO: maybe 2 vs 3 plot
 
 \subsection{Earth propagation}
 We now need to know how the electrons are distributed within the Earth. The Preliminary Earth Reference Model~\cite{PREM} gives us spherically
