@@ -143,13 +143,7 @@ We used the best-fit values from NuFit~\cite{nufit} with the exception of the CP
 \end{align}
 
 We deemed these shapes to be satisfactory, thus allowing us to multiply Eq.~\ref{eq:ICevents} by the 
-correction factors of Eq.~\ref{eq:MC_norm}. We now arrive to our final event count
-\begin{align}\label{eq:Nth}
-    N_{ij} &= \frac{N_{ij}^\text{null}}{N_{ij}^\text{MC}} T \sum_\beta \int_{(\cos{\theta_z^r})_i}^{(\cos{\theta_z^r})_{i+1}} \dd \cos{\theta^r_z} \int_{E^r_{j}}^{E^r_{j+1}} \dd E^r 
-    \int_{E^t_{min}}^{E^t_{max}} R(E^r,E^t) \phi_\beta^\text{det}  A^\text{eff}_\beta\, \dd E^t
-    \,,
-\end{align}
-with $E^t_{min}$, $E^t_{max}$, and $R(E^r,E^t)$ taken from the Gaussian process regressor.
+correction factors of Eq.~\ref{eq:MC_norm}.
 \begin{figure}[ht]
     \begin{centering}
     \includegraphics[scale=0.8]{figures/IC_MC_norm.pdf}
