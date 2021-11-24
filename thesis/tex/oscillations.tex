@@ -55,7 +55,7 @@ Thus, we include two Majorana phases $\lambda{2},\lambda_3$ in the PMNS matrix. 
 Majorana phases are not detectable in neutrino oscillation experiments because oscillations are not violating lepton number.
 
 We are now down to six degrees of freedom in the three dimensional case: three angles
-of the form $s_{ij}, c_{ij}$, and three phase of the form $e^{i\delta_\mathrm{CP}}$ and $e^{\lambda{i}}$. The angle $\theta_{ij}$ specifies the amount of rotation in the $i-j$ plane, allowing an $i$ eigenstate to mix with a $j$ eigenstate. The physical interpretation of
+of the form $s_{ij}, c_{ij}$, and three phase of the form $e^{i\delta_\mathrm{CP}}$ and $e^{i\lambda_{i}}$. The angle $\theta_{ij}$ specifies the amount of rotation in the $i-j$ plane, allowing an $i$ eigenstate to mix with a $j$ eigenstate. The physical interpretation of
 a mixing angle is then the degree to which the $\nu_i$ mass eigenstate mixes with the $\nu_j$ mass eigenstate. Thus we refer to $\theta_{ij}$ as the mixing angles. A non-zero mixing angle will then 
 cause the flavor eigenstate $\nu_\alpha$ to be a superposition of the mass eigenstates $\nu_i$ that we allowed to mix. More on this in Section~\ref{sec:prop}.
 
@@ -66,9 +66,9 @@ the neutrino's charged lepton partner, we are now ready to study the flavor osci
 
 From the expression for the weak charged current in~\ref{eq:j_CC3}, we see that the summation over the mass index $k$ with the mixing matrix elements constructs a flavor neutrino, which interacts with the charged lepton field $\ell_{\a L}$.
 In other words, the charged current generates a flavor neutrino $\na$, which is a superposition of the mass eigenstates 
-$\nu_k$ with weights $U_{\a k}^\dagger$. In the ket-formalism, we express this as
+$\nu_k$ with weights $U_{\a k}^*$. In the ket-formalism, we express this as
 \begin{align}\label{eq:osc_1}
-    \ket{\na} = \sum_k U^\dagger_{\a k} \ket{\nu_k}\,.
+    \ket{\na} = \sum_k U^*_{\a k} \ket{\nu_k}\,.
 \end{align}
 It is the mass eigenstates $\ket{\nu_k}$ that are eigenstates of the Hamiltonian, with eigenvalues
 \begin{align}\label{eq:disp}
@@ -86,24 +86,24 @@ in the form of plane wave solutions:
 \end{align}
 Inserting the plane wave solution into Eq.~\ref{eq:osc_1}, we get 
 \begin{align}\label{eq:nat}
-    \ket{\na(t)} = \sum_k U^\dagger_{\a k} e^{-iE_kt}\ket{\nu_k}\,.
+    \ket{\na(t)} = \sum_k U^*_{\a k} e^{-iE_kt}\ket{\nu_k}\,.
 \end{align}
 Now we know how to evolve and combine the mass eigenstates to form a flavor eigenstate, but how about the reverse? We swap the index $k\to j$ in Eq.~\ref{eq:osc_1} and multiply by $U_{\a k}$:
 \begin{align}\label{eq:osc_k}
-    \sum_\a U_{\a k}\ket{\na} &= \sum_{\alpha, j} U_{\a k} U_{\a j}^\dagger \ket{\nu_j} \nonumber \\
+    \sum_\a U_{\a k}\ket{\na} &= \sum_{\alpha, j} U_{\a k} U_{\a j}^* \ket{\nu_j} \nonumber \\
                               &= \sum_{j} \delta_{kj} \ket{\nu_j} \nonumber \\
                               &= \ket{\nu_k}\,,
 \end{align}
 where we have used the unitarity of the leptonic mixing matrix. Eqs.~\ref{eq:osc_1} and \ref{eq:nat} yield 
 \begin{align}
-    \ket{\na(t)} &= \sum_k U^\dagger_{\a k} e^{-iE_kt}\ket{\nu_k} \nonumber \\
-                 &= \sum_k U^\dagger_{\a k} e^{-iE_kt}\left(\sum_\b U_{\b k}\ket{\nb}\right) \nonumber \\
-                 &= \sum_{k,\b} U^\dagger_{\a k}U_{\b k} e^{-iE_kt} \ket{\nb}\,.
+    \ket{\na(t)} &= \sum_k U^*_{\a k} e^{-iE_kt}\ket{\nu_k} \nonumber \\
+                 &= \sum_k U^*_{\a k} e^{-iE_kt}\left(\sum_\b U_{\b k}\ket{\nb}\right) \nonumber \\
+                 &= \sum_{k,\b} U^*_{\a k}U_{\b k} e^{-iE_kt} \ket{\nb}\,.
 \end{align}
 The probability of the flavor transition $\na \to \nb$ at time $t$ is $\abs{\bra{\nb}\ket{\na (t)}}^2$:
 \begin{align}
     P_{\na \to \nb}(t) &= \sum_{k,j} \abs{{\bra{\nb}\ket{\na (t)}}}^2 \nonumber \\
-    &= U^\dagger_{\a k}U_{\b k}U^\dagger_{\b j}U_{\a j} e^{-i(E_k-E_j)t}\,.
+    &= U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j} e^{-i(E_k-E_j)t}\,.
 \end{align}
 
 We assume the neutrino masses $m_k$ to be extremely small compared to their associated energies $E_k$. 
@@ -115,38 +115,43 @@ Thus, $v\approx 1$, and $\abs{\vec{p}} \approx E$ making the energy-dispersion r
 \end{align}
 Hence, the exponential can be simplified, and simplifying the notation $P_{\na \to \nb}(t) \to P_{\ab}(t)$ we get 
 \begin{align}
-    P_{\ab}(t) = \sum_{k,j} \abs{U^\dagger_{\a k}U_{\b k}U^\dagger_{\b j}U_{\a j}} e^{-i(m_k^2-m_j^2)t/2E}\,.
+    P_{\ab}(t) = \sum_{k,j} \abs{U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j}} e^{-i(m_k^2-m_j^2)t/2E}\,.
 \end{align}
 Now, our approximation $v\approx 1$ implies $x\approx t $, thus
 \begin{align}
-    P_{\ab}(x) &= \sum_{k,j} \abs{U^\dagger_{\a k}U_{\b k}U^\dagger_{\b j}U_{\a j}} e^{-i(m_k^2-m_j^2)x/2E} \nonumber \\
-                       &= \sum_{k,j} \abs{U^\dagger_{\a k}U_{\b k}U^\dagger_{\b j}U_{\a j}} \exp(-i\frac{\dm_{kj}x}{2E})\,,
+    P_{\ab}(x) &= \sum_{k,j} \abs{U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j}} e^{-i(m_k^2-m_j^2)x/2E} \nonumber \\
+                       &= \sum_{k,j} \abs{U^*_{\a k}U_{\b k}U^*_{\b j}U_{\a j}} \exp(-i\frac{\dm_{kj}x}{2E})\,,
 \end{align}
 where we in the last step have defined the \emph{mass-squared difference} $\dm_{kj} = m_k^2 - m_j^2$. Since the oscillation probability depends on this quantity
 rather than the individual masses, it is impossible to measure the absolute mass $m_k$ through neutrino oscillations. We have
 to rely on other types of experiments to get us at least one absolute mass, from which we then can calculate the remaining.
-Squaring the unitarity condition $\sum_k U_{\a k}U_{\b k}^\dagger = \delta_{\a \b}$ yields 
+Squaring the unitarity condition $\sum_k U_{\a k}U_{\b k}^* = \delta_{\a \b}$ yields 
 \begin{align}
-    \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 = \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^\dagger U_{\b k} U_{\a j} U_{\b j}^\dagger]
+    \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 = \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^* U_{\b k} U_{\a j} U_{\b j}^*]
 \end{align}
 We have
 \begin{align}\label{eq:Pab} 
-    P_{\ab} &= \sum_{k,j} \abs{U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
-            &=  \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 + \sum_{k \neq j} \abs{U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
-            &= \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^\dagger U_{\b k} U_{\a j} U_{\b j}^\dagger] +\sum_{k \neq j} \abs{U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
-            %&= \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^\dagger U_{\b k} U_{\a j} U_{\b j}^\dagger] + 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+    P_{\ab} &= \sum_{k,j} \abs{U_{\a k} ^ * U_{\b k}U_{\b j}^* U_{\a j}} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+            &=  \sum_k \abs{U_{\a k}}^2\abs{U_{\b k}}^2 + \sum_{k \neq j} \abs{U_{\a k} ^ * U_{\b k}U_{\b j}^* U_{\a j}} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+            &= \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^* U_{\b k} U_{\a j} U_{\b j}^*] +\sum_{k \neq j} \abs{U_{\a k} ^ * U_{\b k}U_{\b j}^* U_{\a j}} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
+            %&= \delta_{\a \b} - 2 \sum_{k>j}\Re[U_{\a k}^* U_{\b k} U_{\a j} U_{\b j}^*] + 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \exp(-i\frac{\dm_{kj}x}{2E}) \nonumber \\
             %&= \delta_{\a \b} - 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \left[1-\exp(-i\frac{\dm_{kj}x}{2E})\right] \nonumber \\
             %&= \delta_{\a \b} - 2\sum_{k > j} U_{\a k}U_{\b k}U_{\b j}U_{\a j} \left[1-\cos(\frac{\dm_{kj}x}{2E})\right] \nonumber \\
-            &= \delta_{\a \b} - 4\sum_{k > j} \Re[U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}] \sin^2{\left(\frac{\dm_{kj}x}{4E}\right)} \nonumber \\
-            &\hspace{1.2cm}+ 2\sum_{k > j} \Im[U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}] \sin{\left(\frac{\dm_{kj}x}{4E}\right)}\,,
+            &= \delta_{\a \b} - 4\sum_{k > j} \Re[U_{\a k} ^ * U_{\b k}U_{\b j}^* U_{\a j}] \sin^2{\left(\frac{\dm_{kj}x}{4E}\right)} \nonumber \\
+            &\hspace{1.2cm}+ 2\sum_{k > j} \Im[U_{\a k} ^ * U_{\b k}U_{\b j}^* U_{\a j}] \sin{\left(\frac{\dm_{kj}x}{4E}\right)}\,,
 \end{align}
 which is the probability of neutrino vacuum oscillations.
 A similar calculation for antineutrinos yield  
-\begin{align}\label{eq:Pab} 
+\begin{align}
     P_{\ab} 
-            &= \delta_{\a \b} - 4\sum_{k > j} \Re[U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}] \sin^2{\left(\frac{\dm_{kj}x}{4E}\right)} \nonumber \\
-            &\hspace{1.2cm}- 2\sum_{k > j} \Im[U_{\a k} ^ \dagger U_{\b k}U_{\b j}^\dagger U_{\a j}] \sin{\left(\frac{\dm_{kj}x}{4E}\right)}\,,
+            &= \delta_{\a \b} - 4\sum_{k > j} \Re[U_{\a k} ^ * U_{\b k}U_{\b j}^* U_{\a j}] \sin^2{\left(\frac{\dm_{kj}x}{4E}\right)} \nonumber \\
+            &\hspace{1.2cm}- 2\sum_{k > j} \Im[U_{\a k} ^ * U_{\b k}U_{\b j}^* U_{\a j}] \sin{\left(\frac{\dm_{kj}x}{4E}\right)}\,.
 \end{align}
+
+This form elucidates an important aspect of neutrino oscillations. The mixing matrix elements
+determine the amplitude of the oscillations, while the mass-squared differences together with the ratio $L/E$ determine the
+frequency. So in vacuum, the mixing angles only influence the oscillation amplitude, while the energy, trajectory, and masses of
+the neutrinos only influence the oscillation frequency.
 
 Experimental measurements show that $\theta_{13}$ is the smallest of the mixing angles~\cite{nufit}, causing 
 $\nm$ to primarily mix into $\nt$. Using values from~\cite{nufit}, but taking $\delta_\mathrm{CP} = 0$ for simplicity,
@@ -168,22 +173,17 @@ is approximately the Earth diameter, and will be the maximum travel distance whi
 In the left-most panel, we see a suppressed $\nm \to \ne$ transition. We can understand this behavior by studying Eq.~\ref{eq:Pab} and the 
 numerical values of the mixing matrix in Eq.~\ref{eq:Uvalues}.
 The smallness of $U_{e3}$ reduces the effect of $\dm[21]$ mass-squared difference,
-allowing $\dm[31]$ to drive the oscillations. 
-The most important mixing matrix 
-elements for $P_{\a\b}$ are $U_{\a3}, U_{\a1}$ and $U_{\b3}, U_{\b1}$. %TODO: write whole 4 product here
-%instead of U,U and U,U
+allowing $\dm[31]$ to drive the oscillations. Thus, 
+The most important mixing matrix elements for $P_{\a\b}$ are the ones appearing in the term with $\dm[31]$:
+namely the product $U_{\a3}^*U_{\b3} U_{\b1}^*U_{\a1}$.
 
 \begin{figure}[!h]
-    %TODO: write pme, pmm, pmt in titles, bigger ticks
     \begin{center}
     \includegraphics[width=1\textwidth]{figures/vac_osc.pdf}
-    \caption{Probabilities of $\nm$ oscillations travelling 12 000 km in vaccum.}\label{fig:vac_osc}
+    \caption{Probabilities of $\nm$ oscillations after travelling 12 000 km in vaccum.}\label{fig:vac_osc}
     \end{center}
 \end{figure}
-This form elucidates an important aspect of neutrino oscillations. The mixing matrix elements
-determine the amplitude of the oscillations, while the mass-squared differences together with the ratio $L/E$ determine the
-frequency. So in vacuum, the mixing angles only influence the oscillation amplitude, while the energy, trajectory, and masses of
-the neutrinos only influence the oscillation frequency.
+
 
 \subsection{Neutrino Oscillations in Matter}
 
