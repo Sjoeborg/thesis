@@ -61,11 +61,15 @@ also apply to PINGU except where noted. However, we treat the PINGU detector as 
 \subsection{Atmospheric Neutrino Flux}
 Atmospheric neutrinos originate from cosmic rays composed of high-energy protons interacting with nuclei in the atmosphere.
 These interactions ultimately produces pions, which decay as 
-\begin{align}\label{eq:pion} %TODO: Incorrect. Add muon decays
+\begin{align}\label{eq:pion}
     &\pi^+ \to \mu^+ + \nm\,, \quad \pi^- \to \mu^- + \anm \nonumber \\
     &\pi^+ \to e^+ + \ne\,,\,\, \quad \pi^- \to e^- + \ane\,.
 \end{align}
-In the muonic decay channel, muons are emitted which will be detected by the IceCube detector.
+The heavy muon ($m_\mu \approx 200m_e$) decays further:
+\begin{align}
+    &\mu^+ \to e^+ + \ne + \anm\,, \quad \mu^- \to e^- + \ane + \nm\,,
+\end{align}
+producing even more neutrinos.
 
 The flux is provided in \cite{hondaData,hondaArticle}, and a selection is shown in Table~\ref{table:flux}.
 The flux data is binned in $\cos(\theta_z)$. The fluxes are averaged over the azimuthal direction and solar minimum/maximum. 
