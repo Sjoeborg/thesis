@@ -91,41 +91,12 @@ Now we have reduced the possible number of NSI parameters from 9 down to 6.
 By combining oscillation data and neutrino-nucleon scattering at the COHERENT experiment, 90 \% CL ranges of some of 
 the NSI parameters were constrained in~\cite{coherent} to
 \begin{align}\label{eq:coherentbounds}
-    -0.090 < &\ett < 0.38 \nonumber \\
-    -0.01 < &\emt < 0.009 \nonumber \\
-    -0.073 < &\eem < 0.044 \nonumber \\
-    -0.15 < &\eet < 0.13\,.
+    -0.090 < &\,\ett < 0.38 \nonumber \\
+    -0.01 < &\,\emt < 0.009 \nonumber \\
+    -0.073 < &\,\eem < 0.044 \nonumber \\
+    -0.15 < &\,\eet < 0.13\,.
 \end{align}
 
-
-% we are free to do since any multiple added or subtracted from diagonal does not affect the eigenvectors of the Hamiltonian and thus not the
-% probabilities. So jusb t as we subtracted away $V_{NC}$ back in Eq.~\ref{eq:components}, we can subtract $\emm$ and rotate it away.
-% Our NSI potential matrix now takes the form 
-% {µmmb m  m mb  mb  mbb  mb bmMoreover, it is common to subtract $\emm$ from the diagonal, which
-% \begin{align} m mmb
-%     \begin{pmatrix}
-%         \epsilon_{ee} & \epsilon_{e\mu} & \epsilon_{e\tau}  \\
-%         \epsilon_{e \mu} & \epsilon_{\mu\mu} & \epsilon_{\mu\tau}  \\
-%         \epsilon_{e\tau} & \epsilon_{\mu\tau} & \epsilon_{\tau\tau}
-%     \end{pmatrix} 
-%     - \epsilon_{\mu\mu}
-%     \begin{pmatrix}
-%         1 & 0 & 0 \\
-%         0 & 1 & 0 \\
-%         0 & 0 & 1 
-%     \end{pmatrix}
-%      &= \begin{pmatrix}
-%         \epsilon_{ee}- \epsilon_{\mu\mu} & \epsilon_{e\mu} & \epsilon_{e\tau}  \\
-%         \epsilon_{e \mu} & 0 & \epsilon_{\mu\tau}  \\
-%         \epsilon_{e\tau} & \epsilon_{\mu\tau} & \epsilon_{\tau\tau} - \epsilon_{\mu\mu}
-%     \end{pmatrix} \nonumber \\
-%     &= \begin{pmatrix}
-%         \epsilon_{ee}- \epsilon_{\mu\mu} & \epsilon_{e\mu} & \epsilon_{e\tau}  \\
-%         \epsilon_{e \mu} & 0 & \epsilon_{\mu\tau}  \\
-%         \epsilon_{e\tau} & \epsilon_{\mu\tau} & \ep
-%     \end{pmatrix}\,,
-% \end{align}
-% where $\ep = \ett - \emm$.
 
 \subsection{IceCube Signal}
 In our analysis of IceCube, we are constrained to muon track events. Thus, we are not able to test any theory which does not modify $P_{\a \mu}$. Moreover,
@@ -134,10 +105,11 @@ the IceCube data is available in the range \SI{500}{\GeV} to \SI{10}{\TeV} range
 Since all standard matter potentials are diagonal, 
 the elements $\epsilon_{\a\b},\, \a = \b$ will directly adjust the matter potential felt 
 by flavor $\a$. The off-diagonal terms have a more interesting theoretical implication as they open up matter interactions across flavors. Remember, in the Standard model,
-we are restricted to weak interactions that conserve lepton number. However, an off-diagonal NSI parameter allows flavor transitions during matter interactions. Thus,
+we are restricted to weak interactions that conserve lepton flavor. However, an off-diagonal NSI parameter allows flavor transitions during matter interactions. Thus,
 the off-diagonal elements constitute new sources of flavor violation.
 Moreover, $\epsilon_{\a\b}$ modifies the $\nu_\a \to \nu_\b$ transition independently
-of the mixing matrix. Thus, we can in theory boost a flavor transition that is suppressed by the mixing matrix. Moreover, since we have 6 NSI parameters, and the PMNS
+of the mixing matrix. Thus, we are not confined to the parameters of the mixing matrix: now we have introduced the 
+possibility of additional interactions that can cause the flavor change. Moreover, since we have 6 NSI parameters, and the PMNS
 matrix is parametrized with only 3 parameters, we have more degrees of freedom when adjusting the probabilities using the NSI matrix. Each term in the PMNS matrix consists of at least
 two of the three mixing angles, making them much more dependent on each other.
 
@@ -165,8 +137,8 @@ In Fig.~\ref{fig:eem_eet_probs}, we see that the muon channel remains largely un
 in the DeepCore region of rapid oscillations, where mixing is more violent. 
 \begin{figure}
     \begin{center}%TODO subplots and fix labels in parahgraph aboveto match them
-        \includegraphics[width=0.9\textwidth]{figures/emt_probs.pdf}
-        \includegraphics[width=0.9\textwidth]{figures/ett_probs.pdf}
+        \includegraphics[width=0.99\textwidth]{figures/emt_probs.pdf}
+        \includegraphics[width=0.99\textwidth]{figures/ett_probs.pdf}
         \caption{\emph{Top panel:} Muon neutrino and antineutrino survival probabilities for
         $\ztrue = -1$ when $\emt = 0.02$. All other NSI parameters are fixed to zero. In the \si{\GeV} range, $\emt$ shifts the oscillations to the right for $\nm$, and to the left for $\anm$. At \si{\TeV} energies, both probabilites simply get shifted down, resulting in a net reduction of track events.
         \emph{Bottom panel:} Muon neutrino and antineutrino survival probabilities for

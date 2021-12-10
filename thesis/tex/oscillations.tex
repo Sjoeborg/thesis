@@ -11,12 +11,6 @@ Substituting the new transformation from Eq.~\ref{eq:nu_rotation} into the expre
     j^\rho_L &= 2\bar{\nu}^\prime_{\alpha L} \gamma^\rho \ell_{\alpha L}^\prime \nonumber \\
              &= 2\bar{\nu}_{k L} V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} \gamma^\rho  \ell_{\alpha L}
 \end{align}
-Now, the current in Eq.~\ref{eq:j_CC2} conserves lepton number, since the neutrino field with flavor $\alpha$ only couples to the lepton field with flavor $\alpha$. 
-Thus, neutrino interactions still conserve lepton number.
-However, the Higgs-lepton Yukawa Lagrangian 
-in Eq.~\ref{eq:L_H} violates lepton number conservation since it couples the charged lepton flavor $\alpha$ to the neutrino mass eigenstate $k$, which is a superposition of flavors. 
-There is no transformation that leaves both the interaction and kinetic Lagrangian invariant, thus violating this symmetry.
-
 
 Call $V^{\prime \nu \dagger}_{k \alpha}V^{\prime \ell}_{\alpha \alpha} = U^\dagger_{k \alpha}$. We will refer to the matrix $U$ built by the components $U_{k \alpha}$ as the (neutrino) mixing matrix. It can also be referred to as the 
 Pontecorvo-Maki-Nakagawa-Sakata (PMNS) matrix~\cite{pontecorvo1957,maki1962}.
@@ -36,22 +30,22 @@ We construct the PMNS matrix by parametrizing it as as
       & = \begin{pmatrix}1 & 0 & 0 \\ 0 & c_{23} & s_{23} \\ 0 & -s_{23} & c_{23}\end{pmatrix}
 \begin{pmatrix}c_{13} & 0 & s_{13} e^{-i \delta_{\mathrm{CP}}} \\ 0 & 1 & 0 \\ -s_{13} e^{i \delta_{\mathrm{CP}}} & 0 & c_{13}\end{pmatrix}
 \begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1\end{pmatrix}
-\begin{pmatrix}1 & 0 & 0 \\ 0 & e^{i \lambda{2}} & 0 \\ 0 & 0 & e^{i \lambda{3}}\end{pmatrix}
+\begin{pmatrix}1 & 0 & 0 \\ 0 & e^{i \lambda_{2}} & 0 \\ 0 & 0 & e^{i \lambda_{3}}\end{pmatrix}
 \nonumber \\
  &=\begin{pmatrix}c_{12} c_{13} & s_{12} c_{13} & s_{13} e^{-i \delta_{\mathrm{CP}}} \\ 
         -s_{12} c_{23}-c_{12} s_{23} s_{13}e^{i \delta_{\mathrm{CP}}} & c_{12} c_{23}-s_{12} s_{23} s_{13}e^{i \delta_{\mathrm{CP}}} & s_{23} c_{13} \\ 
         s_{12} s_{23}-c_{12} c_{23} s_{13}e^{i \delta_{\mathrm{CP}}}  & -c_{12} s_{23}-s_{12} c_{23} s_{13}e^{i \delta_{\mathrm{CP}}} & c_{23} c_{13}
     \end{pmatrix}
-    \begin{pmatrix}1 & 0 & 0 \\ 0 & e^{i \lambda{2}} & 0 \\ 0 & 0 & e^{i \lambda{3}}\end{pmatrix}\,,
+    \begin{pmatrix}1 & 0 & 0 \\ 0 & e^{i \lambda_{2}} & 0 \\ 0 & 0 & e^{i \lambda_{3}}\end{pmatrix}\,,
 \end{align}
-where $s_{ij} = \sin(\theta_{ij})$, $c_{ij} = \cos(\theta_{ij})$, $0 \leq \theta_{ij} \leq \pi/2$ and $ 0 \leq \lambda{i},\delta_\mathrm{CP} \leq 2\pi$. 
+where $s_{ij} = \sin(\theta_{ij})$, $c_{ij} = \cos(\theta_{ij})$, $0 \leq \theta_{ij} \leq \pi/2$ and $ 0 \leq \lambda_{i},\delta_\mathrm{CP} \leq 2\pi$. 
 
 By construction, it provides the unitary transformation between the flavor and mass bases.
 Any unitary $3\times3$ matrix can be parametrized using three angles and six phases. However, not all phases affect the 
 charged and weak currents and are thus not observable by us. Moreover, both the Lagrangian and the currents are invariant under global $U(1)$ transformations,
 leaving only one physical phase for us to measure: one term in the form of a Dirac CP-violating phase $\delta_\mathrm{CP}$.
 However, if the neutrinos are Majorana fermions, the rephasing of the left-handed fields would cause the neutrino masses to become complex.
-Thus, we include two Majorana phases $\lambda{2},\lambda_3$ in the PMNS matrix. These two phases are detectable in processes that violate lepton number, such as neutrinoless double $\beta$ decay.
+Thus, we include two Majorana phases $\lambda_{2},\lambda_3$ in the PMNS matrix. These two phases are detectable in processes that violate lepton number, such as neutrinoless double $\beta$ decay.
 Majorana phases are not detectable in neutrino oscillation experiments because oscillations are not violating lepton number.
 
 We are now down to six degrees of freedom in the three dimensional case: three angles
@@ -438,58 +432,58 @@ now reduces to
             0 & 0 & 0
         \end{pmatrix}\,. 
 \end{align}
-The rotation matrices $R_{ij}$ that constitute $U$ according to Eq.~\eqref{PMNS_def} can be simplified. The rotation $R_{13}$ will not affect our mass matrix, since the former acts in the $1-3$ plane, and the latter sits in the $1-2$ plane. Thus, the reduced mass matrix $\mathbb{M}_{12}$ commutes with $R_{13}$. Analogously, the  rotation matrix $R_{23}$ also commutes with $\mathbb{M}_{12}$.
-Moreover, since $SO(3)$ is abelian, its generators commute, i.e.
-\begin{align}
-    \commutator{R_{ij}}{R_{kl}} = R_{ij}R_{kl} - R_{kl}R_{ij} = 0\,.
-\end{align}
-Thus,
-\begin{align}
-    U \mathbb{M}_{12} U^\dagger &=
-    R_{23}R_{13}R_{12} \mathbb{M}_{12}  R_{12}^\dagger R_{13}^\dagger  R_{23}^\dagger \nonumber \\
-    &= R_{12}R_{23}R_{13} \mathbb{M}_{12}  R_{13}^\dagger R_{23}^\dagger R_{12}^\dagger   \nonumber \\
-    &= R_{12}\mathbb{M}_{12} R_{23} R_{13}   R_{13}^\dagger R_{23}^\dagger R_{12}^\dagger  \,.
-\end{align}
-And due to the fact that the rotation matrices are unitary,
-\begin{align}
-    R\,R^\dagger = \mathbb{I}\,,
-\end{align}
-we have that 
-\begin{align}
-    U \mathbb{M}_{12} U^\dagger &= R_{12}\mathbb{M}_{12}R_{23} R_{13}   R_{13}^\dagger R_{12}^\dagger  R_{23}^\dagger \nonumber \\
-    &= R_{12}\mathbb{M}_{12}R_{23} R_{23}^\dagger  R_{12}^\dagger \nonumber \\
-    &= R_{12}\mathbb{M}_{12}  R_{12}^\dagger\,.
-\end{align}
-We have now completely removed the dependence of the mixing angle between the $\nu_1$ and $\nu_3$ mass eigenstates, $\theta_{13}$, and the dependece of the mixing angle between the $\nu_2$ and $\nu_3$ mass eigenstates, $\theta_{23}$.
-We can see this clearly by writing our reduced mixing matrix, which is only constituted by the rotation in the $1-2$ plane, $R_{12}$.
-\begin{align}
-    U &= R_{12}
-\begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1 \end{pmatrix} 
-\end{align}
+% The rotation matrices $R_{ij}$ that constitute $U$ according to Eq.~\eqref{PMNS_def} can be simplified. The rotation $R_{13}$ will not affect our mass matrix, since the former acts in the $1-3$ plane, and the latter sits in the $1-2$ plane. Thus, the reduced mass matrix $\mathbb{M}_{12}$ commutes with $R_{13}$. Analogously, the  rotation matrix $R_{23}$ also commutes with $\mathbb{M}_{12}$.
+% Moreover, since $SO(3)$ is abelian, its generators commute, i.e.
+% \begin{align}
+%     \commutator{R_{ij}}{R_{kl}} = R_{ij}R_{kl} - R_{kl}R_{ij} = 0\,.
+% \end{align}
+% Thus,
+% \begin{align}
+%     U \mathbb{M}_{12} U^\dagger &=
+%     R_{23}R_{13}R_{12} \mathbb{M}_{12}  R_{12}^\dagger R_{13}^\dagger  R_{23}^\dagger \nonumber \\
+%     &= R_{12}R_{23}R_{13} \mathbb{M}_{12}  R_{13}^\dagger R_{23}^\dagger R_{12}^\dagger   \nonumber \\
+%     &= R_{12}\mathbb{M}_{12} R_{23} R_{13}   R_{13}^\dagger R_{23}^\dagger R_{12}^\dagger  \,.
+% \end{align}
+% And due to the fact that the rotation matrices are unitary,
+% \begin{align}
+%     R\,R^\dagger = \mathbb{I}\,,
+% \end{align}
+% we have that 
+% \begin{align}
+%     U \mathbb{M}_{12} U^\dagger &= R_{12}\mathbb{M}_{12}R_{23} R_{13}   R_{13}^\dagger R_{12}^\dagger  R_{23}^\dagger \nonumber \\
+%     &= R_{12}\mathbb{M}_{12}R_{23} R_{23}^\dagger  R_{12}^\dagger \nonumber \\
+%     &= R_{12}\mathbb{M}_{12}  R_{12}^\dagger\,.
+% \end{align}
+% We have now completely removed the dependence of the mixing angle between the $\nu_1$ and $\nu_3$ mass eigenstates, $\theta_{13}$, and the dependece of the mixing angle between the $\nu_2$ and $\nu_3$ mass eigenstates, $\theta_{23}$.
+% We can see this clearly by writing our reduced mixing matrix, which is only constituted by the rotation in the $1-2$ plane, $R_{12}$.
+% \begin{align}
+%     U &= R_{12}
+% \begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1 \end{pmatrix} 
+% \end{align}
 
-Let us return to the Hamiltonian with our two-neutrino mixing matrix. We have 
-\begin{align}
-    H_F
-        &= \frac{1}{2E}\left[R_{12} \begin{pmatrix}
-            0 & 0 & 0 \\
-            0 & \dm_{21} & 0 \\
-            0 & 0 & 0
-        \end{pmatrix} R_{12}^\dagger\right] + \sqrt{2}G_F N_e \begin{pmatrix}
-            1 & 0 & 0 \\
-            0 & 0 & 0 \\
-            0 & 0 & 0
-        \end{pmatrix} \nonumber \\
-        &= \frac{1}{2E}\left[\begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1 \end{pmatrix}  \begin{pmatrix}
-            0 & 0 & 0 \\
-            0 & \dm_{21} & 0 \\
-            0 & 0 & 0
-        \end{pmatrix} \begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1 \end{pmatrix}^\dagger \right] + \sqrt{2}G_F N_e \begin{pmatrix}
-            1 & 0 & 0 \\
-            0 & 0 & 0 \\
-            0 & 0 & 0
-        \end{pmatrix}\,. 
-\end{align}
-
+% Let us return to the Hamiltonian with our two-neutrino mixing matrix. We have 
+% \begin{align}
+%     H_F
+%         &= \frac{1}{2E}\left[R_{12} \begin{pmatrix}
+%             0 & 0 & 0 \\
+%             0 & \dm_{21} & 0 \\
+%             0 & 0 & 0
+%         \end{pmatrix} R_{12}^\dagger\right] + \sqrt{2}G_F N_e \begin{pmatrix}
+%             1 & 0 & 0 \\
+%             0 & 0 & 0 \\
+%             0 & 0 & 0
+%         \end{pmatrix} \nonumber \\
+%         &= \frac{1}{2E}\left[\begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1 \end{pmatrix}  \begin{pmatrix}
+%             0 & 0 & 0 \\
+%             0 & \dm_{21} & 0 \\
+%             0 & 0 & 0
+%         \end{pmatrix} \begin{pmatrix}c_{12} & s_{12} & 0 \\ -s_{12} & c_{12} & 0 \\ 0 & 0 & 1 \end{pmatrix}^\dagger \right] + \sqrt{2}G_F N_e \begin{pmatrix}
+%             1 & 0 & 0 \\
+%             0 & 0 & 0 \\
+%             0 & 0 & 0
+%         \end{pmatrix}\,. 
+% \end{align}
+% TODO: segue into 2gen
 We can reduce this down to two dimensions by extracting the upper-left block of all matrices. We now have the Hamiltonian in a two-dimensional form, and start simplifying:
 
 \begin{align}
@@ -604,7 +598,7 @@ introducing the matter potentials, we now see that the matter effect mixes the m
 
 \subsection{Earth propagation}
 We now need to know how the electrons are distributed within the Earth. The Preliminary Earth Reference Model~\cite{PREM} gives us spherically
-symmetric piecewise polynomials for the Earth density in \si{\gram\cm^3} shown in the left panel of Fig.~\ref{fig:potential}.
+symmetric piecewise polynomials for the Earth density in \si{\gram\cm^-3} shown in the left panel of Fig.~\ref{fig:potential}.
 We note a steep discontinuity at \SI{3480}{\km} where the density is nearly halved. This is the core-mantle boundary and will be visible in our 
 oscillations.
 
@@ -615,6 +609,7 @@ Using a value of $Y=0.5$ electron per nucleon, we express the matter potential a
 \end{align}
 a low number due to the smallness of $G_F$. This is plotted in the right panel of Fig.~\ref{fig:potential}
 \begin{figure}
+    %TODO: labels
     \centering
     \includegraphics[width=0.9\textwidth]{figures/potential.pdf}
     \caption{\emph{Left panel:} The spherically symmetric Earth density according to PREM~\cite{PREM}, as of distance from the core.
@@ -627,6 +622,8 @@ we obtain the nine combinations of probabilities through the Earth diameter. We 
 is shown in Fig.~\ref{fig:oscillations}.
 
 \begin{figure}
+    %TODO: labels, caption. Include osc params used. Mention value of L if missing.
+    % Compare with vacuum oscillation plot and a two neutrino plot. Then we see for certain E we see matter effects more and for some less.
     \centering
     \includegraphics[width=0.7\textwidth]{figures/oscillations.pdf}
     \caption{}\label{fig:oscillations}

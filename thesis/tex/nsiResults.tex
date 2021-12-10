@@ -1,4 +1,5 @@
 \section{Constraining the NSI parameters}\label{sec:constraining}
+%TODO Ch 5.2 write what new things we have in the sterile analysis/chi2. Ie that NSI is showing in GeV -> deep core 
 In this section, we will constrain the four NSI parameters $\ett$, $\emt$, $\eem$, and $\eet$ by considering the detectors separately as well as jointly.
 For our analyses, we define our $\chi^2$ as
 \begin{align}\label{eq:chisq_NSI}
@@ -71,7 +72,7 @@ The results are shown in Fig.~\ref{fig:IC_3D} and summarized in Tables~\ref{tabl
 Comparing the PINGU and the DeepCore results in Fig.~\ref{fig:3D_NO}, we note that the best-fit for each NSI parameter for the PINGU experiment is expected to be zero. This is because the `data' we generated during 
 the PINGU simulations assume no NSI since they have yet to be observed in nature. This introduces a non-NSI bias in all joint analyses which include PINGU
 since PINGU has stronger statistics than DeepCore and will thus pull the joint $\chi^2$ towards $\epsilon =0$.
-
+% TODO: Write a few lines about the plots 5.4 and 5.5
 \begin{figure}
    \begin{center}
       \includegraphics[scale = 0.7]{figures/joint_3D_NO.pdf}
@@ -202,7 +203,7 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
    the systematic uncertainty scenarios considered as in Table~\ref{table:syst_errors}.}\label{table:PINGU_joint_results}
 \end{table}
 
-%TODO: compare results
+%TODO: compare results, fix tables
 
 \begin{table}
    \begin{center}
@@ -240,8 +241,9 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
       \end{subfigure}
     \end{center}
    \caption{Expected pulls of the form $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ for PINGU and DeepCore after 3 years.}
-\end{figure}%TODO: redo these with same emt as flux_ratio? keep this, but align them better
-
+\end{figure}
+%TODO 5.6 is small, fix labels
+%TODO:  Write from fig 5.7 that let Eem are anti-correlated, while no significant correlation can be seen from emt-emt, emt-eet.
 There is no reason for us to assume that only one NSI parameter exists in Nature, unless we impose a symmetry on the gauge group which generates NSI. For example, the matter potential matrix in our Hamiltonian from Eq.~\eqref{eq:V_matrix} is diagonal since the interaction Lagrangian respects lepton number conservation. 
 The PMNS matrix, on the other hand, has off-diagonal elements because the kinetic Lagrangian breaks this symmetry. So ideally, we would simulate a grid where all NSI parameters are allowed to vary, 
 but this is not feasible. Thus, we take we set $\ett = 0$ and let $\emt,\eem,\eet$ vary, along with $\dm[31]$ and $\theta_{23}$. We let $\ett=0$ because we saw that it did not influence the other parameters. 
