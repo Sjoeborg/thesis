@@ -46,11 +46,12 @@ charged and weak currents and are thus not observable by us. Moreover, both the 
 leaving only one physical phase for us to measure: one term in the form of a Dirac CP-violating phase $\delta_\mathrm{CP}$.
 However, if the neutrinos are Majorana fermions, the rephasing of the left-handed fields would cause the neutrino masses to become complex.
 Thus, we include two Majorana phases $\lambda_{2},\lambda_3$ in the PMNS matrix. These two phases are detectable in processes that violate lepton number, such as neutrinoless double $\beta$ decay.
-Majorana phases are not detectable in neutrino oscillation experiments because oscillations are not violating lepton number.
+Majorana phases are not detectable in neutrino oscillation experiments because oscillations are not violating lepton number, and a Majorana phase would
+violate lepton number by two units.
 
 We are now down to six degrees of freedom in the three dimensional case: three angles
-of the form $s_{ij}, c_{ij}$, and three phase of the form $e^{i\delta_\mathrm{CP}}$ and $e^{i\lambda_{i}}$. The angle $\theta_{ij}$ specifies the amount of rotation in the $i-j$ plane, allowing an $i$ eigenstate to mix with a $j$ eigenstate. The physical interpretation of
-a mixing angle is then the degree to which the $\nu_i$ mass eigenstate mixes with the $\nu_j$ mass eigenstate. Thus we refer to $\theta_{ij}$ as the mixing angles. A non-zero mixing angle will then 
+of the form $s_{ij}, c_{ij}$, and three phase of the form $e^{i\delta_\mathrm{CP}}$ and $e^{i\lambda_{i}}$. The angle $\theta_{ij}$ specifies the amount of rotation in the $i-j$ plane. The physical interpretation of
+a mixing matrix element $U_{ij}$ is then the degree to which the $\nu_i$ mass eigenstate mixes with the $\nu_j$ mass eigenstate. Thus we refer to $\theta_{ij}$ as the mixing angles. A non-zero mixing angle will then 
 cause the flavor eigenstate $\nu_\alpha$ to be a superposition of the mass eigenstates $\nu_i$ that we allowed to mix. More on this in Section~\ref{sec:prop}.
 
 
@@ -576,7 +577,7 @@ $U^M$ diagonalizes $H_F$ if and only if
     \tan{(2\theta_{12}^M)} = \frac{\tan{(2\theta_{12})}}{1- \frac{2\sqrt{2}G_F N_e E}{\dm[21]\cos{(2\theta_{12})}}}\,.
 \end{align}
 Eq.~\ref{eq:eff_theta} has a pole at %TODO: write more
-\begin{align}
+\begin{align}\label{eq:MSW}
     E^* &= \frac{\dm[21]\cos(2\theta_{12})}{2\sqrt{2}G_F N_e}\,.
 \end{align}
 So at a certain electron density, a neutrino with energy $E^*$ will experience a resonance in the matter mixing angle. This phenomenon is called MSW resonance after Mikheev, Smirnov, and Wolfenstein. At this point, $\tan{(2\theta_{12}^M)} \to \infty$, which is equivalent to the matter mixing angle $\theta_{12}^M$ assuming its maximal value, $\pi/4$. Thus, the MSW resonance can cause maximal mixing between two flavors. 
@@ -598,7 +599,7 @@ introducing the matter potentials, we now see that the matter effect mixes the m
 
 \subsection{Earth propagation}
 We now need to know how the electrons are distributed within the Earth. The Preliminary Earth Reference Model~\cite{PREM} gives us spherically
-symmetric piecewise polynomials for the Earth density in \si{\gram\cm^-3} shown in the left panel of Fig.~\ref{fig:potential}.
+symmetric piecewise polynomials for the Earth density in \si{\gram\cm^{-3}} shown in the left panel of Fig.~\ref{fig:potential}.
 We note a steep discontinuity at \SI{3480}{\km} where the density is nearly halved. This is the core-mantle boundary and will be visible in our 
 oscillations.
 
@@ -622,11 +623,12 @@ we obtain the nine combinations of probabilities through the Earth diameter. We 
 is shown in Fig.~\ref{fig:oscillations}.
 
 \begin{figure}
-    %TODO: labels, caption. Include osc params used. Mention value of L if missing.
+    %TODO: labels
     % Compare with vacuum oscillation plot and a two neutrino plot. Then we see for certain E we see matter effects more and for some less.
     \centering
     \includegraphics[width=0.7\textwidth]{figures/oscillations.pdf}
-    \caption{}\label{fig:oscillations}
+    \caption{Neutrino oscillation probabilities after traversing the diameter of the Earth. 
+    Oscillation parameters are taken from NuFit~\cite{nufit} and given in Eq.~\ref{eq:PINGUparams}.}\label{fig:oscillations}
 \end{figure}
 
 Now we need to incorporate the \emph{zenith angle}, here defined as the angle between the neutrino direction of travel and south.
@@ -642,7 +644,4 @@ allowing us to fully see the Earth matter effect on the oscillations in full. Th
     \centering
     \includegraphics[width=0.9\textwidth]{figures/oscillograms.pdf}
     \caption{Oscillograms showing neutrino oscillations for all flavors in $E - \cos(\theta_z)$ space. Note the panels are symmetric about the diagonal panels, i.e. $P_{\a\b} = P_{\b\a}$ due to $\delta_{CP} = 0$. The core-mantle boundary from Fig.~\ref{fig:potential} is clearly displayed at $\cos{(\theta_z)} = -0.83$ as a sharp discontinuity for all flavors.}\label{fig:oscillograms}%TODO: redo finer
-\end{figure}%TODO: remake with finer
-
-
-% \end{document}
+\end{figure}

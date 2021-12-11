@@ -33,7 +33,7 @@ Assuming the Planck data, one thermalized sterile neutrino $(N_\text{eff} = 4)$ 
 Thus, thermalized sterile 
 neutrinos are strongly in tension with cosmological observations if one does not consider some special mechanism.
 So if a fourth neutrino species is present in nature, it will have ramifications not only on neutrino physics itself, but on
-our understanding of the CMB aswell.
+our understanding of the CMB as well.
 
 
 \subsection{The Hamiltonian}
@@ -125,31 +125,50 @@ Thus, the final Hamiltonian with a fourth sterile neutrino is
 Now, looking at Eqs.~\ref{eq:U4gen_param} and~\ref{eq:dm4gen}, we see that we have introduced four new parameters: $\dm[41]$, $\theta_{14}$
 , $\theta_{24}$, $\theta_{34}$. In our analysis, we reduce the number of parameters by only considering $\dm[41]$ and $\theta_{24}$, which are 
 the most important for the $\nm$ oscillations. 
-%In fact, one can supress the $e$ channel by letting $\theta_{14} = 0$ in the \si{\GeV} to \si{\TeV} range, thus 
-%using a two-flavor neutrino approximation.
 
 \subsection{Effect of Sterile Neutrino on Probabilities}
 Since the new, sterile, neutrino does not interact weakly, how do we know if it's there? If the sterile mixing angle $\theta_{i4}$ is non-zero, 
 we allow the sterile mass state to mix with the active state $i$. The most interesting case is when $\theta_{24} \neq 0$, 
-which for $\dm[41] \sim \si{\eV \squared}$ gives rise to a resonant disappeareance in the for $P_{\bar{\mu}\bar{\mu}}$, shown in Fig.~\ref{fig:sterile_resonance}.
+which for $\dm[41] \sim \si{\eV \squared}$ gives rise to a resonant disappearance in the for $P_{\bar{\mu}\bar{\mu}}$, shown in Fig.~\ref{fig:sterile_resonance}.
 
 \begin{figure}
-    %TODO: Include values of parameters here for the picture. Color in a), make bigger picture. Caption missing, write better caption (comparing standard to 3+1 etc.) Put them in separate figures since they are describing things.
     \centering
-    \begin{subfigure}{0.7\textwidth}
         \includegraphics[width=1\linewidth]{figures/sterile_resonance.pdf}
-        \caption{$\Pamam$ resonant disappearance}\label{fig:sterile_resonance}
-    \end{subfigure}
-    \begin{subfigure}{0.9\textwidth}
+        \caption{Comparing the standard 3+0 hypothesis to the
+        3+1 hypothesis assuming $\dm[41] = \SI{1}{\eV \squared}$ and $\theta_{24} = 0.04$.
+        The former, shown as a blue dashed line, shows no $\anm$ disappearance.
+        The latter, shown as a black solid line, predicts a resonant $\anm$ disappearance at \SI{2.6}{\TeV}.
+        The standard oscillation parameters are taken from NuFit~\cite{nufit}, and the 
+        neutrino has traversed the entire Earth diameter.}\label{fig:sterile_resonance}
+    \end{figure}
+    \begin{figure}
         \includegraphics[width=1\linewidth]{figures/resonance_shift.pdf}
-        \caption{Shifting and amplification of the resonance by altering $\dm[41]$ and $\theta_{24}$, respectively.}\label{fig:resonance_shift}
-    \end{subfigure}
+        \caption{Shifting and amplification of the resonance by altering $\dm[41]$ and $\theta_{24}$, respectively.
+        Left panel has a fixed value of $\theta_[24] = 0.04$ while varying $\dm[41]$ from 0.5 to 3 \si{\TeV^2}.
+        Right panel has a fixed value of $\dm[41] = \SI{1}{\TeV^2}$ while varying $\theta_[24]$ from 0.02 to 0.08.
+        Standard oscillation parameters are taken from NuFit~\cite{nufit}, and shown in Eq.~\ref{eq:PINGUparams}.}\label{fig:resonance_shift}
 \end{figure}
-
-So for a \si{\eV}-scale sterile neutrino and a non-zero $\theta_{24}$, we expect a \si{\TeV} $\anm$ disappearance.
+So for a \si{\eV^2}-scale sterile neutrino and a non-zero $\theta_{24}$, we expect a \si{\TeV} $\anm$ disappearance.
 The resonance dip is affected by the value of $\dm[41]$ and $\theta_{24}$ as shown in Fig.~\ref{fig:resonance_shift}.
-We see how the value of $\dm[41]$ shifts the peak, while the mixing angle adjusts its strength. 
+We see how the value of $\dm[41]$ shifts the resonance peak, while the mixing angle amplifies it. 
 In the $3+0$ scenario, $\Pamam = 1$ in this range. Thus, if we are able to see a $\anm$ disappearance in the \si{\TeV} region,
-we are in a good position to argue for a \si{\eV^2} scale $\dm[41]$.
+we are in a good position to argue for an \si{\eV^2}-scale $\dm[41]$.  
 
-% TODO: Make a point here that there is some range of dm41 that a detector is more sensitive to (refer to 4.1b). Lower values of theta24 surpresses the sterile signal, making it closer to 3+0. Maybe include formula for two-neutrino approximation: which energy is linked to which dm41/theta24 (i.e. position of resonance)?. Mention value of theta24 in dm41 plot etc. all plots need to have a reference to all parameters chosen. Also mention that the 3+0 parameters are not important here since 3+0 P here is almost always 1 anyways.
+Keeping in mind that the event count from Eq.~\ref{eq:ICevents} scales as $E^{-1.7}$,
+signals at higher energies will be more difficult to detect. Since higher values of $\dm[41]$ shifts the $\Pamam$ resonance peak to higher 
+energies, high $\dm[41]$ values will be harder to rule out because the event count is already lower, as compared to energies 
+at single-digit \si{\TeV} values. There is then a range of parameters, in which our detector will 
+be able to distinguish between the two hypotheses. Using the two-neutrino approximation\footnote{In this approximation, we only consider mixing between $\nm$ and $\ns$, essentially a `1+1' picture.}, 
+we can rewrite the expression for MSW resonance from Eq.~\ref{eq:MSW} as 
+\begin{align}
+    E^* = \frac{\dm[41] \cos{2\theta_{24}}}{2\sqrt{2} G_F N_e}\,,
+\end{align}
+which for $\dm[41] = \SI{1}{\TeV^2}$ and $\theta_{24} = 0.04$, gives us a resonance at $E^* = \SI{2.58}{\TeV}$, matching the $3+1$ simulation shown in
+Fig.~\ref{fig:sterile_resonance}. From the two-neutrino picture, 
+we see that the resonance peak in the $\anm$ channel scales linearly with $\dm[41]$, while the mixing angle dependence 
+shows up as $\cos{2\theta_{24}}$, which is between 0.987 and 0.999 for the $\theta_[24}$ values considered in Fig.~\ref{fig:resonance_shift}.
+Since our $\theta_{24}$ values considered are so low, the location of the resonance peak is essentially only dependent on the value of $\dm[41]$.
+Thus, we expect a more stringent constraint of low values of $\dm[41]$, regardless of the value of $\theta_{24}$.
+
+We also note that lower values of $\theta_{24}$ suppresses the 3+1 signal, making it closer to the $3+0$ hypothesis. 
+Regardless of the value of $\dm[41]$, the $3+1$ hypothesis asymptotically converges to the $3+0$ hypothesis as $\theta_{24} \to 0$.

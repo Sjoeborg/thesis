@@ -45,7 +45,8 @@ An excerpt from this data is shown in Table~\ref{table:aeff}.
 Here, $\Aeff$ has been averaged over $\Aeff_\mu$ and $\Aeff_{\bar{\mu}}$ by the collaboration. Thus, both $\mu$ and $\bar\mu$ will on average, experience the same $\Aeff$ in our model. 
 Just as with the fluxes, we interpolate this in $\Etrue$ and $\ztrue$, and show the result in Fig.~\ref{fig:aeff}
 Since the IceCube array is slightly rectangular, the zenith angle affects the cross-sectional area to which the array the leptons are exposed to.
-While the flux was almost flat in $\ztrue$, the introduction of the zenith dependent $\Aeff$ will make the result slightly more zenith dependent than the flux itself. Energy-wise, the situation here is completely reverse from the flux. Increasing with energy, the effective area of the detector approaches its geometrical area of \SI{1e6}{\metre^2} but is still only in the single-digit range at \si{\TeV} energies.
+While the flux was almost flat in $\ztrue$, the introduction of the zenith dependent $\Aeff$ will make the result slightly more zenith dependent than the flux itself. Energy-wise, the situation here is completely reverse from the flux. 
+Increasing linearily with energy, the effective area of the detector approaches its geometrical area of \SI{1e6}{\metre^2} but is still only in the single-digit range at \si{\TeV} energies.
 
 \begin{figure}[ht]%TODO: fix whitespace
     \centering
@@ -92,6 +93,12 @@ Thus, we only need to concern ourselves with the energy resolution.
 In Fig.~\ref{fig:IC_MC_gpr}, we have plotted all event counts found in the MC file, over 8 million. However, this is too much data to process efficiently, with many outliers that ultimately don't weigh in 
 that much in the final event count. To resolve this, we have opted to train a Gaussian process regressor on the dataset, from which we can extract the predicted mean and standard deviation for a point.
 When doing this over $\Ereco$, we sample $\Etrue$ in the 99th percentile around the predicted mean. We then obtain the shaded band shown in Fig.~\ref{fig:IC_MC_gpr}. %TODO add plot with Etrue vs prob dens
+
+Note that since atmospheric neutrino flux scales as $E^{-2.7}$, the log-normal Gaussian $R(E^r, E^t)$ as $E^{-2}$,
+and the effective area is approximately linear in $E$.
+Thus, the event count in~\ref{eq:ICevents} will be proportional to $E^{-1.7}$. Having almost a quadratic dropoff, the event count as 
+observed by IceCube will be lower and lower as we probe higher energies, severely limiting our confidence in \si{\TeV} analyses due to 
+lower statistical significance.
 
 Now, Eq.~\ref{eq:ICevents} handles the Gaussian smearing, but we are not provided systematic error sources, DOM efficiencies, and other nuisance parameters. To correct this,
 we will aim to come as close as possible to the IceCube Monte Carlo, and then normalize with it. That way, we know that our null hypotheses will align while we are free to form additional hypotheses with different 
@@ -151,7 +158,3 @@ correction factors of Eq.~\ref{eq:MC_norm}.
     \end{centering}
 \end{figure} 
 Thus, we are now able to sufficiently approximate the IceCube Monte Carlo, which makes us able to run simulations based on different physics scenarios.
-% \newpage
-% \bibliographystyle{nature}
-% \bibliography{ref.bib}
-% \end{document}

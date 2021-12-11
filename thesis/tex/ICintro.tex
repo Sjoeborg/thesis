@@ -1,4 +1,67 @@
-\section{Neutrino detection}
+\section{Atmospheric Neutrino Flux}
+Atmospheric neutrinos originate from cosmic rays composed of high-energy protons interacting with nuclei in the atmosphere.
+These interactions ultimately produces pions, which decay as 
+\begin{align}\label{eq:pion}
+    &\pi^+ \to \mu^+ + \nm\,, \quad \pi^- \to \mu^- + \anm \nonumber \\
+    &\pi^+ \to e^+ + \ne\,,\,\, \quad \pi^- \to e^- + \ane\,.
+\end{align}
+The heavy muon ($m_\mu \approx 200m_e$) decays further:
+\begin{align}
+    &\mu^+ \to e^+ + \ne + \anm\,, \quad \mu^- \to e^- + \ane + \nm\,,
+\end{align}
+producing even more neutrinos.
+
+The flux is provided in \cite{hondaData,hondaArticle}, and a selection is shown in Table~\ref{table:flux}.
+The flux data is binned in $\cos(\theta_z)$. The fluxes are averaged over the azimuthal direction and solar minimum/maximum. 
+The units of the fluxes are given as \si{\per\GeV \per\metre\squared \per\second \per\steradian} and are omitted
+from the table for clarity. 
+We note that the fluxes for $\nt$ and $\bar{\nu}_{\tau}$ are missing. Kaons do not decay into $\nt$. Thus, we never have to use probabilities in the form 
+$P_{\tau \beta}$, since we have no starting atmospheric $\nu_\tau$ flux. 
+Interpolating the data yields makes us capable of approximating all four necessary fluxes for a given true energy and true zenith.
+The result of $\phi_\mu$ is shown in Fig.~\ref{fig:flux}. We see that the flux is almost entirely zenith independent. 
+% This is due to the 
+% very small cross-section of the neutrinos. For particles interacting through the electromagnetic interaction, we would expect to see a 
+% large difference between the flux of particles traversing through the whole diameter of the Earth, compared to particles that only penetrate a 
+% small rim of the crust. Here, however, the flux at the South Pole is almost the same! This does not mean that the oscillation probability will be 
+% equal. 
+% First, the difference in the density profiles introduces wildly different matter effects. 
+% Secondly, the zenith angle determines the baseline. Completely down-going neutrinos, with $\cos(\theta_z) = 0$ will be produced at an average distance of \SI{15}{\km}
+% overhead, travel down to the icy sheet of Antarctica, and then penetrate the ice down \SI{2}{\km} to the DOMs~\cite{hondapaper}. 
+The energy dependence of the flux is approximately $E^{-2.7}$, so our expected event count at higher energies will suffer from this strong decline in flux.
+
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{lcccccc}
+            \hline \hline
+            $E$ [\si{\GeV}] &$\phi_\mu$ &$\phi_{\bar{\mu}}$ &$\phi_e$ &$\phi_{\bar{e}}$ & $\cos(\theta_z)$\\
+            \hline
+            27825 &  \SI{6.06e-12}{} &  \SI{3.17e-12}{} &  \SI{1.56e-13}{} &  \SI{1.04e-13}{} &   [-0.2, -0.1] \\
+            247707 &  \SI{5.94e-16}{} &  \SI{2.92e-16}{} &  \SI{1.36e-17}{} &  \SI{8.12e-18}{} &   [-0.7, -0.6] \\
+                22 &  \SI{3.33e-02}{} &  \SI{2.78e-02}{} &  \SI{9.57e-03}{} & \SI{7.15e-03}{} &   [-0.3, -0.2] \\
+            432876 &  \SI{5.19e-17}{} &  \SI{2.32e-17}{} &  \SI{1.46e-18}{} & \SI{9.83e-19}{} &   [-1.1, -1.0] \\
+            64280 &  \SI{1.58e-13}{} &  \SI{8.10e-14}{} &  \SI{3.49e-15}{} &  \SI{2.21e-15}{} &   [-0.4, -0.3] \\
+            \hline \hline
+        \end{tabular}
+    \end{center}
+    \caption{A selection of processed atmospheric South Pole fluxes from~\cite{hondaData} by Honda et al.~\cite{hondaArticle}.}\label{table:flux}
+\end{table}
+
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/flux.pdf}
+    \caption{Interpolated South Pole atmospheric $\nu_\mu$ flux with data from~\cite{hondaArticle}, displaying a weak 
+    zenith angle dependance, but a strong energy dependence. The energy dependence can be parametrized to be approximated by $E^{-2.7}$.}\label{fig:flux}
+\end{figure}
+
+We propagate the atmospheric neutrino flux $\phi_\alpha^\text{atm}(E,\theta_z)$ through the Earth.
+The oscillation probability $P_{\alpha \beta}$ acts as a weight to the atmospheric flux, yielding the propagated flux for flavor $\beta$ at detector level as 
+\begin{align}\label{eq:propFlux}
+    \phi_\beta^\text{det} = \sum_\alpha P_{\alpha\beta} \phi_\alpha^\text{atm} \,,
+\end{align}
+where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$.
+
+\section{Neutrino Detection}
 \begin{figure}\label{fig:events}
     \begin{center}
         \begin{subfigure}{0.49\textwidth}
@@ -85,68 +148,6 @@ not able to use any data from it. However, the collaboration has released prelim
 results from IceCube and DeepCore. The PINGU simulations have the same structure as the DeepCore data, so our analysis referring to DeepCore will
 also apply to PINGU except where noted. However, we treat the PINGU detector as independent of the other experiments.
 
-\subsection{Atmospheric Neutrino Flux}
-Atmospheric neutrinos originate from cosmic rays composed of high-energy protons interacting with nuclei in the atmosphere.
-These interactions ultimately produces pions, which decay as 
-\begin{align}\label{eq:pion}
-    &\pi^+ \to \mu^+ + \nm\,, \quad \pi^- \to \mu^- + \anm \nonumber \\
-    &\pi^+ \to e^+ + \ne\,,\,\, \quad \pi^- \to e^- + \ane\,.
-\end{align}
-The heavy muon ($m_\mu \approx 200m_e$) decays further:
-\begin{align}
-    &\mu^+ \to e^+ + \ne + \anm\,, \quad \mu^- \to e^- + \ane + \nm\,,
-\end{align}
-producing even more neutrinos.
-
-The flux is provided in \cite{hondaData,hondaArticle}, and a selection is shown in Table~\ref{table:flux}.
-The flux data is binned in $\cos(\theta_z)$. The fluxes are averaged over the azimuthal direction and solar minimum/maximum. 
-The units of the fluxes are given as \si{\per\GeV \per\metre\squared \per\second \per\steradian} and are omitted
-from the table for clarity. 
-We note that the fluxes for $\nt$ and $\bar{\nu}_{\tau}$ are missing. Kaons do not decay into $\nt$. Thus, we never have to use probabilities in the form 
-$P_{\tau \beta}$, since we have no starting atmospheric $\nu_\tau$ flux. 
-Interpolating the data yields makes us capable of approximating all four necessary fluxes for a given true energy and true zenith.
-The result of $\phi_\mu$ is shown in Fig.~\ref{fig:flux}. We see that the flux is almost entirely zenith independent. 
-% This is due to the 
-% very small cross-section of the neutrinos. For particles interacting through the electromagnetic interaction, we would expect to see a 
-% large difference between the flux of particles traversing through the whole diameter of the Earth, compared to particles that only penetrate a 
-% small rim of the crust. Here, however, the flux at the South Pole is almost the same! This does not mean that the oscillation probability will be 
-% equal. 
-% First, the difference in the density profiles introduces wildly different matter effects. 
-% Secondly, the zenith angle determines the baseline. Completely down-going neutrinos, with $\cos(\theta_z) = 0$ will be produced at an average distance of \SI{15}{\km}
-% overhead, travel down to the icy sheet of Antarctica, and then penetrate the ice down \SI{2}{\km} to the DOMs~\cite{hondapaper}. 
-The energy dependence of the flux is approximately $E^{-2.7}$, so our expected event count at higher energies will suffer from this strong decline in flux.
-
-\begin{table}[h]
-    \begin{center}
-        \begin{tabular}{lcccccc}
-            \hline \hline
-            $E$ [\si{\GeV}] &$\phi_\mu$ &$\phi_{\bar{\mu}}$ &$\phi_e$ &$\phi_{\bar{e}}$ & $\cos(\theta_z)$\\
-            \hline
-            27825 &  \SI{6.06e-12}{} &  \SI{3.17e-12}{} &  \SI{1.56e-13}{} &  \SI{1.04e-13}{} &   [-0.2, -0.1] \\
-            247707 &  \SI{5.94e-16}{} &  \SI{2.92e-16}{} &  \SI{1.36e-17}{} &  \SI{8.12e-18}{} &   [-0.7, -0.6] \\
-                22 &  \SI{3.33e-02}{} &  \SI{2.78e-02}{} &  \SI{9.57e-03}{} & \SI{7.15e-03}{} &   [-0.3, -0.2] \\
-            432876 &  \SI{5.19e-17}{} &  \SI{2.32e-17}{} &  \SI{1.46e-18}{} & \SI{9.83e-19}{} &   [-1.1, -1.0] \\
-            64280 &  \SI{1.58e-13}{} &  \SI{8.10e-14}{} &  \SI{3.49e-15}{} &  \SI{2.21e-15}{} &   [-0.4, -0.3] \\
-            \hline \hline
-        \end{tabular}
-    \end{center}
-    \caption{A selection of processed atmospheric South Pole fluxes from~\cite{hondaData} by Honda et al.~\cite{hondaArticle}.}\label{table:flux}
-\end{table}
-
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=0.9\textwidth]{figures/flux.pdf}
-    \caption{Interpolated South Pole atmospheric $\nu_\mu$ flux with data from~\cite{hondaArticle}, displaying a weak 
-    zenith angle dependance, but a strong energy dependence. The energy dependence can be parametrized to be approximated by $E^{-2.7}$.}\label{fig:flux}
-\end{figure}
-
-We propagate the atmospheric neutrino flux $\phi_\alpha^\text{atm}(E,\theta_z)$ through the Earth.
-The oscillation probability $P_{\alpha \beta}$ acts as a weight to the atmospheric flux, yielding the propagated flux for flavor $\beta$ at detector level as 
-\begin{align}\label{eq:propFlux}
-    \phi_\beta^\text{det} = \sum_\alpha P_{\alpha\beta} \phi_\alpha^\text{atm} \,,
-\end{align}
-where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$.
 
 \subsection{True and Reconstructed Parameters}
 After an event has occurred, the IceCube collaboration \emph{reconstruct} the event. 
