@@ -46,7 +46,7 @@ Here, $\Aeff$ has been averaged over $\Aeff_\mu$ and $\Aeff_{\bar{\mu}}$ by the 
 Just as with the fluxes, we interpolate this in $\Etrue$ and $\ztrue$, and show the result in Fig.~\ref{fig:aeff}
 Since the IceCube array is slightly rectangular, the zenith angle affects the cross-sectional area to which the array the leptons are exposed to.
 While the flux was almost flat in $\ztrue$, the introduction of the zenith dependent $\Aeff$ will make the result slightly more zenith dependent than the flux itself. Energy-wise, the situation here is completely reverse from the flux. 
-Increasing linearily with energy, the effective area of the detector approaches its geometrical area of \SI{1e6}{\metre^2} but is still only in the single-digit range at \si{\TeV} energies.
+Increasing linearly with energy, the effective area of the detector approaches its geometrical area of \SI{1e6}{\metre^2} but is still only in the single-digit range at \si{\TeV} energies.
 
 \begin{figure}[ht]%TODO: fix whitespace
     \centering
@@ -65,7 +65,7 @@ We assume the relationship to follow a logarithmic Gaussian distribution, giving
 The parameters of the Gaussian are $\sigma_{x^r}(x^t)$ and $\mu(x^t)$, which are functions of the true parameters. By multiplying the Gaussian in Eq.~\ref{eq:gaussian}, we are reweighing the values by the 
 probability density of that point. This process is also called \emph{smearing} because it effectively spreads out the data around a certain point. 
 
-So how do we then obtain $\sigma_{x^r}(x^t)$ and $\mu(x^t)$ needed to construct the Gaussian? A Monte Carlo sample publically released by the 
+So how do we then obtain $\sigma_{x^r}(x^t)$ and $\mu(x^t)$ needed to construct the Gaussian? A Monte Carlo sample publicly released by the 
 collaboration has all the ingredients that we need~\cite{IC2016}. In Table.~\ref{table:IC_MC} we show a selection of the data.
 The "pdg" column refers to the Monte Carlo particle classification, where 13 is the tag for $\nm$, while -13 refers
 to an $\anm$. Here we note a crucial property of the IceCube dataset that will impact our analysis: the MC released by the collaboration
@@ -96,7 +96,7 @@ When doing this over $\Ereco$, we sample $\Etrue$ in the 99th percentile around 
 
 Note that since atmospheric neutrino flux scales as $E^{-2.7}$, the log-normal Gaussian $R(E^r, E^t)$ as $E^{-2}$,
 and the effective area is approximately linear in $E$.
-Thus, the event count in~\ref{eq:ICevents} will be proportional to $E^{-1.7}$. Having almost a quadratic dropoff, the event count as 
+Thus, the event count in~\ref{eq:ICevents} will be proportional to $E^{-1.7}$. Having almost a quadratic drop-off, the event count as 
 observed by IceCube will be lower and lower as we probe higher energies, severely limiting our confidence in \si{\TeV} analyses due to 
 lower statistical significance.
 
@@ -110,7 +110,7 @@ physics parameters. %The binned Monte Carlo events that IceCube used as their nu
        \includegraphics[width=0.7\linewidth]{figures/IC_MC_gpr.pdf}
     \end{center}
     \caption{Relationship between the true and reconstructed muon energy in the IceCube MC sample~\cite{IC2016}.
-    Color indicates the frequency of each simulated point.
+    The color indicates the frequency of each simulated point.
     Shaded area shows the 99th percentile limits predicted by the regressor trained on this set. It is within this band 
     that then will sample the $\Etrue$ values for each $\Ereco$.}\label{fig:IC_MC_gpr}
  \end{figure}
@@ -144,9 +144,9 @@ be limited to only consider the overall flux normalization, rather than the comp
 
 In Fig.~\ref{fig:IC_MC_norm}, we present the IceCube Monte Carlo obtained from their 2020 sterile analysis~\cite{IC2020}, along
 with our null hypothesis times a constant factor. 
-We used the best-fit values from NuFit~\cite{nufit} with the exception of the CP-violating phase $\delta_\text{CP}$, which was set to $0$ for simplicity. The values used are
+We used the best-fit values from NuFit~\cite{nufit} with the exception of the CP-violating phase $\delta_\text{CP}$, which was set to $0^\circ$ for simplicity. The values used are
 \begin{align}\label{eq:nufitparams}
-    \theta_{12} = \SI{33.44}{\degree},\hspace{1em} \theta_{13} = \SI{8.57}{\degree},\hspace{1em} \theta_{23} = \SI{49.2}{\degree}, \hspace{1em} \delta_\text{CP} = 0\,.
+    \theta_{12} = \SI{33.44}{\degree},\hspace{1em} \theta_{13} = \SI{8.57}{\degree},\hspace{1em} \theta_{23} = \SI{49.2}{\degree}, \hspace{1em} \delta_\text{CP} = 0^\circ\,.
 \end{align}
 
 We deemed these shapes to be satisfactory, thus allowing us to multiply Eq.~\ref{eq:ICevents} by the 
@@ -154,7 +154,7 @@ correction factors of Eq.~\ref{eq:MC_norm}.
 \begin{figure}[ht]
     \begin{centering}
     \includegraphics[scale=0.8]{figures/IC_MC_norm.pdf}
-    \caption{IceCube Monte Carlo, binned in $\Ereco$ and $\zreco$. We compare this with our simulations shown as `Null' in the plots.}\label{fig:IC_MC_norm}
+    \caption{IceCube Monte Carlo, binned in $\Ereco$ and $\zreco$. We compare this with our simulations shown as `Null' in red in the plots.}\label{fig:IC_MC_norm}
     \end{centering}
 \end{figure} 
 Thus, we are now able to sufficiently approximate the IceCube Monte Carlo, which makes us able to run simulations based on different physics scenarios.

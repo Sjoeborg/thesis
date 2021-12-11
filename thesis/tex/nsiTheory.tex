@@ -1,7 +1,7 @@
 \section{Non-Standard Interactions}\label{sec:nsiTheory}
 We have no reason to believe that the Standard Model 
-gauge group is the complete picture. We have already seen how the failure of the Standard Model to predict neutrino masses and flavor 
-oscillations force us to amend it. 
+gauge group is the complete picture. We have already seen how the failure of the Standard Model to predict neutrino masses and 
+oscillations forces us to amend it. 
 Just as the electroweak theory $SU(2)_L \times U(1)_Y$ is 
 spontaneously broken to $U(1)_{EM}$, a higher order theory at a different energy scale with completely different
 properties might undergo a similar spontaneous symmetry break at high energies, 
@@ -21,7 +21,7 @@ Following the discussion in~\cite{tommyNSI}, we see that the NSI parameters $\ep
 \begin{align}
     \epsilon \propto \frac{m_W^2}{m_{\epsilon}^2} \sim \frac{10^{-2}}{m_\epsilon^2}\,
 \end{align} 
-in TeV, so the new interactions generated at a mass scale of $m_\epsilon = \SI{1}{TeV}$ will produce parameters in the order of $10^{-2}$, 
+in \si{\TeV}, so the new interactions generated at a mass scale of $m_\epsilon = \SI{1}{TeV}$ will produce parameters in the order of $10^{-2}$, 
 two magnitudes below the standard matter effect. Thus, if we assume the new interactions to arise from a higher-energy theory above electroweak scale, 
 we then predict that the parameters contribute with at most a factor of $10^{-2}$ to the standard matter effect, decreasing quadratically.
 
@@ -102,7 +102,7 @@ Moreover, $\epsilon_{\a\b}$ modifies the $\nu_\a \to \nu_\b$ transition independ
 of the mixing matrix. Thus, we are not confined to the parameters of the mixing matrix: now we have introduced the 
 possibility of additional interactions that can cause the flavor change. Moreover, since we have 6 NSI parameters, and the PMNS
 matrix is parametrized with only 3 parameters, we have more degrees of freedom when adjusting the probabilities using the NSI matrix. Each term in the PMNS matrix consists of at least
-two of the three mixing angles, making them much more dependent on each other.
+two of the three mixing angles, making the individual angles more inter-dependent than the NSI parameters, since combinations of them must satisfy the constraints of the matrix elements.
 
 As discussed in Eq.~\ref{eq:Uvalues}, the atmospheric $\nm \to \nt$ transition will be the most abundant, making $\emt$, $\emm$, $\ett$ the most suitable
 NSI parameters to constrain from muon events. As we will see, $\eem$ is also a candidate, albeit a weaker one. 
@@ -127,11 +127,12 @@ Moving on to $\eem$ and Fig.~\ref{fig:eem_eet_probs}, we see that both probabili
 In Fig.~\ref{fig:eem_eet_probs}, we see that the muon channel remains largely unaffected of the value of $\eet$ as we expected. The exception of this lies 
 in the DeepCore region of rapid oscillations, where mixing is more violent. 
 \begin{figure}
-    \begin{center}%TODO subplots and fix labels in parahgraph aboveto match them
+    \begin{center}
+        %TODO: subplots and fix labels in parahgraph aboveto match them
         \includegraphics[width=0.99\textwidth]{figures/emt_probs.pdf}
         \includegraphics[width=0.99\textwidth]{figures/ett_probs.pdf}
         \caption{\emph{Top panel:} Muon neutrino and antineutrino survival probabilities for
-        $\ztrue = -1$ when $\emt = 0.02$. All other NSI parameters are fixed to zero. In the \si{\GeV} range, $\emt$ shifts the oscillations to the right for $\nm$, and to the left for $\anm$. At \si{\TeV} energies, both probabilites simply get shifted down, resulting in a net reduction of track events.
+        $\ztrue = -1$ when $\emt = 0.02$. All other NSI parameters are fixed to zero. In the \si{\GeV} range, $\emt$ shifts the oscillations to the right for $\nm$, and to the left for $\anm$. At \si{\TeV} energies, both probabilities simply get shifted down, resulting in a net reduction of track events.
         \emph{Bottom panel:} Muon neutrino and antineutrino survival probabilities for
         $\ztrue = -1$ when $\ett = 0.05$. All other NSI parameters are fixed to zero. $\ett$ does not affect the probabilities above \SI{100}{\GeV} and this parameter is thus unable to be constrained by tracks in IceCube in our study. However, the dampening of the $\anm$ survival probability will be visible to DeepCore and PINGU, since it occurs within their energy ranges.}
         \label{fig:emt_ett_probs}
@@ -197,11 +198,8 @@ number of expected events at the detector, and illustrates the expected sensitiv
     \end{center}
 \end{figure}
 
-Now we will compare the probability plots with the final event counts in DeepCore. It is not enough to only study the effect at probability level, since that is in true quantities. Since the detector data comes in reconstructed quantities, it might be the case that a feature at probability level gets smeared away in the reconstruction, and not showing up at all in the data. In general, features showing at probability level are often washed out at reconstruction if they occur in the rapidly oscillating part of single-digit \si{\GeV} energies. 
+Now we will compare the probability plots with the final event counts in DeepCore. It is not enough to only study the effect at probability level, since that is in true quantities. Since the detector data comes in reconstructed quantities, it might be the case that a feature at probability level gets smeared away in the reconstruction, and not showing up at all in the data. In general, features showing at probability level are often averaged out at reconstruction if they occur in the rapidly oscillating part of single-digit \si{\GeV} energies. 
 
 The top right panel shows a surplus of DeepCore track events at \SIrange{20}{30}{\GeV} for through-going neutrinos when we turn on $\ett$. This is what we expected from the bottom right panel in Fig.~\ref{fig:emt_ett_probs}, where we saw that we had an increase in $\anm$ survival probability at \SIrange{20}{40}{\GeV}. 
 
 The third right panel shows the expected event pull for $\eem$. Comparing with the probabilities in Fig.~\ref{fig:eem_eet_probs}, we see that the surplus of the $\anm$ survival in the \SIrange{20}{30}{\GeV} and the deficit above \SI{40}{\GeV} is intact, while the \SI{10}{\GeV} $\nm$ deficit is completely washed out.
-
-
-% \end{document}

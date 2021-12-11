@@ -1,4 +1,4 @@
-\section{Constraining the NSI parameters}\label{sec:constraining}
+\section{The NSI Hypothesis}\label{sec:constraining}
 %TODO Ch 5.2 write what new things we have in the sterile analysis/chi2. Ie that NSI is showing in GeV -> deep core 
 In this section, we will constrain the four NSI parameters $\ett$, $\emt$, $\eem$, and $\eet$ by considering the detectors separately as well as jointly.
 For our analyses, we define our $\chi^2$ as
@@ -11,7 +11,7 @@ where we minimize over the model parameters $\hat{\theta} \in \{\dm, \theta_{23}
 $N_{ijk}^\text{th}$ is the expected number of events from theory in bin $\{i,j,k\}$, where $i$ denotes the $\Ereco$ bin, $j$ denotes the $\zreco$ bin,
 and $k$ denotes the event-type bin, i.e. track or cascade. 
 $N_{ijk}^\text{data}$ is the observed number of events in that bin. $\sigma^\text{data}_{ijk}$ is the experimental uncertainty, and $\sigma^\text{syst}_{ijk}$ the uncorrelated systematic
-incertainty.
+uncertainty.
 
 In our simulations of $N_{ijk}^\text{th}$, we set all standard oscillation parameters to their current best-fit values of Eq.~\ref{eq:PINGUparams}, 
 except for $\dm$ and $\theta_{23}$
@@ -36,11 +36,11 @@ i.e. events misclassified as muons from
 $\nm$ interactions rather than from pion decay. For the DeepCore analysis, we will have to consider this background when calculating the events.
 For IceCube events, we scan a higher energy range where the muon background can be neglected. For the PINGU events, the IceCube detector is 
 expected to be able to act as a veto for this background. Thus, the error introduced from the muon background is expected by the collaboration 
-to be neglible~\cite{PINGUletter}.
+to be negligible~\cite{PINGUletter}.
 The background at PINGU can be considered negligible to first order~\cite{PINGUdata}, and we thus put $\kappa=0$ when calculating the PINGU $\chi^2$.
 For DeepCore and PINGU, the median cosine-zenith is $\zreco = 0$, and we allow the event count to rotate around this point.
 
-We treat the uncorrelated systematic uncertanties differently for each detector. For IceCube, we set $\sigma_{ij}^\text{syst} = f\sqrt{N_{ij}^\text{data}}$.
+We treat the uncorrelated systematic uncertainties differently for each detector. For IceCube, we set $\sigma_{ij}^\text{syst} = f\sqrt{N_{ij}^\text{data}}$.
 We consider best, normal, and worst-case scenarios in IceCube using
 $f=5\%$, $10\%$, and $15\%$ respectively. For PINGU, we use the same form but instead use $f=0\%$, $3\%$, and $5\%$.
 For DeepCore, we use the provided systematic error distribution which accounts for uncertainties in the finite MC statistics and the data-driven 
