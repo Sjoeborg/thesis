@@ -319,7 +319,7 @@ Let us start with the vaccum Hamiltonian $H_0$, and act on its Schrödinger equa
 Eq.~\ref{eq:TDSE_H0} with the full Hamiltonian from Eq.~\ref{eq:H_full} is what we will numerically solve for the three neutrino picture
 for neutrino oscillations in matter.
 
-\subsection{Three Neutrino Picture}
+\subsection{The Three Neutrino Picture}
 Reminding ourselves that the vacuum Hamiltonian $H_0$ has eigenstates in the mass basis, we write the following expression where 
 use the relations Eq.~\ref{eq:osc_1} and Eq.~\ref{eq:osc_k} to switch between the flavor and mass basis with the PMNS elements:
 \begin{align}
@@ -412,8 +412,73 @@ are the probabilities
 For $N_e = 0$, i.e. in vacuum, these probabilities are identical to the ones that we analytically derived in Eq.~\ref{eq:Pab}.
 For matter oscillations with $N_e \neq 0$, we do have closed form solutions, but they are not considered further here. 
 
+\subsection{Earth Propagation}
+We now need to know how the electrons are distributed within the Earth. The Preliminary Earth Reference Model~\cite{PREM} gives us spherically
+symmetric piecewise polynomials for the Earth density in \si{\gram\cm^{-3}} shown in the left panel of Fig.~\ref{fig:potential}.
+We note a steep discontinuity at \SI{3480}{\km} where the density is nearly halved. This is the core-mantle boundary and will be visible in our 
+oscillations.
 
-\subsection{Two Neutrino Picture Solution}
+Using a value of $Y=0.5$ electron per nucleon, we express the matter potential as
+\begin{align}
+    V_{CC} &= \sqrt{2}G_F N_e = \sqrt{2}G_F Y N_A \,\rho \nonumber \\
+           &= \SI{3.8e-23}{\eV} \times \rho\,,
+\end{align}
+a low number due to the smallness of $G_F$. This is plotted in the right panel of Fig.~\ref{fig:potential}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/potential.pdf}
+    \caption{\emph{Left panel:} The spherically symmetric Earth density according to PREM~\cite{PREM}, as of distance from the core.
+    \emph{Right panel:} $V_{CC}$ using the PREM density and 1/2 electrons per nucleon.}\label{fig:potential}
+\end{figure}
+
+Now, solving the Schrödinger equation with the Hamiltonian from Eq.~\ref{eq:H_3gen} with the matter potential from the PREM,
+we obtain the nine combinations of probabilities through the Earth diameter. We note that due to our assumption of CP-invariance
+(and thus, T-invariance), the probabilities $P_{\a\b}$ and $P_{\b\a}$ are equivalent. The result for \si{\GeV} neutrinos 
+is shown in Fig.~\ref{fig:oscillations}.
+
+\begin{figure}
+    % Compare with vacuum oscillation plot and a two neutrino plot. Then we see for certain E we see matter effects more and for some less.
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/oscillations.pdf}
+    \caption{Neutrino oscillation probabilities after traversing the diameter of the Earth. 
+    Oscillation parameters are taken from NuFit~\cite{nufit} and given in Eq.~\ref{eq:PINGUparams}.}\label{fig:oscillations}
+\end{figure}
+
+
+
+Now we need to incorporate the \emph{zenith angle}, here defined as the angle between the neutrino direction of travel and south.
+This way, neutrinos traveling through the entire diameter of the Earth are defined as `up-going', while
+neutrinos that directly over-head are `down-going'. We will mostly work with the quantity $\cos{(\theta_z)}$.
+Since we are interested in the matter effects, some studies are only looking at up-going neutrinos, i.e. neutrinos with
+zenith angle $-1 \le \cos{(\theta_z)} \le 0$. However, while down-going neutrinos don't experience matter oscillations (and hardly even vacuum
+oscillations due to the short baseline), they can be included to reduce systematic errors.
+We now supplement our probability grid from Fig.~\ref{fig:oscillations} with the zenith dimension,
+allowing us to fully see the Earth matter effect on the oscillations in full. This is shown in Fig.~\ref{fig:oscillograms}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/oscillograms.pdf}
+    \caption{Oscillograms showing neutrino oscillations for all flavors in $E - \cos(\theta_z)$ space using parameters from~\cite{nufit}. Note the panels are symmetric about the diagonal panels, i.e. $P_{\a\b} = P_{\b\a}$ due to $\delta_{CP} = 0^\circ$. The core-mantle boundary from Fig.~\ref{fig:potential} is clearly displayed at $\cos{(\theta_z)} = -0.83$ as a sharp discontinuity for all flavors.}\label{fig:oscillograms}%TODO: redo finer
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/vac_vs_matter.png}
+    \caption{$\nm$ oscillation probabilities after traversing the diameter of the Earth in black, 
+    compared to the vacuum oscillation with the same 
+    baseline in red. 
+    Oscillation parameters are taken from NuFit~\cite{nufit} and given in Eq.~\ref{eq:PINGUparams}.}\label{fig:vac_vs_matter}
+\end{figure}
+
+In Fig.~\ref{fig:vac_vs_matter}, we have plotted the oscillation probabilities for an incoming $\nm$ with \si{\GeV} energy,
+traveling 12000 km. The red line is the vacuum oscillation, while the black line is the matter oscillation, traversing through the 
+matter density profile of the Earth. We see that the matter effects are more for some energies, and less for others. At energies 
+above $\SI{10}{\GeV}$, the matter effects are small for $\Pmm$ and $\Pmt$, while they heavily deviate for single-digit \si{\GeV} energies.
+$\Pme$ behaves in a different way, where the matter effects affect the oscillation probability regardless of energy. Here, we start to
+see the convergence as late as $\SI{100}{\GeV}$. Thus, matter effects are most important for energies below $\SI{100}{\GeV}$, for all channels.
+Above these energies, the density profile of the Earth is less relevant, and the Earth is more or less transparent for $\nm$.
+
+\subsection{The Two Neutrino Picture}
 By working in the limit where one of the neutrino masses can be neglected, 
 we can reduce the complexity of the neutrino oscillations and obtain tractable analytical 
 expressions. 
@@ -586,60 +651,32 @@ Now assume that the matter density is sufficiently constant along a trajectory $
 In its diagonalized form, the Schrödinger equation with two-neutrino Hamiltonian can be solved with this assumption. 
 The solutions are the regular neutrino vacuum oscillations of Eq.~\ref{eq:Pab} using $\theta_{13} = \theta_{23} =0$, but with the effective parameters of Eqs.~(\ref{eq:eff_dm},~\ref{eq:eff_theta}). That is
 
-\begin{align}
+\begin{align}\label{eq:2gen}
     P_{e\mu}^M = \sin^2(2\theta_{12}^M)\sin^2\left(\frac{\dm[21]L}{4E}\right)\,.
 \end{align}
-
 
 While two-neutrino flavor oscillation can only be assumed to hold in regions where mixing into the third flavor can be considered negligible,
 the fact that the mixing angle in matter depends on the squared-mass difference, and vice versa, gives us an interesting conclusion which is 
 still valid for the full three neutrino oscillations. We previously saw that the oscillation amplitudes were entirely dependant on
 the mixing angles, and the oscillation frequencies were entirely dependant on the squared-mass difference along with energy, and trajectory. After 
-introducing the matter potentials, we now see that the matter effect mixes the mixing matrix elements with the masses and the energy. 
-
-\subsection{Earth propagation}
-We now need to know how the electrons are distributed within the Earth. The Preliminary Earth Reference Model~\cite{PREM} gives us spherically
-symmetric piecewise polynomials for the Earth density in \si{\gram\cm^{-3}} shown in the left panel of Fig.~\ref{fig:potential}.
-We note a steep discontinuity at \SI{3480}{\km} where the density is nearly halved. This is the core-mantle boundary and will be visible in our 
-oscillations.
-
-Using a value of $Y=0.5$ electron per nucleon, we express the matter potential as
-\begin{align}
-    V_{CC} &= \sqrt{2}G_F N_e = \sqrt{2}G_F Y N_A \,\rho \nonumber \\
-           &= \SI{3.8e-23}{\eV} \times \rho\,,
-\end{align}
-a low number due to the smallness of $G_F$. This is plotted in the right panel of Fig.~\ref{fig:potential}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.9\textwidth]{figures/potential.pdf}
-    \caption{\emph{Left panel:} The spherically symmetric Earth density according to PREM~\cite{PREM}, as of distance from the core.
-    \emph{Right panel:} $V_{CC}$ using the PREM density and 1/2 electrons per nucleon.}\label{fig:potential}
-\end{figure}
-
-Now, solving the Schrödinger equation with the Hamiltonian from Eq.~\ref{eq:H_3gen} with the matter potential from the PREM,
-we obtain the nine combinations of probabilities through the Earth diameter. We note that due to our assumption of CP-invariance
-(and thus, T-invariance), the probabilities $P_{\a\b}$ and $P_{\b\a}$ are equivalent. The result for \si{\GeV} neutrinos 
-is shown in Fig.~\ref{fig:oscillations}.
-
-\begin{figure}
-    % Compare with vacuum oscillation plot and a two neutrino plot. Then we see for certain E we see matter effects more and for some less.
-    \centering
-    \includegraphics[width=0.9\textwidth]{figures/oscillations.pdf}
-    \caption{Neutrino oscillation probabilities after traversing the diameter of the Earth. 
-    Oscillation parameters are taken from NuFit~\cite{nufit} and given in Eq.~\ref{eq:PINGUparams}.}\label{fig:oscillations}
-\end{figure}
-
-Now we need to incorporate the \emph{zenith angle}, here defined as the angle between the neutrino direction of travel and south.
-This way, neutrinos traveling through the entire diameter of the Earth are defined as `up-going', while
-neutrinos that directly over-head are `down-going'. We will mostly work with the quantity $\cos{(\theta_z)}$.
-Since we are interested in the matter effects, some studies are only looking at up-going neutrinos, i.e. neutrinos with
-zenith angle $-1 \le \cos{(\theta_z)} \le 0$. However, while down-going neutrinos don't experience matter oscillations (and hardly even vacuum
-oscillations due to the short baseline), they can be included to reduce systematic errors.
-We now supplement our probability grid from Fig.~\ref{fig:oscillations} with the zenith dimension,
-allowing us to fully see the Earth matter effect on the oscillations in full. This is shown in Fig.~\ref{fig:oscillograms}.
+introducing the matter potentials, we now see that the matter effect mixes the mixing matrix elements with the masses and the energy.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{figures/oscillograms.pdf}
-    \caption{Oscillograms showing neutrino oscillations for all flavors in $E - \cos(\theta_z)$ space using parameters from~\cite{nufit}. Note the panels are symmetric about the diagonal panels, i.e. $P_{\a\b} = P_{\b\a}$ due to $\delta_{CP} = 0^\circ$. The core-mantle boundary from Fig.~\ref{fig:potential} is clearly displayed at $\cos{(\theta_z)} = -0.83$ as a sharp discontinuity for all flavors.}\label{fig:oscillograms}%TODO: redo finer
+    \includegraphics[width=1\textwidth]{figures/2_vs_3.png}
+    \caption{$\nm$ oscillation probabilities after traversing the diameter of the Earth in black, 
+    compared to the two-neutrino picture oscillations with the same 
+    baseline and matter potential in blue. The figure showcases the convergence of the $2\nu$ and $3\nu$ pictures at energies above $\SI{10}{\GeV}$.
+    Oscillation parameters are taken from NuFit~\cite{nufit} and given in Eq.~\ref{eq:PINGUparams}.}\label{fig:2_vs_3}
 \end{figure}
+
+In Fig.~\ref{fig:2_vs_3}, we have plotted the oscillation probabilities for an incoming $\nm$ with \si{\GeV} energy,
+traveling 12000 km. The black lines are the probabilities of $\nm$ oscillation, after it has traversing through the diameter of the Earth.
+The red lines are the probabilities of $\nm$ oscillation, but in the two-neutrino picture using Eq.~\ref{eq:2gen}. So in the left-most panel,
+we are only considering the mixing between $\ne$ and $\nm$, completely neglecting $\theta_{13}$ and $\theta_{23}$.
+
+The pattern is similar to when we compared $3\nu$ matter and vacuum oscillations: at $\SI{10}{\GeV}$, the two pictures converge.
+It is evident that the full $3\nu$ picture is required for single-digit \si{\GeV} energies, and that mixings between all three flavors here are 
+abundant. Increasing with energy, however, the influence of the $\nu_1$ mass eigenstate on the probabilities is reduced.
+Thus, we are able to approximate resonant behavior as described in Eq.~\ref{eq:MSW} above $\SI{100}{\GeV}$ by only considering 
+mixing between two neutrino species. We will utilize this observation later on to study a particular resonance in the \si{\TeV} range.
