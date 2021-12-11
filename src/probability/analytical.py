@@ -1,5 +1,5 @@
 import numpy as np
-from functions import V,dm, mass_dict,theta,param_dict,GeV2tokm1,U_3,r_earth, nufit_params_nsi
+from functions import V,dm, mass_dict,theta,param_dict,GeV2tokm1,U_3,r_earth, nufit_params_nsi, baseline
         
 def P_an(flavor_from, flavor_to, param, E=None, L=None,  param_min=None, param_max=None, material='vac',earth_start = 0, ndim = 3, anti=False, theta_i=0, npoints=500, params=param_dict):
     '''
@@ -18,7 +18,10 @@ def P_an(flavor_from, flavor_to, param, E=None, L=None,  param_min=None, param_m
     beta = mass_dict[flavor_to]
 
     if ndim == 2:
-        probs = [P_two(alpha, beta, E, L =ell, theta_i=theta_i ,param=param,earth_start=earth_start, anti=anti, material=material, params=param_dict) for ell in L]
+        if param == 'E':
+            probs = [P_two(alpha, beta, E=en, L =L, theta_i=theta_i , material=material, params=param_dict) for en in E]
+        elif param == 'L':
+            probs = [P_two(alpha, beta, E=E, L =ell, theta_i=theta_i , material=material, params=param_dict) for ell in L]
         return np.array(probs)
     else:
         if param == 'E':
@@ -48,14 +51,14 @@ def P_n(alpha,  beta, E, ndim, L=2*r_earth, params=param_dict):
     else:
         return np.sum(P_list)
 
-def P_two(alpha, beta, E, L, param, material, theta_i, earth_start=0, N_n=0, anti=False, params=param_dict):#giunti 9.77
+def P_two(alpha, beta, E, L, material, theta_i, params=param_dict):#giunti 9.77
     flavor_from=mass_dict[alpha]
     flavor_to=mass_dict[beta]
+    r = baseline(theta_i)
+    A = 2*E*V(r, material)[0]
 
-    A = V(E,L,material,theta_i)
-
-    th_M = theta(alpha+1,beta+1, A=A, params=params)
-    dm_M = dm(alpha+1, beta+1, A= A, params=params)
+    th_M = theta(alpha+1,beta+1, params=params)
+    dm_M = dm(alpha+1, beta+1, params=params)
 
     return np.sin(2*th_M)**2 * np.sin(GeV2tokm1*dm_M*L/(4*E))**2
 
