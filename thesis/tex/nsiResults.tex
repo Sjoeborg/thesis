@@ -1,6 +1,7 @@
 \section{The NSI Hypothesis}\label{sec:constraining}
-%TODO Ch 5.2 write what new things we have in the sterile analysis/chi2. Ie that NSI is showing in GeV -> deep core 
-In this section, we will constrain the four NSI parameters $\ett$, $\emt$, $\eem$, and $\eet$ by considering the detectors separately as well as jointly.
+In this section, we will constrain the four NSI parameters $\ett$, $\emt$, $\eem$, and $\eet$. As we shall see, the impacts of NSI mainly manifesting 
+themselves at \si{\GeV} energies, causing us to bring back DeepCore and PINGU. We will consider the results obtained from these three detectors separately as well as jointly.
+
 For our analyses, we define our $\chi^2$ as
 \begin{align}\label{eq:chisq_NSI}
     \chi^{2}(\hat{\theta},\alpha,\beta, \kappa)=\sum_{ijk} \frac{\left(N^\text{th}-N^\text{data}\right)_{ijk}^{2}}
@@ -67,12 +68,15 @@ For the joint analysis, we follow the parameter goodness-of-fit prescription~\ci
 with test statistic $\chi^2_\text{joint,min}$. The $\Delta \chi^2_\text{joint}$ is then $\Delta \chi^2_\text{joint} = \chi^2_\text{joint} - \chi^2_\text{joint,min}$.
 
 After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:3D_NO}. 
-The results are shown in Fig.~\ref{fig:IC_3D} and summarized in Tables~\ref{table:IC_DC_results} and~\ref{table:PINGU_joint_results}.
+The results are shown in Fig.~\ref{fig:IC_3D} and summarized in Tables~\ref{table:IC_DC_results} and~\ref{table:PINGU_joint_results}. Each region is bounded
+by the best and worst case scenario, as defined in Table~\ref{table:syst_errors}, while the middle line is the baseline scenario. We again emphasize that 
+no scenarios are considered for DeepCore, since they already provided in the data release~\cite{DC2019data}.
 
 Comparing the PINGU and the DeepCore results in Fig.~\ref{fig:3D_NO}, we note that the best-fit for each NSI parameter for the PINGU experiment is expected to be zero. This is because the `data' we generated during 
 the PINGU simulations assume no NSI since they have yet to be observed in nature. This introduces a non-NSI bias in all joint analyses which include PINGU
 since PINGU has stronger statistics than DeepCore and will thus pull the joint $\chi^2$ towards $\epsilon =0$.
-% TODO: Write a few lines about the plots 5.4 and 5.5
+Moreover, we see that we can expect PINGU to be sensitive to systematic uncertainty, especially when constraining $\eem$ and $\eet$ from the negative side.
+
 \begin{figure}
    \begin{center}
       \includegraphics[scale = 0.7]{figures/joint_3D_NO.pdf}
@@ -84,13 +88,15 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
 \begin{figure}
    \begin{center} 
       \includegraphics[width=0.8\textwidth]{figures/PID_3D_emt.pdf}
-      \caption{IceCube $\emt$ $\Delta \chi^2$ regions for scenarios as defined in Table~\ref{table:syst_errors}.
+      \caption{$\emt$ $\Delta \chi^2$ regions for scenarios as defined in Table~\ref{table:syst_errors}.
     $\dm[31]$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
-    parameters other than $\emt$ are fixed to zero. Dotted lines are the 90\% and $3\sigma$ CL levels.}\label{fig:IC_3D}
+    parameters other than $\emt$ are fixed to zero. Dotted lines are the 90\% and $3\sigma$ CL levels.
+    The zones contain the three uncertainty scenarios considered, and we see that the inclusion of PINGU is expected 
+    to drastically make the bound on $\emt$ more stringent.
+    }\label{fig:IC_3D}
    \end{center}
 \end{figure}
 
-%TODO: PINGU values are the same. Fill in empty values
 {\renewcommand{\arraystretch}{1.0}
  \begin{table}
    \begin{center}
@@ -98,14 +104,14 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
          \hline
          Parameter & Best 90\% CL & Best $3\sigma$\\
          \hline & \multicolumn{2}{c}{IceCube}  \\
-         $\emt$ &  [-0.0080, 0.0090] &  [-0.014, 0.017]  \\\\
+         $\emt$ &  [-0.012, 0.011] &  [-0.017, 0.016] \\\\
          & \multicolumn{2}{c}{DeepCore}\\ [0.3em]
-         $\ett$ &  [-0.044, 0.051] &  [-0.062, 0.069] \\
-         $\emt$ &  [-0.0080, 0.0090] &  [-0.014, 0.017] \\
-         $\eem$ &  [-0.079, 0.081] &   [-0.16, 0.14] \\
-         $\eet$ &  [-0.079, 0.098] &  [-0.15, 0.16] \\\\
-         &\multicolumn{2}{c}{IceCube + DeepCore} \\
+         $\ett$ &  [-0.054, 0.067] &  [-0.089, 0.10] \\
          $\emt$ &  [-0.029, 0.0070] &  [-0.041, 0.026] \\
+         $\eem$ &  [-0.12, 0.15] &  [-0.23, 0.24] \\
+         $\eet$ &   [-0.084, 0.15] &  [-0.19, 0.21] \\\\
+         &\multicolumn{2}{c}{IceCube + DeepCore} \\
+         $\emt$ &  [-0.013, 0.0070] &  [-0.017, 0.013] \\
          \hline
          \vspace{2em}
       \end{tabular}
@@ -113,14 +119,14 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
          \hline
          Parameter & Baseline 90\% CL & Baseline $3\sigma$ \\
          \hline & \multicolumn{2}{c}{IceCube}  \\
-         $\emt$ &  [-0.0090, 0.010] &  [-0.015, 0.018]  \\\\
+         $\emt$ &  [-0.015, 0.014] &  [-0.022, 0.021] \\\\
          & \multicolumn{2}{c}{DeepCore}\\ [0.3em]
-         $\ett$ &    [-0.046, 0.054] &  [-0.065, 0.073]  \\
-         $\emt$ &     [-0.0090, 0.010] &  [-0.015, 0.018]  \\
-         $\eem$ &  [-0.11, 0.094] &  [-0.20, 0.16]    \\
-         $\eet$ &    [-0.10, 0.11] &  [-0.19, 0.18]  \\\\
+         $\ett$ &  [-0.054, 0.067] &  [-0.089, 0.10] \\
+         $\emt$ &  [-0.029, 0.0070] &  [-0.041, 0.026] \\
+         $\eem$ &  [-0.12, 0.15] &  [-0.23, 0.24] \\
+         $\eet$ &   [-0.084, 0.15] &  [-0.19, 0.21] \\\\
          &\multicolumn{2}{c}{IceCube + DeepCore}\\
-         $\emt$ &   [-0.029, 0.0070] & [-0.041, 0.026] \\
+         $\emt$ &  [-0.016, 0.0070] &  [-0.022, 0.016] \\
          \hline
          \vspace{2em}
       \end{tabular}
@@ -128,14 +134,14 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
          \hline
          Parameter & Worst 90\% CL & Worst $3\sigma$\\
          \hline & \multicolumn{2}{c}{IceCube}  \\
-         $\emt$ &   [-0.010, 0.011] &   [-0.017, 0.020] \\\\
+         $\emt$ &  [-0.018, 0.017] &  [-0.025, 0.024] \\\\
          & \multicolumn{2}{c}{DeepCore}\\ [0.3em]
-         $\ett$ &    [-0.049, 0.057] &  [-0.070, 0.078] \\
-         $\emt$ &     [-0.010, 0.011] &   [-0.017, 0.020] \\
-         $\eem$ &   [-0.14, 0.11] &   [-0.23, 0.18] \\
-         $\eet$ &   [-0.13, 0.13] &  [-0.23, 0.12] \\\\
+         $\ett$ &  [-0.054, 0.067] &  [-0.089, 0.10] \\
+         $\emt$ &  [-0.029, 0.0070] &  [-0.041, 0.026] \\
+         $\eem$ &  [-0.11, 0.15] &  [-0.23, 0.24] \\
+         $\eet$ &   [-0.084, 0.15] &  [-0.188, 0.212] \\\\
          &\multicolumn{2}{c}{IceCube + DeepCore}\\
-         $\emt$ &   [-0.029, 0.007] & [-0.041, 0.026] \\
+         $\emt$ &  [-0.018, 0.0070] &  [-0.024, 0.018] \\
          \hline
       \end{tabular}
       \caption{IceCube and DeepCore results from the $\Delta \chi^2$ in Fig.~\ref{fig:IC_3D}. $\dm[31]$ and $\theta_{23}$ have been marginalized out, and all other NSI parameters other than the one shown for each row are set to zero. Best, baseline, and worst refer to 
@@ -149,17 +155,17 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
       \hline
       Parameter & Best 90\% CL & Best $3\sigma$\\
       \hline & \multicolumn{2}{c}{PINGU} \\
-      $\ett$ &  [-0.054, 0.067] & [-0.089, 0.10] \\
-      $\emt$ &  [-0.029, 0.0070] & [-0.041, 0.026] \\
-      $\eem$ &  [-0.12, 0.15] &  [-0.23, 0.24] \\
-      $\eet$ &   [-0.084, 0.15] &  [-0.19, 0.21] \\\\
+      $\ett$ &  [-0.044, 0.051] &  [-0.062, 0.069] \\
+      $\emt$ &  [-0.008, 0.009] &  [-0.014, 0.017] \\
+      $\eem$ &  [-0.079, 0.081] &   [-0.16, 0.138] \\
+      $\eet$ &  [-0.079, 0.098] &  [-0.148, 0.161] \\\\
       & \multicolumn{2}{c}{DeepCore + PINGU} \\
       $\ett$ &  [-0.036, 0.046] &  [-0.056, 0.064] \\
       $\emt$ &  [-0.0090, 0.0060] &  [-0.015, 0.013] \\
       $\eem$ &   [-0.060, 0.077] &  [-0.13, 0.13] \\
       $\eet$ &  [-0.052, 0.095] &  [-0.11, 0.14] \\\\
       & \multicolumn{2}{c}{IceCube + DeepCore + PINGU}  \\
-      $\emt$ &  [-0.0090, 0.0060] &  [-0.015, 0.013]  \\
+      $\emt$ &  [-0.0080, 0.0050] &  [-0.012, 0.011] \\
       \hline
       %\vspace{0.5em}
    \end{tabular}
@@ -167,17 +173,17 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
       \hline 
       Parameter & Baseline 90\% CL & Baseline $3\sigma$\\
       \hline & \multicolumn{2}{c}{PINGU} \\
-      $\ett$ &   [-0.054, 0.067] & [-0.089, 0.10]\\
-      $\emt$  &  [-0.029, 0.0070] & [-0.041, 0.026] \\
-      $\eem$ &    [-0.12, 0.15] &  [-0.23, 0.24] \\
-      $\eet$ &    [-0.084, 0.15] &  [-0.19, 0.21] \\\\
+      $\ett$ &  [-0.046, 0.054] &  [-0.065, 0.073] \\
+      $\emt$ &   [-0.0090, 0.010] &  [-0.015, 0.018] \\
+      $\eem$ &  [-0.11, 0.094] &  [-0.20, 0.16] \\
+      $\eet$ &   [-0.10, 0.11] &  [-0.19, 0.18] \\\\
       & \multicolumn{2}{c}{DeepCore + PINGU} \\
       $\ett$ &    [-0.038, 0.048] &  [-0.058, 0.067] \\
       $\emt$ &    [-0.010, 0.0060] &  [-0.016, 0.014] \\
       $\eem$ &    [-0.071, 0.086] &  [-0.15, 0.14]  \\
       $\eet$ &   [-0.061, 0.10] &  [-0.13, 0.16] \\\\
       & \multicolumn{2}{c}{IceCube + DeepCore + PINGU}  \\
-      $\emt$ &   [-0.010, 0.006] &  [-0.016, 0.014] \\
+      $\emt$ &  [-0.009, 0.0060] &  [-0.014, 0.012] \\
       \hline
       %\vspace{0.5em}
    \end{tabular}
@@ -185,17 +191,17 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
       \hline 
       Parameter & Worst 90\% CL & Worst $3\sigma$\\
       \hline & \multicolumn{2}{c}{PINGU} \\
-      $\ett$ &    [-0.054, 0.067] & [-0.089, 0.10] \\
-      $\emt$ &    [-0.029, 0.007] & [-0.041, 0.026] \\
-      $\eem$ &  [-0.12, 0.15] &  [-0.23, 0.24] \\
-      $\eet$ &   [-0.084, 0.15] &  [-0.19, 0.21] \\\\
+      $\ett$ &  [-0.049, 0.057] &   [-0.07, 0.078] \\
+      $\emt$ &   [-0.01, 0.011] &   [-0.017, 0.02] \\
+      $\eem$ &   [-0.137, 0.11] &   [-0.228, 0.18] \\
+      $\eet$ &  [-0.132, 0.125] &  [-0.226, 0.196] \\\\
       & \multicolumn{2}{c}{DeepCore + PINGU} \\
-      $\ett$ &     [-0.039, 0.050] & [-0.06, 0.07] \\
+      $\ett$ &   [-0.039, 0.050] &    [-0.060, 0.070] \\
       $\emt$ &  [-0.011, 0.0070] &  [-0.017, 0.015] \\
-      $\eem$ &   [-0.082, 0.097] &  [-0.17, 0.16] \\
-      $\eet$ &   [-0.067, 0.11] &  [-0.15, 0.17] \\\\
+      $\eem$ &  [-0.082, 0.097] &  [-0.168, 0.16] \\
+      $\eet$ &  [-0.067, 0.11] &  [-0.15, 0.17] \\\\
       & \multicolumn{2}{c}{IceCube + DeepCore + PINGU}  \\
-      $\emt$ &   [-0.011, 0.0070] &  [-0.017, 0.015] \\
+      $\emt$ &   [-0.010, 0.0060] &  [-0.016, 0.013] \\
       \hline
    \end{tabular}
    \caption{PINGU and joint results from the $\Delta \chi^2$ in Fig.~\ref{fig:3D_NO}. $\dm[31]$ and $\theta[23]$ have been marginalized out, and all other NSI parameters other than the one shown for each row are set to zero.
@@ -203,7 +209,6 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
    the systematic uncertainty scenarios considered as in Table~\ref{table:syst_errors}.}\label{table:PINGU_joint_results}
 \end{table}
 
-%TODO: compare results
 
 \begin{table}
    \begin{center}
@@ -226,6 +231,45 @@ since PINGU has stronger statistics than DeepCore and will thus pull the joint $
    \caption{Best fit points for $\dm[31]$ and $\theta_{23}$ are given in units of $\si{10^{-3}\eV\squared}$ and
    degrees, respectively.}\label{table:bestfit}
 \end{table}
+
+We compare our results to a similar analysis performed on the same DeepCore dataset in~\cite{demidov}. In that publication, 
+the constraints found at 90\% CL were 
+\begin{align}\label{eq:demidov}
+   -0.055 <&\, \ett < 0.056 \nonumber \\
+   -0.023 <&\, \emt < 0.016 \nonumber \\
+   -0.21 <&\, \eem < 0.20 \nonumber \\
+   -0.19 <&\, \eet < 0.20\,.
+\end{align}
+Comparing~\ref{eq:demidov} to our results from Table~\ref{table:IC_DC_results} at 90\% CL, namely
+\begin{align}\label{eq:DC_results}
+   -0.054 <&\, \ett < 0.067 \nonumber \\
+   -0.029 <&\, \emt < 0.0070 \nonumber \\
+   -0.12 <&\, \eem < 0.15 \nonumber \\
+   -0.084 <&\, \eet < 0.15\,,
+\end{align}
+we see that our results for $\eem$, $\eet$ are more stringent, while the results for $\emt$ and $\ett$ are similar but more lenient. It is worth noting that the 
+results from~\cite{demidov} are have been obtained by including more systematic uncertainties, such as the spectral index, hadron production, and baryon resonance. 
+However, the overall flux normalization in~\cite{demidov} is 20\%, while we opted for a slightly higher figure of 25\% which could compensate for the exclusion of the 
+statistical uncertainties mentioned.
+
+Using the baseline case of 3\% systematic uncertainty at 90\% CL, we find from Table~\ref{table:PINGU_joint_results}, that our predictions for the proposed PINGU detector are
+\begin{align}\label{eq_P_results}
+   -0.049 <&\, \ett < 0.057 \nonumber \\
+   -0.010 <&\, \emt < 0.011 \nonumber \\
+   -0.137 <&\, \eem < 0.11 \nonumber \\
+   -0.132 <&\, \eet < 0.125\,,
+\end{align}
+which displays an improvement over the DeepCore results in Eq.~\ref{eq:DC_results}, except for $\eet$ which is worse.
+
+Finally, the joint results for $\emt$ using IceCube and DeepCore from~\ref{table:PINGU_joint_results} at 90\% CL are
+\begin{align}\label{eq:ID_result}
+   -0.016 <&\, \emt < 0.0070\,,
+\end{align}
+and when combining IceCube, DeepCore, and PINGU, the 90\% CL constraint on $\emt$ in our baseline scenario is predicted to be
+\begin{align}\label{eq:PID_result}
+   -0.010 <&\, \emt < 0.0060\,,
+\end{align}
+which is more stringent for $\emt>0$ than the result in~\cite{deepcoreNSI}.
 \newpage
 
 
@@ -259,9 +303,6 @@ The top right panel shows a surplus of DeepCore track events at \SIrange{20}{30}
 
 The third right panel shows the expected event pull for $\eem$. Comparing with the probabilities in Fig.~\ref{fig:eem_eet_probs}, we see that the surplus of the $\anm$ survival in the \SIrange{20}{30}{\GeV} and the deficit above \SI{40}{\GeV} is intact, while the \SI{10}{\GeV} $\nm$ deficit is completely averaged out.
 
-
-
-%TODO 5.6 is small, fix labels
 There is no reason for us to assume that only one NSI parameter exists in Nature, unless we impose a symmetry on the gauge group which generates NSI. For example, the matter potential matrix in our Hamiltonian from Eq.~\eqref{eq:V_matrix} is diagonal since the 
 interaction Lagrangian respects lepton flavor conservation. So ideally, we would simulate a grid where all NSI parameters are allowed to vary, 
 but this is not feasible. Thus, we take we set $\ett = 0$ and let $\emt,\eem,\eet$ vary, along with $\dm[31]$ and $\theta_{23}$. We let $\ett=0$ because we saw that it did not influence the other parameters. 
