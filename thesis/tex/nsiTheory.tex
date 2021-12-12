@@ -128,9 +128,8 @@ In Fig.~\ref{fig:eem_eet_probs}, we see that the muon channel remains largely un
 in the DeepCore region of rapid oscillations, where mixing is more violent. 
 \begin{figure}
     \begin{center}
-        %TODO: subplots and fix labels in parahgraph aboveto match them
-        \includegraphics[width=0.99\textwidth]{figures/emt_probs.pdf}
-        \includegraphics[width=0.99\textwidth]{figures/ett_probs.pdf}
+        \includegraphics[width=0.99\textwidth]{figures/Pmm_emt_probs.pdf}
+        \includegraphics[width=0.99\textwidth]{figures/Pmm_ett_probs.pdf}
         \caption{\emph{Top panel:} Muon neutrino and antineutrino survival probabilities for
         $\ztrue = -1$ when $\emt = 0.02$. All other NSI parameters are fixed to zero. In the \si{\GeV} range, $\emt$ shifts the oscillations to the right for $\nm$, and to the left for $\anm$. At \si{\TeV} energies, both probabilities simply get shifted down, resulting in a net reduction of track events.
         \emph{Bottom panel:} Muon neutrino and antineutrino survival probabilities for
@@ -142,8 +141,8 @@ in the DeepCore region of rapid oscillations, where mixing is more violent.
 
 \begin{figure}
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{figures/eem_probs.pdf}
-        \includegraphics[width=0.9\textwidth]{figures/eet_probs.pdf}
+        \includegraphics[width=0.99\textwidth]{figures/eem_probs.pdf}
+        \includegraphics[width=0.99\textwidth]{figures/eet_probs.pdf}
         \caption{Muon neutrino and antineutrino survival probabilities for
         $\ztrue = -1$. \emph{Top panel:} $\eem = 0.2$. All other NSI parameters are fixed to zero. Instead of the oscillations shifting to the left or right, $\eem$ dampens an oscillation peak for low \si{\GeV}. At \si{\TeV}, the probability is shifted down, just as with $\emt$.
         \emph{Bottom panel:} $\eet = 0.2$. All other NSI parameters are fixed to zero. Here, we see a very weak shifting and a $\nm$ weaker dip at low \si{\GeV}, and again, no visible effect at \si{TeV} energies. }
@@ -171,14 +170,28 @@ a shallower dip in the \SI{20}{\GeV} region. Thus, DeepCore/PINGU alone will be 
 $\eem$ in Fig.~\ref{fig:eem_eet_probs} causes a weaker dip for both $\nm$ and $\anm$. 
 
 For $\eet$, we see a similar effect on the dip in $\Pmm$ as we did with $\ett$ for $\Pamam$. Hence, we should be able to 
-see the $\eet$ effect in DeepCore/PINGU, but remember that we now have the option to look at the other flavor channels.
+see the $\eet$ effect in DeepCore/PINGU. Remember that we now have the option to look at the other flavor channels than $\mu$ since we 
+have cascade events for DeepCore and PINGU. If we simulate 
+$\Pme^{NSI}$ at three different energies, and let both $\eem$ and $\eet$ vary together between the values $\{-0.3,0.3\}$, we produce a two-dimensional grid of probabilities.
+Subtract the regular $\Pme^{SI}$ (that is, no NSI), and take the absolute value of the difference. We see the result in Fig.~\ref{fig:eem_eet_prob}. 
+The middle and right panels, which show the absolute probability difference at \si{25} and $\SI{50}{\GeV}$, respectively, are very bleak,
+indicating that the impact of the NSI parameters $\eem$ and $\eet$ is not as strong at these energy levels. Turning to the left-most panel,
+we see a region in which the difference again is close to zero, but now surrounded by fringes of very large differences, up to $50\%$ difference 
+in the $\Pme$ probability. This indicating that the NSI parameters are much more influential at these energies, and that we should be able to 
+constrain both $\eem$ and $\eet$ from $\SI{5}{\GeV}$ cascade events.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/eem_eet_prob.pdf}
+    \caption{The quantity $\abs{P_{\mu e}^{NSI} - P_{\mu e}^{SI}}$ when we let $\eem$ and $\eet$ independently vary over
+    the range \{-0.3,0.3\} at \si{5}, \si{25}, and $\SI{50}{\GeV}$. At $\SI{5}{\GeV}$, we see strong deviations in the probabilities, showing
+    a promising indication that constriction of $\eem$ and $\eet$ is possible using cascade events at these energies.}\label{fig:eem_eet_prob}
+\end{figure}
 
 Fig.~\ref{fig:Pee_eet_probs} shows the electron neutrino and antineutrino survival probabilities, and here we see
-a clear difference when turning on $\eet$.
+a clear difference when turning on $\eet$. 
 
-We plot the event pull $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$ where $N_{(N)SI}$ are the numbers of expected events
-assuming (non-)standard interactions in Fig.~\ref{fig:event_pulls}. This gives the normalized difference in the
-number of expected events at the detector, and illustrates the expected sensitivity of DeepCore for the NSI parameters.
+
 
 \begin{figure}
     \begin{center}
@@ -188,18 +201,3 @@ number of expected events at the detector, and illustrates the expected sensitiv
         \label{fig:Pee_eet_probs}
     \end{center}
 \end{figure}
-
-\begin{figure}
-    \begin{center}
-        \includegraphics[width=0.8\textwidth]{figures/DC_event_pulls.pdf}
-        \caption{Plots of the quantity $(N_{NSI} - N_{SI})/\sqrt{N_{SI}}$, displaying which 
-        reconstructed bins the NSI signal is most clear.}
-        \label{fig:event_pulls}
-    \end{center}
-\end{figure}
-
-Now we will compare the probability plots with the final event counts in DeepCore. It is not enough to only study the effect at probability level, since that is in true quantities. Since the detector data comes in reconstructed quantities, it might be the case that a feature at probability level gets smeared away in the reconstruction, and not showing up at all in the data. In general, features showing at probability level are often averaged out at reconstruction if they occur in the rapidly oscillating part of single-digit \si{\GeV} energies. 
-
-The top right panel shows a surplus of DeepCore track events at \SIrange{20}{30}{\GeV} for through-going neutrinos when we turn on $\ett$. This is what we expected from the bottom right panel in Fig.~\ref{fig:emt_ett_probs}, where we saw that we had an increase in $\anm$ survival probability at \SIrange{20}{40}{\GeV}. 
-
-The third right panel shows the expected event pull for $\eem$. Comparing with the probabilities in Fig.~\ref{fig:eem_eet_probs}, we see that the surplus of the $\anm$ survival in the \SIrange{20}{30}{\GeV} and the deficit above \SI{40}{\GeV} is intact, while the \SI{10}{\GeV} $\nm$ deficit is completely washed out.
