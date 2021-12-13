@@ -67,51 +67,68 @@ where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{
         \begin{subfigure}{0.49\textwidth}
             \centering
             \includegraphics[clip, trim=0cm 0cm 0cm 30cm, width=1\textwidth]{figures/cascade_event.pdf}
-            \caption{Event classified as cascade}  
+            \caption{Event classified as cascade, caused by an interaction in Eq.~\ref{eq:cascade}.}  
             \label{fig:events_cascade}
           \end{subfigure}
         \begin{subfigure}{0.49\textwidth}
             \centering
             \includegraphics[clip, trim=0cm 0cm 0cm 30cm, width=1\textwidth]{figures/track_event.pdf}
-            \caption{Event classified as track} 
+            \caption{Event classified as track, caused by the interaction in Eq.~\ref{eq:track}.} 
             \label{fig:events_track}
         \end{subfigure}
         \caption{The two event types distinguished in the IceCube detector.}
     \end{center}
 \end{figure}
-% TODO: Write down CC NC equations after 1st paragraph, using N and N’ (N’ can be shower etc).
 We always observe neutrinos indirectly.
 Regardless of the type of interaction (charged current via the $W$ boson, or neutral current
 via the $Z$), a quark or charged lepton exits with altered properties. In the case of CC interactions, the fermion
-gets its flavor and energy changed. In NC interactions, no flavor change can occur, so the fermion leaves with increased energy.
-This fermion is then directly or indirectly detected, 
-and the properties of the neutrino involved in the 
-interaction are then deduced. This deduction will be imperfect, and this introduces complexities that we will handle in Ch.~\ref{ch:ICmethod}. 
+gets its flavor and energy changed, as seen in Eq.~\ref{eq:CC} where an 
+incoming neutrino of flavor $\alpha$ scatters of a fermion or hadron $N$, producing a charged lepton $\alpha$,
+and $N^\prime$ with charge changed by one unit. 
+\begin{align}\label{eq:CC}
+    \nu_\alpha + N \to \alpha + N^\prime
+\end{align}
+This fermion is directly involved in the interaction with the neutrino, either as 
+both incoming and outgoing particles, or as only the outgoing particle in the case of a hadronic interaction.
+
+In NC interactions, shown in Eq.~\ref{eq:NC}, no flavor change can occur, so the fermion leaves with increased energy.
+The flavor and charge of the fermion or hadron $N$ interacting with the neutrino is unchanged, but energy 
+from the neutrino will be transferred to the fermion that violently recoils, later producing a shower of tertiary particles.
+\begin{align}\label{eq:NC}
+    \nu_\alpha + N \to \nu_\alpha + N^\prime
+\end{align}
 
 In this work, we only study the detectors buried within the Antarctic ice by the IceCube collaboration. 
 They are of Cherenkov type, which means that they detect 
 a fermion by its emitted Cherenkov light, produced from its travel through the ice. 
-In the case of CC interactions, this fermion is directly involved in the interaction with the neutrino, either as 
-both incoming and outgoing particles, or as only the outgoing particle in the case of a hadronic interaction.
-In the case of NC interactions, the flavor of the fermion interacting with the neutrino is unchanged, but energy 
-from the neutrino will be transferred to the fermion that violently recoils, later producing a shower of tertiary particles. 
-
 If the secondary particles interact heavily with the ice, they will only travel a short distance before decaying 
 into the shower which emit a localized flash of Cherenkov light. This event is referred to as a cascade.
 NC interactions tend to be classified as cascades due to the production of a localized hadronic shower
 However, CC $\ne$ interactions can also produce a similar localized flash of Cherenkov light, causing them to also contribute 
-to the cascade events. A cascade event 
-is shown in Fig.~\ref{fig:events_cascade}.
+to the cascade events. So what about CC $\nt$? Due to the heaviness of the $\tau$, it rapidly decays - primarily into hadrons - giving us a short path
+of travel with a final shower, thus manifesting themselves as a cascade~\cite{DC2019tauappearance}. A cascade event 
+is shown in Fig.~\ref{fig:events_cascade} and Eq.~\ref{eq:cascade}, shows the possible interactions causing a cascade event.
+Here $N$ denotes an incoming nucleon (consisting of one fermion due to interact with the neutrino), and the resultant $N^\prime$ can be a hadron or
+a hadronic shower.
+\begin{align}\label{eq:cascade}
+    \nu_\alpha + N &\to \nu_\alpha + N^\prime \nonumber \\
+    \nu_e + N &\to e + N^\prime  \nonumber \\
+    \nu_\tau + N &\to \tau + N^\prime\,.
+\end{align}
 
 If the charged leptons don't interact as much in the ice, they penetrate a larger part of it, emitting light and tertiary particles
 as they go. This event is referred to as a track and is often due to charged current muon interactions. A track event 
-is shown in Fig.~\ref{fig:events_track}. 
+is shown in Fig.~\ref{fig:events_track}, and and Eq.~\ref{eq:track} shows the possible interactions causing a track event.
+\begin{align}\label{eq:track}
+    \nm + N \to \mu + N^\prime
+\end{align}
 
-
-So NC interactions and CC $\ne$ interactions are usually classified as cascades, while CC $\nm$ interactions are usually tagged 
-as a track. So what about CC $\nt$? Due to the heaviness of the $\tau$, it rapidly decays - primarily into hadrons - giving us a short path
-of travel with a final shower, thus manifesting themselves as a cascade~\cite{DC2019tauappearance}. We summarize the above classification 
-information in Table~\ref{table:events}, containing classifications from `Sample B' of a 2019 DeepCore study~\cite{DC2019tauappearance}.
+So NC interactions and CC $\ne, \nt$ interactions produce cascades, while CC $\nm$ interactions produce tracks. 
+The charged secondary $N^\prime$ is then detected (or, in the case of CC $\nt$, a tertiary shower from the $\tau$ decay), and the properties of the neutrino involved in the 
+interaction are then deduced. This deduction will be imperfect, and this introduces complexities that we will handle in Ch.~\ref{ch:ICmethod}. 
+However, the detection of the topologies themselves is also not straightforward, and misclassifications are bound to occur.
+We see this from classifications from `Sample B' of a 2019 DeepCore study~\cite{DC2019tauappearance}, from which we summarize the classification 
+information in Table~\ref{table:events}.
 
 \begin{table}[h]
     \begin{center}
@@ -126,7 +143,8 @@ information in Table~\ref{table:events}, containing classifications from `Sample
             \hline \hline
         \end{tabular}
     \end{center}
-    \caption{The neutrino event classification at \SI{56}{\GeV} from `Sample B' in~\cite{DC2019tauappearance}}\label{table:events}
+    \caption{The neutrino event classification at \SI{56}{\GeV} from `Sample B' in~\cite{DC2019tauappearance}, showing 
+    how simulated events where classified.}\label{table:events}
 \end{table}
 
 
