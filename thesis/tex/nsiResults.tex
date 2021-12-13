@@ -2,6 +2,7 @@
 In this section, we will constrain the four NSI parameters $\ett$, $\emt$, $\eem$, and $\eet$. As we shall see, the impacts of NSI mainly manifesting 
 themselves at \si{\GeV} energies, causing us to bring back DeepCore and PINGU. We will consider the results obtained from these three detectors separately as well as jointly.
 
+\subsection{$\chi^2$ Minimization}\label{sec:nsi_chi2}
 For our analyses, we define our $\chi^2$ as
 \begin{align}\label{eq:chisq_NSI}
     \chi^{2}(\hat{\theta},\alpha,\beta, \kappa)=\sum_{ijk} \frac{\left(N^\text{th}-N^\text{data}\right)_{ijk}^{2}}
@@ -67,6 +68,7 @@ For the joint analysis, we follow the parameter goodness-of-fit prescription~\ci
 \end{align}
 with test statistic $\chi^2_\text{joint,min}$. The $\Delta \chi^2_\text{joint}$ is then $\Delta \chi^2_\text{joint} = \chi^2_\text{joint} - \chi^2_\text{joint,min}$.
 
+\subsection{Constraining the NSI parameters}\label{sec:constraining_NSI}
 After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:3D_NO}. 
 The results are shown in Fig.~\ref{fig:IC_3D} and summarized in Tables~\ref{table:IC_DC_results} and~\ref{table:PINGU_joint_results}. Each region is bounded
 by the best and worst case scenario, as defined in Table~\ref{table:syst_errors}, while the middle line is the baseline scenario. We again emphasize that 
@@ -253,7 +255,7 @@ However, the overall flux normalization in~\cite{demidov} is 20\%, while we opte
 statistical uncertainties mentioned.
 
 Using the baseline case of 3\% systematic uncertainty at 90\% CL, we find from Table~\ref{table:PINGU_joint_results}, that our predictions for the proposed PINGU detector are
-\begin{align}\label{eq_P_results}
+\begin{align}\label{eq:P_results}
    -0.049 <&\, \ett < 0.057 \nonumber \\
    -0.010 <&\, \emt < 0.011 \nonumber \\
    -0.137 <&\, \eem < 0.11 \nonumber \\
@@ -270,8 +272,6 @@ and when combining IceCube, DeepCore, and PINGU, the 90\% CL constraint on $\emt
    -0.010 <&\, \emt < 0.0060\,,
 \end{align}
 which is more stringent for $\emt>0$ than the result in~\cite{deepcoreNSI}.
-\newpage
-
 
  \begin{figure}[t]
    \begin{center}
