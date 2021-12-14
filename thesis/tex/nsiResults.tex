@@ -2,7 +2,8 @@
 In this section, we will constrain the four NSI parameters $\ett$, $\emt$, $\eem$, and $\eet$. As we shall see, the impacts of NSI mainly manifesting 
 themselves at \si{\GeV} energies, causing us to bring back DeepCore and PINGU. We will consider the results obtained from these three detectors separately as well as jointly.
 
-\subsection{$\chi^2$ Minimization}\label{sec:nsi_chi2}
+\subsection{\texorpdfstring{$\chi^2$}{Chi-squared} Minimization}
+\label{sec:nsi_chi2}
 For our analyses, we define our $\chi^2$ as
 \begin{align}\label{eq:chisq_NSI}
     \chi^{2}(\hat{\theta},\alpha,\beta, \kappa)=\sum_{ijk} \frac{\left(N^\text{th}-N^\text{data}\right)_{ijk}^{2}}
@@ -16,8 +17,8 @@ $N_{ijk}^\text{data}$ is the observed number of events in that bin. $\sigma^\tex
 uncertainty.
 
 In our simulations of $N_{ijk}^\text{th}$, we set all standard oscillation parameters to their current best-fit values of Eq.~\ref{eq:PINGUparams}, 
-except for $\dm$ and $\theta_{23}$
-which we vary over their $3\sigma$ limits \SIrange{2.435e-3}{2.598e-3}{\eV\squared} and \SIrange{40.1}{51.7}{\degree}, respectively.
+except for $\dm[31]$ and $\theta_{23}$
+which we vary over their $3\sigma$ limits \SIrange{2.435e-3}{2.598e-3}{\eV\squared} and \SIrange{40.1}{51.7}{\degree}, respectively~\cite{nufit}.
 
 We set $\sigma_\alpha = 0.25$ as the atmospheric flux normalization error, and $\sigma_\beta = 0.05$ as the zenith angle slope error~\cite{hondapaper}. 
 The observed event number has an associated Poissonian uncertainty $\sigma_{ijk}^\text{data} = \sqrt{N_{ijk}^\text{data}}$.
@@ -69,10 +70,17 @@ For the joint analysis, we follow the parameter goodness-of-fit prescription~\ci
 with test statistic $\chi^2_\text{joint,min}$. The $\Delta \chi^2_\text{joint}$ is then $\Delta \chi^2_\text{joint} = \chi^2_\text{joint} - \chi^2_\text{joint,min}$.
 
 \subsection{Constraining the NSI parameters}\label{sec:constraining_NSI}
-After the oscillation parameters have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:3D_NO}. 
+We let each of the four NSI parameters considered assume a value, while keeping the other three fixed at zero. We consider the following ranges of values for each parameter:
+\begin{align}
+   -0.07 \le &\, \ett \le 0.07 \nonumber \\
+   -0.03 \le &\, \emt \le 0.03 \nonumber \\
+   -0.3 \le &\, \eem \le 0.3 \nonumber \\
+   -0.3 \le &\, \eet \le 0.3 \nonumber \\
+\end{align}
+After the oscillation parameters $\dm[31]$ and $\theta_{23}$ have been marginalized out, we plot $\Delta \chi^2$ for each of the four NSI parameters in Fig.~\ref{fig:3D_NO}. 
 The results are shown in Fig.~\ref{fig:IC_3D} and summarized in Tables~\ref{table:IC_DC_results} and~\ref{table:PINGU_joint_results}. Each region is bounded
 by the best and worst case scenario, as defined in Table~\ref{table:syst_errors}, while the middle line is the baseline scenario. We again emphasize that 
-no scenarios are considered for DeepCore, since they already provided in the data release~\cite{DC2019data}.
+no uncertainty scenarios are considered for DeepCore, since they already provided in the data release~\cite{DC2019data}.
 
 Comparing the PINGU and the DeepCore results in Fig.~\ref{fig:3D_NO}, we note that the best-fit for each NSI parameter for the PINGU experiment is expected to be zero. This is because the `data' we generated during 
 the PINGU simulations assume no NSI since they have yet to be observed in nature. This introduces a non-NSI bias in all joint analyses which include PINGU
