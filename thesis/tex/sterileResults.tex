@@ -32,7 +32,7 @@ We also have an uncorrelated systematic error $\sigma_{ijk}^\text{syst}$. We set
 
 The minimization of Eq.~\ref{eq:chisq} simply returns a value for each set of model parameters. We use this value to quantify to what extent
 our theoretical simulations $N^\text{th}_{ij}$ agree with the data $N^\text{data}_{ij}$ within the error bounds provided by $\sigma_a,\sigma_b,$ and $f$.
-We then select the set of $\chi^2$ values which are the smallest and our allowed parameters are then their associated $\hat{\theta}$.
+We then select the smallest set of $\chi^2$ values, and our allowed parameters are then their associated $\hat{\theta}$.
 We then translate the $\chi^2$ distribution by subtracting the best-fit point, and analyze $\Delta \chi^2 = \chi^2 - \chi^2_{min}$.
 From the $\chi^2$-distribution, one can show that the $90\%$ confidence level has a value of $2.71$ for two degrees of freedom. When slicing through the 
 two-dimensional grid of $\Delta \chi^2$ at this level, we then obtain a contour plot that tells us what parameter values are within our $90 \%$ confidence level and what regions are not.
@@ -69,6 +69,6 @@ We now in Fig.~\ref{fig:final_rate_plot} plot the best-fit 3+1 hypothesis with t
 \end{figure}
 
 Wanting to investigate the effect of $\theta_{34}$, we also simulated the 3+1 hypothesis using $\theta_{24} = \theta_{34}$. However, we did not see 
-a difference in the exclusion regions compared to the regions when $\theta_{34} = 0$. Thus, we conclude that on our work, IceCube was not able to 
+a difference in the exclusion regions compared to the regions when $\theta_{34} = 0$. Thus, we conclude that in our work, IceCube was not able to 
 distinguish any effect due to the $\theta_{34}$ parameter. However, since our dataset only included muon track events in the \SIrange{0.5}{10}{\TeV} range,
 one might be able to expect a larger effect of $\theta_{34}$ if one includes cascade events as well.

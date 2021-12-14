@@ -19,7 +19,7 @@ We now have
     j^\rho_L &= 2 \sum_\alpha \sum_k U^\dagger_{\alpha k} \bar{\nu}_{k L} \gamma^\rho  \ell_{\alpha L}\,.
 \end{align}
 
-We construct the PMNS matrix by parametrizing it as as
+We construct the PMNS matrix by parametrizing it as
 \begin{align}\label{PMNS_def}
     U &= R_{23}R_{13,\delta_{\text{CP}}}R_{12}P_{Maj} \nonumber \\
      &= \begin{pmatrix}
@@ -57,7 +57,7 @@ cause the flavor eigenstate $\nu_\alpha$ to be a superposition of the mass eigen
 
 \subsection{Neutrino Propagation}\label{sec:prop}
 Since we now know how the neutrino mass and flavor eigenstates combine and have an expression for the flavor interaction with 
-the neutrino's charged lepton partner, we are now ready to study the flavor oscillations themselves.
+the neutrinos charged lepton partner, we are now ready to study the flavor oscillations themselves.
 
 From the expression for the weak charged current in~\ref{eq:j_CC3}, we see that the summation over the mass index $k$ with the mixing matrix elements constructs a flavor neutrino, which interacts with the charged lepton field $\ell_{\a L}$.
 In other words, the charged current generates a flavor neutrino $\na$, which is a superposition of the mass eigenstates 
@@ -198,10 +198,10 @@ namely the product $U_{\a3}^*U_{\b3} U_{\b1}^*U_{\a1}$.
     \end{subfigure}
     \caption{Feymann diagrams showing neutrinos participating in the two types of weak interactions according to the Standard Model.}\label{fig:w_and_z}
 \end{figure}
-So far we have discussed neutrinos traveling in vacuum. Now we will concern ourselves with neutrino oscillations in matter.
+So far, we have discussed neutrinos traveling in vacuum. Now we will concern ourselves with neutrino oscillations in matter.
 The possible interactions are shown in Fig.~\ref{fig:w_and_z}. The left panel shows that the only flavor that can undergo charged current (CC) 
 interactions are the electron flavor. This is because the CC interaction requires a neutrino with flavor $\alpha$ to interact with its charged lepton
-partner $\alpha$. Since the Earth doesn't consist of any muons or tau particles, the $\nu_\mu$ and $\nu_\tau$ have no charged leptons to undergo CC interactions with. 
+partner $\alpha$. Since the Earth does not consist of any muons or tau particles, the $\nu_\mu$ and $\nu_\tau$ have no charged leptons with which they can undergo CC interactions. 
 The right panel shows any neutrino flavor interaction via the neutral current (NC) with matter, mediated by the neutral $Z$ boson. The Earth is entirely composed
 of electrons, protons, and neutrons. Thus, the fundamental particles composing Earth are electrons, and up and down quarks. These are the
 fermions relevant for our matter oscillations. In these two diagrams, we see that the CC interactions happen in the flavor basis rather than in the mass basis. In other words,
@@ -367,7 +367,7 @@ Now, combining Eq.~\ref{eq:t1} and Eq.~\ref{eq:V_rewrite}, we have for the full 
     \bra{\nu_\b}H\ket{\nu_\a (x)} &= \left(p + \frac{m^2_1}{2E} + V_{NC}\right) \psi_{\a\b}(x) \nonumber \\
                                   &+ \sum_\eta\sum_k \left(U_{\b k} \frac{\dm_{k1}}{2E} U^*_{\eta k} + V_{CC}\delta_{\b\eta}\delta_{\eta e} \right) \psi_{\a\eta}(x)
 \end{align}
-In this form, we see that the term $p + \frac{m^2_1}{2E} + V_{NC}$  is a common term to all flavor states, and does not affect the probability. It can be rotated away.
+In this form, we see that the term $p + \frac{m^2_1}{2E} + V_{NC}$  is a common term to all flavor states and does not affect the probability. It can be rotated away.
 Thus
 \begin{align}\label{eq:components}
     \bra{\nu_\b}H\ket{\nu_\a (x)} &= \sum_\eta\sum_k \left(U_{\b k} \frac{\dm_{k1}}{2E} U^*_{\eta k} + V_{CC}\delta_{\b\eta}\delta_{\eta e}\right) \psi_{\a\eta}(x) \nonumber \\
@@ -410,7 +410,7 @@ are the probabilities
 \end{align}
 
 For $N_e = 0$, i.e. in vacuum, these probabilities are identical to the ones that we analytically derived in Eq.~\ref{eq:Pab}.
-For matter oscillations with $N_e \neq 0$, we do have closed form solutions, but they are not considered further here. 
+For matter oscillations with $N_e \neq 0$, we do have closed-form solutions, but they are not considered further here. 
 
 \subsection{Earth Propagation}
 We now need to know how the electrons are distributed within the Earth. The Preliminary Earth Reference Model~\cite{PREM} gives us spherically
@@ -472,7 +472,7 @@ allowing us to fully see the Earth matter effect on the oscillations in full. Th
 
 In Fig.~\ref{fig:vac_vs_matter}, we have plotted the oscillation probabilities for an incoming $\nm$ with \si{\GeV} energy,
 traveling 12000 km. The red line is the vacuum oscillation, while the black line is the matter oscillation, traversing through the 
-matter density profile of the Earth. We see that the matter effects are more for some energies, and less for others. At energies 
+matter density profile of the Earth. We see that the matter effects are more for some energies and less for others. At energies 
 above $\SI{10}{\GeV}$, the matter effects are small for $\Pmm$ and $\Pmt$, while they heavily deviate for single-digit \si{\GeV} energies.
 $\Pme$ behaves in a different way, where the matter effects affect the oscillation probability regardless of energy. Here, we start to
 see the convergence as late as $\SI{100}{\GeV}$. Thus, matter effects are most important for energies below $\SI{100}{\GeV}$, for all channels.
@@ -550,7 +550,7 @@ now reduces to
 %         \end{pmatrix}\,. 
 % \end{align}
 % TODO: segue into 2gen
-We can reduce this down to two dimensions by extracting the upper-left block of all matrices. We now have the Hamiltonian in a two-dimensional form, and start simplifying:
+We can reduce this down to two dimensions by extracting the upper-left block of all matrices. We now have the Hamiltonian in a two-dimensional form and start simplifying:
 
 \begin{align}
     H_F
@@ -641,7 +641,7 @@ $U^M$ diagonalizes $H_F$ if and only if
 \begin{align}\label{eq:eff_theta}
     \tan{(2\theta_{12}^M)} = \frac{\tan{(2\theta_{12})}}{1- \frac{2\sqrt{2}G_F N_e E}{\dm[21]\cos{(2\theta_{12})}}}\,.
 \end{align}
-Eq.~\ref{eq:eff_theta} has a pole at %TODO: write more
+Eq.~\ref{eq:eff_theta} has a pole at
 \begin{align}\label{eq:MSW}
     E^* &= \frac{\dm[21]\cos(2\theta_{12})}{2\sqrt{2}G_F N_e}\,.
 \end{align}
@@ -658,7 +658,7 @@ The solutions are the regular neutrino vacuum oscillations of Eq.~\ref{eq:Pab} u
 While two-neutrino flavor oscillation can only be assumed to hold in regions where mixing into the third flavor can be considered negligible,
 the fact that the mixing angle in matter depends on the squared-mass difference, and vice versa, gives us an interesting conclusion which is 
 still valid for the full three neutrino oscillations. We previously saw that the oscillation amplitudes were entirely dependant on
-the mixing angles, and the oscillation frequencies were entirely dependant on the squared-mass difference along with energy, and trajectory. After 
+the mixing angles, and the oscillation frequencies were entirely dependant on the squared-mass difference along with energy and trajectory. After 
 introducing the matter potentials, we now see that the matter effect mixes the mixing matrix elements with the masses and the energy.
 
 \begin{figure}
@@ -671,12 +671,12 @@ introducing the matter potentials, we now see that the matter effect mixes the m
 \end{figure}
 
 In Fig.~\ref{fig:2_vs_3}, we have plotted the oscillation probabilities for an incoming $\nm$ with \si{\GeV} energy,
-traveling 12000 km. The black lines are the probabilities of $\nm$ oscillation, after it has traversing through the diameter of the Earth.
+traveling 12000 km. The black lines are the probabilities of $\nm$ oscillation after it has traversed through the diameter of the Earth.
 The red lines are the probabilities of $\nm$ oscillation, but in the two-neutrino picture using Eq.~\ref{eq:2gen}. So in the left-most panel,
 we are only considering the mixing between $\ne$ and $\nm$, completely neglecting $\theta_{13}$ and $\theta_{23}$.
 
 The pattern is similar to when we compared $3\nu$ matter and vacuum oscillations: at $\SI{10}{\GeV}$, the two pictures converge.
-It is evident that the full $3\nu$ picture is required for single-digit \si{\GeV} energies, and that mixings between all three flavors here are 
+It is evident that the full $3\nu$ picture is required for single-digit \si{\GeV} energies and that mixings between all three flavors here are 
 abundant. Increasing with energy, however, the influence of the $\nu_1$ mass eigenstate on the probabilities is reduced.
 Thus, we are able to approximate resonant behavior as described in Eq.~\ref{eq:MSW} above $\SI{100}{\GeV}$ by only considering 
-mixing between two neutrino species. We will utilize this observation later on to study a particular resonance in the \si{\TeV} range.
+mixing between two neutrino species. We will utilize this observation later on, to study a particular resonance in the \si{\TeV} range.
