@@ -19,7 +19,7 @@ We now have
     j^\rho_L &= 2 \sum_\alpha \sum_k U^\dagger_{\alpha k} \bar{\nu}_{k L} \gamma^\rho  \ell_{\alpha L}\,.
 \end{align}
 
-We construct the PMNS matrix by parametrizing it as as
+We construct the PMNS matrix by parametrizing it with the rotation matrices $R_{ij}$ and a matrix $P_{Maj}$ as
 \begin{align}\label{PMNS_def}
     U &= R_{23}R_{13,\delta_{\text{CP}}}R_{12}P_{Maj} \nonumber \\
      &= \begin{pmatrix}
@@ -45,7 +45,7 @@ Any unitary $3\times3$ matrix can be parametrized using three angles and six pha
 charged and weak currents and are thus not observable by us. Moreover, both the Lagrangian and the currents are invariant under global $U(1)$ transformations,
 leaving only one physical phase for us to measure: one term in the form of a Dirac CP-violating phase $\delta_\mathrm{CP}$.
 However, if the neutrinos are Majorana fermions, the rephasing of the left-handed fields would cause the neutrino masses to become complex.
-Thus, we include two Majorana phases $\lambda_{2},\lambda_3$ in the PMNS matrix. These two phases are detectable in processes that violate lepton number, such as neutrinoless double $\beta$ decay.
+Thus, we include two Majorana phases $\lambda_{2},\lambda_3$ in the PMNS matrix through $P_{Maj}$. These two phases are detectable in processes that violate lepton number, such as neutrinoless double $\beta$ decay.
 Majorana phases are not detectable in neutrino oscillation experiments because oscillations are not violating lepton number, and a Majorana phase would
 violate lepton number by two units.
 
@@ -163,8 +163,8 @@ the mixing matrix from~\ref{PMNS_def} takes the values
        0.334 & -0.684 & 0.649
    \end{pmatrix} \,,
 \end{align}
-which use to we plot the $P_{\mu \beta}$ probabilities in Fig.~\ref{fig:vac_osc}. Here, we show the energy spectra of these oscillations in the low \si{\GeV} range for neutrinos that travel \SI{12000}{\km}\footnote{This baseline
-is approximately the Earth diameter, and will be the maximum travel distance which we will use later on.}.
+which use to we plot the $P_{\mu \beta}$ probabilities in Fig.~\ref{fig:vac_osc}. Here, we show the energy spectra of these oscillations in the low \si{\GeV} range for neutrinos that travel \SI{12742}{\km}\footnote{This baseline
+is the Earth diameter, and will, apart from the atmosphere, be the maximum travel distance which we will use later on.}.
 In the left-most panel, we see a suppressed $\nm \to \ne$ transition. We can understand this behavior by studying Eq.~\ref{eq:Pab} and the 
 numerical values of the mixing matrix in Eq.~\ref{eq:Uvalues}.
 The smallness of $U_{e3}$ reduces the effect of $\dm[21]$ mass-squared difference,
@@ -175,7 +175,7 @@ namely the product $U_{\a3}^*U_{\b3} U_{\b1}^*U_{\a1}$.
 \begin{figure}[!h]
     \begin{center}
     \includegraphics[width=1\textwidth]{figures/vac_osc.pdf}
-    \caption{Probabilities of $\nm$ oscillations after travelling 12 000 km in vacuum.}\label{fig:vac_osc}
+    \caption{Probabilities of $\nm$ oscillations after travelling 12 742 km in vacuum, using parameters from~\cite{nufit}.}\label{fig:vac_osc}
     \end{center}
 \end{figure}
 
@@ -471,7 +471,7 @@ allowing us to fully see the Earth matter effect on the oscillations in full. Th
 \end{figure}
 
 In Fig.~\ref{fig:vac_vs_matter}, we have plotted the oscillation probabilities for an incoming $\nm$ with \si{\GeV} energy,
-traveling 12000 km. The red line is the vacuum oscillation, while the black line is the matter oscillation, traversing through the 
+traveling 12742 km. The red line is the vacuum oscillation, while the black line is the matter oscillation, traversing through the 
 matter density profile of the Earth. We see that the matter effects are more for some energies, and less for others. At energies 
 above $\SI{10}{\GeV}$, the matter effects are small for $\Pmm$ and $\Pmt$, while they heavily deviate for single-digit \si{\GeV} energies.
 $\Pme$ behaves in a different way, where the matter effects affect the oscillation probability regardless of energy. Here, we start to
@@ -550,7 +550,8 @@ now reduces to
 %         \end{pmatrix}\,. 
 % \end{align}
 % TODO: segue into 2gen
-We can reduce this down to two dimensions by extracting the upper-left block of all matrices. We now have the Hamiltonian in a two-dimensional form, and start simplifying:
+We can reduce this down to two dimensions by extracting the upper-left block of all matrices\footnote{Or, following the method of the derivation of the Hamiltonianin the three-
+neutrino picture, take U as one two-dimensional rotation matrix.}. We now have the Hamiltonian in a two-dimensional form, and start simplifying:
 
 \begin{align}
     H_F
@@ -671,7 +672,7 @@ introducing the matter potentials, we now see that the matter effect mixes the m
 \end{figure}
 
 In Fig.~\ref{fig:2_vs_3}, we have plotted the oscillation probabilities for an incoming $\nm$ with \si{\GeV} energy,
-traveling 12000 km. The black lines are the probabilities of $\nm$ oscillation, after it has traversing through the diameter of the Earth.
+traveling through the entire Earth diameter. The black lines are the probabilities of $\nm$ oscillation, after it has traversing through the diameter of the Earth.
 The red lines are the probabilities of $\nm$ oscillation, but in the two-neutrino picture using Eq.~\ref{eq:2gen}. So in the left-most panel,
 we are only considering the mixing between $\ne$ and $\nm$, completely neglecting $\theta_{13}$ and $\theta_{23}$.
 
