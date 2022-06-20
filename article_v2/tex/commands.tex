@@ -1,0 +1,96 @@
+\documentclass[a4paper,12pt,final,english]{article}
+\usepackage{physics,amsmath, amsfonts, siunitx, amssymb, graphicx, slashed,subcaption,lipsum,transparent,pdfpages}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\setstretch{1.1}
+\usepackage[margin=1.2in, top = 1.3in, bottom = 1.3in]{geometry}
+%\usepackage{xr-hyper}
+\usepackage[hidelinks, pdftex]{hyperref}
+\newcommand{\n}[1]{\nu_{#1}}
+\newcommand{\na}{\nu_\alpha}
+\newcommand{\nb}{\nu_\beta}
+\newcommand{\ana}{\bar{\nu}_\alpha}
+\newcommand{\an}[1]{\bar{\nu}_{\text{#1}}}
+\newcommand{\anb}{\bar{\nu}_\beta}
+\renewcommand{\a}{\alpha}
+\renewcommand{\b}{\beta}
+\newcommand{\ab}{\alpha\beta}
+
+
+\renewcommand{\ne}{\nu_e}
+\newcommand{\nm}{\nu_\mu}
+\newcommand{\nt}{\nu_\tau}
+\newcommand{\ns}{\nu_s}
+
+\newcommand{\ane}{\bar{\nu}_e}
+\newcommand{\anm}{\bar{\nu}_\mu}
+\newcommand{\ant}{\bar{\nu}_\tau}
+\newcommand{\ans}{\bar{\nu}_s}
+
+\newcommand{\nee}{\nu_e \to \nu_e}
+\newcommand{\nem}{\nu_e \to \nu_\mu}
+\newcommand{\net}{\nu_e \to \nu_\tau}
+\newcommand{\nes}{\nu_e \to \nu_s}
+
+\newcommand{\nme}{\nu_\mu \to \nu_e}
+\newcommand{\nmm}{\nu_\mu \to \nu_\mu}
+\newcommand{\nmt}{\nu_\mu \to \nu_\tau}
+\newcommand{\nms}{\nu_\mu \to \nu_s}
+
+
+
+\newcommand{\Pee}{P_{e  e}}
+\newcommand{\Pem}{P_{e  \mu}}
+\newcommand{\Pet}{P_{e  \tau}}
+\newcommand{\Pes}{P_{e  s}}
+
+\newcommand{\Pme}{P_{\mu  e}}
+\newcommand{\Pmm}{P_{\mu\mu}}
+\newcommand{\Pmt}{P_{\mu  \tau}}
+\newcommand{\Pms}{P_{\mu  s}}
+
+
+\newcommand{\Pte}{P_{P_{\tau e}}}
+\newcommand{\Ptm}{P_{\tau  \mu}}
+\newcommand{\Ptt}{P_{\tau  \tau}}
+\newcommand{\Pts}{P_{\mu  s}}
+
+\newcommand{\Paeae}{P_{\bar{e}  \bar{e}}}
+\newcommand{\Paeam}{P_{\bar{e}  \bar{\mu}}}
+\newcommand{\Paeat}{P_{\bar{e}  \bar{\tau}}}
+\newcommand{\Paeas}{P_{\bar{e}  \bar{s}}}
+
+\newcommand{\Pamae}{P_{\bar{\mu}  \bar{e}}}
+\newcommand{\Pamam}{P_{\bar{\mu}  \bar{\mu}}}
+\newcommand{\Pamat}{P_{\bar{\mu}  \bar{\tau}}}
+\newcommand{\Pamas}{P_{\bar{\mu}  \bar{s}}}
+
+
+\newcommand{\Patae}{P_{\bar{\tau}  \bar{e}}}
+\newcommand{\Patam}{P_{\bar{\tau}  \bar{\mu}}}
+\newcommand{\Patat}{P_{\bar{\tau}  \bar{\tau}}}
+\newcommand{\Patas}{P_{\bar{\mu}  \bar{s}}}
+
+\renewcommand{\th}[1][]{%
+  \theta\ifx\\#1\\\else_\text{#1}\fi
+}
+\newcommand{\thm}[1][]{%
+  \theta^\text{M}\ifx\\#1\\\else_\text{#1}\fi
+}
+\renewcommand{\t}[1]{\text{{#1}}}
+\newcommand{\avg}[1]{\left\langle {#1} \right \rangle}
+\newcommand*{\dm}[1][]{%
+  \Delta m^2\ifx\\#1\\\else_\text{#1}\fi
+}
+\newcommand{\zreco}{\cos{(\theta_z^{reco})}}
+\newcommand{\ztrue}{\cos{(\theta_z^{true})}}
+\newcommand{\z}{\cos{(\theta_z)}}
+\newcommand{\Ereco}{E^{reco}}
+\newcommand{\Etrue}{E^{true}}
+\newcommand{\Aeff}{A^\text{eff}}
+\newcommand{\emm}{\epsilon_{\mu\mu}}
+\newcommand{\emt}{\epsilon_{\mu\tau}}
+\newcommand{\eet}{\epsilon_{e\tau}}
+\newcommand{\eem}{\epsilon_{e\mu}}
+\newcommand{\ett}{\epsilon_{\tau\tau}}
+\newcommand{\ep}{\epsilon^\prime}

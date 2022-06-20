@@ -1,0 +1,172 @@
+\section{The Sterile State}\label{sec:anomalies}
+In 1996, the LSND experiment reported an excess of $\ane$ events from an $\anm$ beam~\cite{lsnd}.  
+Nine years later, MiniBooNE not only reproduced the $\ane$ anomaly but observed an excess in the
+$\ne$ events too~\cite{miniboone}. Together with the so-called reactor and gallium anomalies, these reports suggested 
+that the three massive neutrino framework could be amended.
+By introducing a fourth heavy mass state $\nu_4$, both appearance and disappearance anomalies could be minimally accommodated.
+However, we know from the decay width of the $Z$ boson that it only can interact with three flavor species\footnote{
+    Direct measurements of the invisible $Z$ decay yields $N=2.92 \pm 0.05$~\cite{pdg}.
+}, 
+so this fourth mass state cannot be interacting weakly. In other words, it needs to transform as a
+singlet under the gauge symmetry group $SU(2)_L \times U(1)_{Y}$.
+We now distinguish between the three original neutrino flavors ($e$, $\mu$, and $\tau$) and the new fourth 
+flavor by calling the former \emph{active} neutrinos
+and the latter \emph{sterile} due to its non-interacting behavior.
+
+The experiments listed above indicate that the mass-squared difference of the 
+sterile neutrino is in the \si{\eV\squared} scale, while the two others
+are three and five magnitudes smaller. To remind us of this hierarchy, we write $3+1$, since the sterile state 
+proposed is heavier than the active states.
+
+
+Two neutrino physics parameters probed by CMB lensing observations are the effective number of neutrinos
+$N_\text{eff}$, and the sum of neutrino masses $\sum m_i$. 
+The 2018 results from the Planck Collaboration in~\cite{planck2018} constrain the parameters to 
+\begin{align}
+    N_\text{eff} = 2.96^{+0.34}_{-0.33}\,, \quad \sum m_i < \SI{0.12}{\eV} \quad (95\%)\,,
+\end{align}
+consistent with the Standard Model with oscillations\footnote{Of course, the 
+Standard Model \emph{without} neutrino masses dictates $N_\text{eff} = 3$ and $\sum m_i \equiv 0$.} prediction of $N_\text{eff} = 3.045$ degrees~\cite{desalas2016}.
+Assuming the Planck data, one thermalized sterile neutrino $(N_\text{eff} = 4)$ is excluded at $6\sigma$. 
+Thus, thermalized sterile 
+neutrinos are strongly in tension with cosmological observations if one does not consider some special mechanism.
+So if a fourth neutrino species is present in nature, it will have ramifications not only on neutrino physics itself, but on
+our understanding of the CMB as well.
+
+
+\subsection{The Hamiltonian}
+The inclusion of the sterile state in the Hamiltonian is straightforward. We extend the PMNS matrix
+with terms for the mixing between the new flavor $(U_{si})$ and mass $(U_{\a 4})$ eigenstates:
+\begin{align}
+    U_{4gen} =
+    \begin{pmatrix}
+    U_{e1} & U_{e2} & U_{e3} & U_{e4} \\
+    U_{\mu1} & U_{\mu2} & U_{\mu3} & U_{\mu4} \\
+    U_{\tau1} & U_{\tau2} & U_{\tau3} & U_{\tau4} \\
+    U_{s1} & U_{s2} & U_{s3} & U_{s4}
+    \end{pmatrix}\,,
+\end{align}
+where a common parametrization of this new mixing matrix is 
+\begin{align}\label{eq:U4gen_param}
+    U_{4gen} = R_{34}R_{24}R_{14}U_{3gen}\,.
+\end{align}
+This parametrization does not affect the physics, but determines the structure of the mixing angles.
+
+The mass matrix extends analogously:
+\begin{align}\label{eq:dm4gen}
+    M^2_{4gen} =
+    \begin{pmatrix}
+        0 & 0 & 0 & 0\\
+        0 & \dm_{21} & 0  & 0 \\
+        0 & 0 & \dm_{31} & 0 \\
+        0 & 0 & 0 & \dm_{41} \\
+    \end{pmatrix}\,.
+\end{align}
+
+Now, the interaction with matter requires a careful reconsideration of the matter potential. We start off with the unaltered potential matrix from Eq.~\ref{eq:V_matrix}. 
+Just as with the PMNS matrix, we extend this to $4\times4$:
+\begin{align}\label{eq:Vsterile1}
+    \begin{pmatrix}
+        V_{CC} + V_{NC} & 0 & 0 & 0 \\
+        0 &V_{NC} & 0 & 0 \\
+        0 & 0 & V_{NC} & 0 \\
+        0 & 0 & 0 & 0 
+    \end{pmatrix}\,.
+\end{align}
+Now we need to include the terms that describes the matter potential felt by the sterile flavor state. Recalling our discussion above, we remind ourselves that the sterile neutrino by definition
+does not participate in any interaction\footnote{The exception to this is of course gravity. The sterile neutrino is not massless.}. Thus, all potential terms involving the sterile state are zero. 
+In other words, the potential matrix in Eq.~\ref{eq:Vsterile1} is complete, save for the usual subtraction by a constant times the identity matrix:
+
+\begin{align}\label{eq:Vsterile}
+    V_{4gen} &=
+    \begin{pmatrix}
+        V_{CC} + V_{NC} & 0 & 0 & 0 \\
+        0 &V_{NC} & 0 & 0 \\
+        0 & 0 & V_{NC} & 0 \\
+        0 & 0 & 0 & 0 
+    \end{pmatrix} - V_{NC}\begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 &1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1 
+    \end{pmatrix} \nonumber \\
+    &= \sqrt{2}G_F\begin{pmatrix}
+        N_e & 0 & 0 & 0 \\
+        0 &0 & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & -N_n/2
+    \end{pmatrix} \nonumber \\
+    &=\sqrt{2}G_F N_e\begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 &0 & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & -1/2
+    \end{pmatrix}\,.
+\end{align}
+where we have assumed electrical neutrality in the last step, yielding $N_e = N_n$.
+Thus, the final Hamiltonian with a fourth sterile neutrino is 
+\begin{align}\label{eq:H_4gen}
+    H_{4gen} &= \frac{1}{2E}\left[U \begin{pmatrix}
+            0 & 0 & 0 & 0\\
+            0 & \dm_{21} & 0  & 0 \\
+            0 & 0 & \dm_{31} & 0 \\
+            0 & 0 & 0 & \dm_{41} \\
+        \end{pmatrix} U^\dagger\right] + \sqrt{2}G_F N_e 
+        \begin{pmatrix}
+            1 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & 0 \\
+            0 & 0 & 0 & -1/2
+        \end{pmatrix}\,. 
+\end{align}
+
+Now, looking at Eqs.~\ref{eq:U4gen_param} and~\ref{eq:dm4gen}, we see that we have introduced four new parameters: $\dm[41]$, $\theta_{14}$
+, $\theta_{24}$, $\theta_{34}$. In our analysis, we reduce the number of parameters by only considering $\dm[41]$ and $\theta_{24}$, which are 
+the most important for the $\nm$ oscillations. 
+
+\subsection{The Probability Effect of a Sterile Neutrino}
+Since the new, sterile, neutrino does not interact weakly, how do we know if it's there? If the sterile mixing angle $\theta_{i4}$ is non-zero, 
+we allow the sterile mass state to mix with the active state $i$. The most interesting case is when $\theta_{24} \neq 0$, 
+which for $\dm[41] \sim \si{\eV \squared}$ gives rise to a resonant disappearance in the for $P_{\bar{\mu}\bar{\mu}}$, shown in Fig.~\ref{fig:sterile_resonance}.
+
+\begin{figure}
+    \centering
+        \includegraphics[width=1\linewidth]{figures/sterile_resonance.pdf}
+        \caption{Comparing the standard 3+0 hypothesis to the
+        3+1 hypothesis assuming $\dm[41] = \SI{1}{\eV \squared}$ and $\theta_{24} = 0.04$.
+        The former, shown as a blue dashed line, shows no $\anm$ disappearance.
+        The latter, shown as a black solid line, predicts a resonant $\anm$ disappearance at \SI{2.6}{\TeV}.
+        The standard oscillation parameters are taken from NuFit~\cite{nufit}, and the 
+        neutrino has traversed the entire Earth diameter.}\label{fig:sterile_resonance}
+    \end{figure}
+    \begin{figure}
+        \includegraphics[width=1\linewidth]{figures/resonance_shift.pdf}
+        \caption{Shifting and amplification of the resonance by altering $\dm[41]$ and $\theta_{24}$, respectively.
+        Left panel has a fixed value of $\theta_[24] = 0.04$ while varying $\dm[41]$ from 0.5 to 3 \si{\TeV^2}.
+        Right panel has a fixed value of $\dm[41] = \SI{1}{\TeV^2}$ while varying $\theta_[24]$ from 0.02 to 0.08.
+        Standard oscillation parameters are taken from NuFit~\cite{nufit}, and shown in Eq.~\ref{eq:PINGUparams}.}\label{fig:resonance_shift}
+\end{figure}
+So for a \si{\eV^2}-scale sterile neutrino and a non-zero $\theta_{24}$, we expect a \si{\TeV} $\anm$ disappearance.
+The resonance dip is affected by the value of $\dm[41]$ and $\theta_{24}$ as shown in Fig.~\ref{fig:resonance_shift}.
+We see how the value of $\dm[41]$ shifts the resonance peak, while the mixing angle amplifies it. 
+In the $3+0$ scenario, $\Pamam = 1$ in this range. Thus, if we are able to see a $\anm$ disappearance in the \si{\TeV} region,
+we are in a good position to argue for an \si{\eV^2}-scale $\dm[41]$.  
+
+Keeping in mind that the event count from Eq.~\ref{eq:ICevents} scales as $E^{-1.7}$,
+signals at higher energies will be more difficult to detect. Since higher values of $\dm[41]$ shift the $\Pamam$ resonance peak to higher 
+energies, high $\dm[41]$ values will be harder to rule out because the event count is already lower, as compared to energies 
+at single-digit \si{\TeV} values. There is then a range of parameters with which our detector will 
+be able to distinguish between the two hypotheses. Using the two-neutrino approximation\footnote{In this approximation, we only consider mixing between $\nm$ and $\ns$, essentially a `1+1' picture.}, 
+we can rewrite the expression for MSW resonance from Eq.~\ref{eq:MSW} as 
+\begin{align}
+    E^* = \frac{\dm[41] \cos{2\theta_{24}}}{2\sqrt{2} G_F N_e}\,,
+\end{align}
+which for $\dm[41] = \SI{1}{\TeV^2}$ and $\theta_{24} = 0.04$, gives us a resonance at $E^* = \SI{2.58}{\TeV}$, matching the $3+1$ simulation shown in
+Fig.~\ref{fig:sterile_resonance}. From the two-neutrino picture, 
+we see that the resonance peak in the $\anm$ channel scales linearly with $\dm[41]$, while the mixing angle dependence 
+shows up as $\cos{2\theta_{24}}$, which is between 0.987 and 0.999 for the $\theta_[24]$ values considered in Fig.~\ref{fig:resonance_shift}.
+Since our $\theta_{24}$ values considered are so low, the location of the resonance peak is essentially only dependent on the value of $\dm[41]$.
+Thus, we expect a more stringent constraint of low values of $\dm[41]$, regardless of the value of $\theta_{24}$.
+
+We also note that lower values of $\theta_{24}$ suppresses the 3+1 signal, making it closer to the $3+0$ hypothesis. 
+Regardless of the value of $\dm[41]$, the $3+1$ hypothesis asymptotically converges to the $3+0$ hypothesis as $\theta_{24} \to 0$.

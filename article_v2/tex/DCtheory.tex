@@ -1,0 +1,29 @@
+\section{DeepCore}\label{ch:DCmethod}
+In this part, we use the publicly available DeepCore data sample~\cite{DC2019data} which is an updated version of what was used by the 
+IceCube collaboration in a $\nu_\mu$ disappearance analysis~\cite{DC2018mudisappearance}.
+
+The detector systematics include ice absorption and scattering and overall, lateral, and head-on optical efficiencies of the DOMs. 
+They are applied as correction factors using the best-fit points from the 2019 DeepCore $\nu_\tau$ appearance 
+analysis~\cite{DC2019tauappearance}.
+
+The data include 14901 track-like events and 26001 cascade-like events, both divided into eight 
+$ \log_{10}E^{reco} \in [0.75,1.75]$ bins, and eight $\zreco \in [-1,1]$ bins. Each event has a Monte Carlo weight $w_{ijk,\beta}$,
+from which we can construct the event count as
+\begin{align}\label{eq:MCevents}
+    N_{ijk} &= C_{ijk}\sum_{\beta}w_{ijk,\beta} \phi_\beta^\text{det}\,,
+\end{align}
+where $C_{k\beta}$ is the correction factor from the detector systematic uncertainty and $\phi_\beta^\text{det}$ is defined as Eq.~\ref{eq:propFlux}. We have now substituted the effect of the Gaussian smearing 
+by treating the reconstructed and true quantities as a migration matrix. 
+
+
+\section{PINGU}\label{ch:PINGUmethod}
+The methodology behind the PINGU simulations is the same as with our DeepCore study~. We use the public MC~\cite{PINGUdata}, which allows us to construct the event count as in Eq.~\ref{eq:MCevents}.
+However, since no detector systematics is yet modeled for PINGU, the correction factors $C_{ijk}$ are all unity.
+As with the DeepCore data, the PINGU Monte Carlo is divided into eight 
+$\log_{10}E^{reco} \in [0.75,1.75]$ bins, and eight $\zreco \in [-1,1]$ bins for both track- and cascade-like events. 
+We generate `data' by predicting the event rates at PINGU with the following best-fit parameters from~\cite{nufit}, except for the CP-violating phase, which is set to zero for simplicity.
+
+\begin{align}\label{eq:PINGUparams}
+    &\Delta m^2_{21} =  \SI{7.42e-5}{\electronvolt^2},\hspace{0.5em} \dm[31] =  \SI{2.517e-3}{\electronvolt^2}, \nonumber \\
+    &\theta_{12} = \SI{33.44}{\degree},\hspace{1em} \theta_{13} = \SI{8.57}{\degree},\hspace{1em} \theta_{23} = \SI{49.2}{\degree}, \hspace{1em} \delta_\text{CP} = 0^\circ\,.
+\end{align}
