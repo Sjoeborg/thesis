@@ -1,24 +1,41 @@
-\documentclass{article}
+\documentclass{revtex4-2}
+\usepackage{physics,amsmath, amsfonts, siunitx, amssymb, graphicx, subcaption}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+
+% True/reconstructed parameters
+\newcommand{\z}{\ensuremath{\cos{(\theta_z)}}}
 \newcommand{\zreco}{\ensuremath{\cos{(\theta_z^{R})}}}
 \newcommand{\ztrue}{\ensuremath{\cos{(\theta_z^{T})}}}
+\newcommand{\treco}{\ensuremath{\theta_z^{R}}}
+\newcommand{\ttrue}{\ensuremath{\theta_z^{T}}}
+\newcommand{\xreco}{\ensuremath{x^R}}
+\newcommand{\xtrue}{\ensuremath{x^T}}
+\newcommand{\Ereco}{E^{R}}
+\newcommand{\Etrue}{E^{T}}
+
+% NSI parameters
 \newcommand{\emm}{\ensuremath{\epsilon_{\mu\mu}}}
 \newcommand{\emt}{\ensuremath{\epsilon_{\mu\tau}}}
 \newcommand{\eet}{\epsilon_{e\tau}}
 \newcommand{\eem}{\epsilon_{e\mu}}
 \newcommand{\ett}{\ensuremath{\epsilon_{\tau\tau}}}
 \newcommand{\ep}{\ensuremath{\epsilon^\prime}}
+
+% Oscillation parameters
+\newcommand{\dm}{\Delta m^2_{31}}
+\newcommand{\sth}{\sin^2(2\theta_{23})}
+
+% Neutrinos
 \renewcommand{\ne}{\nu_e}
-\newcommand{\Ereco}{E^{R}}
-\newcommand{\Etrue}{E^{T}}
 \newcommand{\nm}{\nu_\mu}
 \newcommand{\ab}{\alpha\beta}
 \newcommand{\nt}{\nu_\tau}
 \newcommand{\ane}{\bar\nu_e}
 \newcommand{\anm}{\bar\nu_\mu}               
 \newcommand{\ant}{\bar\nu_\tau}
-\newcommand{\dm}{\Delta m^2_{31}}
-\newcommand{\sth}{\sin^2(2\theta_{23})}
 
+% Probabilities
 \newcommand{\Pee}{P_{e  e}}
 \newcommand{\Pem}{P_{e  \mu}}
 \newcommand{\Pet}{P_{e  \tau}}
@@ -26,7 +43,6 @@
 \newcommand{\Pme}{P_{\mu  e}}
 \newcommand{\Pmm}{P_{\mu\mu}}
 \newcommand{\Pmt}{P_{\mu  \tau}}
-
 
 \newcommand{\Pte}{P_{P_{\tau e}}}
 \newcommand{\Ptm}{P_{\tau  \mu}}
@@ -40,16 +56,12 @@
 \newcommand{\Pamam}{P_{\bar{\mu}  \bar{\mu}}}
 \newcommand{\Pamat}{P_{\bar{\mu}  \bar{\tau}}}
 
-
 \newcommand{\Patae}{P_{\bar{\tau}  \bar{e}}}
 \newcommand{\Patam}{P_{\bar{\tau}  \bar{\mu}}}
 \newcommand{\Patat}{P_{\bar{\tau}  \bar{\tau}}}
 
-\usepackage{physics,amsmath, amsfonts, siunitx, amssymb, graphicx, subcaption}
-\usepackage[utf8]{inputenc}
-\usepackage{hyperref}
 \begin{document}
-\section{Formalism of non-standard interactions}\label{sec:intro} %OK
+\section{Formalism of non-standard interactions}\label{sec:intro}
 Non-standard interactions are sub-leading contributions to neutrino flavor transitions arising from neutrino interactions not considered in the Standard Model.
 We consider matter NSIs arising from the neutral current NSIs, which exclude production 
 and detection effects. An effective four-fermion Lagrangian for this type of interaction can be written as
@@ -57,15 +69,16 @@ and detection effects. An effective four-fermion Lagrangian for this type of int
    \mathcal{L}_{\mathrm{NC}} &= -2 \sqrt{2} G_{F} \epsilon_{\alpha \beta}^{f X}\left(\bar{\nu}_{\alpha} \gamma^{\mu} P_{L} \nu_{\beta}\right)\left(\bar{f} \gamma_{\mu} P_{X} f\right)\,,
 \end{align}
 where NC denotes the neutral current interaction with 
-$f \in \{e,u,d\}$, and $P_X$ is the chirality projection operators with $X \in \{L,R\}$.  
+$f \in \{e,u,d\}$, and $P_X$ is the chirality projection operators with $X \in \{L,R\}$.
 
 For chirality $X$, the NSI Hamiltonian takes the form 
 \begin{align}
-   H &= \frac{1}{2E} UM^2U^\dagger + \sqrt{2}G_F n_e \text{diag}(1,0,0) + \sqrt{2}G_F \sum_f n_f \epsilon^{fX}
+   H &= \frac{1}{2E} UM^2U^\dagger + \sqrt{2}G_F n_e \text{diag}(1,0,0) + \sqrt{2}G_F \sum_f n_f \epsilon^{fX}\,,
 \end{align}
-
+where $U$ is the PMNS matrix, $M^2$ the matrix containing matter-squared differences, and $n_f$ the fermion number density
+of fermion $f$.
 We have no independent sensitivity for the chirality of $\epsilon^{fX}$, so we sum over these to obtain the vectorial parameter as $\epsilon^{fV}_{\alpha\beta} = \epsilon^{fL}_{\alpha\beta}+ \epsilon^{fR}_{\alpha\beta}$.
-Moreover, we normalize the fermion number density $n_f$ by
+Moreover, we normalize $n_f$ by
 the electron number density $n_e$. Our matter study will be wholly confined to the interior of the Earth, where we assume electrical neutrality and equal distribution of neutrons and protons, 
 so we use the relations $n_u/n_e \simeq n_d/n_e \simeq 3$.
 The effective NSI parameters in matter now take the form
@@ -91,12 +104,12 @@ To propagate the neutrino states through the Earth, we solve the Schrödinger eq
 The Earth density profile is taken from the PREM~\cite{PREM}, and we do not consider neutrino absorption.
 The baseline for a given trajectory is determined using an average neutrino production height of 15 km and an Earth radius of 6371 km.
 Thus, matter oscillations introduce a zenith angle dependence in two areas. Firstly, the matter potential depends on the matter density through the
-neutrino propagates. A neutrino with $\cos{\theta_z} < -0.87$ will traverse through the dense Earth core, whereas a mantle-crossing neutrino 
-with $\cos{\theta_z} > -0.87$ will not. Secondly, the zenith angle also alters the baseline through which a neutrino undergoes matter oscillations.
+neutrino propagates. A neutrino with indident zenith angle $\theta_z$ having $\z < -0.87$ will traverse through the dense Earth core, whereas a mantle-crossing neutrino 
+with $\z > -0.87$ will not. Secondly, the zenith angle also alters the baseline through which a neutrino undergoes matter oscillations.
 After this, we are ready to study the NSI effect on probability level.
 
 
-\subsection{NSI phenomenology at probability level}\label{sec:nsiProbEffects} %OK
+\subsection{NSI phenomenology at probability level}\label{sec:nsiProbEffects}
 % Since neutrinos and antineutrinos have different cross sections, they are treated separately in the detector simulations. 
 % However, for the purpose of qualitatively elucidating the NSI effect in this subsection, we take the effective area of $\nm$ and $\anm$ to be equal. 
 % Thus, we simply add the neutrino to the antineutrino contributions in both Fig.~\ref{fig:nsi_probs} and Fig.~\ref{fig:flux_ratio}.
@@ -104,7 +117,7 @@ After this, we are ready to study the NSI effect on probability level.
 % In the $\mu\tau$ sector, we have a resonance in the \SI{20}{\GeV} region. Any NSI parameter involving the $\mu$ or $\tau$ channel will dampen this resonance,
 % with some also shifting the probability in the stationary region above \SI{100}{\GeV}.
 % This `double effect' of both resonance dampening and shifting happens in two cases: either when the NSI parameter shares one channel with a survival probability
-% (e.g. $\eem$ and $P_{\mu\mu}$), or when the sectors align (e.g. $\emt$ and $P_{\mu\tau}$). The only exception to this is for $P_{\tau\tau}$, 
+% (e.g. $\eem$ and $\Pmm$), or when the sectors align (e.g. $\emt$ and $P_{\mu\tau}$). The only exception to this is for $P_{\tau\tau}$, 
 % which due to the near-maximal mixing in the $\mu\tau$ sector displays dampening for $\eem$ even though they share no channel directly. We illustrate
 % the three different effects in Fig.~\ref{fig:nsi_probs}. 
 
@@ -114,11 +127,11 @@ After this, we are ready to study the NSI effect on probability level.
 % Thus, the only off-diagonal NSI parameters that strongly affect the transition probabilities $P_{\alpha\beta}$ are $\epsilon_{\gamma\beta}$,
 % while the survival probabilities $P_{\alpha\alpha}$ are only strongly affected by $\epsilon_{\alpha\beta}$.
 
-The atmospheric $\nm \to \nt$ transition will be the most abundant, making $\emt$, $\emm$, $\ett$ the most suitable
+The atmospheric $\nm \to \nt$ transition is the most abundant, making $\emt$, $\emm$, $\ett$ the most suitable
 NSI parameters to constrain from muon events. As we will see, $\eem$ is also a good candidate to constrain, albeit a weaker one. 
 
 In Fig.~\ref{fig:emt_ett_probs}, we see how the introduction of $\emt = 0.02$ alters the $\nm$ and $\anm$ survival probabilities
-for neutrinos that traverse the entire Earth diameter (i.e. $\ztrue = -1$). $\emt$ does not dramatically change neither
+for neutrinos that traverse the entire Earth diameter (i.e. $\z = -1$). $\emt$ does not dramatically change neither
 amplitude nor frequency of the probabilities. Instead, it seems to stretch or compress the oscillations. Since the 
 only difference between the way neutrinos and antineutrinos interact with matter is the sign of the potential, the probability for
 $\nm$ with positive $\epsilon_{\alpha\beta}$ is identical to the probability for $\anm$ with negative $\epsilon_{\alpha\beta}$. Thus, the dashed line 
@@ -128,41 +141,39 @@ Hence, we note that $\emt > 0$ stretches (compresses) $\Pmm$ for neutrinos (anti
 The value of $\ett$ affects neither $\Pmm$ nor $\Pamam$, in the IceCube region above \SI{500}{\GeV}. Hence, we will not be able
 to say anything about $\ett$ in our IceCube study.  Comparing the probabilities in Fig.~\ref{fig:emt_ett_probs} with $\ett = 0.05$ with the ones for $\emt = 0.02$ in Fig.~\ref{fig:emt_ett_probs},
 we see that even though we let $\ett$ take 2.5 times the value of $\emt$, its effect on $\Pmm$ is smaller. The weakening of the $\Pamam$ resonance will be visible in DeepCore, but we should expect a less stringent 
-constraint due to the weakness of the effect compared to $\emt$. 
-
-Thus, we will use IceCube to constrain $\emt$ only.
+constraint due to the weakness of the effect compared to $\emt$. Thus, we will use IceCube to constrain $\emt$ only.
 
 Moving on to $\eem$ and Fig.~\ref{fig:eem_eet_probs}, we see that both probabilities has shifted downwards for $\Etrue > \SI{500}{\GeV}$.
 In Fig.~\ref{fig:eem_eet_probs}, we see that the muon channel remains largely unaffected of the value of $\eet$ as we expected. The exception of this lies 
 in the DeepCore region of rapid oscillations, where mixing is more violent. 
-\begin{figure}
+\begin{figure} %TODO: maybe add shaded region > 500 GeV to signify IC limit
     \begin{center}
-        \includegraphics[width=0.99\textwidth]{figures/Pmm_emt_probs.pdf}
-        \includegraphics[width=0.99\textwidth]{figures/Pmm_ett_probs.pdf}
+        \includegraphics[width=0.9\textwidth]{figures/Pmm_emt_probs.pdf}
+        \includegraphics[width=0.9\textwidth]{figures/Pmm_ett_probs.pdf}
         \caption{\emph{Top panel:} Muon neutrino and antineutrino survival probabilities for
-        $\ztrue = -1$ when $\emt = 0.02$. All other NSI parameters are fixed to zero. In the \si{\GeV} range, $\emt$ shifts the oscillations to the right for $\nm$, and to the left for $\anm$. At \si{\TeV} energies, both probabilities simply get shifted down, resulting in a net reduction of track events.
+        $\z = -1$ when $\emt = 0.02$. All other NSI parameters are fixed to zero. In the \si{\GeV} range, $\emt$ shifts the oscillations to the right for $\nm$, and to the left for $\anm$. At \si{\TeV} energies, both probabilities simply get shifted down, resulting in a net reduction of track events.
         \emph{Bottom panel:} Muon neutrino and antineutrino survival probabilities for
-        $\ztrue = -1$ when $\ett = 0.05$. All other NSI parameters are fixed to zero. $\ett$ does not affect the probabilities above \SI{100}{\GeV} and this parameter is thus unable to be constrained by tracks in IceCube in our study. However, the dampening of the $\anm$ survival probability will be visible to DeepCore and PINGU, since it occurs within their energy ranges.}
+        $\z = -1$ when $\ett = 0.05$. All other NSI parameters are fixed to zero. $\ett$ does not affect the probabilities above \SI{100}{\GeV} and this parameter is thus unable to be constrained by tracks in IceCube in our study. However, the dampening of the $\anm$ survival probability will be visible to DeepCore and PINGU, since it occurs within their energy ranges.}
         \label{fig:emt_ett_probs}
     \end{center}
 \end{figure}
 
-\begin{figure}
+\begin{figure} %TODO: maybe add shaded region > 500 GeV to signify IC limit
     \begin{center}
-        \includegraphics[width=0.99\textwidth]{figures/eem_probs.pdf}
-        \includegraphics[width=0.99\textwidth]{figures/eet_probs.pdf}
+        \includegraphics[width=0.9\textwidth]{figures/eem_probs.pdf}
+        \includegraphics[width=0.9\textwidth]{figures/eet_probs.pdf}
         \caption{Muon neutrino and antineutrino survival probabilities for
-        $\ztrue = -1$. \emph{Top panel:} $\eem = 0.2$. All other NSI parameters are fixed to zero. Instead of the oscillations shifting to the left or right, $\eem$ dampens an oscillation peak for low \si{\GeV}. At \si{\TeV}, the probability is shifted down, just as with $\emt$.
+        $\z = -1$. \emph{Top panel:} $\eem = 0.2$. All other NSI parameters are fixed to zero. Instead of the oscillations shifting to the left or right, $\eem$ dampens an oscillation peak for low \si{\GeV}. At \si{\TeV}, the probability is shifted down, just as with $\emt$.
         \emph{Bottom panel:} $\eet = 0.2$. All other NSI parameters are fixed to zero. Here, we see a very weak shifting and a $\nm$ weaker dip at low \si{\GeV}, and again, no visible effect at \si{TeV} energies. }
         \label{fig:eem_eet_probs}
     \end{center}
 \end{figure}
 
 
-\begin{figure}% TODO: check if this is redundant
-   \includegraphics[width=0.85\textwidth]{figures/probabilities.pdf}
-   \caption{}\label{fig:nsi_probs}
-\end{figure}
+%\begin{figure} %This one might be redundant with Fig 1 and 2
+%   \includegraphics[width=0.85\textwidth]{figures/probabilities.pdf}
+%   \caption{}\label{fig:nsi_probs}
+%\end{figure}
 
 The effect of NSI on the DeepCore event count has been previously discussed in~\cite{smirnovNSI}, while the NSI effect 
 in PINGU has been studied in~\cite{choubey2014, ohlsson2013}.
@@ -180,9 +191,10 @@ a clear signal when turning on $\eet$.
 
 \begin{figure}
     \begin{center}
-        \includegraphics[width=0.9\textwidth]{figures/Pee_eet_probs.pdf}
+        \includegraphics[width=0.8\textwidth]{figures/Pee_eet_probs.pdf}
         \caption{Electron neutrino and antineutrino survival probabilities for
-        $\ztrue = -1$ when $\eet = 0.2$. All other NSI parameters are fixed to zero. Here we see a strong difference across the whole energy range, in contrast to the $\nm$ and $\anm$ plots in Fig~\ref{fig:eem_eet_probs}.}
+        $\ztrue = -1$ when $\eet = 0.2$. All other NSI parameters are fixed to zero. 
+        Here we see a strong difference across the whole energy range, in contrast to the $\nm$ and $\anm$ plots in Fig~\ref{fig:eem_eet_probs}.}
         \label{fig:Pee_eet_probs}
     \end{center}
 \end{figure}
@@ -200,7 +212,7 @@ For $\eet$, we see a similar effect on the dip in $\Pmm$ as we did with $\ett$ f
 see the $\eet$ effect in DeepCore/PINGU. Remember that we now have the option to look at the other flavor channels than $\mu$ since we 
 have cascade events for DeepCore and PINGU. If we simulate 
 $\Pme^{NSI}$ at three different energies, and let both $\eem$ and $\eet$ vary together between the values $\{-0.3,0.3\}$, we produce a two-dimensional grid of probabilities.
-Subtract the regular $\Pme^{SI}$ (that is, no NSI), and take the absolute value of the difference. We see the result in Fig.~\ref{fig:eem_eet_prob}. 
+Subtract the regular $\Pme^{SI}$ (i.e, $\Pme$ under standard interactions), and take the absolute value of the difference. We see the result in Fig.~\ref{fig:eem_eet_prob}. 
 The middle and right panels, which show the absolute probability difference at \si{25} and $\SI{50}{\GeV}$, respectively, are very bleak,
 indicating that the impact of the NSI parameters $\eem$ and $\eet$ is not as strong at these energy levels. Turning to the left-most panel,
 we see a region in which the difference again is close to zero, but now surrounded by fringes of very large differences, up to $50\%$ difference 
@@ -209,14 +221,14 @@ constrain both $\eem$ and $\eet$ from $\SI{5}{\GeV}$ cascade events.
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{figures/eem_eet_prob.pdf}
+    \includegraphics[width=0.99\textwidth]{figures/eem_eet_prob.pdf}
     \caption{The quantity $\abs{P_{\mu e}^{NSI} - P_{\mu e}^{SI}}$ when we let $\eem$ and $\eet$ independently vary over
-    the range \{-0.3,0.3\} at \si{5}, \si{25}, and $\SI{50}{\GeV}$. At $\SI{5}{\GeV}$, we see strong deviations in the probabilities, showing
+    the range \{$-0.3$, $0.3$\} at \si{5}, \si{25}, and $\SI{50}{\GeV}$. At $\SI{5}{\GeV}$, we see strong deviations in the probabilities, showing
     a promising indication that constriction of $\eem$ and $\eet$ is possible using cascade events at these energies.}\label{fig:eem_eet_prob}
 \end{figure}
 
 \subsection{NSI phenomenology at flux level}\label{sec:nsiFluxEffects}
-To study the NSI flux effect, we propagate the atmospheric neutrino flux from Honda et al~\cite{hondapaper} through the Earth.
+To study the impact of NSI on the flux, we propagate the atmospheric neutrino flux from Honda et al~\cite{hondapaper} through the Earth.
 The oscillation probability $P_{\alpha \beta}$ acts as a weight to the atmospheric flux, yielding the propagated flux for flavor $\beta$ at detector level as 
 \begin{align}\label{eq:propFlux}
     \phi_\beta^\text{det} = \sum_\alpha P_{\alpha\beta} \phi_\alpha^\text{atm} \,,
@@ -224,10 +236,10 @@ The oscillation probability $P_{\alpha \beta}$ acts as a weight to the atmospher
 where we sum over the initial lepton flavors $\alpha \in \{e,\mu, \bar{e}, \bar{\mu}\}$.
 To illustrate the impact of $\emt$ at flux level, 
 we plot in Fig.~\ref{fig:flux_ratio} the quantity $(\phi_{\nu_\mu}^{NSI} + \phi_{\bar\nu_\mu}^{NSI})/(\phi_{\nu_\mu}^{SI} + \phi_{\bar\nu_\mu}^{SI})$, 
-where all fluxes are propagated to detector level by Eq.~\ref{eq:propFlux}. 
+where all fluxes are propagated to detector level by Eq.~\ref{eq:propFlux}.
 In the left (right) panel, we plot the flux in region in which 99\% of the 
 DeepCore (IceCube) track events originating from $\nm + \anm$ fluxes are contained. We see that the only clear signal discernible to the IceCube detector
-is a energy-independent flux deficiency with a factor in the order of $\sim 10^{0.5}$ from core-crossing neutrinos within a zenith range of $\ztrue < -0.87$. DeepCore on the other hand, 
+is a energy-independent flux deficiency with a factor in the order of $\sim 10^{0.5}$ from core-crossing neutrinos within a zenith range of $\z < -0.87$. DeepCore on the other hand, 
 is exposed to multiple fringes of flux surpluses with a factor in the order of $\sim 10$. The strongest surplus at \SI{20}{\GeV} is very weakly zenith dependent, a stark contrast to the
 energy-independent but zenith-sensitive IceCube deficiency.
 %TODO: check values above after final plot of flux ratios
@@ -236,12 +248,12 @@ The muonic flux not only carries the largest $\emt$ effect, but it is also more 
 thus constraining them the strongest. $\epsilon_{\alpha\beta}$ which are only indirectly weakly dependent on the $\mu$ channel will have the weakest bounds. This could be improved
 by considering cascade events in IceCube, thus opening up the $e$ and $\tau$ channels there.
 
-\begin{figure}[!tb]
+\begin{figure}[!tb] %TODO: remove "true" in zenith x axis label?
    \begin{center}
-      \includegraphics[width=0.8\linewidth]{figures/flux_ratio.pdf}
+      \includegraphics[width=0.99\linewidth]{figures/flux_ratio.pdf}
    \end{center}
-   \caption{Ratio of detector NSI to SI atmospheric $\nu_\mu + \bar{\nu}_\mu$ fluxes expressed as $(\phi_{\nu_\mu}^{NSI} + \phi_{\bar\nu_\mu}^{NSI})/(\phi_{\nu_\mu}^{SI} + \phi_{\bar\nu_\mu}^{SI})$.
-   We set $\emt = -0.05$, and all other $\epsilon_{\alpha\beta}=0$. 
+   \caption{Ratio of atmospheric $\nu_\mu + \bar{\nu}_\mu$ fluxes at detector level, expressed as the logarithm of $(\phi_{\nu_\mu}^{NSI} + \phi_{\bar\nu_\mu}^{NSI})/(\phi_{\nu_\mu}^{SI} + \phi_{\bar\nu_\mu}^{SI})$.
+   For the NSI fluxes $\phi^\text{NSI}$, we set $\emt = -0.05$, and all other $\epsilon_{\alpha\beta}=0$. For the SI fluxes $\phi^\text{SI}$, all $\epsilon_{\alpha\beta} = 0$.
    Left (right) panel shows the flux ratio in the energy range in which 99\% of the simulated DeepCore (IceCube) events are contained.
    }\label{fig:flux_ratio}
 \end{figure}
@@ -265,21 +277,20 @@ The reconstructed cosine-zenith $\zreco$ is linearly binned between $-1$ and $0$
 
 The event count for each bin reads
 \begin{align}\label{eq:ICevents}
-    N_{ij} &= T \sum_\beta\int_{(\cos{\theta_z^r})_i}^{(\cos{\theta_z^r})_{i+1}} \dd \cos{\theta^r_z} \int_{E^r_{j}}^{E^r_{j+1}} \dd E^r 
-    \int_0^\pi R(\theta^r,\theta^t) \dd \cos{\theta^t} \int_0^\infty R(E^r,E^t) \phi_\beta^\text{det}  A^\text{eff}_\beta \dd E^t
+    N_{ij} = T \sum_\beta &\int_{(\zreco)_i}^{(\zreco)_{i+1}} \dd \zreco \int_{\Ereco_{j}}^{\Ereco_{j+1}} \dd \Ereco \times \nonumber \\
+    \times &\int_0^\pi R(\treco,\ttrue) \dd \ztrue \int_0^\infty R(\Ereco,\Etrue) \phi_\beta^\text{det}  A^\text{eff}_\beta \dd \Etrue
     \,,
 \end{align}
-where $T$ is the live time of the detector, $\beta$ the final neutrino flavors, $\theta_z^r$ the reconstructed 
-zenith angle, i.e.~the deduced direction of the incoming neutrino binned with index $i$. $\theta^t_z$ is the true zenith angle of the incoming neutrino. 
-$E^r$ is the reconstructed energy, binned with index $j$. $R(\theta^r,\theta^t)$ is a zenith resolution function 
+where $T$ is the live time of the detector, $\beta$ the final neutrino flavors, $\treco$ the reconstructed 
+zenith angle, i.e.~the deduced direction of the incoming neutrino binned with index $i$. $\ttrue$ is the true zenith angle of the incoming neutrino. 
+$\Ereco$ is the reconstructed energy, binned with index $j$. $R(\treco,\ttrue)$ is a zenith resolution function 
 that describes the relationship with the reconstructed and true zenith angles, specific to the 86-string configuration of IceCube.
-$R(E^r,E^t)$ is an energy resolution function 
-that describes the relationship with the reconstructed and true energies. $\phi_\beta^\text{det}$ is the conventional atmospheric neutrino flux for flavor $\beta$, propagated to detector level
+Similarily, $R(\Ereco,\Etrue)$ is the resolution function for the energy relationships. $\phi_\beta^\text{det}$ is the conventional atmospheric neutrino flux for flavor $\beta$, propagated to detector level
 in accordance with Eq.~\ref{eq:propFlux}. The effective area $A^\text{eff}$ is binned and provided to us by the IceCube collaboration~\cite{ICaeff}.
 
 For the energy and zenith resolution functions, we assume a log-normal distribution, giving it the form 
 \begin{align}
-    R(x^r, x^t) = \frac{1}{\sqrt{2\pi} \sigma_{x^r}x^r} \exp\left[-\frac{(\log x^r-\mu(x^t))^2}{2\sigma_{x^r}^2}\right]\,.
+    R(\xreco, \xtrue) = \frac{1}{\sqrt{2\pi} \sigma_{\xreco}\xreco} \exp\left[-\frac{(\log \xreco-\mu(\xtrue))^2}{2\sigma_{\xreco}^2}\right]\,.
 \end{align}
 However, the energy reconstruction is biased, meaning that the most probable reconstructed energy for a given true energy is not the same due to 
 systematic differences~\cite{weaverThesis}. Thus, we don't assume that $\mu(\Etrue) =\Ereco$. 
@@ -322,33 +333,31 @@ We generate `data' by predicting the event rates at PINGU with the following bes
 
 \section{Results}
 At the reconstructed event level, we note that the $\emt$ features discussed in Sec.~\ref{sec:nsiFluxEffects} display themselves differently in each detector.
-We investigate this for $\emt$ by in Fig.~\ref{fig:Pmm_asymmetry} plotting the muon survival probability difference $P_{\mu\mu}(\epsilon^+_{\mu\tau}) - P_{\mu\mu}(\epsilon^-_{\mu\tau})$, where 
 %TODO: check that this is what is plotted.
 $\epsilon^\pm_{\mu\tau} = \pm 0.01$.
-Comparing Fig.~\ref{fig:Pmm_asymmetry} with the flux ratios in Fig.~\ref{fig:emt_events}, we see that the reconstruction of PINGU is
+Comparing the probability difference in Fig.~\ref{fig:Pmm_asymmetry} with the binned event count ratio in Fig.~\ref{fig:emt_events}, we see that the reconstruction of PINGU is
 superior to DeepCore, since the event ratio $\log{(N^+_{NSI}/N^-_{NSI})} = \log{N^+_{NSI}} - \log{N^-_{NSI}}$ (in reconstructed quantities) 
 more closely matches the probability difference $P^+-P^-$ (in true quantities).
 This is most evident below \SI{20}{\GeV}, where the DeepCore reconstruction has washed out the fringes while PINGU preserves the $N^-_{NSI}$ surplus below \SI{10}{\GeV}.
 
-Now we turn to the effect of $\emt$. Muon events are the most abundant, and it suffices to study $P_{\mu\mu}$ in this way to explain the $\emt$ features. 
-First, let $P^\pm$ denote $P_{\mu\mu}(\epsilon^\pm_{\mu\tau})$. 
-We see see that $\emt^+$ generates a slightly higher $P_{\mu\mu}$ for energies around \SI{20}{\GeV} (blue area),
-while $\emt^-$ produces higher $P_{\mu\mu}$ for almost all other combinations of ${\Etrue,\ztrue}$. As we see in Fig.~\ref{fig:flux_ratio}, this muon survival abundance 
-is indeed preserved at flux level. So the flux for $\emt^+$ is higher than the flux for $\emt^-$. Is this still true at event level, i.e. after reconstruction? 
+Now we turn to the effect of $\emt$. %Muon events are the most abundant, and it suffices to study $\Pmm$ in this way to explain the $\emt$ features. 
 As we see in Fig.~\ref{fig:emt_events}, the binned PINGU event counts display strong differences for many bins, which will give a high statistics on both sides of $\emt=0$, slightly favoring $\emt^-$. 
 DeepCore on the other hand has fewer bins where the event count for $\emt^-$ surpasses the event count for $\emt^+$, 
 giving weaker statistics for the negative side. Thus, we conclude that we will see a $\emt$ \si{GeV}-asymmetry stemming from the lower statistics 
-for negative $\emt$ at probability level, which is then propagated through the flux and finally affects the reconstruction. %TODO: fill more conclusion?
+for negative $\emt$ at probability level, which finally affects the reconstruction.
 
-\begin{figure}
-   \begin{subfigure}{0.25\textwidth}   
-      \includegraphics[width=1\linewidth]{figures/Pmm_asymmetry.pdf}%TODO: redo for emt=0.01x
-      \caption{$P_{\mu\mu}(\epsilon^+_{\mu\tau}) - P_{\mu\mu}(\epsilon^-_{\mu\tau})$ using  $\epsilon^\pm_{\mu\tau} = \pm 0.01$}\label{fig:Pmm_asymmetry}
+\begin{figure} % TODO: replace true -> T in labels
+   \begin{subfigure}{1\textwidth}
+      \begin{center}
+      \includegraphics[width=0.5\linewidth]{figures/Pmm_asymmetry.pdf}
+      \caption{$\Pmm(\emt^+) - \Pmm(\emt^-)$ using  $\emt^\pm = \pm 0.01$}\label{fig:Pmm_asymmetry}
+      \end{center}
    \end{subfigure}
-   \begin{subfigure}{0.6\textwidth}
+   \qquad
+   \begin{subfigure}{0.99\textwidth}
       \includegraphics[width=1\linewidth]{figures/emt_events.pdf}
    \caption{The best-fit event count ratio from each detector for $\emt = \pm 0.01$. IceCube only observes a small surplus of events for $\emt=-0.01$ compared to 
-   DeepCore and PINGU due to the weak NSI effect at high \si{\GeV} energies.}\label{fig:emt_events}%TODO: improve caption?
+   DeepCore and PINGU due to the weak NSI effect at high \si{\GeV} energies.}\label{fig:emt_events}
    \end{subfigure}
    \caption{Probability difference and best-fit event count. Negative $\emt$ has the strongest signal, as the thin blue 
    region stemming from $\emt = 0.01$ is less prominent than the red regions from $\emt=-0.01$.}
@@ -440,7 +449,7 @@ Moreover, we see that we can expect PINGU to be sensitive to systematic uncertai
 
 \begin{figure}
     \begin{center}
-       \includegraphics[scale = 0.7]{figures/joint_3D_NO.pdf}
+       \includegraphics[width = 0.7\textwidth]{figures/joint_3D_NO.pdf}
        \caption{Confidence regions for PINGU and DeepCore scenarios listed in Table~\ref{table:syst_errors}, with their joint $\Delta \chi^2$ in maroon. $\dm[31]$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
        parameters not shown in each panel are fixed to zero. 
        IceCube tracks only reveal $\emt$, and are displayed separately in Fig.~\ref{fig:IC_3D}. Dotted lines are the 90\% and $3\sigma$ CL levels.}\label{fig:3D_NO}
@@ -448,7 +457,7 @@ Moreover, we see that we can expect PINGU to be sensitive to systematic uncertai
  \end{figure} 
  \begin{figure}
     \begin{center} 
-       \includegraphics[width=0.8\textwidth]{figures/PID_3D_emt.pdf}
+       \includegraphics[width=0.5\textwidth]{figures/PID_3D_emt.pdf}
        \caption{$\emt$ $\Delta \chi^2$ regions for scenarios as defined in Table~\ref{table:syst_errors}.
      $\dm[31]$ and $\theta_{23}$ and have been marginalized out, and all other NSI 
      parameters other than $\emt$ are fixed to zero. Dotted lines are the 90\% and $3\sigma$ CL levels.
@@ -530,6 +539,7 @@ Moreover, we see that we can expect PINGU to be sensitive to systematic uncertai
        \hline
        %\vspace{0.5em}
     \end{tabular}
+    \vspace{1em}
     \begin{tabular}{lcc}
        \hline 
        Parameter & Baseline 90\% CL & Baseline $3\sigma$\\
@@ -671,10 +681,11 @@ Moreover, we see that we can expect PINGU to be sensitive to systematic uncertai
  saw that $\eem$ and $\eet$ strongly affect $\Pme$ for single-digit \si{\GeV} energies.
  
  \begin{figure}
-    \includegraphics[scale=0.5]{figures/PINGU_2D_all_f0.pdf}
+    \centering
+    \includegraphics[width=\textwidth]{figures/PINGU_2D_all_f0.pdf}
     \caption{Allowed regions for some of the NSI parameters after three years of PINGU data, assuming no uncorrelated systematic error. All plots are made with $\ett = 0$. The two
     standard oscillation parameters $\dm[31]$ and $\theta_{23}$ along with the one NSI parameter not shown have been marginalized out. We observe an anti-correlation between $\eem$ and $\eet$,
-    consistent with our observation of the effect of these parameters on $\Pme$ in  Fig.~\ref{fig:eem_eet_prob}.
+    consistent with our observation of the effect of these parameters on $\Pme$ in Fig.~\ref{fig:eem_eet_prob}.
     The values of the standard oscillation parameters 
     are taken from NuFit~\cite{nufit}.}\label{fig:PINGU_2D}
  \end{figure}
@@ -732,48 +743,48 @@ a significant correlation.
 \bibliographystyle{elsarticle-num}
 \bibliography{article}
 
-\newpage
-\begin{tabular}{p{55mm}p{55mm}p{55mm}}
-   DeepCore (2017)
-      \begin{itemize}
-         \item[$\checkmark$] Honda atmospheric fluxes
-         \item[$\times$] Only look at tracks and $\emt$
-         \vspace{1em}  
-         \item[$\times$] DC Monte Carlo from an older dataset 
-         \item[$\times$] 8 E bins from $\SI{6.3}{\electronvolt^2}$ to $\SI{56}{\electronvolt^2}$
-         \item[$\times$] 8 z bins from -1 to 0 
-         \item[$\times$] Use "Overall" and "relative $\ne$ to $\nm$" normalization
-         \item[$\times$] Prior on spectral index
-         \item[$\times$] No zenith angle normalization
-         \item[$\checkmark$] No priors on $\dm, \theta_{23},\theta_{13}$
-      \end{itemize} &
-    Demidov (2020) DC analysis
-      \begin{itemize}
-         \item[$\checkmark$] Honda atmospheric fluxes
-         \item[$\checkmark$] Looks at tracks + cascades for $\emt$ and $\ett$
-         \item[$\checkmark$] Data and Monte Carlo from DC 2018
-         \item[$\checkmark$] 8 E bins from $\SI{5.6}{\electronvolt^2}   $ to $\SI{56}{\electronvolt^2}$
-         \item[$\checkmark$] 8 z bins from -1 to 1
-         \item[$\times$] Use "Overall" and "relative $\ne$ to $\nm$" normalization
-         \item[$\times$] Prior on spectral index
-         \item[$\times$] No zenith angle normalization
-         \item[$\checkmark$] No priors on $\dm, \theta_{23}$
-         \item[$\checkmark$] Fixes $\Delta m^2_{21}, \theta_{12}, \theta_{13}$
-         \item[$\times$] Uncertainty on hadron production in atmosphere
-         \item[$\times$] Uncertainty on neutrino nucleon cross section 
-      \end{itemize} &
-    This DC+PINGU analysis
-      \begin{itemize}
-         \item[$\checkmark$] Honda atmospheric fluxes
-         \item[$\checkmark$] Tracks and cascades for all flavors
-         \vspace{1em} 
-         \item[$\checkmark$] Reco $\to$ true mapping from Monte Carlo migration matrix
-         \item[$\checkmark$] 8 E bins from $\SI{5.6}{\electronvolt^2}$ to $\SI{56}{\electronvolt^2}$
-         \item[$\checkmark$] 8 zenith angle bins from -1 to 1
-         \item[$\checkmark$] Flux normalization uncertainty of 25\%
-         \item[$\checkmark$] Zenith angle uncertainty of 4\% 
-         \item[$\checkmark$] No priors on oscillation parameters 
-         \item[$\checkmark$] Marginalize $\dm$ and $\theta_{23}$. All other oscillation parameters are fixed.
-      \end{itemize} 
-\end{tabular}
+%\newpage
+%\begin{tabular}{p{55mm}p{55mm}p{55mm}}
+%    DeepCore (2017)
+%       \begin{itemize}
+%          \item[$\checkmark$] Honda atmospheric fluxes
+%          \item[$\times$] Only look at tracks and $\emt$
+%          \vspace{1em}  
+%          \item[$\times$] DC Monte Carlo from an older dataset 
+%          \item[$\times$] 8 E bins from $\SI{6.3}{\electronvolt^2}$ to $\SI{56}{\electronvolt^2}$
+%          \item[$\times$] 8 z bins from -1 to 0 
+%          \item[$\times$] Use "Overall" and "relative $\ne$ to $\nm$" normalization
+%          \item[$\times$] Prior on spectral index
+%          \item[$\times$] No zenith angle normalization
+%          \item[$\checkmark$] No priors on $\dm, \theta_{23},\theta_{13}$
+%       \end{itemize} &
+%     Demidov (2020) DC analysis
+%       \begin{itemize}
+%          \item[$\checkmark$] Honda atmospheric fluxes
+%          \item[$\checkmark$] Looks at tracks + cascades for $\emt$ and $\ett$
+%          \item[$\checkmark$] Data and Monte Carlo from DC 2018
+%          \item[$\checkmark$] 8 E bins from $\SI{5.6}{\electronvolt^2}   $ to $\SI{56}{\electronvolt^2}$
+%          \item[$\checkmark$] 8 z bins from -1 to 1
+%          \item[$\times$] Use "Overall" and "relative $\ne$ to $\nm$" normalization
+%          \item[$\times$] Prior on spectral index
+%          \item[$\times$] No zenith angle normalization
+%          \item[$\checkmark$] No priors on $\dm, \theta_{23}$
+%          \item[$\checkmark$] Fixes $\Delta m^2_{21}, \theta_{12}, \theta_{13}$
+%          \item[$\times$] Uncertainty on hadron production in atmosphere
+%          \item[$\times$] Uncertainty on neutrino nucleon cross section 
+%       \end{itemize} &
+%     This DC+PINGU analysis
+%       \begin{itemize}
+%          \item[$\checkmark$] Honda atmospheric fluxes
+%          \item[$\checkmark$] Tracks and cascades for all flavors
+%          \vspace{1em} 
+%          \item[$\checkmark$] Reco $\to$ true mapping from Monte Carlo migration matrix
+%          \item[$\checkmark$] 8 E bins from $\SI{5.6}{\electronvolt^2}$ to $\SI{56}{\electronvolt^2}$
+%          \item[$\checkmark$] 8 zenith angle bins from -1 to 1
+%          \item[$\checkmark$] Flux normalization uncertainty of 25\%
+%          \item[$\checkmark$] Zenith angle uncertainty of 4\% 
+%          \item[$\checkmark$] No priors on oscillation parameters 
+%          \item[$\checkmark$] Marginalize $\dm$ and $\theta_{23}$. All other oscillation parameters are fixed.
+%       \end{itemize} 
+% \end{tabular}
 \end{document}
