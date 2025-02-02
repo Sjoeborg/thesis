@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.optimize import minimize
-from scipy.integrate import simps,romb
+from scipy.integrate import simpson,romb
 mass_dict = {'e': 0, 'm': 1, 't': 2, 's1': 3, 's2': 4, 0: 'e', 1: 'm', 2: 't', 3: 's1', 4: 's2'}
 #---Natural constants-----
 GF = 1.16637876e-5 #GeV^-2
@@ -402,12 +402,12 @@ def integrate(array,method='simps',*args):
         return romb(romb(romb(array, dx = dx0), dx = dx1), dx = dx2)
 
     if np.ndim(array) == 1:
-        return simps(array,args[0])
+        return simpson(array,args[0])
     elif np.ndim(array) == 2:
-        return simps(simps(array,args[0]),args[1])
+        return simpson(simpson(array,args[0]),args[1])
     elif np.ndim(array) == 3:
-        return simps(simps(simps(array,args[0]),args[1]),args[2])
+        return simpson(simpson(simpson(array,args[0]),args[1]),args[2])
     elif np.ndim(array) == 4:
-        return simps(simps(simps(simps(array,args[0]),args[1]),args[2]),args[3])
+        return simpson(simpson(simpson(simpson(array,args[0]),args[1]),args[2]),args[3])
 if __name__ == '__main__':
     print(dc_params['dm_21']*1e-18*np.cos(2*dc_params['theta_12']) /(2*np.sqrt(2) * GF * 0.5 * N_A * 1 * (1/GeVtocm1)**3))
