@@ -18,4 +18,4 @@ if __name__ == "__main__":
     params = list_of_params(ic_params, dm_range, s24_range)
     print(params)
     # res = flux_oscillogram(E_range, z_range, params, nsi=False)
-    # pickle.dump(res,open('./pre_computed/sterile_animation.p','wb'))
+    # pickle.dump(res,open('../../pre_computed/sterile_animation.p','wb'))

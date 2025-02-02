@@ -1,5 +1,5 @@
 import numpy as np
-from functions import (
+from src.probability.functions import (
     V,
     dm,
     mass_dict,

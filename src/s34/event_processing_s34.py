@@ -117,7 +117,7 @@ if not precomputed_events:
         pickle.dump(
             H1_events_list,
             open(
-                f"./pre_computed/H1_34_N{N}_{len(dm41_range)}x{len(s24_range)}x{len(s34_range)}_{tau_str}_s34_eq_s24.p",
+                f"../../pre_computed/H1_34_N{N}_{len(dm41_range)}x{len(s24_range)}x{len(s34_range)}_{tau_str}_s34_eq_s24.p",
                 "wb",
             ),
         )
@@ -125,28 +125,28 @@ if not precomputed_events:
         pickle.dump(
             H1_events_list,
             open(
-                f"./pre_computed/H1_no34_N{N}_{len(dm41_range)}x{len(s24_range)}_{tau_str}.p",
+                f"../../pre_computed/H1_no34_N{N}_{len(dm41_range)}x{len(s24_range)}_{tau_str}.p",
                 "wb",
             ),
         )
-    pickle.dump(H0_events, open(f"./pre_computed/H0_N{N}.p", "wb"))
+    pickle.dump(H0_events, open(f"../../pre_computed/H0_N{N}.p", "wb"))
 
 
 if len(s34_range) > 1:
     H1_events_list = pickle.load(
         open(
-            f"./pre_computed/H1_34_N{N}_{len(dm41_range)}x{len(s24_range)}x{len(s34_range)}_{tau_str}_s34_eq_s24.p",
+            f"../../pre_computed/H1_34_N{N}_{len(dm41_range)}x{len(s24_range)}x{len(s34_range)}_{tau_str}_s34_eq_s24.p",
             "rb",
         )
     )
 else:
     H1_events_list = pickle.load(
         open(
-            f"./pre_computed/H1_no34_N{N}_{len(dm41_range)}x{len(s24_range)}_{tau_str}.p",
+            f"../../pre_computed/H1_no34_N{N}_{len(dm41_range)}x{len(s24_range)}_{tau_str}.p",
             "rb",
         )
     )
-H0_events = pickle.load(open(f"./pre_computed/H0_N{N}.p", "rb"))
+H0_events = pickle.load(open(f"../../pre_computed/H0_N{N}.p", "rb"))
 
 """
 gamma = 0.3

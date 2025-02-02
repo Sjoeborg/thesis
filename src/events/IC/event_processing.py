@@ -7,9 +7,9 @@ if __name__ == "__main__":
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from IC.importer import *
-from IC.processer import *
-from functions import perform_chisq
+from src.data.IC.importer import *
+from src.data.IC.processer import *
+from src.probability.functions import perform_chisq
 from scipy.stats import chi2
 
 IC_observed_full = np.array(get_IC_data().T)
@@ -25,10 +25,10 @@ flux_factors = np.outer(flux_E_factors, flux_z_factors)
 IC_observed = IC_observed_full[E_bins, z_bins_T].T
 
 E_ratios_full = pd.read_csv(
-    "./src/data/files/E_ratios.csv", header=None, names=["Ereco", "Eratio"]
+    "../../src/data/files/E_ratios.csv", header=None, names=["Ereco", "Eratio"]
 ).Eratio.values
 z_ratios_full = pd.read_csv(
-    "./src/data/files/z_ratios.csv", header=None, names=["zreco", "zratio"]
+    "../../src/data/files/z_ratios.csv", header=None, names=["zreco", "zratio"]
 ).zratio.values
 IC_per_z_full = np.array(np.sum(IC_observed_full, axis=0))
 IC_per_E_full = np.array(np.sum(IC_observed_full, axis=1))

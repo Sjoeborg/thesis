@@ -18,27 +18,31 @@ def get_aeff_df_DC():
 
 def MC2018_DC():
     return pd.read_csv(
-        f"./src/data/files/DC/2018/sample_b/neutrino_mc.csv", dtype=np.float64
+        f"../../src/data/files/DC/2018/sample_b/neutrino_mc.csv", dtype=np.float64
     )
 
 
 def no_osc2018_DC(pid):
     if pid == 1:
         df = pd.read_csv(
-            f"./src/data/files/DC/2018/track_noosc.csv", dtype=np.float64, header=None
+            f"../../src/data/files/DC/2018/track_noosc.csv",
+            dtype=np.float64,
+            header=None,
         )
     else:
         df = pd.read_csv(
-            f"./src/data/files/DC/2018/cascade_noosc.csv", dtype=np.float64, header=None
+            f"../../src/data/files/DC/2018/cascade_noosc.csv",
+            dtype=np.float64,
+            header=None,
         )
     return df
 
 
 def flavor_aeff_df_DC(flavor):
     filename = (
-        f"./src/data/files/DC/2015/NC_Nu{flavor}.txt"
+        f"../../src/data/files/DC/2015/NC_Nu{flavor}.txt"
         if flavor[0] == "X"
-        else f"./src/data/files/DC/2015/CC_Nu{flavor}.txt"
+        else f"../../src/data/files/DC/2015/CC_Nu{flavor}.txt"
     )
     df_chunks = pd.read_csv(
         filename,
@@ -79,13 +83,13 @@ def systematics2015_DC():
     )
     eval_ICE = lambda p: eval(p.replace("^", "**").replace(" x", f"*{best_fit_hole}"))
     df = pd.read_csv(
-        "./src/data/files/DC/2015/DOMeff.txt",
+        "../../src/data/files/DC/2015/DOMeff.txt",
         skiprows=3,
         delimiter="\t",
         names=["E", "z", "del", "DOMeff", "del1"],
     )
     df_ICE = pd.read_csv(
-        "./src/data/files/DC/2015/HoleIce.txt",
+        "../../src/data/files/DC/2015/HoleIce.txt",
         skiprows=3,
         delimiter="\t",
         names=["E", "z", "del", "ICEeff", "del1"],
@@ -116,7 +120,7 @@ def MC2015_DC():
     MC_factors = []
     for bin in bins:
         df = pd.read_csv(
-            f"./src/data/files/DC/2015/DC2015_MC_bin{bin}.csv",
+            f"../../src/data/files/DC/2015/DC2015_MC_bin{bin}.csv",
             skiprows=2,
             names=["z1", "rates", "z2", "events"],
             dtype=np.float64,
@@ -127,8 +131,8 @@ def MC2015_DC():
 
 
 def events2018_DC():
-    df = pd.read_csv("./src/data/files/DC/2018/sample_b/data.csv")
-    df1 = pd.read_csv("./src/data/files/DC/2018/sample_b/muons.csv")
+    df = pd.read_csv("../../src/data/files/DC/2018/sample_b/data.csv")
+    df1 = pd.read_csv("../../src/data/files/DC/2018/sample_b/muons.csv")
 
     merged_df = pd.merge(
         df,
@@ -141,13 +145,13 @@ def events2018_DC():
 
 def events2015_DC():
     df = pd.read_csv(
-        "./src/data/files/DC/2015/DataCounts.txt",
+        "../../src/data/files/DC/2015/DataCounts.txt",
         skiprows=2,
         delimiter="\t",
         names=["z", "E", "events"],
     )
     background = pd.read_csv(
-        "./src/data/files/DC/2015/AtmMuons_fromData.txt",
+        "../../src/data/files/DC/2015/AtmMuons_fromData.txt",
         skiprows=2,
         delimiter="\t",
         names=["z", "E", "events"],
@@ -173,16 +177,16 @@ def events2015_DC():
 def systematics2018_DC():
     hyperplanes = {}
     hyperplanes["e"] = pd.read_csv(
-        "./src/data/files/DC/2018/sample_b/hyperplanes_nue_cc.csv"
+        "../../src/data/files/DC/2018/sample_b/hyperplanes_nue_cc.csv"
     )
     hyperplanes["mu"] = pd.read_csv(
-        "./src/data/files/DC/2018/sample_b/hyperplanes_numu_cc.csv"
+        "../../src/data/files/DC/2018/sample_b/hyperplanes_numu_cc.csv"
     )
     hyperplanes["tau"] = pd.read_csv(
-        "./src/data/files/DC/2018/sample_b/hyperplanes_nutau_cc.csv"
+        "../../src/data/files/DC/2018/sample_b/hyperplanes_nutau_cc.csv"
     )
     hyperplanes["nc"] = pd.read_csv(
-        "./src/data/files/DC/2018/sample_b/hyperplanes_all_nc.csv"
+        "../../src/data/files/DC/2018/sample_b/hyperplanes_all_nc.csv"
     )
 
     # bestfit point of detector systematics from Phys. Rev. D 99, 032007 (2019), Table 2
@@ -212,8 +216,8 @@ def get_flux_df_DC():
 
     Files are from http://www.icrr.u-tokyo.ac.jp/~mhonda/nflx2014/index.html section 2.6
     """
-    file1 = "./src/data/files/spl-nu-20-01-000.d"
-    file2 = "./src/data/files/spl-nu-20-01-n3650.d"
+    file1 = "../../src/data/files/spl-nu-20-01-000.d"
+    file2 = "../../src/data/files/spl-nu-20-01-n3650.d"
     colnames = ["GeV", "m_flux", "mbar_flux", "e_flux", "ebar_flux"]
 
     text_rows = np.append(np.arange(0, 2500, 103), (np.arange(1, 2500, 103)))
@@ -253,7 +257,7 @@ def get_flux_df_DC():
     new_rightmost["z_min"] = 1
     new_rightmost["z_max"] = 1.1
     df = pd.concat([new_leftmost, df, new_rightmost])
-    from IC.importer import extrapolate_flux
+    from src.data.IC.importer import extrapolate_flux
 
     df = extrapolate_flux(df)
     return df

@@ -38,9 +38,9 @@ def get_probabilities_PINGU(
         flavor_to = "a" + flavor_to
 
     try:
-        f = h5py.File(f"./pre_computed/PINGU/E{Ebin}z{zbin}.hdf5", "r")
+        f = h5py.File(f"../../pre_computed/PINGU/E{Ebin}z{zbin}.hdf5", "r")
     except OSError:
-        raise KeyError(f"E{Ebin}z{zbin}.hdf5 doesnt exist in ./pre_computed/PINGU/")
+        raise KeyError(f"E{Ebin}z{zbin}.hdf5 doesnt exist in ../../pre_computed/PINGU/")
     try:
         fh = f[f"{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}"]
     except KeyError:
@@ -88,7 +88,7 @@ def generate_probabilities_PINGU(
             flavor_from = "a" + flavor_from
             flavor_to = "a" + flavor_to
 
-        f = h5py.File(f"./pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5", "a")
+        f = h5py.File(f"../../pre_computed/PINGU/E{E_bin}z{z_bin}.hdf5", "a")
 
         try:
             dset = f.create_dataset(
@@ -118,7 +118,7 @@ def generate_probabilities_PINGU(
             and flavor_to == "am"
             and pid == 1
         ):
-            with open(f"./pre_computed/PINGU/hashed_params.csv", "a") as fd:
+            with open(f"../../pre_computed/PINGU/hashed_params.csv", "a") as fd:
                 fd.write(f"{param_dict};{hashed_param_name}\n")
 
     return prob

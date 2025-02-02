@@ -7,9 +7,9 @@ sys.path.append("./src/probability")
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-from IC.importer import *
-from IC.processer import *
-from functions import nufit_params_nsi
+from src.data.IC.importer import *
+from src.data.IC.processer import *
+from src.probability.functions import nufit_params_nsi
 from plotter import (
     P_over_E_parameter,
     nsi_oscillogram,
@@ -17,7 +17,7 @@ from plotter import (
     save,
     savethesis,
 )
-from IC.event_processing import *
+from src.events.IC.event_processing import *
 import pickle
 
 # from matplotlib.colors import CenteredNorm

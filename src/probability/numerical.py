@@ -1,7 +1,8 @@
 from scipy.integrate import solve_ivp
 import numpy as np
 from multiprocessing import Pool
-from functions import (
+from functools import lru_cache
+from src.probability.functions import (
     dm,
     theta,
     V_matrix,

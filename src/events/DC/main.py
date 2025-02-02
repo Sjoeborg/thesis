@@ -5,8 +5,8 @@ if __name__ == "__main__":
     sys.path.append("./src/data")
 import numpy as np
 import pandas as pd
-from DC.importer import MC2018_DC, systematics2018_DC
-from DC.processer import (
+from src.data.DC.importer import MC2018_DC, systematics2018_DC
+from src.data.DC.processer import (
     get_binned_DC,
     generate_probabilities_DC,
     get_probabilities_DC,
@@ -14,7 +14,7 @@ from DC.processer import (
     get_interpolators_DC,
     process_systematics,
 )
-from functions import dc_params_nsi, dc_params
+from src.probability.functions import dc_params_nsi, dc_params
 
 df = MC2018_DC()
 interp_flux, _ = get_interpolators_DC()

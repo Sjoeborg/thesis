@@ -9,10 +9,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import pandas as pd
-from DC.importer import *
-from DC.processer import *
-from DC.main import get_all_events
-from functions import dc_params_nsi, nufit_params_nsi_IO, nufit_params_nsi
+from src.data.DC.importer import *
+from src.data.DC.processer import *
+from src.events.DC.main import get_all_events
+from src.probability.functions import (
+    dc_params_nsi,
+    nufit_params_nsi_IO,
+    nufit_params_nsi,
+)
 from scipy.stats import chi2
 from scipy.optimize import minimize
 

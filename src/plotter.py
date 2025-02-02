@@ -1,11 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from numerical import P_num, P_num_over_E
-from analytical import P_an
-from functions import ic_params, r_earth, mass_dict
+from src.probability.numerical import P_num, P_num_over_E
+from src.probability.analytical import P_an
+from src.probability.functions import ic_params, r_earth, mass_dict
 import matplotlib
 from multiprocessing import Pool
-from DC.main import get_interpolators_DC, get_flux
+from src.data.DC.processer import get_interpolators_DC, get_flux
 
 matplotlib.rcParams["mathtext.fontset"] = "cm"
 matplotlib.rcParams["font.family"] = "STIXGeneral"
