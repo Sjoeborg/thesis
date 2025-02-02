@@ -16,18 +16,31 @@ from scipy.stats import chi2
 from event_processing import *
 import pickle
 from multiprocessing import Pool
-plt.rcParams['figure.figsize'] = [8, 4]
-plt.rcParams['figure.dpi'] = 100
-matplotlib.rc('text', usetex=True)
-matplotlib.rc('text.latex', preamble=r'\usepackage{amsmath}')
+
+plt.rcParams["figure.figsize"] = [8, 4]
+plt.rcParams["figure.dpi"] = 100
+matplotlib.rc("text", usetex=True)
+matplotlib.rc("text.latex", preamble=r"\usepackage{amsmath}")
 np.set_printoptions(linewidth=200)
 
-giunti_contour_cl90 = pd.read_csv('./data/giunti_cl90.csv',header=None, names=['s24','dm41']).sort_values('dm41')
-IC_contour_cl90 = pd.read_csv('./data/ic_cl90.csv',header=None, names=['s24','dm41']).sort_values('dm41')
-giunti_contour_cl99 = pd.read_csv('./data/giunti_cl99.csv',header=None, names=['s24','dm41']).sort_values('dm41')
-IC_contour_cl99 = pd.read_csv('./data/ic_cl99.csv',header=None, names=['s24','dm41']).sort_values('dm41')
-ic_34_cl90 = pd.read_csv('./data/ic_34_cl90.csv',header=None, names=['s24','s34']).sort_values('s34')
-ic_34_cl99 = pd.read_csv('./data/ic_34_cl99.csv',header=None, names=['s24','s34']).sort_values('s34')
+giunti_contour_cl90 = pd.read_csv(
+    "./data/giunti_cl90.csv", header=None, names=["s24", "dm41"]
+).sort_values("dm41")
+IC_contour_cl90 = pd.read_csv(
+    "./data/ic_cl90.csv", header=None, names=["s24", "dm41"]
+).sort_values("dm41")
+giunti_contour_cl99 = pd.read_csv(
+    "./data/giunti_cl99.csv", header=None, names=["s24", "dm41"]
+).sort_values("dm41")
+IC_contour_cl99 = pd.read_csv(
+    "./data/ic_cl99.csv", header=None, names=["s24", "dm41"]
+).sort_values("dm41")
+ic_34_cl90 = pd.read_csv(
+    "./data/ic_34_cl90.csv", header=None, names=["s24", "s34"]
+).sort_values("s34")
+ic_34_cl99 = pd.read_csv(
+    "./data/ic_34_cl99.csv", header=None, names=["s24", "s34"]
+).sort_values("s34")
 
 
 # In[2]:
@@ -39,17 +52,28 @@ alpha = 0.99
 precomputed_events = False
 tau = False
 
-dm41_range = np.logspace(-1,0,20) 
-s24_range =  np.logspace(-2,np.log10(0.2),20)
-s34_range =None#s24_range
+dm41_range = np.logspace(-1, 0, 20)
+s24_range = np.logspace(-2, np.log10(0.2), 20)
+s34_range = None  # s24_range
 
-param_list = list_of_params(ic_params, dm41_range, s24_range,s34_range=s34_range,s24_eq_s34=True, s24_2x_s34=False)
-#for p in param_list: # Assert all dicts returned from param_list have precomputed probs.
+param_list = list_of_params(
+    ic_params,
+    dm41_range,
+    s24_range,
+    s34_range=s34_range,
+    s24_eq_s34=True,
+    s24_2x_s34=False,
+)
+# for p in param_list: # Assert all dicts returned from param_list have precomputed probs.
 #    assert is_precomputed(N=N,ndim=ndim, dict=p,check=False)
-param_list = return_precomputed(N,ndim,params=param_list)
-dm41_range = np.sort(np.unique(np.array([p['dm_41'] for p in param_list])))
-s24_range = np.sin(2*np.sort(np.unique(np.array([p['theta_24'] for p in param_list]))))**2
-s34_range = np.sin(2*np.sort(np.unique(np.array([p['theta_34'] for p in param_list]))))**2
+param_list = return_precomputed(N, ndim, params=param_list)
+dm41_range = np.sort(np.unique(np.array([p["dm_41"] for p in param_list])))
+s24_range = (
+    np.sin(2 * np.sort(np.unique(np.array([p["theta_24"] for p in param_list])))) ** 2
+)
+s34_range = (
+    np.sin(2 * np.sort(np.unique(np.array([p["theta_34"] for p in param_list])))) ** 2
+)
 print(dm41_range)
 print(s24_range)
 print(s34_range)
@@ -58,40 +82,73 @@ print(s34_range)
 # In[5]:
 
 
-#p = Pool(processes=2)
-#data = [(alpha, N,p, False,False, [False, np.median(Ereco), 0],tau) for p in param_list[0:11]]
-#H1_events_list = p.starmap(sim_events, data)
-#p.close()
+# p = Pool(processes=2)
+# data = [(alpha, N,p, False,False, [False, np.median(Ereco), 0],tau) for p in param_list[0:11]]
+# H1_events_list = p.starmap(sim_events, data)
+# p.close()
 
 
 # In[1]:
 
 
 if tau:
-    tau_str = 'tau'
+    tau_str = "tau"
 else:
-    tau_str = 'notau'
+    tau_str = "notau"
 if not precomputed_events:
     p = Pool()
-    data = [(alpha, N,p, False,False, [False, np.median(Ereco), 0],tau) for p in param_list]
+    data = [
+        (alpha, N, p, False, False, [False, np.median(Ereco), 0], tau)
+        for p in param_list
+    ]
     H1_events_list = p.starmap(sim_events, data)
     p.close()
-    H0_events = sim_events(alpha=alpha,npoints=N,params=param_list[0], null=True, multi=False, spectral_shift=[False, np.median(Ereco), 0], tau=tau)
-    
+    H0_events = sim_events(
+        alpha=alpha,
+        npoints=N,
+        params=param_list[0],
+        null=True,
+        multi=False,
+        spectral_shift=[False, np.median(Ereco), 0],
+        tau=tau,
+    )
+
     if len(s34_range) > 1:
-        pickle.dump(H1_events_list,open(f'./pre_computed/H1_34_N{N}_{len(dm41_range)}x{len(s24_range)}x{len(s34_range)}_{tau_str}_s34_eq_s24.p','wb'))
+        pickle.dump(
+            H1_events_list,
+            open(
+                f"./pre_computed/H1_34_N{N}_{len(dm41_range)}x{len(s24_range)}x{len(s34_range)}_{tau_str}_s34_eq_s24.p",
+                "wb",
+            ),
+        )
     else:
-        pickle.dump(H1_events_list,open(f'./pre_computed/H1_no34_N{N}_{len(dm41_range)}x{len(s24_range)}_{tau_str}.p','wb'))
-    pickle.dump(H0_events,open(f'./pre_computed/H0_N{N}.p','wb'))
-    
+        pickle.dump(
+            H1_events_list,
+            open(
+                f"./pre_computed/H1_no34_N{N}_{len(dm41_range)}x{len(s24_range)}_{tau_str}.p",
+                "wb",
+            ),
+        )
+    pickle.dump(H0_events, open(f"./pre_computed/H0_N{N}.p", "wb"))
+
 
 if len(s34_range) > 1:
-    H1_events_list = pickle.load(open(f'./pre_computed/H1_34_N{N}_{len(dm41_range)}x{len(s24_range)}x{len(s34_range)}_{tau_str}_s34_eq_s24.p','rb'))
+    H1_events_list = pickle.load(
+        open(
+            f"./pre_computed/H1_34_N{N}_{len(dm41_range)}x{len(s24_range)}x{len(s34_range)}_{tau_str}_s34_eq_s24.p",
+            "rb",
+        )
+    )
 else:
-    H1_events_list = pickle.load(open(f'./pre_computed/H1_no34_N{N}_{len(dm41_range)}x{len(s24_range)}_{tau_str}.p','rb'))
-H0_events = pickle.load(open(f'./pre_computed/H0_N{N}.p','rb'))
+    H1_events_list = pickle.load(
+        open(
+            f"./pre_computed/H1_no34_N{N}_{len(dm41_range)}x{len(s24_range)}_{tau_str}.p",
+            "rb",
+        )
+    )
+H0_events = pickle.load(open(f"./pre_computed/H0_N{N}.p", "rb"))
 
-'''
+"""
 gamma = 0.3
 delta_T = (np.sum(sim_events(alpha=alpha,npoints=N,params=param_list[0], null=True, multi=False, spectral_shift=[True, np.median(Ereco), gamma],tau=tau)) - np.sum(H0_events))/np.sum(H0_events)
 
@@ -482,4 +539,4 @@ plt.annotate(f'$\pi_N = {sigma_a}$\n$\pi_\\theta = {sigma_b}$\n$\Delta \gamma = 
 
 
 
-'''
+"""
