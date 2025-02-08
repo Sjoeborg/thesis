@@ -9,10 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import pandas as pd
-from PINGU.processer import get_probabilities_PINGU
-from PINGU.main import get_all_events
-from DC.processer import get_hist
-from functions import dc_params_nsi
+from src.data.PINGU.processer import get_probabilities_PINGU
 from scipy.stats import chi2
 from scipy.optimize import minimize
 

@@ -5,10 +5,10 @@ if __name__ == "__main__":
     sys.path.append("./src/data")
 import numpy as np
 import pandas as pd
-from functions import mass_dict, nufit_params_nsi
+from src.probability.functions import mass_dict, nufit_params_nsi
 from dict_hash import sha256
 import pandas as pd
-from numerical import P_num
+from src.probability.numerical import P_num
 import h5py
 from scipy.stats import lognorm
 import pickle

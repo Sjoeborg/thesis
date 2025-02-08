@@ -5,14 +5,14 @@ if __name__ == "__main__":
     sys.path.append("./src/data")
 import numpy as np
 import pandas as pd
-from PINGU.importer import MC_PINGU
-from PINGU.processer import (
+from src.data.PINGU.importer import MC_PINGU
+from src.data.PINGU.processer import (
     get_binned_PINGU,
     generate_probabilities_PINGU,
     get_probabilities_PINGU,
 )
-from DC.processer import get_interpolators_DC, get_flux
-from functions import dc_params_nsi, dc_params, nufit_params_nsi
+from src.data.DC.processer import get_interpolators_DC, get_flux
+from src.probability.functions import dc_params_nsi, dc_params, nufit_params_nsi
 
 df = MC_PINGU()
 interp_flux, _ = get_interpolators_DC()
