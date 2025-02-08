@@ -10,7 +10,7 @@ import matplotlib
 from src.data.IC.importer import *
 from src.data.IC.processer import *
 from src.probability.functions import nufit_params_nsi
-from plotter import (
+from src.plotter import (
     P_over_E_parameter,
     nsi_oscillogram,
     nsi_flux_oscillogram,
