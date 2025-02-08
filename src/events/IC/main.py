@@ -1,8 +1,8 @@
 import sys
 
 if __name__ == "__main__":
-    sys.path.append("./src/probability")
-    sys.path.append("./src/data")
+    sys.path.append("./../src/probability")
+    sys.path.append("./../src/data")
 import numpy as np
 from src.data.IC.processer import (
     get_flux,

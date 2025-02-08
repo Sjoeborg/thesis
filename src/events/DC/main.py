@@ -1,8 +1,8 @@
 import sys, os
 
 if __name__ == "__main__":
-    sys.path.append("./src/probability")
-    sys.path.append("./src/data")
+    sys.path.append("./../src/probability")
+    sys.path.append("./../src/data")
 import numpy as np
 import pandas as pd
 from src.data.DC.importer import MC2018_DC, systematics2018_DC

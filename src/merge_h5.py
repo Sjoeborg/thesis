@@ -15,10 +15,10 @@ def merge_h5(colab, Ebin, zbin):
                         flavor_to = "a" + flavor_to
                     try:
                         with h5py.File(
-                            f"../../pre_computed/new/{colab}/E{Ebin}z{zbin}.hdf5", "r"
+                            f"../pre_computed/new/{colab}/E{Ebin}z{zbin}.hdf5", "r"
                         ) as read:
                             with h5py.File(
-                                f"../../pre_computed/{colab}/E{Ebin}z{zbin}.hdf5", "a"
+                                f"../pre_computed/{colab}/E{Ebin}z{zbin}.hdf5", "a"
                             ) as write:
                                 try:
                                     for param in read[

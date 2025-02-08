@@ -1,8 +1,8 @@
 import sys, os
 
 if __name__ == "__main__":
-    sys.path.append("./src/probability")
-    sys.path.append("./src/data")
+    sys.path.append("./../src/probability")
+    sys.path.append("./../src/data")
 import numpy as np
 import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
@@ -336,7 +336,7 @@ if __name__ == "__main__":
     """
 no_osc = np.array([get_all_events(params=param_list[0], pid=0, nsi=True, no_osc=True),get_all_events(params=param_list[0], pid=1, nsi=True, no_osc=True)])
 no_osc_paper = np.array([no_osc2018_DC(0)[1].values,no_osc2018_DC(1)[1].values])
-H0_paper = np.array([pd.read_csv('../../src/data/files/DC/2018/cascade_H0.csv', header=None)[1].values,pd.read_csv('../../src/data/files/DC/2018/track_H0.csv', header=None)[1].values])
+H0_paper = np.array([pd.read_csv('../src/data/files/DC/2018/cascade_H0.csv', header=None)[1].values,pd.read_csv('../src/data/files/DC/2018/track_H0.csv', header=None)[1].values])
 events = np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_events'),get_hist(events2018_DC().query(f'pid==1'), 'count_events')])
 background = np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_background'), get_hist(events2018_DC().query(f'pid==1'), 'count_background')])
 best_fit_contamination = 0.055/(np.sum(background,axis=(1,2))/np.sum(events,axis=(1,2))) #table 1 DC2017

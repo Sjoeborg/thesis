@@ -2,9 +2,9 @@ import sys, os
 
 if __name__ == "__main__":
     os.chdir("../../")
-    sys.path.append("./src/data")
-    sys.path.append("./src/events")
-    sys.path.append("./src/probability")
+    sys.path.append("./../src/data")
+    sys.path.append("./../src/events")
+    sys.path.append("./../src/probability")
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
