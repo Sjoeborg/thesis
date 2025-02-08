@@ -25,13 +25,13 @@ def MC2018_DC():
 def no_osc2018_DC(pid):
     if pid == 1:
         df = pd.read_csv(
-            f"./../../src/data/files/DC/2018/track_noosc.csv",
+            f"./../src/data/files/DC/2018/track_noosc.csv",
             dtype=np.float64,
             header=None,
         )
     else:
         df = pd.read_csv(
-            f"./../../src/data/files/DC/2018/cascade_noosc.csv",
+            f"./../src/data/files/DC/2018/cascade_noosc.csv",
             dtype=np.float64,
             header=None,
         )
@@ -40,9 +40,9 @@ def no_osc2018_DC(pid):
 
 def flavor_aeff_df_DC(flavor):
     filename = (
-        f"./../../src/data/files/DC/2015/NC_Nu{flavor}.txt"
+        f"./../src/data/files/DC/2015/NC_Nu{flavor}.txt"
         if flavor[0] == "X"
-        else f"./../../src/data/files/DC/2015/CC_Nu{flavor}.txt"
+        else f"./../src/data/files/DC/2015/CC_Nu{flavor}.txt"
     )
     df_chunks = pd.read_csv(
         filename,
@@ -83,13 +83,13 @@ def systematics2015_DC():
     )
     eval_ICE = lambda p: eval(p.replace("^", "**").replace(" x", f"*{best_fit_hole}"))
     df = pd.read_csv(
-        "./../../src/data/files/DC/2015/DOMeff.txt",
+        "./../src/data/files/DC/2015/DOMeff.txt",
         skiprows=3,
         delimiter="\t",
         names=["E", "z", "del", "DOMeff", "del1"],
     )
     df_ICE = pd.read_csv(
-        "./../../src/data/files/DC/2015/HoleIce.txt",
+        "./../src/data/files/DC/2015/HoleIce.txt",
         skiprows=3,
         delimiter="\t",
         names=["E", "z", "del", "ICEeff", "del1"],
@@ -120,7 +120,7 @@ def MC2015_DC():
     MC_factors = []
     for bin in bins:
         df = pd.read_csv(
-            f"./../../src/data/files/DC/2015/DC2015_MC_bin{bin}.csv",
+            f"./../src/data/files/DC/2015/DC2015_MC_bin{bin}.csv",
             skiprows=2,
             names=["z1", "rates", "z2", "events"],
             dtype=np.float64,
@@ -131,8 +131,8 @@ def MC2015_DC():
 
 
 def events2018_DC():
-    df = pd.read_csv("./../../src/data/files/DC/2018/sample_b/data.csv")
-    df1 = pd.read_csv("./../../src/data/files/DC/2018/sample_b/muons.csv")
+    df = pd.read_csv("./../src/data/files/DC/2018/sample_b/data.csv")
+    df1 = pd.read_csv("./../src/data/files/DC/2018/sample_b/muons.csv")
 
     merged_df = pd.merge(
         df,

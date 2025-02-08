@@ -65,16 +65,16 @@ def extrapolate_aeff_edges(df):
 
 
 def get_aeff_df_dc():
-    filename = "../../src/data/files/dc_aeff.csv"
+    filename = "../src/data/files/dc_aeff.csv"
     dc_aeff = pd.read_csv(filename, names=["logE", "Aeff"])
     return dc_aeff
 
 
 def get_flux_factor():
-    file1 = "../../src/data/files/event_rate_conv.csv"
-    file2 = "../../src/data/files/event_rate_astro.csv"
-    file3 = "../../src/data/files/event_rate_prompt.csv"
-    file4 = "../../src/data/files/event_rate_z.csv"
+    file1 = "../src/data/files/event_rate_conv.csv"
+    file2 = "../src/data/files/event_rate_astro.csv"
+    file3 = "../src/data/files/event_rate_prompt.csv"
+    file4 = "../src/data/files/event_rate_z.csv"
     conv = (
         pd.read_csv(
             file1,
@@ -260,8 +260,8 @@ def get_flux_df_DC():
 
     Files are from http://www.icrr.u-tokyo.ac.jp/~mhonda/nflx2014/index.html section 2.6
     """
-    file1 = "../../src/data/files/spl-nu-20-01-000.d"
-    file2 = "../../src/data/files/spl-nu-20-01-n3650.d"
+    file1 = "../src/data/files/spl-nu-20-01-000.d"
+    file2 = "../src/data/files/spl-nu-20-01-n3650.d"
     colnames = ["GeV", "m_flux", "mbar_flux", "e_flux", "ebar_flux"]
 
     text_rows = np.append(np.arange(0, 2500, 103), (np.arange(1, 2500, 103)))
