@@ -255,24 +255,49 @@ def get_contour(deltachi, y_range, x_range, df):
     )
 
 
-def list_of_params_nsi(dicta, s24_range, emm_range, emt_range=None):
+def list_of_params_nsi(dicta, s24_range, emm_range, emt_range=None, eem_range=None):
     def update_dict(dict, p):
         dict2 = dicta.copy()
         dict2.update(p)
         return dict2
 
-    if emt_range is None:
+    if emt_range is None and eem_range is None:
         dict_list = [
             update_dict(dicta, {"e_mm": mm, "theta_24": np.arcsin(np.sqrt(s24)) / 2})
             for mm in emm_range
             for s24 in s24_range
         ]
-    else:
+    elif emt_range is not None and eem_range is None:
         dict_list = [
             update_dict(
                 dicta, {"e_mm": mm, "e_mt": mt, "theta_24": np.arcsin(np.sqrt(s24)) / 2}
             )
             for mt in emt_range
+            for mm in emm_range
+            for s24 in s24_range
+        ]
+    elif emt_range is None and eem_range is not None:
+        dict_list = [
+            update_dict(
+                dicta, {"e_mm": mm, "e_em": em, "theta_24": np.arcsin(np.sqrt(s24)) / 2}
+            )
+            for em in eem_range
+            for mm in emm_range
+            for s24 in s24_range
+        ]
+    else:  # both emt_range and eem_range are provided
+        dict_list = [
+            update_dict(
+                dicta, 
+                {
+                    "e_mm": mm, 
+                    "e_mt": mt, 
+                    "e_em": em, 
+                    "theta_24": np.arcsin(np.sqrt(s24)) / 2
+                }
+            )
+            for mt in emt_range
+            for em in eem_range
             for mm in emm_range
             for s24 in s24_range
         ]
