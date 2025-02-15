@@ -27,14 +27,14 @@ def gather_precomputed(z_bins, npoints=args.N, update=args.u):
                 filenames = []
                 try:
                     for file in os.listdir(
-                        f"../pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}/"
+                        f"pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}/"
                     ):
                         if file.endswith(".npy"):
                             filenames.append(file[0:-4])
                     try:
                         df = pickle.load(
                             open(
-                                f"../pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
+                                f"pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
                                 "rb",
                             )
                         )
@@ -43,7 +43,7 @@ def gather_precomputed(z_bins, npoints=args.N, update=args.u):
 
                     for file in filenames:
                         array = np.load(
-                            f"../pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy"
+                            f"pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy"
                         )
                         try:
                             df.insert(loc=0, column=file, value=[array])
@@ -53,14 +53,14 @@ def gather_precomputed(z_bins, npoints=args.N, update=args.u):
                     pickle.dump(
                         df,
                         open(
-                            f"../pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
+                            f"pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
                             "wb",
                         ),
                     )
                     if args.d:
                         for file in filenames:
                             os.remove(
-                                f"../pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy"
+                                f"pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}/{file}.npy"
                             )
                 except (FileNotFoundError, ValueError):
                     print(f"Could not load {flavor} E{En}z{zn}, skipping it")
@@ -76,7 +76,7 @@ def merge_precomputed_df(npoints=args.N):
                     try:
                         old_df = pickle.load(
                             open(
-                                f"../pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
+                                f"pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
                                 "rb",
                             )
                         )
@@ -85,7 +85,7 @@ def merge_precomputed_df(npoints=args.N):
 
                     probs = pickle.load(
                         open(
-                            f"../pre_computed/new/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
+                            f"pre_computed/new/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
                             "rb",
                         )
                     )
@@ -93,7 +93,7 @@ def merge_precomputed_df(npoints=args.N):
                     pickle.dump(
                         old_df,
                         open(
-                            f"../pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
+                            f"pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
                             "wb",
                         ),
                     )
@@ -108,11 +108,11 @@ def delete_files(npoints=args.N):
             for zn in z_range:
                 try:
                     for file in os.listdir(
-                        f"../pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}/"
+                        f"pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}/"
                     ):
                         if file.endswith(".npy"):
                             os.remove(
-                                f"../pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}/{file}"
+                                f"pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}/{file}"
                             )
                 except FileNotFoundError:
                     pass
@@ -123,13 +123,13 @@ def df_to_hdf(En, zn, npoints, param_dict, add_attrs=False):
         try:
             df = pickle.load(
                 open(
-                    f"../pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
+                    f"pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p",
                     "rb",
                 )
             )
             hashed_list = df.iloc[0].index
             arrays = df.iloc[0].values
-            f = h5py.File(f"../pre_computed/IC/E{En}z{zn}.hdf5", "a")
+            f = h5py.File(f"pre_computed/IC/E{En}z{zn}.hdf5", "a")
             # print(f'{group}/{flavor}/{N}/{hashed_list[0]}')
             # print(arrays[0])
             for i in range(len(arrays)):
@@ -138,7 +138,7 @@ def df_to_hdf(En, zn, npoints, param_dict, add_attrs=False):
                 )
             f.close()
             os.remove(
-                f"../pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p"
+                f"pre_computed/{args.Ndim}gen/{flavor}/{npoints}/E{En}z{zn}.p"
             )
         except (RuntimeError, FileNotFoundError):
             return

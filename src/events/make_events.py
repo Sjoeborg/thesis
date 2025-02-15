@@ -1,17 +1,18 @@
 import sys, pickle, argparse
 from tqdm.contrib.concurrent import process_map
 import numpy as np
+sys.path.append("../..")
+from src.events.DC.event_processing import get_param_list, list_of_params_nsi
+from src.events.PINGU.main import get_events as PINGU_events
+from src.events.DC.main import get_events as DC_events
+from src.events.IC.main import get_events as IC_events
+from src.probability.functions import nufit_params_nsi, nufit_params_nsi_IO
+from sklearn.exceptions import InconsistentVersionWarning
+import warnings
+warnings.filterwarnings('ignore', category=InconsistentVersionWarning)
 
-if __name__ == "__main__":
-    sys.path.append("./../src/data")
-    sys.path.append("./../src/events")
-    sys.path.append("./../src/probability")
-from DC.event_processing import get_param_list, list_of_params_nsi
-from PINGU.main import get_events as PINGU_events
-from DC.main import get_events as DC_events
-from IC.main import get_events as IC_events
-from functions import nufit_params_nsi, nufit_params_nsi_IO
-
+# H1_NO_DC_5x5x9x1x1x1
+# H1_{ordering}_DC_{args.pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}
 parser = argparse.ArgumentParser()
 parser.add_argument("-dm31N", default=1, type=int)
 parser.add_argument("-th23N", default=1, type=int)
@@ -43,11 +44,11 @@ args = parser.parse_args()
 def precompute_probs(args_tuple):
     if args.PINGU:
         i, j, params, pid = args_tuple
-        res = PINGU_events(Ebin=i, zbin=j, params=params, pid=pid, nsi=True, save=False)
+        res = PINGU_events(Ebin=i, zbin=j, params=params, pid=pid, nsi=True, save=True)
     elif args.DC:
         i, j, params, pid = args_tuple
         res = DC_events(
-            Ebin=i, zbin=j, params=params, pid=pid, nsi=True, no_osc=False, save=False
+            Ebin=i, zbin=j, params=params, pid=pid, nsi=True, no_osc=False, save=True
         )
     elif args.IC:
         i, j, a, N, p, spectral, null, tau, nsi, ndim = args_tuple
@@ -100,7 +101,7 @@ if __name__ == "__main__":
         pickle.dump(
             H1,
             open(
-                f"../pre_computed/H1_{ordering}_PINGU_{args.pid}_{args.s}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p",
+                f"pre_computed/H1_{ordering}_PINGU_{args.pid}_{args.s}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p",
                 "wb",
             ),
         )
@@ -111,7 +112,7 @@ if __name__ == "__main__":
         pickle.dump(
             H1,
             open(
-                f"../pre_computed/H1_{ordering}_DC_{args.pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p",
+                f"pre_computed/H1_{ordering}_DC_{args.pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p",
                 "wb",
             ),
         )
@@ -127,7 +128,7 @@ if __name__ == "__main__":
         pickle.dump(
             H1_events_list,
             open(
-                f"../pre_computed/H1_{ordering}_IC_N13_{len(dm31_range)}x{len(th23_range)}x{len(emt_range)}.p",
+                f"pre_computed/H1_{ordering}_IC_N13_{len(dm31_range)}x{len(th23_range)}x{len(emt_range)}.p",
                 "wb",
             ),
         )

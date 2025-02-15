@@ -11,21 +11,21 @@ import pickle
 
 def get_aeff_df_DC():
     return [
-        flavor_aeff_df_dc(flavor)
+        flavor_aeff_df_DC(flavor)
         for flavor in ["E", "EBar", "Mu", "Mubar", "Tau", "TauBar", "X", "XBar"]
     ]
 
 
 def MC2018_DC():
     return pd.read_csv(
-        f"../src/data/files/DC/2018/sample_b/neutrino_mc.csv", dtype=np.float64
+        f"src/data/files/DC/2018/sample_b/neutrino_mc.csv", dtype=np.float64
     )
 
 
 def no_osc2018_DC(pid):
     if pid == 1:
         df = pd.read_csv(
-            f"./../src/data/files/DC/2018/track_noosc.csv",
+            f"src/data/files/DC/2018/track_noosc.csv",
             dtype=np.float64,
             header=None,
         )
@@ -177,16 +177,16 @@ def events2015_DC():
 def systematics2018_DC():
     hyperplanes = {}
     hyperplanes["e"] = pd.read_csv(
-        "../src/data/files/DC/2018/sample_b/hyperplanes_nue_cc.csv"
+        "src/data/files/DC/2018/sample_b/hyperplanes_nue_cc.csv"
     )
     hyperplanes["mu"] = pd.read_csv(
-        "../src/data/files/DC/2018/sample_b/hyperplanes_numu_cc.csv"
+        "src/data/files/DC/2018/sample_b/hyperplanes_numu_cc.csv"
     )
     hyperplanes["tau"] = pd.read_csv(
-        "../src/data/files/DC/2018/sample_b/hyperplanes_nutau_cc.csv"
+        "src/data/files/DC/2018/sample_b/hyperplanes_nutau_cc.csv"
     )
     hyperplanes["nc"] = pd.read_csv(
-        "../src/data/files/DC/2018/sample_b/hyperplanes_all_nc.csv"
+        "src/data/files/DC/2018/sample_b/hyperplanes_all_nc.csv"
     )
 
     # bestfit point of detector systematics from Phys. Rev. D 99, 032007 (2019), Table 2
@@ -216,8 +216,8 @@ def get_flux_df_DC():
 
     Files are from http://www.icrr.u-tokyo.ac.jp/~mhonda/nflx2014/index.html section 2.6
     """
-    file1 = "../src/data/files/spl-nu-20-01-000.d"
-    file2 = "../src/data/files/spl-nu-20-01-n3650.d"
+    file1 = "src/data/files/spl-nu-20-01-000.d"
+    file2 = "src/data/files/spl-nu-20-01-n3650.d"
     colnames = ["GeV", "m_flux", "mbar_flux", "e_flux", "ebar_flux"]
 
     text_rows = np.append(np.arange(0, 2500, 103), (np.arange(1, 2500, 103)))

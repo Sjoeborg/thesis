@@ -16,17 +16,17 @@ def interpolate_aeff(recompute=False):
     if not recompute:
         try:
             aeff_list = pickle.load(
-                open("../pre_computed/aeff_interpolator.p", "rb")
+                open("pre_computed/aeff_interpolator.p", "rb")
             )
         except:
             raise FileNotFoundError(
-                "File aeff_interpolator.p´ not present in ´../pre_computed/´. Run ´interpolate_aeff()´ with recompute = True to generate it."
+                "File aeff_interpolator.p´ not present in ´pre_computed/´. Run ´interpolate_aeff()´ with recompute = True to generate it."
             )
         try:
-            df_list = pickle.load(open("../pre_computed/aeff.p", "rb"))
+            df_list = pickle.load(open("pre_computed/aeff.p", "rb"))
         except:
             raise FileNotFoundError(
-                "File aeff.p´ not present in ´../pre_computed/´. Run get_aeff_df() to generate it."
+                "File aeff.p´ not present in ´pre_computed/´. Run get_aeff_df() to generate it."
             )
     else:
         df_list = get_aeff_df()
@@ -37,7 +37,7 @@ def interpolate_aeff(recompute=False):
             aeff = np.array(df.aeff)
             f = CT(np.array([E, z]).T, aeff)
             aeff_list.append(f)
-        pickle.dump(aeff_list, open("../pre_computed/aeff_interpolator.p", "wb"))
+        pickle.dump(aeff_list, open("pre_computed/aeff_interpolator.p", "wb"))
     return aeff_list
 
 
@@ -84,7 +84,7 @@ def get_aeff_df():
             new_df = pd.DataFrame(new_rows.T, columns=["Etrue", "ztrue", "aeff"])
             df = pd.concat([df, new_df], ignore_index=True)
         df_list.append(df)
-    pickle.dump(df_list, open("../pre_computed/aeff.p", "wb"))
+    pickle.dump(df_list, open("pre_computed/aeff.p", "wb"))
     return df_list
 
 

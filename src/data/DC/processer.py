@@ -69,7 +69,7 @@ def interpolate_flux_DC(recompute=False):
     colnames = ["m_flux", "mbar_flux", "e_flux", "ebar_flux"]
     if not recompute:
         try:
-            inter_df = pickle.load(open("../pre_computed/flux_interpolator.p", "rb"))
+            inter_df = pickle.load(open("pre_computed/flux_interpolator.p", "rb"))
         except:
             interpolate_flux_DC(recompute=True)
     else:
@@ -90,7 +90,7 @@ def interpolate_flux_DC(recompute=False):
             interp_list.append([f_avg])
 
         inter_df = pd.DataFrame(np.transpose(interp_list), columns=colnames)
-        pickle.dump(inter_df, open("../pre_computed/flux_interpolator.p", "wb"))
+        pickle.dump(inter_df, open("pre_computed/flux_interpolator.p", "wb"))
     return inter_df
 
 
@@ -122,9 +122,9 @@ def get_probabilities_DC(
         flavor_from = "a" + flavor_from
         flavor_to = "a" + flavor_to
     try:
-        f = h5py.File(f"../pre_computed/DC/E{Ebin}z{zbin}.hdf5", "r")
+        f = h5py.File(f"pre_computed/DC/E{Ebin}z{zbin}.hdf5", "r")
     except OSError:
-        raise KeyError(f"E{Ebin}z{zbin}.hdf5 doesnt exist in ../pre_computed/DC/")
+        raise KeyError(f"E{Ebin}z{zbin}.hdf5 doesnt exist in pre_computed/DC/")
     try:
         fh = f[f"{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}"]
     except KeyError:
@@ -173,7 +173,7 @@ def generate_probabilities_DC(
             flavor_from = "a" + flavor_from
             flavor_to = "a" + flavor_to
 
-        f = h5py.File(f"../pre_computed/DC/E{E_bin}z{z_bin}.hdf5", "a")
+        f = h5py.File(f"pre_computed/DC/E{E_bin}z{z_bin}.hdf5", "a")
         try:
             dset = f.create_dataset(
                 f"{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}",
@@ -202,7 +202,7 @@ def generate_probabilities_DC(
             and flavor_to == "am"
             and pid == 1
         ):
-            with open(f"../pre_computed/DC/hashed_params.csv", "a") as fd:
+            with open(f"pre_computed/DC/hashed_params.csv", "a") as fd:
                 fd.write(f"{param_dict};{hashed_param_name}\n")
     return prob
 
@@ -226,17 +226,17 @@ def process_aeff(df_list):
 def interpolate_aeff_DC(recompute=False):
     if not recompute:
         try:
-            inter = pickle.load(open("../pre_computed/aeff_dc_interpolator.p", "rb"))
+            inter = pickle.load(open("pre_computed/aeff_dc_interpolator.p", "rb"))
         except:
             raise FileNotFoundError(
-                "File aeff_dc_interpolator.p´ not present in ´../pre_computed/´. Run ´interpolate_aeff_dc()´ with recompute = True to generate it."
+                "File aeff_dc_interpolator.p´ not present in ´pre_computed/´. Run ´interpolate_aeff_dc()´ with recompute = True to generate it."
             )
     else:
         aeff_df = get_aeff_df_DC()
         from scipy.interpolate import interp1d
 
         inter = interp1d(aeff_df.logE, aeff_df.Aeff)
-        pickle.dump(inter, open("../pre_computed/aeff_dc_interpolator.p", "wb"))
+        pickle.dump(inter, open("pre_computed/aeff_dc_interpolator.p", "wb"))
     return inter
 
 

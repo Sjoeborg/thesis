@@ -62,7 +62,7 @@ if __name__ == "__main__":
         pickle.dump(
             H1_events,
             open(
-                f"../pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s24_range)}_s34.p",
+                f"pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s24_range)}_s34.p",
                 "wb",
             ),
         )
@@ -70,7 +70,7 @@ if __name__ == "__main__":
         pickle.dump(
             H1_events,
             open(
-                f"../pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s24_range)}.p",
+                f"pre_computed/H1_IC_N{args.N}_{len(dm41_range)}x{len(s24_range)}.p",
                 "wb",
             ),
         )
