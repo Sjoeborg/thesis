@@ -9,6 +9,7 @@ from src.data.IC.processer import (
     generate_probabilities,
     get_Etrue,
     get_interpolators,
+    get_probabilities,
 )
 from src.data.IC.importer import *
 from multiprocessing import Pool
@@ -88,66 +89,21 @@ def get_events(
         flux_mbar = get_flux("mbar", Et_mesh, zr_mesh, interp_flux)
 
     if not null:
-        Pmm = generate_probabilities(
-            "m",
-            "m",
-            Et,
-            zr,
-            E_index,
-            z_index,
-            params,
-            False,
-            npoints,
-            ndim=ndim,
-            nsi=nsi,
-            save=False,
-        )
-        P_amam = generate_probabilities(
-            "m",
-            "m",
-            Et,
-            zr,
-            E_index,
-            z_index,
-            params,
-            True,
-            npoints,
-            ndim=ndim,
-            nsi=nsi,
-            save=False,
-        )
-        Pem = generate_probabilities(
-            "e",
-            "m",
-            Et,
-            zr,
-            E_index,
-            z_index,
-            params,
-            False,
-            npoints,
-            ndim=ndim,
-            nsi=nsi,
-            save=False,
-        )
-        P_aeam = generate_probabilities(
-            "e",
-            "m",
-            Et,
-            zr,
-            E_index,
-            z_index,
-            params,
-            True,
-            npoints,
-            ndim=ndim,
-            nsi=nsi,
-            save=False,
-        )
-        if tau:
-            Pmt = generate_probabilities(
+        try:
+            Pmm = get_probabilities(
                 "m",
-                "t",
+                "m",
+                E_index,
+                z_index,
+                params,
+                False,
+                npoints,
+                ndim,
+            )
+        except KeyError:
+            Pmm = generate_probabilities(
+                "m",
+                "m",
                 Et,
                 zr,
                 E_index,
@@ -157,11 +113,23 @@ def get_events(
                 npoints,
                 ndim=ndim,
                 nsi=nsi,
-                save=False,
+                save=True,
             )
-            P_amat = generate_probabilities(
+        try:
+            P_amam = get_probabilities(
                 "m",
-                "t",
+                "m",
+                E_index,
+                z_index,
+                params,
+                True,
+                npoints,
+                ndim,
+            )
+        except KeyError:
+            P_amam = generate_probabilities(
+                "m",
+                "m",
                 Et,
                 zr,
                 E_index,
@@ -171,8 +139,109 @@ def get_events(
                 npoints,
                 ndim=ndim,
                 nsi=nsi,
-                save=False,
+                save=True,
             )
+        try:
+            Pem = get_probabilities(
+                "e",
+                "m",
+                E_index,
+                z_index,
+                params,
+                False,
+                npoints,
+                ndim,
+            )
+        except KeyError:
+            Pem = generate_probabilities(
+                "e",
+                z_index,
+                params,
+                False,
+                npoints,
+                ndim=ndim,
+                nsi=nsi,
+                save=True,
+        )
+        try:
+            P_aeam = get_probabilities(
+                "e",
+                "m",
+                E_index,
+                z_index,
+                params,
+                True,
+                npoints,
+                ndim,
+            )
+        except KeyError:
+            P_aeam = generate_probabilities(
+                "e",
+                "m",
+                Et,
+                zr,
+                E_index,
+                z_index,
+                params,
+                True,
+                npoints,
+                ndim=ndim,
+                nsi=nsi,
+                save=True,
+            )
+        if tau:
+            try:
+                Pmt = get_probabilities(
+                "m",
+                "t",
+                E_index,
+                z_index,
+                params,
+                False,
+                npoints,
+                ndim,
+            )
+            except KeyError:
+                Pmt = generate_probabilities(
+                    "m",
+                    "t",
+                    Et,
+                    zr,
+                    E_index,
+                    z_index,
+                    params,
+                    False,
+                    npoints,
+                    ndim=ndim,
+                    nsi=nsi,
+                    save=True,
+                )
+            try:
+                P_amat = get_probabilities(
+                "m",
+                "t",
+                E_index,
+                z_index,
+                params,
+                True,
+                npoints,
+                ndim,
+            )
+            except KeyError:
+                P_amat = generate_probabilities(
+                    "m",
+                    "t",
+                    Et,
+                    zr,
+                    E_index,
+                    z_index,
+                    params,
+                    True,
+                    npoints,
+                    ndim=ndim,
+                    nsi=nsi,
+                    save=True,
+                )
             Pmm = Pmm + 0.1739 * Pmt
             P_amam = P_amam + 0.1739 * P_amat
 

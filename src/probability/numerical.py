@@ -153,6 +153,35 @@ def evolve(
     return RHS.dot(state)
 
 
+def get_matrices(ndim, params=param_dict):
+    """Helper function to create U and M matrices based on dimensions"""
+    if ndim == 4:
+        M = np.array([
+            [0, 0, 0, 0],
+            [0, dm(2, 1, params=params), 0, 0],
+            [0, 0, dm(3, 1, params=params), 0],
+            [0, 0, 0, dm(4, 1, params=params)],
+        ])
+        U = U_4(params=params)
+    elif ndim == 3:
+        M = np.array([
+            [0, 0, 0],
+            [0, dm(2, 1, params=params), 0],
+            [0, 0, dm(3, 1, params=params)],
+        ])
+        U = U_3(params=params)
+    elif ndim == 5:
+        M = np.array([
+            [0, 0, 0, 0, 0],
+            [0, dm(2, 1, params=params), 0, 0, 0],
+            [0, 0, dm(3, 1, params=params), 0, 0],
+            [0, 0, 0, dm(4, 1, params=params), 0],
+            [0, 0, 0, 0, dm(5, 1, params=params)],
+        ])
+        U = U_5(params=params)
+    return U, M
+
+
 def P_num(
     flavor_from,
     flavor_to=None,
@@ -168,6 +197,8 @@ def P_num(
     material="earth",
     nsi=False,
     tols=(1e-3, 1e-6),
+    U=None,
+    M=None,
 ):
     """
     Returns the numerical probabilities for all flavors as a list for L[km] and E[GeV].
@@ -184,36 +215,9 @@ def P_num(
     state = np.array([0.0] * ndim, dtype=np.complex64)
     state[mass_dict[flavor_from]] = 1.0
 
-    if ndim == 4:
-        M = np.array(
-            [
-                [0, 0, 0, 0],
-                [0, dm(2, 1, params=params), 0, 0],
-                [0, 0, dm(3, 1, params=params), 0],
-                [0, 0, 0, dm(4, 1, params=params)],
-            ]
-        )
-        U = U_4(params=params)
-    elif ndim == 3:
-        M = np.array(
-            [
-                [0, 0, 0],
-                [0, dm(2, 1, params=params), 0],
-                [0, 0, dm(3, 1, params=params)],
-            ]
-        )
-        U = U_3(params=params)
-    elif ndim == 5:
-        M = np.array(
-            [
-                [0, 0, 0, 0, 0],
-                [0, dm(2, 1, params=params), 0, 0, 0],
-                [0, 0, dm(3, 1, params=params), 0, 0],
-                [0, 0, 0, dm(4, 1, params=params), 0],
-                [0, 0, 0, 0, dm(5, 1, params=params)],
-            ]
-        )
-        U = U_5(params=params)
+    # Use provided matrices or generate new ones
+    if U is None or M is None:
+        U, M = get_matrices(ndim, params)
 
     if eval_at is not None:  # Fix unit
         eval_at = [eval_at * GeV2tokm1]
@@ -268,6 +272,7 @@ def P_num(
     return np.abs(solver.y) ** 2
 
 
+#@lru_cache(maxsize=128)  # Cache results for frequently used parameter combinations
 def P_num_over_E(
     flavor_from,
     E,
@@ -286,9 +291,16 @@ def P_num_over_E(
     """
     Returns the range of energies and the list of all flavour oscillation probabilities. Uses a single core
     """
-    P_list = [[]] * ndim
-    for en in E:
-        # print(f'Solving P{flavor_from} for {np.round(en,0)} GeV, theta = {np.round(theta_i,2)}')
+    # Convert E to tuple if it's a list/array for caching to work
+    E = tuple(E) if isinstance(E, (list, np.ndarray)) else (E,)
+    
+    # Create matrices once
+    U, M = get_matrices(ndim, params)
+    
+    # Pre-allocate array instead of using list multiplication
+    P_list = np.zeros((ndim, len(E)))
+    
+    for i, en in enumerate(E):
         probs = P_num(
             flavor_from=flavor_from,
             flavor_to=flavor_to,
@@ -303,10 +315,12 @@ def P_num_over_E(
             material=material,
             nsi=nsi,
             tols=tols,
+            U=U,  # Pass pre-computed matrices
+            M=M,
         )
-        for n in range(ndim):
-            P_list[n] = np.append(P_list[n], probs[n][-1])
-    return np.array(P_list)
+        P_list[:, i] = probs[:, -1]
+    
+    return P_list
 
 
 def wrapper(p):
