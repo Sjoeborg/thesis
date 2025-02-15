@@ -15,10 +15,10 @@ def merge_h5(colab, Ebin, zbin):
                         flavor_to = "a" + flavor_to
                     try:
                         with h5py.File(
-                            f"pre_computed/new/{colab}/E{Ebin}z{zbin}.hdf5", "r"
+                            f"../../pre_computed/new/{colab}/E{Ebin}z{zbin}.hdf5", "r"
                         ) as read:
                             with h5py.File(
-                                f"pre_computed/{colab}/E{Ebin}z{zbin}.hdf5", "a"
+                                f"../../pre_computed/{colab}/E{Ebin}z{zbin}.hdf5", "a"
                             ) as write:
                                 try:
                                     for param in read[
@@ -50,8 +50,8 @@ if __name__ == "__main__":
     data = [("PINGU", Ebin, zbin) for Ebin in range(8) for zbin in range(8)]
     p.starmap(merge_h5, data)
     p.close()
-    old_csv = pd.read_csv("pre_computed/PINGU/hashed_params.csv", header=None)
-    new_csv = pd.read_csv("pre_computed/new/PINGU/hashed_params.csv", header=None)
+    old_csv = pd.read_csv("../../pre_computed/PINGU/hashed_params.csv", header=None)
+    new_csv = pd.read_csv("../../pre_computed/new/PINGU/hashed_params.csv", header=None)
 
     new_csv = pd.concat([old_csv, new_csv])
-    new_csv.to_csv("pre_computed/PINGU/hashed_params.csv", header=False, index=False)
+    new_csv.to_csv("../../pre_computed/PINGU/hashed_params.csv", header=False, index=False)

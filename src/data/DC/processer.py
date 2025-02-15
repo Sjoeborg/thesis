@@ -1,8 +1,8 @@
 import sys, os
 
 if __name__ == "__main__":
-    sys.path.append("./../src/probability")
-    sys.path.append("./../src/data")
+    sys.path.append("./../../src/probability")
+    sys.path.append("./../../src/data")
 import numpy as np
 import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
@@ -69,7 +69,7 @@ def interpolate_flux_DC(recompute=False):
     colnames = ["m_flux", "mbar_flux", "e_flux", "ebar_flux"]
     if not recompute:
         try:
-            inter_df = pickle.load(open("pre_computed/flux_interpolator.p", "rb"))
+            inter_df = pickle.load(open("../../pre_computed/flux_interpolator.p", "rb"))
         except:
             interpolate_flux_DC(recompute=True)
     else:
@@ -90,7 +90,7 @@ def interpolate_flux_DC(recompute=False):
             interp_list.append([f_avg])
 
         inter_df = pd.DataFrame(np.transpose(interp_list), columns=colnames)
-        pickle.dump(inter_df, open("pre_computed/flux_interpolator.p", "wb"))
+        pickle.dump(inter_df, open("../../pre_computed/flux_interpolator.p", "wb"))
     return inter_df
 
 
@@ -122,9 +122,9 @@ def get_probabilities_DC(
         flavor_from = "a" + flavor_from
         flavor_to = "a" + flavor_to
     try:
-        f = h5py.File(f"pre_computed/DC/E{Ebin}z{zbin}.hdf5", "r")
+        f = h5py.File(f"../../pre_computed/DC/E{Ebin}z{zbin}.hdf5", "r")
     except OSError:
-        raise KeyError(f"E{Ebin}z{zbin}.hdf5 doesnt exist in pre_computed/DC/")
+        raise KeyError(f"E{Ebin}z{zbin}.hdf5 doesnt exist in ../../pre_computed/DC/")
     try:
         fh = f[f"{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}"]
     except KeyError:
@@ -173,7 +173,7 @@ def generate_probabilities_DC(
             flavor_from = "a" + flavor_from
             flavor_to = "a" + flavor_to
 
-        f = h5py.File(f"pre_computed/DC/E{E_bin}z{z_bin}.hdf5", "a")
+        f = h5py.File(f"../../pre_computed/DC/E{E_bin}z{z_bin}.hdf5", "a")
         try:
             dset = f.create_dataset(
                 f"{ndim}gen/P{flavor_from}{flavor_to}/{pid}/{hashed_param_name}",
@@ -202,7 +202,7 @@ def generate_probabilities_DC(
             and flavor_to == "am"
             and pid == 1
         ):
-            with open(f"pre_computed/DC/hashed_params.csv", "a") as fd:
+            with open(f"../../pre_computed/DC/hashed_params.csv", "a") as fd:
                 fd.write(f"{param_dict};{hashed_param_name}\n")
     return prob
 
@@ -226,17 +226,17 @@ def process_aeff(df_list):
 def interpolate_aeff_DC(recompute=False):
     if not recompute:
         try:
-            inter = pickle.load(open("pre_computed/aeff_dc_interpolator.p", "rb"))
+            inter = pickle.load(open("../../pre_computed/aeff_dc_interpolator.p", "rb"))
         except:
             raise FileNotFoundError(
-                "File aeff_dc_interpolator.p´ not present in ´pre_computed/´. Run ´interpolate_aeff_dc()´ with recompute = True to generate it."
+                "File aeff_dc_interpolator.p´ not present in ´../../pre_computed/´. Run ´interpolate_aeff_dc()´ with recompute = True to generate it."
             )
     else:
         aeff_df = get_aeff_df_DC()
         from scipy.interpolate import interp1d
 
         inter = interp1d(aeff_df.logE, aeff_df.Aeff)
-        pickle.dump(inter, open("pre_computed/aeff_dc_interpolator.p", "wb"))
+        pickle.dump(inter, open("../../pre_computed/aeff_dc_interpolator.p", "wb"))
     return inter
 
 
@@ -336,7 +336,7 @@ if __name__ == "__main__":
     """
 no_osc = np.array([get_all_events(params=param_list[0], pid=0, nsi=True, no_osc=True),get_all_events(params=param_list[0], pid=1, nsi=True, no_osc=True)])
 no_osc_paper = np.array([no_osc2018_DC(0)[1].values,no_osc2018_DC(1)[1].values])
-H0_paper = np.array([pd.read_csv('../src/data/files/DC/2018/cascade_H0.csv', header=None)[1].values,pd.read_csv('../src/data/files/DC/2018/track_H0.csv', header=None)[1].values])
+H0_paper = np.array([pd.read_csv('../../src/data/files/DC/2018/cascade_H0.csv', header=None)[1].values,pd.read_csv('../../src/data/files/DC/2018/track_H0.csv', header=None)[1].values])
 events = np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_events'),get_hist(events2018_DC().query(f'pid==1'), 'count_events')])
 background = np.array([get_hist(events2018_DC().query(f'pid==0'), 'count_background'), get_hist(events2018_DC().query(f'pid==1'), 'count_background')])
 best_fit_contamination = 0.055/(np.sum(background,axis=(1,2))/np.sum(events,axis=(1,2))) #table 1 DC2017

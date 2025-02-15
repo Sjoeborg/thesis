@@ -1,9 +1,9 @@
 import sys
 
 if __name__ == "__main__":
-    sys.path.append("./../src/data")
-    sys.path.append("./../src/events")
-    sys.path.append("./../src/probability")
+    sys.path.append("./../../src/data")
+    sys.path.append("./../../src/events")
+    sys.path.append("./../../src/probability")
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -25,10 +25,10 @@ flux_factors = np.outer(flux_E_factors, flux_z_factors)
 IC_observed = IC_observed_full[E_bins, z_bins_T].T
 
 E_ratios_full = pd.read_csv(
-    "../src/data/files/E_ratios.csv", header=None, names=["Ereco", "Eratio"]
+    "../../src/data/files/E_ratios.csv", header=None, names=["Ereco", "Eratio"]
 ).Eratio.values
 z_ratios_full = pd.read_csv(
-    "../src/data/files/z_ratios.csv", header=None, names=["zreco", "zratio"]
+    "../../src/data/files/z_ratios.csv", header=None, names=["zreco", "zratio"]
 ).zratio.values
 IC_per_z_full = np.array(np.sum(IC_observed_full, axis=0))
 IC_per_E_full = np.array(np.sum(IC_observed_full, axis=1))
@@ -161,22 +161,6 @@ def norm_plot(simulated_events):
         normalization, cmap="GnBu", origin="lower", extent=(0, n_zbins, 0, n_Ebins)
     )
     cbar = ax.figure.colorbar(im, ax=ax)
-    # cbar.formatter.set_powerlimits((0, 0))
-    """
-    for i in range(n_Ebins):
-        for j in range(n_zbins):
-            text = ax.text(j+0.5, i+0.5, np.round(np.asarray(normalization)[j,i],1),
-                ha="center", va="center", color="black")
-
-    ax.set_xlabel(r'$\cos{(\theta_z)}$ bins', fontsize=20)
-    ax.set_ylabel(r'$E_{\nu}$ bins', fontsize=20)
-    ax.set_title('Ratio of observed IC events to my null hypothesis\n', fontsize=20)
-    ax.set_xticks(np.arange(n_zbins+1))
-    ax.set_xticklabels(np.round(np.linspace(-0.9,-0.1,n_zbins+1),2), fontsize = 13)
-    ax.set_yticks(np.arange(n_Ebins+1))
-    E_ticks = 500*10**np.linspace(0.3,1.3,n_Ebins+1)
-    ax.set_yticklabels(E_ticks.astype(int), fontsize=11)
-    """
 
 
 def normalize_bin_by_bin(simulated_events, MC=True, MC_old=False, correct_flux=False):

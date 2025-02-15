@@ -1,8 +1,8 @@
 import sys, os
 
 if __name__ == "__main__":
-    sys.path.append("./../src/probability")
-    sys.path.append("./../src/data")
+    sys.path.append("./../../src/probability")
+    sys.path.append("./../../src/data")
 import numpy as np
 import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
@@ -18,6 +18,10 @@ import os
 import h5py
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import WhiteKernel, RBF
+from sklearn.exceptions import InconsistentVersionWarning
+import warnings
+warnings.filterwarnings('ignore', category=InconsistentVersionWarning)
+
 
 
 def get_flux(flavor, E, z, df):
@@ -40,13 +44,13 @@ def interpolate_aeff(recompute):
 
         points_avg = np.array([E, z_avg]).T
         f_avg = CT(points_avg, aeff, rescale=True)
-        pickle.dump(f_avg, open("pre_computed/aeff_interpolator.p", "wb"))
+        pickle.dump(f_avg, open("../../pre_computed/aeff_interpolator.p", "wb"))
     else:
         try:
-            f_avg = pickle.load(open("pre_computed/aeff_interpolator.p", "rb"))
+            f_avg = pickle.load(open("../../pre_computed/aeff_interpolator.p", "rb"))
         except:
             raise FileNotFoundError(
-                "File ´aeff_interpolator.p´ not present in ´pre_computed/´. Rerun with recompute = True to generate it."
+                "File ´aeff_interpolator.p´ not present in ´../../pre_computed/´. Rerun with recompute = True to generate it."
             )
 
     return f_avg
@@ -59,11 +63,11 @@ def interpolate_flux(recompute=False):
     colnames = ["m_flux", "mbar_flux", "e_flux", "ebar_flux"]
     if not recompute:
         try:
-            inter_df = pickle.load(open("pre_computed/flux_interpolator.p", "rb"))
+            inter_df = pickle.load(open("../../pre_computed/flux_interpolator.p", "rb"))
         except:
             print(os.getcwd())
             raise FileNotFoundError(
-                "File ´flux_interpolator.p´ not present in ´pre_computed/´. Rerun with recompute = True to generate it."
+                "File ´flux_interpolator.p´ not present in ´../../pre_computed/´. Rerun with recompute = True to generate it."
             )
     else:
         df = get_flux_df()
@@ -83,7 +87,7 @@ def interpolate_flux(recompute=False):
             interp_list.append([f_avg])
 
         inter_df = pd.DataFrame(np.transpose(interp_list), columns=colnames)
-        pickle.dump(inter_df, open("pre_computed/flux_interpolator.p", "wb"))
+        pickle.dump(inter_df, open("../../pre_computed/flux_interpolator.p", "wb"))
     return inter_df
 
 
@@ -95,11 +99,11 @@ def interpolate_flux_DC(recompute=False):
     if not recompute:
         try:
             inter_df = pickle.load(
-                open("pre_computed/flux_interpolator_DC.p", "rb")
+                open("../../pre_computed/flux_interpolator_DC.p", "rb")
             )
         except:
             raise FileNotFoundError(
-                "File ´flux_interpolator_DC.p´ not present in ´pre_computed/´. Rerun with recompute = True to generate it."
+                "File ´flux_interpolator_DC.p´ not present in ´../../pre_computed/´. Rerun with recompute = True to generate it."
             )
     else:
         df = get_flux_df_DC()
@@ -119,7 +123,7 @@ def interpolate_flux_DC(recompute=False):
             interp_list.append([f_avg])
 
         inter_df = pd.DataFrame(np.transpose(interp_list), columns=colnames)
-        pickle.dump(inter_df, open("pre_computed/flux_interpolator_DC.p", "wb"))
+        pickle.dump(inter_df, open("../../pre_computed/flux_interpolator_DC.p", "wb"))
     return inter_df
 
 
@@ -158,17 +162,17 @@ def bin_flux_factors_DC(E_df, z_df):
 def interpolate_aeff_dc(recompute=False):
     if not recompute:
         try:
-            inter = pickle.load(open("pre_computed/aeff_dc_interpolator.p", "rb"))
+            inter = pickle.load(open("../../pre_computed/aeff_dc_interpolator.p", "rb"))
         except:
             raise FileNotFoundError(
-                "File aeff_dc_interpolator.p´ not present in ´pre_computed/´. Run ´interpolate_aeff_dc()´ with recompute = True to generate it."
+                "File aeff_dc_interpolator.p´ not present in ´../../pre_computed/´. Run ´interpolate_aeff_dc()´ with recompute = True to generate it."
             )
     else:
         aeff_df = get_aeff_df_dc()
         from scipy.interpolate import interp1d
 
         inter = interp1d(aeff_df.logE, aeff_df.Aeff)
-        pickle.dump(inter, open("pre_computed/aeff_dc_interpolator.p", "wb"))
+        pickle.dump(inter, open("../../pre_computed/aeff_dc_interpolator.p", "wb"))
     return inter
 
 
@@ -178,9 +182,9 @@ def get_probabilities(flavor_from, flavor_to, Ebin, zbin, param_dict, anti, N, n
         flavor_from = "a" + flavor_from
         flavor_to = "a" + flavor_to
     try:
-        f = h5py.File(f"pre_computed/IC/E{Ebin}z{zbin}.hdf5", "r")
+        f = h5py.File(f"../../pre_computed/IC/E{Ebin}z{zbin}.hdf5", "r")
     except OSError:
-        raise KeyError(f"E{Ebin}z{zbin}.hdf5 doesnt exist in pre_computed/IC/")
+        raise KeyError(f"E{Ebin}z{zbin}.hdf5 doesnt exist in ../../pre_computed/IC/")
     try:
         fh = f[f"{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}"]
     except KeyError:
@@ -220,7 +224,7 @@ def generate_probabilities(
         if anti:
             flavor_from = "a" + flavor_from
             flavor_to = "a" + flavor_to
-        f = h5py.File(f"pre_computed/IC/E{E_bin}z{z_bin}.hdf5", "a")
+        f = h5py.File(f"../../pre_computed/IC/E{E_bin}z{z_bin}.hdf5", "a")
         try:
             dset = f.create_dataset(
                 f"{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}",
@@ -237,7 +241,7 @@ def generate_probabilities(
             f.close()
             return prob
         if E_bin == 5 and z_bin == 5 and flavor_from == "am" and flavor_to == "am":
-            with open(f"pre_computed/IC/hashed_params.csv", "a") as fd:
+            with open(f"../../pre_computed/IC/hashed_params.csv", "a") as fd:
                 fd.write(f"{params};{hashed_param_name}\n")
     return prob
 
@@ -247,11 +251,11 @@ def train_energy_resolution(recompute=False):
     if not recompute:
         try:
             gpr = pickle.load(
-                open("pre_computed/energy_resolution_models.p", "rb")
+                open("../../pre_computed/energy_resolution_models.p", "rb")
             )
         except:
             raise FileNotFoundError(
-                "File energy_resolution_models.p´ not present in ´.pre_computed/´. Run ´train_energy_resolution()´ with recompute=True to generate it."
+                "File energy_resolution_models.p´ not present in ´.../../pre_computed/´. Run ´train_energy_resolution()´ with recompute=True to generate it."
             )
     else:
         filename = "../NuFSGenMC_nominal.dat"
@@ -279,7 +283,7 @@ def train_energy_resolution(recompute=False):
         y = np.log(df_subsetted.Etrue)
         kernel2 = 1.0 * RBF() + WhiteKernel(noise_level=3)
         gpr = GaussianProcessRegressor(kernel=kernel2, random_state=0).fit(X, y)
-        pickle.dump(gpr, open("pre_computed/energy_resolution_models.p", "wb"))
+        pickle.dump(gpr, open("../../pre_computed/energy_resolution_models.p", "wb"))
     return gpr
 
 

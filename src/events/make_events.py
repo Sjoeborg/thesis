@@ -101,7 +101,7 @@ if __name__ == "__main__":
         pickle.dump(
             H1,
             open(
-                f"pre_computed/H1_{ordering}_PINGU_{args.pid}_{args.s}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p",
+                f"../../pre_computed/H1_{ordering}_PINGU_{args.pid}_{args.s}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p",
                 "wb",
             ),
         )
@@ -112,7 +112,7 @@ if __name__ == "__main__":
         pickle.dump(
             H1,
             open(
-                f"pre_computed/H1_{ordering}_DC_{args.pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p",
+                f"../../pre_computed/H1_{ordering}_DC_{args.pid}_{len(dm31_range)}x{len(th23_range)}x{len(ett_range)}x{len(emt_range)}x{len(eem_range)}x{len(eet_range)}.p",
                 "wb",
             ),
         )
@@ -128,7 +128,7 @@ if __name__ == "__main__":
         pickle.dump(
             H1_events_list,
             open(
-                f"pre_computed/H1_{ordering}_IC_N13_{len(dm31_range)}x{len(th23_range)}x{len(emt_range)}.p",
+                f"../../pre_computed/H1_{ordering}_IC_N13_{len(dm31_range)}x{len(th23_range)}x{len(emt_range)}.p",
                 "wb",
             ),
         )
