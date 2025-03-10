@@ -241,8 +241,6 @@ def list_of_params_nsi(
 def marginalize(
     chisq, dm31_range, th23_range, ett_range, emt_range, eem_range, eet_range
 ):
-    from scipy.integrate import simps
-
     best_fit_index = chisq.argmin()
     reshaped_chisq = chisq.reshape(
         len(eet_range),
@@ -287,10 +285,10 @@ def marginalize_one(y, x_range, axis):
     Assumes 3 axes with same length.
     Integrates out the axis specified and returns
     """
-    from scipy.integrate import simps
+    from scipy.integrate import simpson
 
     N = y.shape[axis]
-    marginalized_chisq = simps(y=y, axis=axis) / N
+    marginalized_chisq = simpson(y=y, axis=axis) / N
     # marginalized_chisq = simps(y = y, x = x_range, axis=axis)*N
     return marginalized_chisq
 
