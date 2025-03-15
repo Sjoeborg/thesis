@@ -1,4 +1,6 @@
+import random
 import sys, os
+import time
 
 if __name__ == "__main__":
     sys.path.append("./../../src/probability")
@@ -7,7 +9,12 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import CloughTocher2DInterpolator as CT
 from src.probability.functions import mass_dict
-from src.data.IC.importer import get_flux_df, get_aeff_df
+from src.data.IC.importer import (
+    get_flux_df,
+    get_aeff_df,
+    get_flux_df_DC,
+    get_aeff_df_dc,
+)
 from dict_hash import sha256
 import pandas as pd
 from src.probability.numerical import wrapper
@@ -20,8 +27,8 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import WhiteKernel, RBF
 from sklearn.exceptions import InconsistentVersionWarning
 import warnings
-warnings.filterwarnings('ignore', category=InconsistentVersionWarning)
 
+warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
 
 
 def get_flux(flavor, E, z, df):
@@ -224,7 +231,12 @@ def generate_probabilities(
         if anti:
             flavor_from = "a" + flavor_from
             flavor_to = "a" + flavor_to
-        f = h5py.File(f"../../pre_computed/IC/E{E_bin}z{z_bin}.hdf5", "a")
+        try:
+            f = h5py.File(f"../../pre_computed/IC/E{E_bin}z{z_bin}.hdf5", "a")
+        except BlockingIOError:
+            time.sleep(random.randint(0, 10))
+            f = h5py.File(f"../../pre_computed/IC/E{E_bin}z{z_bin}.hdf5", "a")
+
         try:
             dset = f.create_dataset(
                 f"{ndim}gen/P{flavor_from}{flavor_to}/{N}/{hashed_param_name}",

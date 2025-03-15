@@ -42,28 +42,31 @@ args = parser.parse_args()
 
 
 def precompute_probs(args_tuple):
-    if args.PINGU:
-        i, j, params, pid = args_tuple
-        res = PINGU_events(Ebin=i, zbin=j, params=params, pid=pid, nsi=True, save=True)
-    elif args.DC:
-        i, j, params, pid = args_tuple
-        res = DC_events(
-            Ebin=i, zbin=j, params=params, pid=pid, nsi=True, no_osc=False, save=True
-        )
-    elif args.IC:
-        i, j, a, N, p, spectral, null, tau, nsi, ndim = args_tuple
-        res = IC_events(
-            E_index=i,
-            z_index=j,
-            alpha=a,
-            npoints=N,
-            params=p,
-            spectral_shift_parameters=spectral,
-            null=null,
-            tau=tau,
-            nsi=nsi,
-            ndim=ndim,
-        )
+    try:
+        if args.PINGU:
+            i, j, params, pid = args_tuple
+            res = PINGU_events(Ebin=i, zbin=j, params=params, pid=pid, nsi=True, save=True)
+        elif args.DC:
+            i, j, params, pid = args_tuple
+            res = DC_events(
+                Ebin=i, zbin=j, params=params, pid=pid, nsi=True, no_osc=False, save=True
+            )
+        elif args.IC:
+            i, j, a, N, p, spectral, null, tau, nsi, ndim = args_tuple
+            res = IC_events(
+                E_index=i,
+                z_index=j,
+                alpha=a,
+                npoints=N,
+                params=p,
+                spectral_shift_parameters=spectral,
+                null=null,
+                tau=tau,
+                nsi=nsi,
+                ndim=ndim,
+            )
+    except (BlockingIOError, ValueError):
+        return precompute_probs(args_tuple)
     return np.array(res)
 
 
