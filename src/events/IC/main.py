@@ -155,6 +155,10 @@ def get_events(
         except KeyError:
             Pem = generate_probabilities(
                 "e",
+                "m",
+                Et,
+                zr,
+                E_index,
                 z_index,
                 params,
                 False,
@@ -162,7 +166,7 @@ def get_events(
                 ndim=ndim,
                 nsi=nsi,
                 save=True,
-        )
+            )
         try:
             P_aeam = get_probabilities(
                 "e",
@@ -192,15 +196,15 @@ def get_events(
         if tau:
             try:
                 Pmt = get_probabilities(
-                "m",
-                "t",
-                E_index,
-                z_index,
-                params,
-                False,
-                npoints,
-                ndim,
-            )
+                    "m",
+                    "t",
+                    E_index,
+                    z_index,
+                    params,
+                    False,
+                    npoints,
+                    ndim,
+                )
             except KeyError:
                 Pmt = generate_probabilities(
                     "m",
@@ -218,15 +222,15 @@ def get_events(
                 )
             try:
                 P_amat = get_probabilities(
-                "m",
-                "t",
-                E_index,
-                z_index,
-                params,
-                True,
-                npoints,
-                ndim,
-            )
+                    "m",
+                    "t",
+                    E_index,
+                    z_index,
+                    params,
+                    True,
+                    npoints,
+                    ndim,
+                )
             except KeyError:
                 P_amat = generate_probabilities(
                     "m",
@@ -261,7 +265,7 @@ def get_events(
 
 
 def event_wrapper(param_list):
-    E_index, z_index, alpha, params, npoints, null, spectral, tau, ndim = (
+    E_index, z_index, alpha, params, npoints, null, spectral, tau, nsi, ndim = (
         param_list[0],
         param_list[1],
         param_list[2],
@@ -271,6 +275,7 @@ def event_wrapper(param_list):
         param_list[6],
         param_list[7],
         param_list[8],
+        param_list[9],
     )
     return get_events(
         E_index=E_index,
@@ -282,6 +287,7 @@ def event_wrapper(param_list):
         spectral_shift_parameters=spectral,
         tau=tau,
         ndim=ndim,
+        nsi=nsi,
     )
 
 
@@ -309,7 +315,18 @@ def sim_events(
         for z_bin in range(20):
             if multi:
                 E_z_combinations.append(
-                    [E_bin, z_bin, alpha, params, npoints, null, spectral_shift, tau]
+                    [
+                        E_bin,
+                        z_bin,
+                        alpha,
+                        params,
+                        npoints,
+                        null,
+                        spectral_shift,
+                        tau,
+                        nsi,
+                        ndim,
+                    ]
                 )
             if not multi:
                 res[E_bin - E_offset][z_bin] = event_wrapper(
@@ -322,6 +339,7 @@ def sim_events(
                         null,
                         spectral_shift,
                         tau,
+                        nsi,
                         ndim,
                     ]
                 )
@@ -343,4 +361,21 @@ def spectral_shift_factor(E, E_pivot=2e3, delta_gamma=0.02):
 
 interp_flux, interp_aeff, energy_resolution_models = get_interpolators()
 if __name__ == "__main__":
-    print(get_events(5, 11, 0.99, 13))
+    import pickle
+
+    N = 13
+    alpha = 0.99
+    gamma = 0
+    Ereco = np.logspace(0.0, 1.3, 14)
+    params = ic_params
+    H0_events = sim_events(
+        alpha=alpha,
+        npoints=N,
+        params=params,
+        null=True,
+        multi=True,
+        spectral_shift=[False, np.median(Ereco), gamma],
+        tau=False,
+        nsi=False,
+    )
+    pickle.dump(H0_events, open(f"../..pre_computed/H0_IC_N{N}_nsi.p", "wb"))
