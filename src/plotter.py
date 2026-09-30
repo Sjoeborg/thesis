@@ -357,22 +357,27 @@ def nsi_flux_oscillogram(E_range, z_range, params):
     )
 
 
-def save(fig, name):
-    fig.savefig(f"../../article/figures/{name}.pdf")
+def save(fig, name, **kwargs):
+    import os
+
+    print(os.getcwd())
+    fig.savefig(f"../../article/figures/{name}.pdf", **kwargs)
     from subprocess import call
 
     _ = call(
-        "pdfcrop ../../article/figures/{name}.pdf ../../article/figures/{name}.pdf"
+        [
+            "pdfcrop",
+            f"../../article/figures/{name}.pdf",
+            f"../../article/figures/{name}.pdf",
+        ]
     )
 
 
-def savethesis(fig, name):
-    fig.savefig(f"../../thesis/tex/figures/{name}.pdf")
+def savethesis(fig, name, **kwargs):
+    fig.savefig(f"thesis/tex/figures/{name}.pdf", **kwargs)
     from subprocess import call
 
-    _ = call(
-        "pdfcrop ../../thesis/tex/figures/{name}.pdf ../../thesis/tex/figures/{name}.pdf"
-    )
+    _ = call(f"pdfcrop thesis/tex/figures/{name}.pdf thesis/tex/figures/{name}.pdf")
 
 
 if __name__ == "__main__":

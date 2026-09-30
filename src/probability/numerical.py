@@ -156,28 +156,34 @@ def evolve(
 def get_matrices(ndim, params=param_dict):
     """Helper function to create U and M matrices based on dimensions"""
     if ndim == 4:
-        M = np.array([
-            [0, 0, 0, 0],
-            [0, dm(2, 1, params=params), 0, 0],
-            [0, 0, dm(3, 1, params=params), 0],
-            [0, 0, 0, dm(4, 1, params=params)],
-        ])
+        M = np.array(
+            [
+                [0, 0, 0, 0],
+                [0, dm(2, 1, params=params), 0, 0],
+                [0, 0, dm(3, 1, params=params), 0],
+                [0, 0, 0, dm(4, 1, params=params)],
+            ]
+        )
         U = U_4(params=params)
     elif ndim == 3:
-        M = np.array([
-            [0, 0, 0],
-            [0, dm(2, 1, params=params), 0],
-            [0, 0, dm(3, 1, params=params)],
-        ])
+        M = np.array(
+            [
+                [0, 0, 0],
+                [0, dm(2, 1, params=params), 0],
+                [0, 0, dm(3, 1, params=params)],
+            ]
+        )
         U = U_3(params=params)
     elif ndim == 5:
-        M = np.array([
-            [0, 0, 0, 0, 0],
-            [0, dm(2, 1, params=params), 0, 0, 0],
-            [0, 0, dm(3, 1, params=params), 0, 0],
-            [0, 0, 0, dm(4, 1, params=params), 0],
-            [0, 0, 0, 0, dm(5, 1, params=params)],
-        ])
+        M = np.array(
+            [
+                [0, 0, 0, 0, 0],
+                [0, dm(2, 1, params=params), 0, 0, 0],
+                [0, 0, dm(3, 1, params=params), 0, 0],
+                [0, 0, 0, dm(4, 1, params=params), 0],
+                [0, 0, 0, 0, dm(5, 1, params=params)],
+            ]
+        )
         U = U_5(params=params)
     return U, M
 
@@ -272,7 +278,7 @@ def P_num(
     return np.abs(solver.y) ** 2
 
 
-#@lru_cache(maxsize=128)  # Cache results for frequently used parameter combinations
+# @lru_cache(maxsize=128)  # Cache results for frequently used parameter combinations
 def P_num_over_E(
     flavor_from,
     E,
@@ -293,13 +299,13 @@ def P_num_over_E(
     """
     # Convert E to tuple if it's a list/array for caching to work
     E = tuple(E) if isinstance(E, (list, np.ndarray)) else (E,)
-    
+
     # Create matrices once
     U, M = get_matrices(ndim, params)
-    
+
     # Pre-allocate array instead of using list multiplication
     P_list = np.zeros((ndim, len(E)))
-    
+
     for i, en in enumerate(E):
         probs = P_num(
             flavor_from=flavor_from,
@@ -319,7 +325,7 @@ def P_num_over_E(
             M=M,
         )
         P_list[:, i] = probs[:, -1]
-    
+
     return P_list
 
 
